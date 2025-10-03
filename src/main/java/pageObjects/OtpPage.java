@@ -4,6 +4,7 @@ import com.microsoft.playwright.Locator;
 
 import helpers.Config;
 import helpers.Element;
+import helpers.WaitHelper;
 
 public class OtpPage {
 
@@ -15,6 +16,7 @@ public class OtpPage {
 		this.config = config;
 		this.otpInputField = config.page.locator("input[name='otp']");
 		this.verifyButton = config.page.locator("button[type='submit']");
+		WaitHelper.waitForPageLoad(config, otpInputField);
 	}
 
 	public void enterOtp(String otp) {

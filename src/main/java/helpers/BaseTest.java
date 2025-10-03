@@ -21,6 +21,7 @@ public class BaseTest {
         if (Config.playwright == null) {
             try {
                 Config.playwright = Playwright.create();
+                Config.playwright.selectors().setTestIdAttribute("data-cy");
                 System.out.println("Playwright created successfully for test suite");
             } catch (Exception e) {
                 System.err.println("Failed to create Playwright instance: " + e.getMessage());

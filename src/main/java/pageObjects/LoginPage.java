@@ -23,6 +23,7 @@ public class LoginPage {
 		this.userNameTextBox = config.page.locator("#login_field");
 		this.passwordTextBox = config.page.locator("#password");
 		this.signMeInBtn = config.page.locator("input[type='submit'][value='Sign in']");
+		WaitHelper.waitForPageLoad(config, userNameTextBox);
 	}
 
 	public Object doLogin(int loginDetailsSheetRow, ExpectedLandingPageAfterLogin expectedLandingPage) {

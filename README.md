@@ -1,3 +1,5 @@
+<img src="https://raw.githubusercontent.com/msr5464/Basic-Automation-Framework/refs/heads/master/ThanosLogo.png" title="Powered by Thanos and created by Mukesh Rajput" height="50">
+
 # Playwright Automation Framework
 This is a modern Hybrid Automation Framework created using properties of `Page Object Model` and `Data Driven` automation frameworks.
 The framework is built using **Microsoft Playwright** with Java 21, TestNG and Maven for Web-based automation, providing fast, reliable, and cross-browser testing capabilities.
@@ -12,6 +14,10 @@ The framework is built using **Microsoft Playwright** with Java 21, TestNG and M
 - **Enhanced Screenshot Capabilities** - Built-in screenshot functionality
 - **CSV Data Integration** - Test data management with CSV files
 - **Modern API Design** - Clean, maintainable code structure
+- **Video Recording** - Automatic video recording with configurable retention modes
+- **Advanced Wait Strategies** - Smart wait utilities with Playwright auto-wait integration
+- **Test Listener Integration** - Custom TestNG listeners for enhanced reporting
+- **Session Management** - Login session storage and reuse capabilities
 
 ## 🛠️ Technology Stack
 1. **Apache Maven 3.11.0** - Build automation and dependency management
@@ -21,26 +27,6 @@ The framework is built using **Microsoft Playwright** with Java 21, TestNG and M
 5. **OpenCSV 5.7.1** - CSV file handling for test data
 6. **Apache Commons Lang3 3.12.0** - Utility functions
 7. **Chromium, Firefox & WebKit** - Cross-browser testing support
-
-## 🌟 Why Playwright?
-
-### Performance Benefits
-- **Auto-wait**: No more explicit waits - Playwright automatically waits for elements
-- **Faster Execution**: Up to 3x faster than traditional WebDriver approaches
-- **Parallel Execution**: Built-in support for parallel test execution
-- **Network Interception**: Built-in network request/response handling
-
-### Reliability Benefits
-- **Auto-retry**: Automatic retry of failed actions
-- **Better Error Messages**: Clear, actionable error messages
-- **Cross-browser Consistency**: Same API across all browsers
-- **Mobile Testing**: Built-in mobile device emulation
-
-### Developer Experience
-- **Modern API**: Intuitive and easy-to-use API
-- **Rich Debugging**: Built-in debugging tools and trace viewer
-- **Type Safety**: Better IDE support and type checking
-- **Active Development**: Regular updates and new features
 
 # What is Test Automation Framework?
 A "Test Automation Framework" is scaffolding that is laid to provide an execution environment for the automation test scripts. The framework provides the user with various benefits that help them to develop, execute and report the automation test scripts efficiently. It is more like a system that has created specifically to automate our tests.
@@ -67,20 +53,47 @@ The Page Object Model is a design pattern of testing, derived from the Object Or
 8. **Complete Test Isolation** - Each test method gets fresh Config instances
 9. **Multi-Browser Support** - Support for multiple browser instances simultaneously
 10. **Automatic Test Naming** - Test case names automatically extracted from TestNG
-
-## Playwright-Specific Features
-- **Auto-wait Capabilities** - No need for explicit waits
-- **Built-in Screenshots** - Native screenshot functionality
-- **Network Interception** - Built-in request/response handling
-- **Mobile Emulation** - Device emulation capabilities
-- **Trace Viewer** - Built-in debugging and trace analysis
-- **Parallel Execution** - Native parallel test execution support
+11. **Video Recording** - Automatic video recording with smart retention policies
+12. **Advanced Wait Strategies** - Intelligent wait utilities with Playwright integration
+13. **Test Listener Integration** - Custom TestNG listeners for enhanced reporting
+14. **Session Management** - Login session storage and reuse for faster test execution
 
 ## Demo Test Cases
-- **Web UI Testing** - GitHub login flow automation
+- **Web UI Testing** - Application login flow automation
 - **Multi-Browser Testing** - Simultaneous browser testing
 - **OTP Handling** - Two-factor authentication flow
 - **Page Object Model** - Complete POM implementation
+- **Session Management** - Login session storage and reuse
+- **Video Recording** - Test execution video capture
+- **Advanced Waits** - Smart wait strategies implementation
+
+## 🎬 Advanced Features
+
+### Video Recording
+- **Automatic Recording** - Videos recorded for all test executions
+- **Smart Retention** - Configurable retention policies (keep all, keep on failure, off)
+- **Full HD Quality** - 1920x1080 video resolution
+- **HTML Integration** - Video links embedded in test reports
+- **Storage Optimization** - Automatic cleanup of unnecessary videos
+
+### Wait Strategies
+- **Playwright Auto-wait** - Leverages built-in auto-wait capabilities
+- **Custom Wait Helpers** - Additional wait utilities for complex scenarios
+- **Element Visibility** - Smart element visibility checks
+- **Page Load Waits** - DOM content loaded waits
+- **Optional Element Handling** - Graceful handling of optional UI elements
+
+### Test Listeners
+- **Custom TestNG Listeners** - Enhanced test reporting and execution tracking
+- **Execution Time Tracking** - Detailed test execution time measurement
+- **Test Status Monitoring** - Comprehensive test result tracking
+- **Enhanced Logging** - Detailed test execution logs
+
+### Session Management
+- **Login Session Storage** - Automatic storage of successful login sessions
+- **Session Reuse** - Skip login for subsequent tests using stored sessions
+- **Cross-Test Persistence** - Sessions maintained across test executions
+- **Performance Optimization** - Faster test execution by avoiding repeated logins
 
 # 📁 CODE STRUCTURE
 
@@ -99,10 +112,10 @@ src/
 │   │   ├── Log.java          # Logging utilities
 │   │   └── Config.java       # Configuration management
 │   └── pageObjects/          # Page Object Model classes
-│       ├── HomePage.java     # GitHub home page
-│       ├── LoginPage.java    # GitHub login page
+│       ├── HomePage.java     # Application home page
+│       ├── LoginPage.java    # Login page
 │       ├── OtpPage.java      # OTP verification page
-│       └── DashboardPage.java # GitHub dashboard page
+│       └── DashboardPage.java # Dashboard page
 └── test/java/
     └── TestLoginFlows.java   # Test case implementations
 ```
@@ -162,15 +175,59 @@ mvn test -Dbrowser=webkit
 ## 📊 OUTPUT & REPORTS
 - **TestNG Reports**: `target/surefire-reports/index.html`
 - **Screenshots**: `test-output/` (automatic on failures)
+- **Video Recordings**: `test-output/videos/` (based on VideoMode configuration)
+- **Session Storage**: `src/test/resources/loginStorage/` (for session reuse)
 - **Console Output**: Detailed logs in IDE console
 - **Playwright Trace**: Built-in trace viewer for debugging
 
+### Report Structure
+```
+test-output/
+├── videos/                    # Video recordings (if enabled)
+│   ├── testMethod1.webm      # Failed test videos
+│   └── testMethod2.webm      # (based on VideoMode)
+├── screenshots/               # Screenshots on failures
+│   └── testMethod_timestamp.png
+└── surefire-reports/         # TestNG reports
+    └── index.html            # Main test report
+```
+
 ## 🔧 Configuration
 Update `src/main/resources/config.properties` for:
-- Browser selection (chromium, firefox, webkit)
-- Environment settings
-- Timeout configurations
-- Debug mode settings
+- **Browser selection** (chromium, firefox, webkit)
+- **Environment settings** (test, staging, production)
+- **Timeout configurations** (ObjectWaitTime)
+- **Debug mode settings** (DebugMode)
+- **Video recording** (VideoMode: off, on, retain-on-failure)
+- **Viewport settings** (ViewportWidth, ViewportHeight)
+- **Browser options** (Headless, SlowMo)
+- **Execution settings** (EndExecutionOnFailure, RemoteExecution)
+
+### Configuration Options
+```properties
+# Browser Configuration
+Browser=chromium
+Headless=false
+SlowMo=0
+
+# Environment Configuration
+Environment=test
+DebugMode=false
+
+# Timeout Configuration
+ObjectWaitTime=25
+
+# Video Recording Configuration
+VideoMode=retain-on-failure
+
+# Viewport Configuration
+ViewportWidth=1920
+ViewportHeight=1080
+
+# Execution Configuration
+EndExecutionOnFailure=true
+RemoteExecution=false
+```
 
 Update `src/main/resources/test.properties` for:
 - Test-specific configurations
@@ -191,42 +248,11 @@ Update `src/main/resources/test.properties` for:
 - **Data-Driven Testing**: Use CSV files for test data
 - **Proper Assertions**: Use AssertHelper for consistent assertions
 - **Screenshot on Failure**: Automatic screenshot capture is built-in
+- **Video Recording**: Configure appropriate VideoMode for your testing needs
+- **Session Management**: Use stored sessions for faster test execution
+- **Wait Strategies**: Use WaitHelper for complex wait scenarios
+- **Element Interactions**: Use Element helper for consistent element interactions
+- **Configuration Management**: Use config.properties for environment-specific settings
 
-## Playwright-Specific Best Practices
-- **Use Locators**: Prefer `page.locator()` over `page.querySelector()`
-- **Leverage Auto-wait**: No need for explicit waits in most cases
-- **Use Built-in Assertions**: Playwright's built-in assertion methods
-- **Network Interception**: Use for API testing and mocking
-- **Trace Viewer**: Use for debugging complex scenarios
-
-# 🔧 Framework Architecture
-
-## Test Isolation
-- **Fresh Config per Test**: Each test method gets a new Config instance
-- **Complete Isolation**: Tests don't interfere with each other
-- **Automatic Cleanup**: Browser instances are automatically closed after each test
-
-## Configuration Management
-- **Environment-based**: Support for multiple environments (test, staging, prod)
-- **Property Override**: Runtime property overrides via TestNG parameters
-- **Flexible Settings**: Easy configuration updates without code changes
-
-## Logging and Reporting
-- **Comprehensive Logging**: Detailed test execution logs
-- **Test Status Tracking**: Pass/Fail/Skip status with execution time
-- **Screenshot Integration**: Automatic screenshots on failures
-- **TestNG Integration**: Full TestNG reporting capabilities
-
-# 📈 Performance Benefits
-
-## Framework Optimizations
-- **Efficient Browser Management**: Shared browser instances where possible
-- **Smart Wait Strategies**: Leveraging Playwright's auto-wait
-- **Optimized Selectors**: Using Playwright's powerful locator strategies
-- **Minimal Setup Time**: Fast test initialization
-
-## Playwright Advantages
-- **Auto-wait**: Reduces flaky tests by automatically waiting for elements
-- **Fast Execution**: Optimized browser automation engine
-- **Cross-browser**: Consistent behavior across Chromium, Firefox, and WebKit
-- **Modern API**: Intuitive and developer-friendly interface
+## Creator
+For any further help or queries, contact [Mukesh Rajput](https://www.linkedin.com/in/mukesh-rajput "LinkedIn Profile")

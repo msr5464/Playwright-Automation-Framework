@@ -105,7 +105,8 @@ public class BrowserHelper {
 				// Firefox-specific options
 				launchOptions.setFirefoxUserPrefs(java.util.Map.of(
 					"dom.webnotifications.enabled", false,
-					"media.navigator.streams.fake", true
+					"media.navigator.streams.fake", true,
+					"browser.startup.fullscreen", true
 				));
 				break;
 
@@ -117,7 +118,8 @@ public class BrowserHelper {
 					"--allow-running-insecure-content",
 					"--disable-extensions",
 					"--no-sandbox",
-					"--disable-dev-shm-usage"
+					"--disable-dev-shm-usage",
+					"--start-fullscreen"
 				));
 				break;
 
@@ -140,8 +142,11 @@ public class BrowserHelper {
 			setBrowser(config);
 			Browser browser = Config.browser;
 			if (browser != null) {
-				config.browserContext = browser.newContext();
-				config.logCommentForDebugging("Browser launched successfully");
+				// Create browser context with configurable viewport and video recording
+				Browser.NewContextOptions contextOptions = createBrowserContextOptions(config);
+				
+				config.browserContext = browser.newContext(contextOptions);
+				config.logCommentForDebugging("Browser launched successfully in full screen mode");
 			} else {
 				config.logFail("Browser instance is null, cannot create context");
 			}
@@ -193,6 +198,15 @@ public class BrowserHelper {
 	// Method to close browser and clean up resources
 	public static void closeBrowser(Config config) {
 		try {
+			// Handle video recording cleanup before closing context
+			if (config.browserContext != null) {
+				String videoMode = config.getRunTimeProperty("VideoMode");
+				if (videoMode != null && !videoMode.equals("off")) {
+					// Log video recording information
+					logVideoRecordingInfo(config);
+				}
+			}
+			
 			if (config.page != null) {
 				config.page.close();
 				config.page = null;
@@ -206,6 +220,136 @@ public class BrowserHelper {
 			config.logWarning("Error while closing browser: " + e.getMessage());
 		}
 	}
+	
+	/**
+	 * Create browser context options with viewport and video recording configuration
+	 */
+	private static Browser.NewContextOptions createBrowserContextOptions(Config config) {
+		// Get viewport size from config
+		int viewportWidth = Integer.parseInt(config.getRunTimeProperty("ViewportWidth"));
+		int viewportHeight = Integer.parseInt(config.getRunTimeProperty("ViewportHeight"));
+		
+		// Create context options with viewport
+		Browser.NewContextOptions contextOptions = new Browser.NewContextOptions()
+			.setViewportSize(viewportWidth, viewportHeight);
+		
+		// Configure video recording
+		configureVideoRecording(config, contextOptions, viewportWidth, viewportHeight);
+		
+		return contextOptions;
+	}
+	
+	/**
+	 * Configure video recording for browser context
+	 */
+	private static void configureVideoRecording(Config config, Browser.NewContextOptions contextOptions, int viewportWidth, int viewportHeight) {
+		String videoMode = config.getRunTimeProperty("VideoMode");
+		if (videoMode != null && !videoMode.equals("off")) {
+			// Create videos directory
+			java.nio.file.Path videoDir = createVideoDirectory(config);
+			
+			// Configure video recording
+			contextOptions.setRecordVideoDir(videoDir);
+			contextOptions.setRecordVideoSize(viewportWidth, viewportHeight);
+			
+			config.logCommentForDebugging("Video recording enabled for test: " + config.testcaseName + 
+				" with mode: " + videoMode);
+		} else {
+			config.logCommentForDebugging("Video recording disabled (VideoMode: " + videoMode + ")");
+		}
+	}
+	
+	/**
+	 * Create videos directory if it doesn't exist
+	 */
+	private static java.nio.file.Path createVideoDirectory(Config config) {
+		java.nio.file.Path videoDir = java.nio.file.Paths.get(
+			config.getRunTimeProperty("ResultsDirectory") + java.io.File.separator + "videos"
+		);
+		java.io.File videoDirFile = videoDir.toFile();
+		if (!videoDirFile.exists()) {
+			videoDirFile.mkdirs();
+		}
+		return videoDir;
+	}
+	
+	/**
+	 * Handle video recording based on test result and VideoMode
+	 */
+	private static void logVideoRecordingInfo(Config config) {
+		try {
+			if (config.page != null) {
+				// Check if video recording is available (may be null for stored sessions)
+				com.microsoft.playwright.Video video = config.page.video();
+				if (video != null) {
+					// Get the video path from the page
+					java.nio.file.Path videoPath = video.path();
+					if (videoPath != null) {
+						String videoMode = config.getRunTimeProperty("VideoMode");
+						
+						// Handle video retention based on mode and test result
+						handleVideoRetention(config, videoPath, videoMode);
+					}
+				} else {
+					config.logCommentForDebugging("Video recording not available for this page (likely using stored session)");
+				}
+			}
+		} catch (Exception e) {
+			config.logWarning("Failed to handle video recording: " + e.getMessage());
+		}
+	}
+	
+	/**
+	 * Handle video retention based on VideoMode and test result
+	 */
+	private static void handleVideoRetention(Config config, java.nio.file.Path videoPath, String videoMode) {
+		try {
+			boolean shouldKeepVideo = false;
+			String reason = "";
+			
+			switch (videoMode) {
+				case "on":
+					// Keep all videos
+					shouldKeepVideo = true;
+					reason = "VideoMode=on (keep all videos)";
+					break;
+					
+				case "retain-on-failure":
+					// Keep only if test failed
+					if (config.testResult == false) {
+						shouldKeepVideo = true;
+						reason = "VideoMode=retain-on-failure (test failed)";
+					} else {
+						shouldKeepVideo = false;
+						reason = "VideoMode=retain-on-failure (test passed)";
+					}
+					break;
+					
+				default:
+					shouldKeepVideo = false;
+					reason = "Unknown VideoMode: " + videoMode;
+					break;
+			}
+			
+			if (shouldKeepVideo) {
+				// Keep the video - log it
+				String videoHref = convertFilePathToHtmlUrl(videoPath.toString());
+				config.logComment("<B>Video Recording</B>:- <a href=" + videoHref + " target='_blank' >" + 
+					videoPath.getFileName() + "</a>");
+				config.logCommentForDebugging("Video recording kept: " + videoPath.toString() + " (" + reason + ")");
+			} else {
+				// Delete the video to save space
+				try {
+					java.nio.file.Files.deleteIfExists(videoPath);
+					config.logCommentForDebugging("Video recording deleted: " + videoPath.toString() + " (" + reason + ")");
+				} catch (Exception e) {
+					config.logWarning("Failed to delete video file: " + e.getMessage());
+				}
+			}
+		} catch (Exception e) {
+			config.logWarning("Failed to handle video retention: " + e.getMessage());
+		}
+	}
 
 	public static void storeSessionToAvoidRelogin(Config config, String fileName) {
 		config.browserContext.storageState(new BrowserContext.StorageStateOptions().setPath(
@@ -216,8 +360,11 @@ public class BrowserHelper {
 		setBrowser(config);
 		Browser browser = Config.browser;
 		if (browser != null) {
-			config.browserContext = browser.newContext(new Browser.NewContextOptions().setStorageStatePath(
-					Paths.get(config.testResourcesPath + "loginStorage" + File.separator + fileName)));
+			// Create browser context options with stored session
+			Browser.NewContextOptions contextOptions = createBrowserContextOptions(config);
+			contextOptions.setStorageStatePath(Paths.get(config.testResourcesPath + "loginStorage" + File.separator + fileName));
+			
+			config.browserContext = browser.newContext(contextOptions);
 		} else {
 			config.logFail("Browser instance is null, cannot load stored session");
 		}

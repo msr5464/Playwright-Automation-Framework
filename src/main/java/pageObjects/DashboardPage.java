@@ -4,6 +4,7 @@ import com.microsoft.playwright.Locator;
 
 import helpers.AssertHelper;
 import helpers.Config;
+import helpers.WaitHelper;
 
 public class DashboardPage {
 
@@ -13,6 +14,7 @@ public class DashboardPage {
 	public DashboardPage(Config config) {
 		this.config = config;
 		this.userNameWidget = config.page.locator("img[class*='avatar']").first();
+		WaitHelper.waitForPageLoad(config, userNameWidget);
 	}
 
 	public void verifyDashboardPage() {

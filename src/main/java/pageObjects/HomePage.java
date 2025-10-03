@@ -6,6 +6,7 @@ import com.microsoft.playwright.options.AriaRole;
 
 import helpers.Config;
 import helpers.Element;
+import helpers.WaitHelper;
 
 public class HomePage {
 
@@ -15,6 +16,7 @@ public class HomePage {
 	public HomePage(Config config) {
 		this.config = config;
 		this.signInButton = config.page.getByRole(AriaRole.LINK, new Page.GetByRoleOptions().setName("Sign in"));
+		WaitHelper.waitForPageLoad(config, signInButton);
 	}
 
 	public LoginPage getLoginPage() {
