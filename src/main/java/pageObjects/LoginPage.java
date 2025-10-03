@@ -41,7 +41,7 @@ public class LoginPage {
 				return new OtpPage(config);
 			case DashboardPage:
 				Element.click(config, signMeInBtn, "Sign In Button");
-				// WaitHelper.waitforseconds(config, 30);
+				WaitHelper.waitforseconds(config, 30);
 				return new DashboardPage(config);
 			default:
 				return this;

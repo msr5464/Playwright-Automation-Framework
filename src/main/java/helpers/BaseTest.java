@@ -2,43 +2,58 @@ package helpers;
 
 import com.microsoft.playwright.Playwright;
 
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.Listeners;
 import org.testng.ITestResult;
-import org.testng.ITestContext;
 import java.util.Date;
 
+@Listeners(TestListener.class)
 public class BaseTest {
 
     public static ThreadLocal<Config[]> threadLocalConfig = new ThreadLocal<Config[]>();
     public Config config;
-
-    @BeforeClass
-    public void beforeClass() {
+    
+    @BeforeSuite
+    public void beforeSuite() {
         if (Config.playwright == null) {
-            Config.playwright = Playwright.create();
-            System.out.println("Playwright created successfully");
+            try {
+                Config.playwright = Playwright.create();
+                System.out.println("Playwright created successfully for test suite");
+            } catch (Exception e) {
+                System.err.println("Failed to create Playwright instance: " + e.getMessage());
+                throw new RuntimeException("Failed to initialize Playwright", e);
+            }
         }
     }
 
-    @AfterClass
-    public void afterClass() {
-        if (Config.browser != null) {
-            Config.browser.close();
-            Config.browser = null;
+    @AfterSuite
+    public void afterSuite() {
+        try {
+            // Clean up browser instance
+            if (Config.browser != null) {
+                Config.browser.close();
+                Config.browser = null;
+                System.out.println("Browser closed successfully for test suite");
+            }
+            
+            // Clean up Playwright instance
+            if (Config.playwright != null) {
+                Config.playwright.close();
+                Config.playwright = null;
+                System.out.println("Playwright closed successfully for test suite");
+            }
+        } catch (Exception e) {
+            // Log cleanup errors but don't fail the test
+            System.err.println("Error during cleanup: " + e.getMessage());
         }
-        if (Config.playwright != null) {
-            Config.playwright.close();
-            Config.playwright = null;
-        }
-        System.out.println("Playwright closed successfully");
     }
 
     private Date testStartTime;
     private Date testEndTime;
-
+    
     @BeforeMethod
     public void beforeMethod(ITestResult result) {
         config = new Config();

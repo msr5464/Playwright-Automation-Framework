@@ -18,17 +18,29 @@ public class BrowserHelper {
 	};
 
 	public static void openBrowserAndNavigateToUrl(Config config, String url) {
-		if (config.browserContext == null)
+		if (config.browserContext == null) {
 			setBrowserContext(config);
-		if (config.page == null)
+		}
+		if (config.page == null) {
 			config.page = config.browserContext.newPage();
+			// Set timeouts using Playwright's modern approach
+			Long objectWaitTime = Long.parseLong(config.getRunTimeProperty("ObjectWaitTime"));
+			config.page.setDefaultTimeout(objectWaitTime * 1000); // Convert to milliseconds
+			config.page.setDefaultNavigationTimeout(objectWaitTime * 3 * 1000);
+		}
 
 		config.logComment("Navigating to URL : " + url);
-		config.page.navigate(url);
+		try {
+			config.page.navigate(url);
+		} catch (Exception e) {
+			config.logExceptionAndFail("Failed to navigate to URL: " + url, e);
+		}
 	}
 
 	public static void setBrowser(Config config) {
-		if (Config.browser == null) {
+		// Use direct access to static browser
+		Browser currentBrowser = Config.browser;
+		if (currentBrowser == null) {
 			String browserName = config.getRunTimeProperty("browser").toLowerCase().trim();
 			config.logCommentForDebugging("Set Browser '" + browserName + "' for execution...");
 
@@ -36,34 +48,24 @@ public class BrowserHelper {
 			try {
 				browser = BrowserName.valueOf(browserName);
 			} catch (IllegalArgumentException e) {
-				config.logFail("Invalid Browser name is passed");
+				config.logFail("Invalid Browser name is passed: " + browserName);
 				return;
 			}
 
 			BrowserType browserType = null;
-			LaunchOptions launchOptions = new LaunchOptions();
+			LaunchOptions launchOptions = getLaunchOptions(config, browser);
 
 			switch (browser) {
 				case firefox:
 					browserType = Config.playwright.firefox();
-					launchOptions.setHeadless(false);
 					break;
 
 				case chromium:
 					browserType = Config.playwright.chromium();
-					launchOptions.setHeadless(false);
-					launchOptions.setArgs(java.util.Arrays.asList(
-							"--disable-infobars",
-							"--start-fullscreen",
-							"--disable-blink-features=AutomationControlled",
-							"--disable-extensions",
-							"--no-sandbox",
-							"--disable-dev-shm-usage"));
 					break;
 
 				case webkit:
 					browserType = Config.playwright.webkit();
-					launchOptions.setHeadless(false);
 					break;
 
 				default:
@@ -72,28 +74,77 @@ public class BrowserHelper {
 			}
 
 			try {
-				Config.browser = browserType.launch(launchOptions);
+				Browser newBrowser = browserType.launch(launchOptions);
+				// Set the browser directly
+				Config.browser = newBrowser;
 			} catch (Exception e) {
 				config.logExceptionAndFail("Failed to set '" + browserName + "' browser", e);
 			}
 		}
 	}
+	
+	/**
+	 * Get launch options for different browsers with modern configurations
+	 */
+	private static LaunchOptions getLaunchOptions(Config config, BrowserName browser) {
+		LaunchOptions launchOptions = new LaunchOptions();
+		
+		// Check if headless mode is configured
+		String headlessMode = config.getRunTimeProperty("headless");
+		boolean isHeadless = headlessMode != null ? Boolean.parseBoolean(headlessMode) : false;
+		launchOptions.setHeadless(isHeadless);
+		
+		// Add slow motion for debugging if configured
+		String slowMo = config.getRunTimeProperty("slowMo");
+		if (slowMo != null) {
+			launchOptions.setSlowMo(Integer.parseInt(slowMo));
+		}
+
+		switch (browser) {
+			case firefox:
+				// Firefox-specific options
+				launchOptions.setFirefoxUserPrefs(java.util.Map.of(
+					"dom.webnotifications.enabled", false,
+					"media.navigator.streams.fake", true
+				));
+				break;
+
+			case chromium:
+				// Chromium-specific options
+				launchOptions.setArgs(java.util.Arrays.asList(
+					"--disable-blink-features=AutomationControlled",
+					"--disable-web-security",
+					"--allow-running-insecure-content",
+					"--disable-extensions",
+					"--no-sandbox",
+					"--disable-dev-shm-usage"
+				));
+				break;
+
+			case webkit:
+				// WebKit-specific options (minimal configuration)
+				break;
+
+			default:
+				break;
+		}
+		
+		return launchOptions;
+	}
 
 	private static void setBrowserContext(Config config) {
-
 		String browserName = config.getRunTimeProperty("browser").toLowerCase().trim();
 		config.logComment("Launching '" + browserName + "' browser...");
 
 		try {
 			setBrowser(config);
-			config.browserContext = Config.browser.newContext();
-
-			// Set timeouts
-			Long ObjectWaitTime = Long.parseLong(config.getRunTimeProperty("ObjectWaitTime"));
-			config.page.setDefaultTimeout(ObjectWaitTime * 1000); // Convert to milliseconds
-			config.page.setDefaultNavigationTimeout(ObjectWaitTime * 3 * 1000);
-
-			config.logCommentForDebugging("Browser launched successfully");
+			Browser browser = Config.browser;
+			if (browser != null) {
+				config.browserContext = browser.newContext();
+				config.logCommentForDebugging("Browser launched successfully");
+			} else {
+				config.logFail("Browser instance is null, cannot create context");
+			}
 		} catch (Exception e) {
 			config.logExceptionAndFail("Failed to launch browser", e);
 		}
@@ -163,7 +214,12 @@ public class BrowserHelper {
 
 	public static void loadStoredSessionToAvoidRelogin(Config config, String fileName) {
 		setBrowser(config);
-		config.browserContext = Config.browser.newContext(new Browser.NewContextOptions().setStorageStatePath(
-				Paths.get(config.testResourcesPath + "loginStorage" + File.separator + fileName)));
+		Browser browser = Config.browser;
+		if (browser != null) {
+			config.browserContext = browser.newContext(new Browser.NewContextOptions().setStorageStatePath(
+					Paths.get(config.testResourcesPath + "loginStorage" + File.separator + fileName)));
+		} else {
+			config.logFail("Browser instance is null, cannot load stored session");
+		}
 	}
 }

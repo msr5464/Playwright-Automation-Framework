@@ -2,6 +2,8 @@ package helpers;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Properties;
@@ -44,29 +46,44 @@ public class Config {
 			+ File.separator + "resources" + File.separator;
 	public String testResourcesPath = System.getProperty("user.dir") + File.separator + "src" + File.separator + "test"
 			+ File.separator + "resources" + File.separator;
-
+	
 	public Config() {
 		softAssert = new SoftAssert();
 		runTimeProperties = new Properties();
 		Properties properties = null;
+		
 		// Code to read .properties file and put key value pairs into RunTime Property
 		// file
 		try {
+			// Load base configuration
 			FileInputStream fileInputStream = new FileInputStream(mainResourcesPath + "config.properties");
 			properties = new Properties();
 			properties.load(fileInputStream);
 			fileInputStream.close();
 
-			// override the environment value if passed through TestNG.xml
-			if (!StringUtils.isEmpty(environment))
+			// Override the environment value if passed through TestNG.xml
+			if (!StringUtils.isEmpty(environment)) {
 				properties.put("Environment", environment.toLowerCase());
-			fileInputStream = new FileInputStream(mainResourcesPath + properties.get("Environment") + ".properties");
-			logComment("Running on '" + properties.get("Environment") + "' environment");
-			properties.load(fileInputStream);
-			fileInputStream.close();
+			}
+			
+			// Load environment-specific configuration
+			String envName = properties.getProperty("Environment", "test");
+			File envFile = new File(mainResourcesPath + envName + ".properties");
+			
+			if (envFile.exists()) {
+				fileInputStream = new FileInputStream(envFile);
+				logComment("Running on '" + envName + "' environment");
+				properties.load(fileInputStream);
+				fileInputStream.close();
+			} else {
+				logWarning("Environment file not found: " + envFile.getAbsolutePath() + ", using base configuration only");
+			}
+		} catch (FileNotFoundException e) {
+			logExceptionAndFail("Configuration file not found: " + e.getMessage(), e);
+		} catch (IOException e) {
+			logExceptionAndFail("Error reading configuration file: " + e.getMessage(), e);
 		} catch (Exception e) {
-			logComment("Exception while reading config.properties file...");
-			e.printStackTrace();
+			logExceptionAndFail("Unexpected error while loading configuration: " + e.getMessage(), e);
 		}
 
 		Enumeration<Object> enumeration = properties.keys();
