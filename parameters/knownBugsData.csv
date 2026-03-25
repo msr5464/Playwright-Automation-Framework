@@ -1,0 +1,3 @@
+testName,errorPattern,jiraId,description
+sampleUITest,Element not found,ASP-1234,Known flaky locator on staging
+transferTest,timeout exceeded,ASP-5678,Transfer API slow on QA-1

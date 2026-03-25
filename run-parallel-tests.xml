@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Parallel Automation Suite" parallel="methods" thread-count="5">
+
+    <parameter name="environment" value="qa-1"/>
+    <parameter name="browserName" value="chromium"/>
+    <parameter name="country" value="sg"/>
+
+    <test name="Web Tests">
+        <groups>
+            <run>
+                <include name="webCases"/>
+            </run>
+        </groups>
+        <packages>
+            <package name="automation.tests"/>
+        </packages>
+    </test>
+
+    <test name="API Tests">
+        <parameter name="browserName" value="Api"/>
+        <groups>
+            <run>
+                <include name="apiCases"/>
+            </run>
+        </groups>
+        <packages>
+            <package name="automation.tests"/>
+        </packages>
+    </test>
+
+</suite>
