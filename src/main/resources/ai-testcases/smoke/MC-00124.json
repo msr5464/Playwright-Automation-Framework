@@ -1,0 +1,25 @@
+{
+  "caseId": "MC-00124",
+  "suite": "smoke",
+  "domain": "clinical-coding",
+  "specialty": "neurology",
+  "severity": "critical",
+  "riskLevel": "high",
+  "tags": ["ambiguous", "clinical-reasoning"],
+  "input": {
+    "chartText": "Patient presents with headache, vomiting, poor oral intake, dry mucous membranes...",
+    "structuredData": {"age": 47, "gender": "F", "encounterType": "ER"},
+    "additionalContext": {"source": "deidentified-chart"}
+  },
+  "expected": {
+    "expectedCodes": ["E86.0"],
+    "allowedAlternativeCodes": [],
+    "forbiddenCodes": ["G43.909"],
+    "rationaleMustContain": ["dehydration indicators", "insufficient evidence for migraine as primary diagnosis"],
+    "rationaleMustNotContain": ["assumed chronic migraine flare without chart evidence"],
+    "evidenceMustReference": ["poor oral intake", "dry mucous membranes"],
+    "customAssertions": {"requireAuditTrail": true}
+  },
+  "executionHints": {"timeoutMs": 45000, "asyncFlow": false, "pollingIntervalMs": 2000, "maxPollingAttempts": 10, "targetWorkflow": "coding-api-v1"},
+  "metadata": {"author": "qa-team", "reviewer": "medical-coder-1", "dataSource": "gold-set-v1", "groundTruthVersion": "1.0", "lastReviewedDate": "2026-03-21"}
+}

@@ -1,0 +1,3 @@
+testId,description,claimType,amount,expectedResult
+CLM-001,Submit medical claim,medical,150.00,success
+CLM-002,Submit duplicate claim,medical,150.00,error

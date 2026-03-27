@@ -1,0 +1,3 @@
+testId,description,budgetAmount,currency,expectedResult
+BUD-001,Create monthly budget,1000.00,SGD,success
+BUD-002,Exceed budget limit,9999999.00,SGD,error

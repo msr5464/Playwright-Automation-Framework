@@ -1,0 +1,21 @@
+package automation.aiEval.model;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class Metadata
+{
+    private String author;
+    private String reviewer;
+    private String dataSource;
+    private String groundTruthVersion;
+    private String lastReviewedDate;
+}

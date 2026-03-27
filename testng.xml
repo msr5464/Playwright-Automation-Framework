@@ -33,4 +33,14 @@
         </classes>
     </test>
 
+    <test name="AI Eval Unit Tests">
+        <classes>
+            <class name="automation.aiEval.AITestCaseLoaderTest"/>
+            <class name="automation.aiEval.CodeMatchEvaluatorTest"/>
+            <class name="automation.aiEval.ForbiddenCodeEvaluatorTest"/>
+            <class name="automation.aiEval.SchemaValidatorEvaluatorTest"/>
+            <class name="automation.aiEval.ScoreAggregatorTest"/>
+        </classes>
+    </test>
+
 </suite>

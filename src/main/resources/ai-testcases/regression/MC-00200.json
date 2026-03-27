@@ -1,0 +1,25 @@
+{
+  "caseId": "MC-00200",
+  "suite": "regression",
+  "domain": "clinical-coding",
+  "specialty": "cardiology",
+  "severity": "normal",
+  "riskLevel": "low",
+  "tags": ["standard"],
+  "input": {
+    "chartText": "Patient diagnosed with essential hypertension, well controlled on medication.",
+    "structuredData": {"age": 62, "gender": "M", "encounterType": "outpatient"},
+    "additionalContext": {"source": "deidentified-chart"}
+  },
+  "expected": {
+    "expectedCodes": ["I10"],
+    "allowedAlternativeCodes": [],
+    "forbiddenCodes": [],
+    "rationaleMustContain": ["hypertension"],
+    "rationaleMustNotContain": [],
+    "evidenceMustReference": ["essential hypertension"],
+    "customAssertions": {"requireAuditTrail": false}
+  },
+  "executionHints": {"timeoutMs": 30000, "asyncFlow": false, "pollingIntervalMs": 2000, "maxPollingAttempts": 10, "targetWorkflow": "coding-api-v1"},
+  "metadata": {"author": "qa-team", "reviewer": "medical-coder-2", "dataSource": "gold-set-v1", "groundTruthVersion": "1.0", "lastReviewedDate": "2026-03-21"}
+}
