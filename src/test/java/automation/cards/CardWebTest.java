@@ -18,7 +18,7 @@ import automation.core.AssertHelper;
 public class CardWebTest extends TestBase
 {
 
-    @Test(dataProvider = "getConfig", groups = {GROUP_REGRESSION, GROUP_WEB})
+    @Test(description="verify if user is able to create new card via UI", dataProvider = "getConfig", groups = {GROUP_REGRESSION, GROUP_WEB})
     @TestVariables(testrailData = "1:C0001:WEB", automatedBy = QA.Mukesh, country = Country.SG)
     public void createCardViaUI(Config config)
     {
@@ -57,7 +57,7 @@ public class CardWebTest extends TestBase
         cardList.searchCard("Marketing");
     }
 
-    @Test(dataProvider = "getTwoConfigs", groups = {GROUP_REGRESSION, GROUP_WEB})
+    @Test(description="verify if admin user is able to create new card and then same card is verifed by employee user",dataProvider = "getTwoConfigs", groups = {GROUP_REGRESSION, GROUP_WEB})
     @TestVariables(testrailData = "1:C0003:WEB", automatedBy = QA.Mukesh, country = Country.SG)
     public void adminCreatesCard_employeeVerifies(Config adminConfig, Config employeeConfig)
     {

@@ -16,13 +16,18 @@ import java.util.List;
 /**
  * Generates a TestNG XML at runtime from CLI parameters and executes it.
  *
- * Usage (run from project root):
- *   mvn exec:java -Dexec.mainClass="automation.core.GenerateTestngXmlAndRun" \
- *     -Dexec.args="<projectName> <environment> <browserName> <groupNames> <country> <appLanguage> <debugMode> <uploadToTestrail> <isBrowserStackExecution>"
+ * Preferred usage — named system properties (AI agent safe):
+ *   mvn test -DprojectName=Cards -Denvironment=staging -Dbrowser=chromium \
+ *             -Dgroups=regression -Dcountry=SG
  *
- * Example:
+ * Or via the shell wrapper:
+ *   ./ai-run.sh --feature Cards --env staging --type api --country SG
+ *
+ * Legacy positional args (still supported for backward compatibility):
  *   mvn exec:java -Dexec.mainClass="automation.core.GenerateTestngXmlAndRun" \
  *     -Dexec.args="Cards qa-1 chromium regression SG EN false false false"
+ *
+ * Named properties take priority over positional args when both are supplied.
  */
 public class GenerateTestngXmlAndRun
 {
@@ -31,21 +36,17 @@ public class GenerateTestngXmlAndRun
 
     public static void main(String... args)
     {
-        if (args.length < 1)
-        {
-            System.out.println("Usage: GenerateTestngXmlAndRun <projectName> [environment] [browserName] [groupNames] [country] [appLanguage] [debugMode] [uploadToTestrail] [isBrowserStackExecution]");
-            System.exit(1);
-        }
-
-        String projectName           = getArg(args, 0, "CustomerFrontend");
-        String environment           = getArg(args, 1, "qa-1");
-        String browserName           = getArg(args, 2, "chromium");
-        String groupNames            = getArg(args, 3, "regression");
-        String country               = getArg(args, 4, "SG");
-        String appLanguage           = getArg(args, 5, "EN");
-        boolean debugMode            = Boolean.parseBoolean(getArg(args, 6, "false"));
-        boolean uploadToTestrail     = Boolean.parseBoolean(getArg(args, 7, "false"));
-        boolean isBrowserStackExecution = Boolean.parseBoolean(getArg(args, 8, "false"));
+        // Named -D system properties (preferred, AI agent safe).
+        // Fall back to positional args for backward compatibility.
+        String projectName           = sysPropOrArg("projectName",             args, 0, "CustomerFrontend");
+        String environment           = sysPropOrArg("environment",             args, 1, "qa-1");
+        String browserName           = sysPropOrArg("browser",                 args, 2, "chromium");
+        String groupNames            = sysPropOrArg("groups",                  args, 3, "regression");
+        String country               = sysPropOrArg("country",                 args, 4, "SG");
+        String appLanguage           = sysPropOrArg("appLanguage",             args, 5, "EN");
+        boolean debugMode            = Boolean.parseBoolean(sysPropOrArg("isDebugMode",           args, 6, "false"));
+        boolean uploadToTestrail     = Boolean.parseBoolean(sysPropOrArg("uploadToTestrail",      args, 7, "false"));
+        boolean isBrowserStackExecution = Boolean.parseBoolean(sysPropOrArg("isBrowserStackExecution", args, 8, "false"));
 
         System.out.println("=== Jarvis2 Test Runner ===");
         System.out.println("Project     : " + projectName);
@@ -231,8 +232,21 @@ public class GenerateTestngXmlAndRun
         }
     }
 
-    private static String getArg(String[] args, int index, String defaultValue)
+    /**
+     * Returns the value of a named system property if set, otherwise falls back to
+     * the positional CLI arg at {@code index}, otherwise returns {@code defaultValue}.
+     *
+     * This allows both invocation styles:
+     *   Named:      mvn test -DprojectName=Cards          (preferred, AI agent safe)
+     *   Positional: -Dexec.args="Cards staging chromium"  (legacy, backward compatible)
+     */
+    private static String sysPropOrArg(String propertyName, String[] args, int index, String defaultValue)
     {
+        String sysProp = System.getProperty(propertyName);
+        if (sysProp != null && !sysProp.isEmpty())
+        {
+            return sysProp;
+        }
         if (args.length > index && args[index] != null && !args[index].isEmpty())
         {
             return args[index];

@@ -16,7 +16,7 @@ import automation.core.AssertHelper;
 public class CardApiTest extends TestBase
 {
 
-    @Test(dataProvider = "getConfig", groups = {GROUP_REGRESSION, GROUP_API})
+    @Test(description="verify if user is able to create new card", dataProvider = "getConfig", groups = {GROUP_REGRESSION, GROUP_API})
     @TestVariables(automatedBy = QA.Mukesh, country = Country.SG)
     public void createAndVerifyCard(Config config)
     {
@@ -43,7 +43,7 @@ public class CardApiTest extends TestBase
 
     }
 
-    @Test(dataProvider = "getConfig", groups = {GROUP_REGRESSION, GROUP_API})
+    @Test(description="verify user is NOT able to create new card if some fields are missing",dataProvider = "getConfig", groups = {GROUP_REGRESSION, GROUP_API})
     @TestVariables(automatedBy = QA.Mukesh, country = Country.SG)
     public void createCard_withMissingFields(Config config)
     {
