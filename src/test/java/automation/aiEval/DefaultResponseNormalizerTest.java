@@ -14,7 +14,6 @@ import automation.core.Enums.*;
 import automation.core.TestBase;
 import automation.core.TestVariables;
 
-import java.util.Collections;
 import java.util.HashMap;
 
 public class DefaultResponseNormalizerTest extends TestBase

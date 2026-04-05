@@ -3,7 +3,6 @@ package automation.core;
 import com.microsoft.playwright.*;
 import com.microsoft.playwright.options.ViewportSize;
 
-import automation.core.Config;
 import automation.core.Enums.VideoMode;
 
 import java.io.File;

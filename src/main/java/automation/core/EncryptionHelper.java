@@ -2,8 +2,6 @@ package automation.core;
 
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
-import automation.core.Log;
-
 import java.security.Security;
 import java.util.Base64;
 

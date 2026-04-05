@@ -1,12 +1,10 @@
 package automation.core;
 
-import automation.core.Log;
-
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
+import java.net.URI;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.util.*;
 
 /**
  * Slack notification helper with thread-based reporting.
@@ -46,7 +44,7 @@ public class SlackHelper
 
     private static void postToSlack(String webhookUrl, String payload) throws Exception
     {
-        URL url = new URL(webhookUrl);
+        URL url = new URI(webhookUrl).toURL();
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("POST");
         conn.setRequestProperty("Content-Type", "application/json");

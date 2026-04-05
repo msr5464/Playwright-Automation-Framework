@@ -1,8 +1,5 @@
 package automation.core;
 
-import automation.core.TestDataReader;
-import automation.core.Log;
-
 import java.util.*;
 
 /**

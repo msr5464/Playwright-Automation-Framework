@@ -77,7 +77,7 @@ public class StartStopAppiumServer
             if (Config.osName.contains("windows"))
             {
                 Log.comment(testConfig, "Killing Appium servers on Windows");
-                Runtime.getRuntime().exec("taskkill /f /im node.exe");
+                Runtime.getRuntime().exec(new String[]{"taskkill", "/f", "/im", "node.exe"});
             }
             else if (Config.osName.contains("mac"))
             {

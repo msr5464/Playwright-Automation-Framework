@@ -5,8 +5,6 @@ import java.time.format.DateTimeFormatter;
 
 import org.testng.Reporter;
 
-import automation.core.Config;
-
 public class Log
 {
 

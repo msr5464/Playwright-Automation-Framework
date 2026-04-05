@@ -4,9 +4,6 @@ import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import com.opencsv.CSVReader;
-import com.opencsv.exceptions.CsvException;
-
-import automation.core.Log;
 
 import java.io.*;
 import java.util.*;
@@ -155,7 +152,7 @@ public class TestDataReader
         try
         {
             com.fasterxml.jackson.databind.ObjectMapper mapper = new com.fasterxml.jackson.databind.ObjectMapper();
-            return mapper.readValue(new File(filePath), Map.class);
+            return mapper.readValue(new File(filePath), new com.fasterxml.jackson.core.type.TypeReference<Map<String, Object>>() {});
         }
         catch (Exception e)
         {

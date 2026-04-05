@@ -3,13 +3,7 @@ package automation.core;
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 
-import automation.core.Config;
-import automation.core.Element;
-import automation.core.Log;
-import automation.core.WaitHelper;
-
 import java.io.File;
-import java.nio.file.Paths;
 
 /**
  * Base page object with common UI interaction patterns.
@@ -158,7 +152,7 @@ public class BasePage
 
     protected String resolveFilePath(String fileName)
     {
-        String testResources = config.testResourcesPath + fileName;
+        String testResources = Config.testResourcesPath + fileName;
         if (new File(testResources).exists()) return testResources;
         String projectRoot = System.getProperty("user.dir") + File.separator + fileName;
         if (new File(projectRoot).exists()) return projectRoot;

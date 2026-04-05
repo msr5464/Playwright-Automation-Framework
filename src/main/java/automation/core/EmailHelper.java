@@ -1,9 +1,6 @@
 package automation.core;
 
-import automation.core.Log;
-
 import javax.mail.*;
-import javax.mail.internet.MimeMessage;
 import javax.mail.search.FlagTerm;
 import java.util.Properties;
 import java.util.concurrent.locks.ReentrantLock;

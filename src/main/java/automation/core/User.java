@@ -18,13 +18,12 @@ public class User
     private String username;
     private String password;
     private String otp;
-    private String otpSecret;
-    private String businessUuid;
-    private String personUuid;
+    private String businessName;
+    private String personReferenceCode;
+    private String businessReferenceCode;
+    private String fullName;
     private UserType userType;
     private Feature feature;
     private Country country;
-    private String usageStatus;
-    private String testcaseName;
     private boolean isPoolUser;
 }

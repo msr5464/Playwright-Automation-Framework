@@ -79,13 +79,14 @@ public class UserManagement
                         .id(userId)
                         .username(rs.getString("username"))
                         .password(rs.getString("password"))
-                        .otp(rs.getString("otp"))
-                        .otpSecret(rs.getString("otpSecret"))
-                        .businessUuid(rs.getString("businessUuid"))
-                        .personUuid(rs.getString("personUuid"))
+                        .businessName(rs.getString("businessName"))
+                        .personReferenceCode(rs.getString("personReferenceCode"))
+                        .businessReferenceCode(rs.getString("businessReferenceCode"))
+                        .fullName(rs.getString("fullName"))
                         .userType(UserType.valueOf(rs.getString("userType")))
+                        .feature(parseFeature(rs.getString("feature")))
                         .country(Country.valueOf(rs.getString("country").toUpperCase()))
-                        .isPoolUser(true)
+                        .isPoolUser("YES".equals(rs.getString("poolUser")))
                         .build();
                 }
             }
@@ -114,7 +115,6 @@ public class UserManagement
         private final String testcaseName;
         private UserType userType = UserType.Any;
         private Integer specificUserId = null;
-        private boolean poolUserOnly = true;
         private final List<Feature> features = new ArrayList<>();
         private Country country = null;
         private final List<Country> excludedCountries = new ArrayList<>();
@@ -147,7 +147,6 @@ public class UserManagement
         public UserQueryBuilder withUserId(int userId)
         {
             this.specificUserId = userId;
-            this.poolUserOnly = false;
             return this;
         }
 
@@ -216,5 +215,33 @@ public class UserManagement
         {
             return "UserQuery[type=" + userType + ", features=" + features + ", country=" + country + "]";
         }
+    }
+
+    /**
+     * Parse feature from database SET column. Takes the first valid feature from comma-separated values.
+     */
+    private static Feature parseFeature(String featureString)
+    {
+        if (featureString == null || featureString.trim().isEmpty())
+        {
+            return null;
+        }
+        
+        // Split by comma and take the first valid feature
+        String[] features = featureString.split(",");
+        for (String f : features)
+        {
+            f = f.trim();
+            try
+            {
+                return Feature.valueOf(f);
+            }
+            catch (IllegalArgumentException e)
+            {
+                // Feature not in enum, continue to next
+                continue;
+            }
+        }
+        return null; // No valid feature found
     }
 }

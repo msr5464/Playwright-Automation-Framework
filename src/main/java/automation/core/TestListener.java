@@ -2,10 +2,6 @@ package automation.core;
 
 import org.testng.*;
 
-import automation.core.Config;
-import automation.core.BrowserHelper;
-import automation.core.Log;
-
 public class TestListener implements ITestListener, IRetryAnalyzer
 {
 

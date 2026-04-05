@@ -6,7 +6,6 @@ import automation.core.Config;
 import automation.core.BasePage;
 import automation.core.Log;
 import automation.core.WaitHelper;
-import automation.modules.cards.web.CardPage;
 
 public class CardListPage extends BasePage
 {

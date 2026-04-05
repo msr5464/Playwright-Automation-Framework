@@ -10,14 +10,6 @@ import java.util.List;
 import org.apache.commons.io.FilenameUtils;
 import org.testng.ITestResult;
 import org.testng.annotations.*;
-import org.testng.asserts.SoftAssert;
-
-import automation.core.UserManagement;
-import automation.core.User;
-import automation.core.BrowserHelper;
-import automation.core.Log;
-import automation.core.DataGenerator;
-import automation.core.TestRailHelper;
 
 @Listeners(automation.core.TestListener.class)
 public class TestBase
@@ -77,7 +69,7 @@ public class TestBase
                                 java.util.function.Function<UserManagement.UserQueryBuilder,
                                     UserManagement.UserQueryBuilder> queryFn)
     {
-    	UserManagement.initialize(config.environment, Enums.Country.valueOf(config.country.toUpperCase()));
+    	UserManagement.initialize(Config.environment, Enums.Country.valueOf(Config.country.toUpperCase()));
         User user = UserManagement.getFreeUser(config, config.testcaseName, queryFn);
         ctx(config).addUser(label, user);
         config.userId.add(user.getId());

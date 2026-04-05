@@ -20,11 +20,11 @@ public class LoginPage extends BasePage
     public LoginPage(Config config)
     {
         super(config);
-        emailField = page.locator("[data-cy='login-email'], input[name='email']");
-        passwordField = page.locator("[data-cy='login-password'], input[name='password']");
-        loginButton = page.locator("[data-cy='login-button'], button[type='submit']");
-        otpContainer = page.locator("[data-cy='otp-input'], .otp-container");
-        dashboardIndicator = page.locator("[data-cy='dashboard'], .dashboard-container");
+        emailField = page.locator("input[type='email'], input[name='email'], input[placeholder*='email'], input[placeholder*='Email']");
+        passwordField = page.locator("input[type='password'], input[name='password'], input[placeholder*='password'], input[placeholder*='Password']");
+        loginButton = page.locator("button[type='submit'], button:has-text('Login'), button:has-text('Sign in'), input[type='submit']");
+        otpContainer = page.locator("[data-cy*='otp'], .otp-container, input[placeholder*='OTP'], input[placeholder*='code']");
+        dashboardIndicator = page.locator("[data-cy*='dashboard'], .dashboard-container, [class*='dashboard']");
     }
 
     public void enterEmail(String email)

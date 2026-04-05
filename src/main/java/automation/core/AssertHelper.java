@@ -1,12 +1,8 @@
 package automation.core;
 
 import com.microsoft.playwright.Locator;
-import com.microsoft.playwright.assertions.PlaywrightAssertions;
-
-import automation.core.Config;
 
 import org.testng.Assert;
-import org.testng.asserts.SoftAssert;
 
 public class AssertHelper
 {

@@ -12,7 +12,6 @@ public class DashboardPage extends BasePage
 {
 
     private final Locator pageIndicator;
-    private final Locator sidebarMenu;
     private final Locator cardsMenuItem;
     private final Locator transfersMenuItem;
     private final Locator budgetsMenuItem;
@@ -23,7 +22,6 @@ public class DashboardPage extends BasePage
     {
         super(config);
         pageIndicator    = page.locator("[data-cy='dashboard'], .dashboard-container");
-        sidebarMenu      = page.locator("[data-cy='dashboard-sidebar-menu-item']");
         cardsMenuItem    = page.locator("[data-cy='sidebar-cards'], a:has-text('Cards')");
         transfersMenuItem = page.locator("[data-cy='sidebar-transfers'], a:has-text('Transfers')");
         budgetsMenuItem  = page.locator("[data-cy='sidebar-budgets'], a:has-text('Budgets')");

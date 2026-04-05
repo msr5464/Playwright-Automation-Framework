@@ -1,10 +1,6 @@
 package automation.core;
 
 import com.microsoft.playwright.Locator;
-import com.microsoft.playwright.Page;
-import com.microsoft.playwright.options.WaitForSelectorState;
-
-import automation.core.Config;
 
 /**
  * Element interaction wrapper providing consistent logging, waiting, and error handling.

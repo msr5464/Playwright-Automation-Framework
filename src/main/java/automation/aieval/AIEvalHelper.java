@@ -34,7 +34,6 @@ public class AIEvalHelper extends ApiHelper
     // Dimension weights
     private double weightCodingAccuracy = 0.40;
     private double weightSafety = 0.20;
-    private double weightRationale = 0.15;
     private double weightTraceability = 0.15;
     private double weightPerformance = 0.10;
 
@@ -64,7 +63,6 @@ public class AIEvalHelper extends ApiHelper
 
             weightCodingAccuracy = Double.parseDouble(props.getProperty("aiEval.weight.codingAccuracy", "0.40"));
             weightSafety         = Double.parseDouble(props.getProperty("aiEval.weight.safety",          "0.20"));
-            weightRationale      = Double.parseDouble(props.getProperty("aiEval.weight.rationale",       "0.15"));
             weightTraceability   = Double.parseDouble(props.getProperty("aiEval.weight.traceability",    "0.15"));
             weightPerformance    = Double.parseDouble(props.getProperty("aiEval.weight.performance",     "0.10"));
 
@@ -425,7 +423,6 @@ public class AIEvalHelper extends ApiHelper
         return null;
     }
 
-    @SuppressWarnings("unchecked")
     private List<Map<String, Object>> parseAuditTrail(Response response)
     {
         for (String key : Arrays.asList("auditTrail", "audit_trail", "trace", "steps"))

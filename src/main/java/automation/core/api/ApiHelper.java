@@ -2,7 +2,6 @@ package automation.core.api;
 
 import io.restassured.response.Response;
 
-import automation.core.api.BaseApiClient;
 import automation.core.Config;
 import automation.core.AssertHelper;
 import automation.core.Log;
