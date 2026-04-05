@@ -1,258 +1,646 @@
 <img src="https://raw.githubusercontent.com/msr5464/Basic-Automation-Framework/refs/heads/master/Logo-full.png" title="Powered by Thanos and created by Mukesh Rajput" height="50">
 
-# Playwright Automation Framework
-This is a modern Hybrid Automation Framework created using properties of `Page Object Model` and `Data Driven` automation frameworks.
-The framework is built using **Microsoft Playwright** with Java 21, TestNG and Maven for Web-based automation, providing fast, reliable, and cross-browser testing capabilities.
+# Jarvis - Playwright Automation Framework
 
-## 🌟 Key Features
-- **Playwright 1.54.0** - Latest browser automation features and improved performance
-- **TestNG 7.9.0** - Enhanced test reporting and parallel execution
-- **Java 21** - Stable and widely supported Java version
-- **Complete Test Isolation** - Each test method gets fresh Config instances
-- **Multi-Browser Support** - Support for Chromium, Firefox, and WebKit
-- **Automatic Test Name Extraction** - Test case names automatically populated from TestNG
-- **Enhanced Screenshot Capabilities** - Built-in screenshot functionality
-- **CSV Data Integration** - Test data management with CSV files
-- **Modern API Design** - Clean, maintainable code structure
-- **Video Recording** - Automatic video recording with configurable retention modes
-- **Advanced Wait Strategies** - Smart wait utilities with Playwright auto-wait integration
-- **Test Listener Integration** - Custom TestNG listeners for enhanced reporting
-- **Session Management** - Login session storage and reuse capabilities
+A hybrid automation framework combining **Page Object Model** and **Data Driven** design, built on **Java 21 + Maven + TestNG**. Covers **Web UI** (Playwright — Chromium, Firefox, WebKit), **REST API** (REST-Assured), and **Mobile** (Appium) testing through a shared core layer. Each test method receives a fresh, isolated `Config` instance so tests never share state.
 
-## 🛠️ Technology Stack
-1. **Apache Maven 3.11.0** - Build automation and dependency management
-2. **Java 21** - Stable Java version with wide compatibility
-3. **Microsoft Playwright 1.54.0** - Modern browser automation with auto-wait capabilities
-4. **TestNG Framework 7.9.0** - Advanced testing framework with parallel execution
-5. **OpenCSV 5.7.1** - CSV file handling for test data
-6. **Apache Commons Lang3 3.12.0** - Utility functions
-7. **Chromium, Firefox & WebKit** - Cross-browser testing support
+---
 
-# What is Test Automation Framework?
-A "Test Automation Framework" is scaffolding that is laid to provide an execution environment for the automation test scripts. The framework provides the user with various benefits that help them to develop, execute and report the automation test scripts efficiently. It is more like a system that has created specifically to automate our tests.
+## Table of contents
 
-In a very simple language, we can say that a framework is a constructive blend of various guidelines, coding standards, concepts, processes, practices, project hierarchies, modularity, reporting mechanism, test data injections etc. to pillar automation testing. Thus, the user can follow these guidelines while automating application to take advantages of various productive results.
+- [Tech stack](#tech-stack)
+- [Prerequisites](#prerequisites)
+- [Quick start](#quick-start)
+- [Configuration](#configuration)
+- [Running tests](#running-tests)
+- [Project structure](#project-structure)
+- [Writing tests](#writing-tests)
+- [Web UI testing](#web-ui-testing)
+- [API testing](#api-testing)
+- [Mobile testing](#mobile-testing)
+- [Test data](#test-data)
+- [Adding a new module](#adding-a-new-module)
+- [Key utilities](#key-utilities)
+- [Reports](#reports)
+- [Contributing](#contributing)
+- [License](#license)
+- [Author](#author)
 
-The advantages can be in different forms like the ease of scripting, scalability, modularity, understandability, process definition, re-usability, cost, maintenance etc. Thus, to be able to grab these benefits, developers are advised to use one or more of the Test Automation Framework.
+---
 
-# What is the Page Object Model?
-The Page Object Model is a design pattern of testing, derived from the Object Oriented Programming concepts. The POM describes the web application into the number of web pages being used and contains the elements as properties and actions as methods. This offers you low maintenance on the tests developed.
+## Tech stack
 
-![Alt text](https://solutionscafe.files.wordpress.com/2014/01/untitled10.png "Page Object Model Example")
+| Layer | Technology | Version |
+|---|---|---|
+| Language | Java | 21 |
+| Build | Maven | 3.8+ |
+| Test runner | TestNG | 7.9.0 |
+| Web automation | Playwright | 1.54.0 |
+| API testing | REST-Assured | 5.3.2 |
+| Mobile automation | Appium Java Client | 9.3.0 |
+| Data generation | DataFaker | 2.5.3 |
+| Database | MySQL Connector | 8.3.0 |
+| Reporting | ReportPortal / ReportNG | 5.1.4 / 1.1.4 |
 
-# 🌟 MAIN FEATURES OF THIS PROJECT
-
-## Core Framework Features
-1. **Configuration Management** - Flexible config.properties file system
-2. **Data-Driven Testing** - CSV file integration for dynamic test data
-3. **Screenshot on Failure** - Automatic screenshot capture for debugging
-4. **Soft Assertions** - Complete test execution with detailed reporting
-5. **CSV Integration** - Test data management with CSV files
-6. **Cross-Browser Support** - Chromium, Firefox, and WebKit browsers
-7. **Comprehensive Logging** - Detailed test execution logs and reports
-8. **Complete Test Isolation** - Each test method gets fresh Config instances
-9. **Multi-Browser Support** - Support for multiple browser instances simultaneously
-10. **Automatic Test Naming** - Test case names automatically extracted from TestNG
-11. **Video Recording** - Automatic video recording with smart retention policies
-12. **Advanced Wait Strategies** - Intelligent wait utilities with Playwright integration
-13. **Test Listener Integration** - Custom TestNG listeners for enhanced reporting
-14. **Session Management** - Login session storage and reuse for faster test execution
-
-## Demo Test Cases
-- **Web UI Testing** - Application login flow automation
-- **Multi-Browser Testing** - Simultaneous browser testing
-- **OTP Handling** - Two-factor authentication flow
-- **Page Object Model** - Complete POM implementation
-- **Session Management** - Login session storage and reuse
-- **Video Recording** - Test execution video capture
-- **Advanced Waits** - Smart wait strategies implementation
-
-## 🎬 Advanced Features
-
-### Video Recording
-- **Automatic Recording** - Videos recorded for all test executions
-- **Smart Retention** - Configurable retention policies (keep all, keep on failure, off)
-- **Full HD Quality** - 1920x1080 video resolution
-- **HTML Integration** - Video links embedded in test reports
-- **Storage Optimization** - Automatic cleanup of unnecessary videos
-
-### Wait Strategies
-- **Playwright Auto-wait** - Leverages built-in auto-wait capabilities
-- **Custom Wait Helpers** - Additional wait utilities for complex scenarios
-- **Element Visibility** - Smart element visibility checks
-- **Page Load Waits** - DOM content loaded waits
-- **Optional Element Handling** - Graceful handling of optional UI elements
-
-### Test Listeners
-- **Custom TestNG Listeners** - Enhanced test reporting and execution tracking
-- **Execution Time Tracking** - Detailed test execution time measurement
-- **Test Status Monitoring** - Comprehensive test result tracking
-- **Enhanced Logging** - Detailed test execution logs
-
-### Session Management
-- **Login Session Storage** - Automatic storage of successful login sessions
-- **Session Reuse** - Skip login for subsequent tests using stored sessions
-- **Cross-Test Persistence** - Sessions maintained across test executions
-- **Performance Optimization** - Faster test execution by avoiding repeated logins
-
-# 📁 CODE STRUCTURE
-
-## Package Organization
-```
-src/
-├── main/java/
-│   ├── helpers/              # Framework utility classes
-│   │   ├── BaseTest.java     # Base test class with TestNG integration
-│   │   ├── BrowserHelper.java # Playwright browser management
-│   │   ├── Element.java      # Web element interactions and actions
-│   │   ├── WaitHelper.java   # Wait utilities (Playwright auto-wait)
-│   │   ├── AssertHelper.java # Assertion utilities
-│   │   ├── TestDataReader.java # CSV data reading
-│   │   ├── DataGenerator.java # Test data generation
-│   │   ├── Log.java          # Logging utilities
-│   │   └── Config.java       # Configuration management
-│   └── pageObjects/          # Page Object Model classes
-│       ├── HomePage.java     # Application home page
-│       ├── LoginPage.java    # Login page
-│       ├── OtpPage.java      # OTP verification page
-│       └── DashboardPage.java # Dashboard page
-└── test/java/
-    └── TestLoginFlows.java   # Test case implementations
-```
-
-## Key Components
-1. **Helpers Package** - Core framework utilities and reusable methods
-2. **PageObjects Package** - Page Object Model implementation for web pages
-3. **Tests Package** - Test case implementations using TestNG
-4. **Resources Package** - Configuration files and test data
-5. **CSV Files** - Test data management with CSV files
-
-# 🚀 EXECUTION STEPS
+---
 
 ## Prerequisites
-- Java 21 or higher
-- Maven 3.6 or higher
-- Playwright browsers will be installed automatically
 
-## Setup Instructions
-1. **Clone the repository**
-   ```bash
-   git clone <repository-url>
-   cd Playwright
-   ```
+| Tool | Version | How to check |
+|---|---|---|
+| Java | 21 | `java -version` |
+| Maven | 3.8+ | `mvn -version` |
+| Playwright browsers | auto | downloaded on first `mvn test` |
+| Node.js + Appium | LTS + any | `node -v` and `appium -v` — mobile tests only |
 
-2. **Import project in your IDE**
-   - **IntelliJ IDEA**: Open as Maven project
-   - **Eclipse**: Import as "Existing Maven Project"
-   - **VS Code**: Open folder and install Java extension pack
+---
 
-3. **Install TestNG plugin** (if using Eclipse)
+## Quick start
 
-4. **Install Playwright browsers** (automatic on first run)
-   ```bash
-   mvn exec:java -e -D exec.mainClass=com.microsoft.playwright.CLI -D exec.args="install"
-   ```
+```bash
+# 1. Clone the repo
+git clone <repo-url> && cd Playwright-Automation-Framework
 
-## Running Tests
+# 2. Create your local secrets file (never commit this)
+cp parameters/staging-sg.properties parameters/system.properties
+# Edit system.properties and fill in your credentials
 
-### Run All Tests
+# 3. Run the sample tests
+mvn test -Dtest=SauceDemoWebTest -Denvironment=staging -Dcountry=SG
+```
+
+Playwright browsers are downloaded automatically on first run. No manual setup needed for web tests.
+
+---
+
+## Configuration
+
+### How properties load
+
+Later entries override earlier ones:
+
+```
+config.properties
+  → staging-sg.properties   (environment + country overrides)
+    → system.properties     (your local secrets — highest priority, git-ignored)
+      → -D flags            (CLI overrides — highest priority of all)
+```
+
+### Key properties
+
+| Property | Default | Description |
+|---|---|---|
+| `environment` | `staging` | `staging`, `qa-1`, `demo` |
+| `browser` | `chromium` | `chromium`, `firefox`, `webkit`, `api` |
+| `headless` | `false` | Run browser without UI |
+| `country` | `sg` | `sg`, `hk`, `us`, `au`, `id`, `vn` |
+| `ObjectWaitTime` | `30` | Element wait timeout in seconds |
+| `VideoMode` | `on_failure` | `on`, `on_failure`, `off` |
+| `debugMode` | `true` | Verbose step logging |
+| `endExecutionOnFailure` | `false` | Stop suite on first failure |
+
+### Local secrets (`parameters/system.properties`)
+
+Create this file locally — it is git-ignored and will never be committed:
+
+```properties
+github.username=
+github.password=
+github.otp=
+db.thanos.url=
+db.thanos.username=
+db.thanos.password=
+slackWebhookUrl=
+testrailUrl=
+testrailUser=
+testrailPassword=
+```
+
+---
+
+## Running tests
+
+### Run a single test method
+
+```bash
+mvn test -Dtest=SauceDemoWebTest#loginAndVerifyProductsPage -Denvironment=staging -Dcountry=SG
+```
+
+### Run an entire test class
+
+```bash
+mvn test -Dtest=SauceDemoWebTest -Denvironment=staging -Dcountry=SG
+```
+
+### Run by group
+
+```bash
+mvn test -DprojectName=SauceDemo -Denvironment=staging -Dbrowser=chromium -Dgroups=regression -Dcountry=SG
+```
+
+### Run via static `testng.xml`
+
 ```bash
 mvn test
 ```
 
-### Run Specific Test Class
+### Run API-only (no browser)
+
 ```bash
-mvn test -Dtest=TestLoginFlows
+mvn test -Dtest=SauceDemoApiTest -Dbrowser=api -Denvironment=staging
 ```
 
-### Run with Specific Browser
+### Run via dynamic CLI runner
+
 ```bash
-mvn test -Dbrowser=chromium
-mvn test -Dbrowser=firefox
-mvn test -Dbrowser=webkit
+mvn exec:java -Dexec.mainClass="automation.core.GenerateTestngXmlAndRun" \
+  -Dexec.args="<projectName> <environment> <browser> <groups> <country> <language> <debugMode> <uploadToTestrail> <isBrowserStack>"
 ```
 
-## 📊 OUTPUT & REPORTS
-- **TestNG Reports**: `target/surefire-reports/index.html`
-- **Screenshots**: `test-output/` (automatic on failures)
-- **Video Recordings**: `test-output/videos/` (based on VideoMode configuration)
-- **Session Storage**: `src/test/resources/loginStorage/` (for session reuse)
-- **Console Output**: Detailed logs in IDE console
-- **Playwright Trace**: Built-in trace viewer for debugging
+**Examples:**
 
-### Report Structure
-```
-test-output/
-├── videos/                    # Video recordings (if enabled)
-│   ├── testMethod1.webm      # Failed test videos
-│   └── testMethod2.webm      # (based on VideoMode)
-├── screenshots/               # Screenshots on failures
-│   └── testMethod_timestamp.png
-└── surefire-reports/         # TestNG reports
-    └── index.html            # Main test report
+```bash
+# SauceDemo web tests
+mvn exec:java -Dexec.args="SauceDemo staging chromium webCases SG EN false false false"
+
+# GitHub API tests
+mvn exec:java -Dexec.args="Github staging api apiCases SG EN false false false"
+
+# Android on BrowserStack
+mvn exec:java -Dexec.args="SauceDemo staging chromium androidCases SG EN false false true"
 ```
 
-## 🔧 Configuration
-Update `src/main/resources/config.properties` for:
-- **Browser selection** (chromium, firefox, webkit)
-- **Environment settings** (test, staging, production)
-- **Timeout configurations** (ObjectWaitTime)
-- **Debug mode settings** (DebugMode)
-- **Video recording** (VideoMode: off, on, retain-on-failure)
-- **Viewport settings** (ViewportWidth, ViewportHeight)
-- **Browser options** (Headless, SlowMo)
-- **Execution settings** (EndExecutionOnFailure, RemoteExecution)
+**CLI argument reference:**
 
-### Configuration Options
-```properties
-# Browser Configuration
-Browser=chromium
-Headless=false
-SlowMo=0
+| # | Argument | Default | Options |
+|---|---|---|---|
+| 0 | projectName | `CustomerFrontend` | `SauceDemo`, `Github` |
+| 1 | environment | `qa-1` | `staging`, `qa-1`, `demo` |
+| 2 | browser | `chromium` | `chromium`, `firefox`, `webkit`, `api` |
+| 3 | groups | `regression` | `regression`, `smokeTest`, `apiCases`, `webCases` |
+| 4 | country | `SG` | `SG`, `HK`, `US`, `AU`, `ID`, `VN` |
+| 5 | appLanguage | `EN` | `EN`, `ID` |
+| 6 | debugMode | `false` | `true`, `false` |
+| 7 | uploadToTestrail | `false` | `true`, `false` |
+| 8 | isBrowserStack | `false` | `true`, `false` |
 
-# Environment Configuration
-Environment=test
-DebugMode=false
+---
 
-# Timeout Configuration
-ObjectWaitTime=25
+## Project structure
 
-# Video Recording Configuration
-VideoMode=retain-on-failure
-
-# Viewport Configuration
-ViewportWidth=1920
-ViewportHeight=1080
-
-# Execution Configuration
-EndExecutionOnFailure=true
-RemoteExecution=false
+```
+Jarvis/
+│
+├── parameters/
+│   ├── config.properties              # Base defaults (browser, env, timeouts)
+│   ├── staging-sg.properties          # Environment + country overrides
+│   ├── system.properties              # Your local secrets — git-ignored, never commit
+│   └── knownBugsData.csv              # Known bug registry for auto-skip logic
+│
+├── src/main/java/automation/
+│   │
+│   ├── core/                          # Framework internals — do not modify per feature
+│   │   ├── Config.java                # Central config — runtime properties + static globals
+│   │   ├── TestBase.java              # TestNG base class — lifecycle, data providers, user allocation
+│   │   ├── BasePage.java              # Page object base — Playwright wrappers for all UI interactions
+│   │   ├── Element.java               # Low-level element ops used inside helpers (not page objects)
+│   │   ├── WaitHelper.java            # All explicit wait strategies
+│   │   ├── AssertHelper.java          # Soft assertions with automatic pass/fail logging
+│   │   ├── Log.java                   # Coloured HTML logging + TestNG Reporter integration
+│   │   ├── BrowserHelper.java         # Browser init, screenshots, video recording, session storage
+│   │   ├── DataGenerator.java         # Random data — names, emails, numbers, UUIDs, dates
+│   │   ├── TestDataReader.java        # CSV/Excel reader with dynamic placeholder support
+│   │   ├── DatabaseHelper.java        # MySQL query execution with retry and timing
+│   │   ├── UserManagement.java        # DB-backed test user pool (allocate/release)
+│   │   ├── TokenManagement.java       # Thread-safe auth token cache with auto-expiry
+│   │   ├── TestContext.java           # Per-test state container
+│   │   ├── TestVariables.java         # @TestVariables annotation — author, country, TestRail
+│   │   ├── TestListener.java          # TestNG listener — soft assert flush + failure screenshots
+│   │   ├── JsonTestReporter.java      # Writes test-results/report.json after each run
+│   │   ├── KnownBugTracker.java       # Auto-skip tests matched against knownBugsData.csv
+│   │   ├── TestRailHelper.java        # TestRail result upload
+│   │   ├── EncryptionHelper.java      # Credential encryption/decryption
+│   │   ├── SlackHelper.java           # Slack run summary notifications
+│   │   ├── EmailHelper.java           # IMAP email reader for OTP/verification flows
+│   │   ├── PdfHelper.java             # PDF text extraction
+│   │   ├── CmdHelper.java             # Shell command execution
+│   │   ├── GenerateTestngXmlAndRun.java # Dynamic TestNG XML builder + CLI runner
+│   │   ├── Enums.java                 # Framework-wide enums (UserType, Feature, Country, QA…)
+│   │   ├── api/
+│   │   │   ├── ApiDetails.java        # Interface for endpoint definitions
+│   │   │   ├── BaseApiClient.java     # REST-Assured base with shared auth headers
+│   │   │   ├── ApiHelper.java         # High-level execute* methods — extend this per module
+│   │   │   └── PathBuilder.java       # Fluent path param builder for parameterised endpoints
+│   │   └── mobile/
+│   │       ├── AppiumDriverManager.java    # Android/iOS driver setup — local + BrowserStack
+│   │       ├── BrowserStackHelper.java     # BrowserStack capabilities + session status reporting
+│   │       └── StartStopAppiumServer.java  # Local Appium server lifecycle
+│   │
+│   └── modules/                       # One folder per product/feature area
+│       ├── github/
+│       │   ├── GitHubData.java        # POJO
+│       │   ├── GitHubBuilder.java     # Fluent builder
+│       │   ├── GitHubHelper.java      # Orchestration helper (extends ApiHelper)
+│       │   ├── api/  GitHubApi.java   # Endpoint definitions
+│       │   └── web/  HomePage  LoginPage  OtpPage  DashboardPage
+│       │
+│       └── saucedemo/
+│           ├── PostData.java          # POJO for JSONPlaceholder post
+│           ├── PostBuilder.java       # Fluent builder
+│           ├── SauceDemoHelper.java   # Orchestration helper (extends ApiHelper)
+│           ├── api/  PostApi.java     # JSONPlaceholder endpoint definitions
+│           └── web/  LoginPage  ProductsPage  CartPage
+│
+├── src/test/java/automation/
+│   ├── github/
+│   │   ├── GitHubApiTest.java
+│   │   └── GitHubLoginTest.java
+│   └── saucedemo/
+│       ├── SauceDemoApiTest.java
+│       └── SauceDemoWebTest.java
+│
+└── src/test/resources/
+    ├── github/csvFiles/
+    │   └── github-users.csv           # GitHub test accounts per role + environment
+    ├── saucedemo/csvFiles/
+    │   ├── saucedemo-testdata.csv     # SauceDemo credentials per scenario + environment
+    │   └── saucedemo-posts.csv        # Post data with dynamic placeholders
+    └── loginStorage/                  # Stored browser sessions — git-ignored
 ```
 
-Update `src/main/resources/test.properties` for:
-- Test-specific configurations
-- Environment overrides
+---
 
-# 🚀 FURTHER IMPLEMENTATIONS
+## Writing tests
 
-## Adding New Test Cases
-1. **Create new test methods** in existing test classes or create new test classes
-2. **Extend BaseTest** - All test classes should extend BaseTest for framework features
-3. **Use Page Objects** - Leverage existing page objects or create new ones
-4. **Add Helper Methods** - Extend existing helper classes as needed
+### Minimal example
 
-## Best Practices
-- **Extend BaseTest**: All test classes should extend BaseTest
-- **Use Page Object Model**: Implement POM for maintainable tests
-- **Leverage Auto-wait**: Playwright's built-in auto-wait capabilities
-- **Data-Driven Testing**: Use CSV files for test data
-- **Proper Assertions**: Use AssertHelper for consistent assertions
-- **Screenshot on Failure**: Automatic screenshot capture is built-in
-- **Video Recording**: Configure appropriate VideoMode for your testing needs
-- **Session Management**: Use stored sessions for faster test execution
-- **Wait Strategies**: Use WaitHelper for complex wait scenarios
-- **Element Interactions**: Use Element helper for consistent element interactions
-- **Configuration Management**: Use config.properties for environment-specific settings
+```java
+package automation.saucedemo;
 
-## Creator
-For any further help or queries, contact [Mukesh Rajput](https://www.linkedin.com/in/mukesh-rajput "LinkedIn Profile")
+import automation.core.*;
+import automation.core.Enums.*;
+import automation.modules.saucedemo.SauceDemoHelper;
+import automation.modules.saucedemo.web.ProductsPage;
+import org.testng.annotations.Test;
+import java.util.Map;
+
+public class SauceDemoWebTest extends TestBase {
+
+    @Test(dataProvider = "getConfig", groups = {GROUP_REGRESSION, GROUP_WEB},
+          description = "Login and verify products page loads")
+    @TestVariables(automatedBy = QA.Mukesh, country = Country.SG)
+    public void loginAndVerifyProductsPage(Config config) {
+        SauceDemoHelper sauceDemo = new SauceDemoHelper(config);
+        Map<String, String> credentials = sauceDemo.getCredentials("login");
+
+        config.logStep("Login to SauceDemo and verify the products page loads");
+        ProductsPage products = sauceDemo.doLogin(credentials);
+
+        AssertHelper.assertEquals(config, products.getPageTitle(), "Products", "Page title should be Products");
+        AssertHelper.assertTrue(config, products.getProductCount() > 0, "At least one product should be visible");
+    }
+}
+```
+
+### Rules every test must follow
+
+| Rule | Reason |
+|---|---|
+| Extend `TestBase` | Provides lifecycle, user pool, data providers |
+| Use `dataProvider = "getConfig"` | Injects a fresh `Config` per test |
+| Annotate with `@TestVariables` | Required for reporting and TestRail |
+| Use `AssertHelper` not `Assert` | Soft assertions — test continues after failure |
+| `config.logStep()` in tests only | Use `config.logComment()` inside helpers and pages |
+| Never call `config.logPass()` at end of test | Framework logs PASS/FAIL automatically |
+| Never call `Thread.sleep()` | Always use `WaitHelper` |
+
+### Data providers
+
+| Provider | Use when |
+|---|---|
+| `getConfig` | Standard single-user test |
+| `getTwoConfigs` | Two-actor flows (e.g. admin + employee) |
+| `getMultipleConfigs` | Multi-user flows |
+
+### Test groups
+
+Always include `GROUP_REGRESSION` plus one type group:
+
+| Constant | String | Use for |
+|---|---|---|
+| `GROUP_REGRESSION` | `regression` | All standard tests — always include |
+| `GROUP_WEB` | `webCases` | Playwright browser tests |
+| `GROUP_API` | `apiCases` | REST-Assured API tests |
+| `GROUP_SMOKE` | `smokeTest` | Quick pre-release smoke check |
+| `GROUP_CRITICAL` | `criticalFlows` | Business-critical P0 flows |
+| `GROUP_PROD_SANITY` | `prodSanity` | Production sanity after deploy |
+| `GROUP_ANDROID` | `androidCases` | Android Appium tests |
+| `GROUP_IOS` | `iosCases` | iOS Appium tests |
+
+---
+
+## Web UI testing
+
+### Layer diagram
+
+```
+Test class
+  └── ModuleHelper         orchestrates flows across pages
+        └── Page objects   one class per page — locators + actions
+              └── BasePage Playwright wrappers — click, fill, getText…
+```
+
+### Page object example
+
+```java
+public class ProductsPage extends BasePage {
+
+    private final Locator addToCartButton = page.locator("[data-cy='add-to-cart']");
+
+    public ProductsPage(Config config) {
+        super(config);
+        waitUntilLoaded();                    // always last in constructor
+    }
+
+    @Override
+    protected void waitUntilLoaded() {
+        WaitHelper.waitForElementToBeVisible(config, addToCartButton, "Add to Cart button");
+    }
+
+    public CartPage addToCart(String productId) {
+        click(page.locator("[data-cy='add-to-cart-" + productId + "']"), "Add to Cart — " + productId);
+        return new CartPage(config);          // always return next page
+    }
+}
+```
+
+### Key rules
+
+- **Locators:** use `[data-cy='...']` first. Fall back to `id` → `name` → `css`. Avoid XPath.
+- **Interactions:** never call Playwright directly (`locator.click()`). Always use `BasePage` or `Element` wrappers.
+- **Waits:** `waitUntilLoaded()` in constructors only. Use `WaitHelper.waitForElementToBeVisible()` everywhere else.
+- **Navigation:** every method that goes to a new page must return that page object.
+
+### `BasePage` method reference
+
+| Action | Method |
+|---|---|
+| Click | `click(locator, "name")` |
+| Fill text | `fillText(locator, text, "name")` |
+| Type char-by-char (autocomplete) | `typeText(locator, text, "name")` |
+| Get text | `getText(locator, "name")` |
+| Get input value | `getInputValue(locator, "name")` |
+| Check checkbox | `check(locator, "name")` |
+| Select dropdown | `selectOption(locator, value, "name")` |
+| Is visible | `isElementDisplayed(locator)` |
+| Scroll into view | `scrollToElement(locator, "name")` |
+| JS click (overlap fallback) | `clickViaJS(locator, "name")` |
+
+### `WaitHelper` reference
+
+| Method | When to use |
+|---|---|
+| `waitForElementToBeVisible(config, locator, name)` | Standard — wait for element to appear |
+| `waitForElementToBeHidden(config, locator, name)` | Wait for loader/spinner to disappear |
+| `waitForOptionalElementToBeVisible(config, locator, name)` | Conditional element — 5 s timeout, returns boolean |
+| `waitForElementToBeAttached(config, locator, name)` | Element in DOM but not yet visible |
+| `waitForElementToBeDetached(config, locator, name)` | Wait for element removal |
+| `waitForPageLoad(config)` | After navigation — page constructors only |
+| `waitForNetworkIdle(config)` | After form submit with no visible confirmation |
+
+### Session storage (skip repeated logins)
+
+```java
+// Save session after first login
+BrowserHelper.storeSession(config, "GitHubLoginStorage.json");
+
+// Restore in later tests — no login needed
+BrowserHelper.initBrowserWithStoredSession(config, "GitHubLoginStorage.json");
+BrowserHelper.navigateTo(config, url);
+```
+
+Session files are saved to `src/test/resources/loginStorage/` (git-ignored).
+
+---
+
+## API testing
+
+### Endpoint enum pattern
+
+```java
+public enum PostApi implements ApiDetails {
+    GetPosts  ("GET",    "/posts",        200),
+    CreatePost("POST",   "/posts",        201),
+    GetPost   ("GET",    "/posts/{id}",   200),
+    DeletePost("DELETE", "/posts/{id}",   200);
+
+    // standard boilerplate — see PostApi.java for full implementation
+}
+```
+
+### Calling APIs
+
+```java
+SauceDemoHelper api = new SauceDemoHelper(config);
+
+// Deserialised response
+PostData created = api.execute(PostApi.CreatePost, new PostBuilder().withTitle("Hello").build(), PostData.class);
+
+// Raw response — for negative / edge-case tests
+Response response = api.executeRaw(PostApi.CreatePost, invalidPayload);
+AssertHelper.assertEquals(config, response.getStatusCode(), 400, "Should reject invalid payload");
+
+// Parameterised path
+PostData post = api.execute(PostApi.GetPost.withPath("id", "1"), PostData.class);
+```
+
+Set `browser=api` to skip browser initialisation entirely for API-only runs.
+
+---
+
+## Mobile testing
+
+### Local device
+
+Add capabilities to `parameters/android.properties` or `parameters/ios.properties`, then:
+
+```java
+config.isAndroid = true;
+AppiumDriverManager.mobileDriver(config);   // starts local Appium server + creates driver
+```
+
+### BrowserStack cloud
+
+```bash
+mvn exec:java \
+  -Dexec.args="SauceDemo staging chromium androidCases SG EN false false true" \
+  -DbrowserStackUserName=<user> \
+  -DbrowserStackAccessKey=<key>
+```
+
+Device list is read from `parameters/mobileConfiguration.json` — a random device is picked per run.
+
+---
+
+## Test data
+
+### Three-tier data strategy
+
+| Data type | Where it lives | Example |
+|---|---|---|
+| Fully dynamic values | Builder in test code | `new PostBuilder().withTitle(DataGenerator.randomString(8))` |
+| Reusable scenario data | CSV file | login credentials, cart scenarios |
+| Environment-specific credentials | CSV with `environment` column | staging vs qa-1 accounts |
+| Sensitive secrets | `system.properties` only — never CSV | real passwords, API keys |
+
+### CSV lookup
+
+```java
+// Environment-aware — automatically picks the row matching Config.environment
+Map<String, String> credentials = sauceDemo.getCredentials("login");
+
+// Without environment filter (for data that's the same across all envs)
+Map<String, String> row = TestDataReader.loadCsvRowByColumnValue(
+    "saucedemo", "saucedemo-testdata", "scenario", "login");
+```
+
+### CSV file structure
+
+Add an `environment` column whenever credentials or URLs differ per environment:
+
+```
+# saucedemo-testdata.csv
+scenario,    environment, username,              password
+login,       staging,     standard_user,         secret_sauce
+login,       qa-1,        standard_user_qa,      secret_sauce
+```
+
+Omit the `environment` column for data that is identical across all environments (e.g. product names, expected page titles).
+
+### Dynamic placeholders in CSV
+
+Placeholders are resolved automatically at read time — no code change needed:
+
+| Placeholder | Output |
+|---|---|
+| `{randomString:8}` | 8-char alphanumeric string |
+| `{randomAlpha:5}` | 5-char alphabetic string |
+| `{randomEmail}` | random email address |
+| `{randomNumber:4}` | 4-digit number |
+| `{randomUUID}` | UUID |
+| `{currentDate}` | today `yyyy-MM-dd` |
+| `{currentDate:dd/MM/yyyy}` | today in a custom format |
+| `{dateOffset:7}` | 7 days from today |
+| `{dateOffset:-1}` | yesterday |
+
+```
+# saucedemo-posts.csv
+scenario,      title,             body
+create_post,   {randomString:8},  {randomString:20}
+```
+
+### `DataGenerator` in code
+
+```java
+DataGenerator.randomString(8)           // 8-char alphanumeric
+DataGenerator.randomAlphaString(5)      // 5-char alpha only
+DataGenerator.randomEmail()             // random email
+DataGenerator.randomNumber(10, 999)     // number in range
+DataGenerator.randomUUID()              // UUID
+DataGenerator.getDateWithOffset(7, "yyyy-MM-dd")  // 7 days from today
+```
+
+---
+
+## Adding a new module
+
+Follow this exact structure. Use `saucedemo` as the reference.
+
+```
+src/main/java/automation/modules/{feature}/
+├── {Feature}Data.java        POJO — @JsonProperty + Lombok @Data
+├── {Feature}Builder.java     fluent builder with .with*() methods
+├── {Feature}Helper.java      orchestration — extends ApiHelper (external) or AuthHelper (internal app)
+├── api/
+│   └── {Feature}Api.java     enum implementing ApiDetails
+└── web/
+    └── {Page}Page.java       page object extending BasePage
+
+src/test/java/automation/{feature}/
+└── {Feature}Test.java        test class extending TestBase
+
+src/test/resources/{feature}/csvFiles/
+└── {feature}-testdata.csv    scenario + environment + test data columns
+```
+
+---
+
+## Key utilities
+
+| Class | What it does |
+|---|---|
+| `DataGenerator` | Random names, emails, numbers, UUIDs, dates |
+| `TestDataReader` | CSV/Excel reader with placeholder substitution and env-aware lookup |
+| `DatabaseHelper` | `executeSelectQuery`, `executeSelectQueryWithRetry`, `executeSelectQueryAndReturnAllRows` |
+| `UserManagement` | Allocate/release test users from the DB pool |
+| `TokenManagement` | Cache and reuse auth tokens — auto-refreshes after 15 min |
+| `EncryptionHelper` | Encrypt/decrypt credential values stored in config |
+| `KnownBugTracker` | Auto-skip tests that match a known bug pattern |
+| `CmdHelper` | Run shell commands and capture stdout |
+| `PdfHelper` | Extract text from PDF files |
+| `SlackHelper` | Post run summary to Slack |
+| `EmailHelper` | Read emails via IMAP for OTP and verification flows |
+
+---
+
+## Reports
+
+After every run, check:
+
+| Report | Location | When generated |
+|---|---|---|
+| JSON results | `test-results/report.json` | Every run |
+| Screenshots | `test-results/screenshots/` | On test failure |
+| Videos | `test-results/videos/` | Based on `VideoMode` setting |
+| TestNG HTML | `target/surefire-reports/` | Every run |
+| TestRail | TestRail project | When `uploadToTestrail=true` |
+| ReportPortal | ReportPortal dashboard | When RP agent is configured |
+
+---
+
+## `.gitignore` highlights
+
+```
+target/                               # Maven build output
+test-output/                          # TestNG raw output
+parameters/system.properties          # Local secrets — never commit
+src/test/resources/loginStorage/      # Stored browser sessions
+```
+
+---
+
+## Contributing
+
+Contributions are welcome! Please follow these steps:
+
+1. **Fork** the repository and create a branch from `main`
+2. **Branch naming** — use `feature/short-description` or `fix/short-description`
+3. **Code style** — follow the patterns in `CLAUDE.md` (page objects, helpers, test structure)
+4. **Tests** — include at least one test covering your change
+5. **Pull request** — describe what you changed and why; link any related issues
+
+For bugs or feature requests, please [open an issue](../../issues) with a clear description and reproduction steps.
+
+---
+
+## License
+
+This project is licensed under the **MIT License** — see the [LICENSE](LICENSE) file for details.
+
+---
+
+## Author
+
+**Mukesh Rajput**
+- LinkedIn: [linkedin.com/in/mukesh-rajput](https://www.linkedin.com/in/mukesh-rajput)
+- GitHub: [github.com/msr5464](https://github.com/msr5464)

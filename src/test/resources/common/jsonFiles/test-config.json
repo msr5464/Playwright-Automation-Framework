@@ -1,0 +1,5 @@
+{
+  "environment": "staging",
+  "country": "sg",
+  "defaultTimeout": 30
+}

@@ -1,0 +1,3 @@
+scenario,title,body,userId
+create_post,{randomString:8},{randomString:20},1
+create_post_long_title,{randomString:50},{randomString:100},1

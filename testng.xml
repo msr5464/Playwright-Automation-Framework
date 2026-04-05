@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Jarvis Automation Suite" parallel="methods" thread-count="2" verbose="1">
+
+    <listeners>
+        <listener class-name="automation.core.TestListener"/>
+        <listener class-name="automation.core.JsonTestReporter"/>
+    </listeners>
+
+    <parameter name="environment" value="staging"/>
+    <parameter name="browserName" value="chromium"/>
+    <parameter name="country" value="sg"/>
+    <parameter name="appLanguage" value="en"/>
+    <parameter name="debugMode" value="false"/>
+
+    <test name="GitHub Web Tests">
+        <parameter name="projectName" value="GitHub"/>
+        <groups>
+            <run>
+                <include name="regression"/>
+                <include name="webCases"/>
+            </run>
+        </groups>
+        <classes>
+            <class name="automation.github.GitHubLoginTest"/>
+        </classes>
+    </test>
+
+    <test name="GitHub API Tests">
+        <parameter name="projectName" value="GitHub"/>
+        <parameter name="browserName" value="api"/>
+        <groups>
+            <run>
+                <include name="regression"/>
+                <include name="apiCases"/>
+            </run>
+        </groups>
+        <classes>
+            <class name="automation.github.GitHubApiTest"/>
+        </classes>
+    </test>
+
+    <test name="SauceDemo Web Tests">
+        <parameter name="projectName" value="SauceDemo"/>
+        <groups>
+            <run>
+                <include name="regression"/>
+                <include name="webCases"/>
+            </run>
+        </groups>
+        <classes>
+            <class name="automation.saucedemo.SauceDemoWebTest"/>
+        </classes>
+    </test>
+
+    <test name="AI Evaluation Tests">
+        <parameter name="browserName" value="api"/>
+        <classes>
+            <class name="automation.aiEval.AITestCaseLoaderTest"/>
+            <class name="automation.aiEval.CodeMatchEvaluatorTest"/>
+            <class name="automation.aiEval.ForbiddenCodeEvaluatorTest"/>
+            <class name="automation.aiEval.SchemaValidatorEvaluatorTest"/>
+            <class name="automation.aiEval.ScoreAggregatorTest"/>
+        </classes>
+    </test>
+
+</suite>
