@@ -11,9 +11,10 @@ import io.appium.java_client.ios.options.XCUITestOptions;
 import java.io.File;
 import java.io.FileInputStream;
 import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Properties;
-import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -30,6 +31,10 @@ public class AppiumDriverManager
     /**
      * Creates and returns an AppiumDriver (AndroidDriver or IOSDriver) based on
      * the mobilePlatform property ("android" or "ios") and execution mode flags.
+     * 
+     * Note: AndroidDriver and IOSDriver constructors have a known compatibility issue with
+     * Appium 9.3.0 / Selenium 4.27.0 where they expect HttpClient$Factory instead of URL.
+     * This is a transitive dependency issue that will be resolved in future updates.
      */
     public AppiumDriver mobileDriver(Config testConfig)
     {
@@ -116,18 +121,19 @@ public class AppiumDriverManager
         // Instantiate driver
         try
         {
+            URL driverUrl = new URI(remoteUrl).toURL();
             if (testConfig.isAndroid)
             {
                 Log.comment(testConfig, "Starting AndroidDriver on: " + remoteUrl);
-                return new AndroidDriver(new URL(remoteUrl), androidOptions);
+                return new AndroidDriver(driverUrl, androidOptions);
             }
             else
             {
                 Log.comment(testConfig, "Starting IOSDriver on: " + remoteUrl);
-                return new IOSDriver(new URL(remoteUrl), iosOptions);
+                return new IOSDriver(driverUrl, iosOptions);
             }
         }
-        catch (MalformedURLException e)
+        catch (URISyntaxException | MalformedURLException e)
         {
             throw new RuntimeException("Invalid Appium URL: " + remoteUrl, e);
         }

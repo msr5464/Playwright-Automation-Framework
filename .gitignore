@@ -4,6 +4,7 @@ target/
 
 # Test output
 test-output/
+test-results/
 
 # Sensitive local config (never commit real credentials)
 parameters/system.properties

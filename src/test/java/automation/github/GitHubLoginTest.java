@@ -60,7 +60,7 @@ public class GitHubLoginTest extends TestBase
     {
         String username = config.getRunTimeProperty("github.username");
         String password = config.getRunTimeProperty("github.password");
-        String otp      = config.getRunTimeProperty("github.otp");
+        String otp      = "123456"; // In real scenario, this should be generated dynamically or retrieved securely
 
         GitHubHelper github = new GitHubHelper(config);
         DashboardPage dashboard = github.doLoginWithOtp(username, password, otp);
