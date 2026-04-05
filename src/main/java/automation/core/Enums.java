@@ -30,7 +30,7 @@ public class Enums
 
     public enum ProjectName
     {
-        CustomerFrontend, Access, Payment, Cards, Budget, Claims, Transfers, PublicApi
+        GitHub, SauceDemo
     }
 
     public enum DatabaseName

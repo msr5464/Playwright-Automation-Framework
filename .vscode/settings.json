@@ -1,0 +1,6 @@
+{
+    "java.test.config": {
+        "testKind": "testNG"
+    },
+    "java.test.defaultConfig": "testNG"
+}

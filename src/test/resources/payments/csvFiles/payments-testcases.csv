@@ -1,3 +1,0 @@
-testId,description,paymentMethod,amount,currency,expectedResult
-PAY-001,Make bill payment,bank_transfer,250.00,SGD,success
-PAY-002,Payment with insufficient funds,bank_transfer,99999.00,SGD,error

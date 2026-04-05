@@ -26,6 +26,11 @@ public class ApiHelper extends BaseApiClient
         super(config);
     }
 
+    public ApiHelper(Config config, String customBaseUrl)
+    {
+        super(config, customBaseUrl);
+    }
+
     // ========== EXECUTE (one-liner API calls) ==========
 
     /**
@@ -51,13 +56,24 @@ public class ApiHelper extends BaseApiClient
     }
 
     /**
+     * Execute API without body, assert expected status, return typed POJO.
+     *
+     *   GitHubData user = api.execute(GitHubApi.GetUser.withPath("username", "octocat"), GitHubData.class);
+     *   CardData card   = api.execute(CardApi.GetCard.withPath("id", id), CardData.class);
+     */
+    public <T> T execute(ApiDetails apiDetails, Class<T> responseType)
+    {
+        return execute(apiDetails, null, responseType);
+    }
+
+    /**
      * Execute API without body, assert expected status, return raw Response.
      *
      *   api.execute(CardApi.DeleteCard.withPath("id", cardId));
      */
     public Response execute(ApiDetails apiDetails)
     {
-        return execute(apiDetails, null);
+        return execute(apiDetails, (Object) null);
     }
 
     /**
@@ -103,7 +119,8 @@ public class ApiHelper extends BaseApiClient
     public Response executeRaw(ApiDetails apiDetails, Object body)
     {
         String endpoint = apiDetails.getEndpoint();
-        Log.step(config, "API " + apiDetails.getMethod() + " " + endpoint);
+        String fullUrl = baseUrl + endpoint;
+        Log.comment(config, "API " + apiDetails.getMethod() + " " + fullUrl);
 
         return switch (apiDetails.getMethod())
         {
@@ -112,6 +129,22 @@ public class ApiHelper extends BaseApiClient
             case PUT -> put(endpoint, body);
             case PATCH -> patch(endpoint, body);
             case DELETE -> delete(endpoint);
+        };
+    }
+
+    public Response executeRaw(ApiDetails apiDetails, Object body, Map<String, String> extraHeaders)
+    {
+        String endpoint = apiDetails.getEndpoint();
+        String fullUrl = baseUrl + endpoint;
+        Log.comment(config, "API " + apiDetails.getMethod() + " " + fullUrl);
+
+        return switch (apiDetails.getMethod())
+        {
+            case GET -> getWithHeaders(endpoint, extraHeaders);
+            case POST -> post(endpoint, body, extraHeaders);
+            case PUT -> put(endpoint, body, extraHeaders);
+            case PATCH -> patch(endpoint, body, extraHeaders);
+            case DELETE -> delete(endpoint, extraHeaders);
         };
     }
 

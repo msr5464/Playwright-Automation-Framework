@@ -70,6 +70,18 @@ public class BaseApiClient
         syncAuthFromSharedState();
     }
 
+    public BaseApiClient(Config config, String customBaseUrl)
+    {
+        this.config = config;
+        this.baseUrl = customBaseUrl;
+        this.testId = config.testcaseName;
+
+        defaultHeaders.put("Content-Type", "application/json");
+        defaultHeaders.put("Accept", "application/json");
+
+        syncAuthFromSharedState();
+    }
+
     // ========== AUTH STATE SHARING ==========
 
     public void setAuthToken(String token)
@@ -132,6 +144,18 @@ public class BaseApiClient
             .contentType(ContentType.JSON);
     }
 
+    protected RequestSpecification buildRequest(Map<String, String> extraHeaders)
+    {
+        syncAuthFromSharedState();
+        Map<String, String> merged = new HashMap<>(defaultHeaders);
+        merged.putAll(extraHeaders);
+        return RestAssured.given()
+            .config(REST_CONFIG)
+            .baseUri(baseUrl)
+            .headers(merged)
+            .contentType(ContentType.JSON);
+    }
+
     // ========== HTTP METHODS ==========
 
     public Response get(String endpoint)
@@ -148,11 +172,51 @@ public class BaseApiClient
         return response;
     }
 
+    public Response getWithHeaders(String endpoint, Map<String, String> extraHeaders)
+    {
+        Response response = buildRequest(extraHeaders).get(endpoint);
+        logResponse("GET", endpoint, response);
+        return response;
+    }
+
     public Response post(String endpoint, Object body)
     {
         logRequestBody(body);
         Response response = body != null ? buildRequest().body(body).post(endpoint) : buildRequest().post(endpoint);
         logResponse("POST", endpoint, response);
+        return response;
+    }
+
+    public Response post(String endpoint, Object body, Map<String, String> extraHeaders)
+    {
+        logRequestBody(body);
+        Response response = body != null
+            ? buildRequest(extraHeaders).body(body).post(endpoint)
+            : buildRequest(extraHeaders).post(endpoint);
+        logResponse("POST", endpoint, response);
+        return response;
+    }
+
+    public Response put(String endpoint, Object body, Map<String, String> extraHeaders)
+    {
+        logRequestBody(body);
+        Response response = buildRequest(extraHeaders).body(body).put(endpoint);
+        logResponse("PUT", endpoint, response);
+        return response;
+    }
+
+    public Response patch(String endpoint, Object body, Map<String, String> extraHeaders)
+    {
+        logRequestBody(body);
+        Response response = buildRequest(extraHeaders).body(body).patch(endpoint);
+        logResponse("PATCH", endpoint, response);
+        return response;
+    }
+
+    public Response delete(String endpoint, Map<String, String> extraHeaders)
+    {
+        Response response = buildRequest(extraHeaders).delete(endpoint);
+        logResponse("DELETE", endpoint, response);
         return response;
     }
 

@@ -18,6 +18,8 @@ This file is the primary orientation for AI agents working in this repo. Read it
 
 Tests live in `src/test/java/automation/`. Framework internals live in `src/main/java/automation/core/`. Feature-specific helpers live in `src/main/java/automation/modules/`.
 
+> **Note:** `src/main/java/automation/aiEval/` is a separate AI evaluation subsystem. Do not modify it unless explicitly working on AI eval features.
+
 ---
 
 ## Running Tests
@@ -52,11 +54,11 @@ mvn test
 
 | Property | Values | Default |
 |----------|--------|---------|
-| `projectName` | Cards, Budget, Claims, Payment, Access | CustomerFrontend |
+| `projectName` | Cards, Budget, Claims, Payment, Access, Transfers, PublicApi | CustomerFrontend |
 | `environment` | staging, qa-1, demo | staging |
 | `browser` | chromium, firefox, webkit, api | chromium |
 | `groups` | regression, smokeTest, apiCases, webCases, criticalFlows, prodSanity | regression |
-| `country` | SG, HK, ID | SG |
+| `country` | SG, HK, US, AU, ID, VN | SG |
 | `headless` | true, false | true |
 
 ---
@@ -104,10 +106,10 @@ public class MyFeatureTest extends TestBase {
 ### 2. Key rules
 
 - Always extend `TestBase`
-- Always use `dataProvider = "getConfig"` (or `"getTwoConfigs"` for two-actor tests)
+- Always use `dataProvider = "getConfig"` (or `"getTwoConfigs"` for two-actor tests, `"getMultipleConfigs"` for three-actor tests)
 - Always call `allocateUser(config, UserType, Feature, Country)` — this reserves a user from the DB pool and auto-releases it after the test
 - Always pass `config` to every helper/page constructor
-- Annotate every `@Test` method with `@TestVariables`
+- Annotate every `@Test` method with `@TestVariables(automatedBy = QA.Mukesh, country = Country.SG)`. For TestRail linkage add `testrailData = "projectId:caseId:type"` (e.g. `testrailData = "1:C1101:API"`)
 - Use `AssertHelper` for all assertions (not `Assert` directly) — it logs pass/fail with context
 
 ### 3. Test groups (use constants from TestBase)
@@ -120,6 +122,9 @@ public class MyFeatureTest extends TestBase {
 | `GROUP_SMOKE` | `"smokeTest"` | Smoke subset |
 | `GROUP_CRITICAL` | `"criticalFlows"` | Business-critical |
 | `GROUP_PROD_SANITY` | `"prodSanity"` | Production smoke |
+| `GROUP_DEMO_SANITY` | `"demoSanity"` | Demo environment smoke |
+| `GROUP_ANDROID` | `"androidCases"` | Android mobile tests |
+| `GROUP_IOS` | `"iosCases"` | iOS mobile tests |
 
 Always include at least `GROUP_REGRESSION` plus one of `GROUP_API` or `GROUP_WEB`.
 
@@ -134,6 +139,9 @@ src/main/java/automation/modules/{feature}/
 ├── {Feature}Data.java          # POJO with @JsonProperty + Lombok @Data
 ├── {Feature}Builder.java       # Fluent builder with .with*() methods + build()
 ├── {Feature}Helper.java        # High-level orchestration (extends AuthHelper)
+│                               # Exception — external/3rd-party APIs: extend ApiHelper directly
+│                               # with a custom base URL instead of AuthHelper.
+│                               # See GitHubHelper.java for the reference implementation.
 ├── api/
 │   └── {Feature}Api.java       # Enum implementing ApiDetails — endpoint definitions
 └── web/
@@ -269,7 +277,13 @@ cards.deleteCard(created.getId());                   // DELETE → asserts 200
 For raw response access (negative tests):
 ```java
 Response response = api.executeRaw(CardApi.CreateCard, invalidPayload);
-AssertHelper.assertEquals(config, response.statusCode(), 400, "Should reject invalid payload");
+AssertHelper.assertEquals(config, response.getStatusCode(), 400, "Should reject invalid payload");
+```
+
+For dynamic payloads without a POJO (edge-case/negative tests), use the `map()` builder:
+```java
+Response response = api.executeRaw(CardApi.CreateCard,
+    api.map().put("card_name", "Test").put("limit", "invalid").build());
 ```
 
 ---
@@ -298,12 +312,14 @@ Use `config.log*()` instance methods — shorter since `config` is always in sco
 ```java
 config.logStep("Login as Admin user and navigate to Cards list page");    // test classes only — orange
 config.logComment("Clicking create card button");                          // helpers and page objects — grey
-config.logPass("Card created and verified successfully");                  // green
+config.logPass("Card created and verified successfully");                  // green — use inside helpers/loops, NOT as the final line of a test
 config.logFail("Card not found in list");                                  // red + screenshot
 config.logWarning("Optional element not present, continuing");             // yellow
 ```
 
 The static `Log.*` methods (`Log.step(config, "...")`, `Log.comment(config, "...")`) are equivalent and can be used interchangeably, but `config.log*()` is preferred for brevity.
+
+**`config.logPass()` in tests:** Do NOT add it as the last line of a test method. The framework automatically logs PASS/FAIL after each test. Use `logPass` only inside helpers when confirming an intermediate step (e.g. after authentication succeeds).
 
 **Scope rule:** `config.logStep()` is for **test classes only**. Use `config.logComment()` inside helpers and page objects.
 
@@ -516,6 +532,7 @@ These rules apply when writing any code in this repo. They are enforced during c
 - Do NOT call `waitUntilLoaded()` outside a page constructor — use `WaitHelper.waitForElementToBeVisible()` elsewhere
 - Do NOT share users or accounts between test methods
 - Do NOT hardcode URLs — put them in properties files
+- Do NOT add `config.logPass()` at the end of test methods — the framework automatically logs PASS/FAIL after each test; a trailing `logPass` is redundant noise
 
 ---
 
@@ -530,6 +547,7 @@ These rules apply when writing any code in this repo. They are enforced during c
 | Helper | [CardHelper.java](src/main/java/automation/modules/cards/CardHelper.java) |
 | API enum | [CardApi.java](src/main/java/automation/modules/cards/api/CardApi.java) |
 | Page object | [CardListPage.java](src/main/java/automation/modules/cards/web/CardListPage.java) |
+| External API helper | [GitHubHelper.java](src/main/java/automation/modules/github/GitHubHelper.java) |
 | Framework base | [TestBase.java](src/main/java/automation/core/TestBase.java) |
 | Config system | [Config.java](src/main/java/automation/core/Config.java) |
 | All enums | [Enums.java](src/main/java/automation/core/Enums.java) |

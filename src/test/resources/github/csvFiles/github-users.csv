@@ -1,0 +1,7 @@
+role,environment,username,password,description
+admin,staging,octocat_admin,AdminPass123!,Admin user for staging
+admin,qa-1,octocat_admin_qa,AdminPass123!,Admin user for qa-1
+developer,staging,test_developer,DevPass123!,Developer user for staging
+developer,qa-1,test_developer_qa,DevPass123!,Developer user for qa-1
+readonly,staging,test_readonly,ReadPass123!,Read-only user for staging
+readonly,qa-1,test_readonly_qa,ReadPass123!,Read-only user for qa-1

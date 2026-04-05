@@ -7,27 +7,14 @@
         <listener class-name="automation.core.JsonTestReporter"/>
     </listeners>
 
-
-    <parameter name="environment" value="demo"/>
+    <parameter name="environment" value="staging"/>
     <parameter name="browserName" value="chromium"/>
     <parameter name="country" value="sg"/>
     <parameter name="appLanguage" value="en"/>
-    <parameter name="projectName" value="Cards"/>
     <parameter name="debugMode" value="false"/>
 
-    <test name="Card API Tests">
-        <groups>
-            <run>
-                <include name="regression"/>
-                <include name="apiCases"/>
-            </run>
-        </groups>
-        <classes>
-            <class name="automation.tests.cards.CardApiTest"/>
-        </classes>
-    </test>
-
-    <test name="Card Web Tests">
+    <test name="GitHub Web Tests">
+        <parameter name="projectName" value="GitHub"/>
         <groups>
             <run>
                 <include name="regression"/>
@@ -35,11 +22,39 @@
             </run>
         </groups>
         <classes>
-            <class name="automation.tests.cards.CardWebTest"/>
+            <class name="automation.github.GitHubLoginTest"/>
         </classes>
     </test>
 
-    <test name="AI Eval Unit Tests">
+    <test name="GitHub API Tests">
+        <parameter name="projectName" value="GitHub"/>
+        <parameter name="browserName" value="api"/>
+        <groups>
+            <run>
+                <include name="regression"/>
+                <include name="apiCases"/>
+            </run>
+        </groups>
+        <classes>
+            <class name="automation.github.GitHubApiTest"/>
+        </classes>
+    </test>
+
+    <test name="SauceDemo Web Tests">
+        <parameter name="projectName" value="SauceDemo"/>
+        <groups>
+            <run>
+                <include name="regression"/>
+                <include name="webCases"/>
+            </run>
+        </groups>
+        <classes>
+            <class name="automation.saucedemo.SauceDemoWebTest"/>
+        </classes>
+    </test>
+
+    <test name="AI Evaluation Tests">
+        <parameter name="browserName" value="api"/>
         <classes>
             <class name="automation.aiEval.AITestCaseLoaderTest"/>
             <class name="automation.aiEval.CodeMatchEvaluatorTest"/>

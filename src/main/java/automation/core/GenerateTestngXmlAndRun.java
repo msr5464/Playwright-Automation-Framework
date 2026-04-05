@@ -168,34 +168,15 @@ public class GenerateTestngXmlAndRun
 
         switch (projectName.toLowerCase())
         {
-            case "cards", "cardinfra" ->
+            case "saucedemo" ->
             {
-                classes.add("automation.tests.cards.CardApiTest");
-                classes.add("automation.tests.cards.CardWebTest");
+                classes.add("automation.saucedemo.SauceDemoApiTest");
+                classes.add("automation.saucedemo.SauceDemoWebTest");
             }
-            case "budget", "budgets" ->
+            case "github" ->
             {
-                classes.add("automation.tests.budget.BudgetApiTest");
-                classes.add("automation.tests.budget.BudgetWebTest");
-            }
-            case "claims" ->
-            {
-                classes.add("automation.tests.claims.ClaimApiTest");
-                classes.add("automation.tests.claims.ClaimWebTest");
-            }
-            case "payment", "payments", "transfers" ->
-            {
-                classes.add("automation.tests.payment.TransferApiTest");
-                classes.add("automation.tests.payment.RecipientApiTest");
-            }
-            case "access", "accountopening" ->
-            {
-                classes.add("automation.tests.access.LoginTest");
-                classes.add("automation.tests.access.AuthTest");
-            }
-            case "aiEval" ->
-            {
-                classes.add("automation.tests.aiEval.AIEvalTest");
+                classes.add("automation.github.GitHubApiTest");
+                classes.add("automation.github.GitHubLoginTest");
             }
             default ->
             {

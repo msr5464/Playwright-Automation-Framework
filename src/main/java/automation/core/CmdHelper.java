@@ -14,7 +14,7 @@ public class CmdHelper
     /**
      * Executes a shell command, waits for it to complete, and returns the full output.
      *
-     * @param testConfig - Config instance for logging (may be null for static use)
+     * @param testConfig - Config instance for logging
      * @param cmd        - command to execute
      * @return full stdout output of the command
      */
@@ -63,7 +63,7 @@ public class CmdHelper
      * Executes a shell command and exits without capturing output.
      * Waits up to 10 seconds for the command to complete.
      *
-     * @param testConfig - Config instance for logging (may be null)
+     * @param testConfig - Config instance for logging
      * @param cmd        - command to execute
      */
     public static void executeCommandAndExit(Config testConfig, String cmd)

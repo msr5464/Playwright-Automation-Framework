@@ -1,3 +1,0 @@
-testId,description,cardType,limit,expectedResult
-CARD-001,Apply for virtual card,virtual,500.00,success
-CARD-002,Apply for physical card,physical,1000.00,success

@@ -3,6 +3,7 @@ package automation.core;
 import com.microsoft.playwright.*;
 import com.microsoft.playwright.options.ViewportSize;
 
+import automation.core.Enums.ProjectName;
 import automation.core.Enums.VideoMode;
 
 import java.io.File;
@@ -171,13 +172,13 @@ public class BrowserHelper
 
     /**
      * Save the current browser session (cookies + localStorage) to a JSON file.
-     * File is stored under src/test/resources/loginStorage/.
+     * File is stored under src/test/resources/{moduleName}/loginStorage/.
      */
-    public static void storeSession(Config config, String fileName)
+    public static void storeSession(Config config, ProjectName moduleName, String fileName)
     {
         try
         {
-            String dir = Config.testResourcesPath + "loginStorage";
+            String dir = Config.testResourcesPath + moduleName.name().toLowerCase() + "/loginStorage";
             new File(dir).mkdirs();
             Path filePath = Paths.get(dir, fileName);
             config.browserContext.storageState(
@@ -192,9 +193,9 @@ public class BrowserHelper
 
     /**
      * Initialize browser and load a previously stored session from a JSON file.
-     * File is read from src/test/resources/loginStorage/.
+     * File is read from src/test/resources/{moduleName}/loginStorage/.
      */
-    public static void initBrowserWithStoredSession(Config config, String fileName)
+    public static void initBrowserWithStoredSession(Config config, ProjectName moduleName, String fileName)
     {
         String browserName = config.getRunTimeProperty("browser", "chromium");
         boolean headless = !"false".equalsIgnoreCase(config.getRunTimeProperty("headless", "true"));
@@ -220,7 +221,7 @@ public class BrowserHelper
         Browser.NewContextOptions contextOptions = new Browser.NewContextOptions()
             .setViewportSize(new ViewportSize(1920, 1080));
 
-        Path sessionPath = Paths.get(Config.testResourcesPath + "loginStorage", fileName);
+        Path sessionPath = Paths.get(Config.testResourcesPath + moduleName.name().toLowerCase() + "/loginStorage", fileName);
         if (sessionPath.toFile().exists())
         {
             contextOptions.setStorageStatePath(sessionPath);

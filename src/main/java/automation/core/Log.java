@@ -127,8 +127,6 @@ public class Log
         logToReporter(config, htmlMsg);
     }
 
-    // ========== DEBUG (only shown when debug mode is enabled) ==========
-
     public static void debug(Config config, String message)
     {
         if (Config.isDebugMode)
@@ -139,8 +137,6 @@ public class Log
             logToReporter(config, htmlMsg);
         }
     }
-
-    // ========== INTERNAL HELPERS ==========
 
     private static void logToReporter(Config config, String htmlMsg)
     {
@@ -166,8 +162,6 @@ public class Log
                    .replace(">", "&gt;")
                    .replace("\"", "&quot;");
     }
-
-    // ========== STATIC CONVENIENCE (no config) ==========
 
     public static void info(String message)
     {

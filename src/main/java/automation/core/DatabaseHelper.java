@@ -148,12 +148,11 @@ public class DatabaseHelper
         }
         finally
         {
-            // Calculate execution time using ThreadLocal value and clean up ThreadLocal to prevent memory leaks
+            // ThreadLocal cleanup prevents memory leaks during long-running test execution
             Long startTime = queryStartTime.get();
             if (startTime != null) {
                 long executionTime = System.currentTimeMillis() - startTime;
 
-                // Log execution time with appropriate warning level based on performance thresholds
                 if (executionTime >= VERY_SLOW_QUERY_THRESHOLD) {
                     config.logWarning(String.format("VERY SLOW QUERY: Executed in %d ms (>%d ms threshold). Consider optimization!",
                         executionTime, VERY_SLOW_QUERY_THRESHOLD));
@@ -164,7 +163,6 @@ public class DatabaseHelper
                     config.logComment(String.format("Query executed in %d ms", executionTime));
                 }
 
-                // Clean up ThreadLocal to prevent memory leaks in long-running applications
                 queryStartTime.remove();
             }
         }

@@ -144,10 +144,7 @@ public class JsonTestReporter implements ITestListener
             }
         }
 
-        // Screenshot path: saved by BrowserHelper.takeScreenshot() as
-        // {Config.resultsDirectory}/screenshots/{config.testcaseName}_{HHmmss}.png
-        // The exact path is only known inside TestListener which holds the Config object.
-        // We leave this empty here; TestListener logs the path in its HTML output.
+        // Screenshot path is populated by TestListener, not available here
         String screenshotPath = "";
 
         return "  {\n" +
