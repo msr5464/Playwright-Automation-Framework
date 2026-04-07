@@ -15,7 +15,7 @@ public class BrowserHelper
 
     public static void initBrowser(Config config)
     {
-        String browserName = config.getRunTimeProperty("browser", "chromium");
+        String browserName = config.getRunTimeProperty("browserName", "chromium");
         boolean headless = !"false".equalsIgnoreCase(config.getRunTimeProperty("headless", "true"));
 
         // Skip browser init for API-only tests
@@ -73,9 +73,9 @@ public class BrowserHelper
         }
     }
 
-    public static String takeScreenshot(Config config)
+    public static void takeScreenshot(Config config)
     {
-        if (config.page == null) return null;
+        if (config.page == null) return;
         try
         {
             String screenshotDir = Config.resultsDirectory + File.separator + "screenshots";
@@ -85,14 +85,12 @@ public class BrowserHelper
             config.page.screenshot(new Page.ScreenshotOptions()
                 .setPath(screenshotPath)
                 .setFullPage(true));
-            String link = "<a href='" + screenshotPath + "' target='_blank'>Screenshot</a>";
-            Log.comment(config, "Screenshot saved: " + fileName);
-            return link;
+            String link = "<a href='" + screenshotPath + "' target='_blank' style='color:#2563EB;'>&#128247; View Screenshot</a>";
+            Log.comment(config, link);
         }
         catch (Exception e)
         {
             Log.warning(config, "Screenshot failed: " + e.getMessage());
-            return null;
         }
     }
 
@@ -100,14 +98,23 @@ public class BrowserHelper
     {
         try
         {
+            // Capture video path before closing — page.video().path() is only valid while page is open
+            VideoMode videoMode = VideoMode.fromString(config.getRunTimeProperty("VideoMode"));
+            Path videoPath = null;
+            if (videoMode != VideoMode.OFF && config.page != null && config.page.video() != null)
+            {
+                try { videoPath = config.page.video().path(); }
+                catch (Exception e) { Log.debug(config, "Could not get video path: " + e.getMessage()); }
+            }
+
             if (config.page != null)
             {
-                handleVideoRetention(config);
                 config.page.close();
                 config.page = null;
             }
             if (config.browserContext != null)
             {
+                // Video file is finalized (written to disk) when the context closes
                 config.browserContext.close();
                 config.browserContext = null;
             }
@@ -121,6 +128,9 @@ public class BrowserHelper
                 config.playwright.close();
                 config.playwright = null;
             }
+
+            // Log video link AFTER context is closed so the file is fully written
+            handleVideoRetention(config, videoMode, videoPath);
         }
         catch (Exception e)
         {
@@ -128,31 +138,28 @@ public class BrowserHelper
         }
     }
 
-    private static void handleVideoRetention(Config config)
+    private static void handleVideoRetention(Config config, VideoMode videoMode, Path videoPath)
     {
-        VideoMode videoMode = VideoMode.fromString(config.getRunTimeProperty("VideoMode"));
-        if (videoMode == VideoMode.OFF) return;
-
+        if (videoMode == VideoMode.OFF || videoPath == null) return;
         try
         {
-            if (config.page != null && config.page.video() != null)
+            if (videoMode == VideoMode.ON_FAILURE && config.testResult)
             {
-                Path videoPath = config.page.video().path();
-                if (videoMode == VideoMode.ON_FAILURE && config.testResult)
-                {
-                    // Delete video for passing tests when mode is ON_FAILURE
-                    videoPath.toFile().delete();
-                    Log.debug(config, "Deleted video for passing test");
-                }
-                else
-                {
-                    Log.link(config, "Test Video", videoPath.toString());
-                }
+                // Delete video for passing tests when mode is ON_FAILURE
+                videoPath.toFile().delete();
+                Log.debug(config, "Deleted video for passing test");
+            }
+            else
+            {
+                // Store path on config — TestBase.afterMethod logs it with the explicit
+                // ITestResult so Reporter associates the link with the correct test entry.
+                config.videoPath = videoPath.toString();
+                System.out.println("[Video] Recorded: " + videoPath);
             }
         }
         catch (Exception e)
         {
-            Log.debug(config, "Video handling: " + e.getMessage());
+            Log.warning(config, "Video handling error: " + e.getMessage());
         }
     }
 
@@ -197,7 +204,7 @@ public class BrowserHelper
      */
     public static void initBrowserWithStoredSession(Config config, ProjectName moduleName, String fileName)
     {
-        String browserName = config.getRunTimeProperty("browser", "chromium");
+        String browserName = config.getRunTimeProperty("browserName", "chromium");
         boolean headless = !"false".equalsIgnoreCase(config.getRunTimeProperty("headless", "true"));
 
         config.playwright = Playwright.create();

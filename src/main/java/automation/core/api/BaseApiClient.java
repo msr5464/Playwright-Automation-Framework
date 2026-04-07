@@ -181,7 +181,6 @@ public class BaseApiClient
 
     public Response post(String endpoint, Object body)
     {
-        logRequestBody(body);
         Response response = body != null ? buildRequest().body(body).post(endpoint) : buildRequest().post(endpoint);
         logResponse("POST", endpoint, response);
         return response;
@@ -189,7 +188,6 @@ public class BaseApiClient
 
     public Response post(String endpoint, Object body, Map<String, String> extraHeaders)
     {
-        logRequestBody(body);
         Response response = body != null
             ? buildRequest(extraHeaders).body(body).post(endpoint)
             : buildRequest(extraHeaders).post(endpoint);
@@ -199,7 +197,6 @@ public class BaseApiClient
 
     public Response put(String endpoint, Object body, Map<String, String> extraHeaders)
     {
-        logRequestBody(body);
         Response response = buildRequest(extraHeaders).body(body).put(endpoint);
         logResponse("PUT", endpoint, response);
         return response;
@@ -207,7 +204,6 @@ public class BaseApiClient
 
     public Response patch(String endpoint, Object body, Map<String, String> extraHeaders)
     {
-        logRequestBody(body);
         Response response = buildRequest(extraHeaders).body(body).patch(endpoint);
         logResponse("PATCH", endpoint, response);
         return response;
@@ -222,7 +218,6 @@ public class BaseApiClient
 
     public Response put(String endpoint, Object body)
     {
-        logRequestBody(body);
         Response response = buildRequest().body(body).put(endpoint);
         logResponse("PUT", endpoint, response);
         return response;
@@ -230,7 +225,6 @@ public class BaseApiClient
 
     public Response patch(String endpoint, Object body)
     {
-        logRequestBody(body);
         Response response = buildRequest().body(body).patch(endpoint);
         logResponse("PATCH", endpoint, response);
         return response;
@@ -255,18 +249,38 @@ public class BaseApiClient
     public void assertStatus(Response response, int expectedStatus)
     {
         AssertHelper.assertEquals(config, response.getStatusCode(), expectedStatus,
-            "API status code verification");
+            "Status code");
     }
 
     // ========== LOGGING ==========
 
-    private void logRequestBody(Object body)
+    void logRequestBody(Object body)
     {
         if (body == null) return;
         try
         {
             String json = (body instanceof String) ? (String) body : OBJECT_MAPPER.writeValueAsString(body);
-            Log.debug(config, "Request body: " + json);
+            Log.commentJson(config, "Request Body", json);
+        }
+        catch (Exception ignored) {}
+    }
+
+    void logCurlCommand(String method, String fullUrl, Object body)
+    {
+        try
+        {
+            StringBuilder curl = new StringBuilder("curl -X " + method + " \\\n");
+            curl.append("  '").append(fullUrl).append("'");
+            for (Map.Entry<String, String> header : defaultHeaders.entrySet())
+            {
+                curl.append(" \\\n  -H '").append(header.getKey()).append(": ").append(header.getValue()).append("'");
+            }
+            if (body != null)
+            {
+                String json = (body instanceof String) ? (String) body : OBJECT_MAPPER.writeValueAsString(body);
+                curl.append(" \\\n  -d '").append(json.replace("'", "'\\''")).append("'");
+            }
+            Log.commentJson(config, "cURL", curl.toString());
         }
         catch (Exception ignored) {}
     }
@@ -274,16 +288,27 @@ public class BaseApiClient
     protected void logResponse(String method, String endpoint, Response response)
     {
         int status = response.getStatusCode();
+        String statusLine = status + " " + response.statusLine();
         if (status >= 200 && status < 300)
         {
-            Log.pass(config, "API " + method + " " + endpoint + " -> " + status);
+            Log.comment(config, "<span style='color:green;'>" + statusLine + "</span>");
         }
         else
         {
-            Log.warning(config, "API " + method + " " + endpoint + " -> " + status);
+            Log.comment(config, "<span style='color:orange;'>" + statusLine + "</span>");
         }
+        // Response headers — always shown, collapsible
+        String headersStr = response.getHeaders().asList().stream()
+            .map(h -> h.getName() + ": " + h.getValue())
+            .collect(java.util.stream.Collectors.joining("\n"));
+        Log.commentJson(config, "Response Headers", headersStr);
+
+        // Response body — always shown, collapsible
         String body = response.getBody().asString();
-        Log.debug(config, "Response: " + body.substring(0, Math.min(500, body.length())));
+        if (body != null && !body.isEmpty())
+        {
+            Log.commentJson(config, "Response Body", body);
+        }
     }
 
     public static ObjectMapper getObjectMapper()

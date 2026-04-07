@@ -18,8 +18,7 @@ public class DatabaseHelper
     private static final ThreadLocal<Long> queryStartTime = new ThreadLocal<>();
 
     // Named static connections per database
-    private static Connection thanosConnection = null;
-    private static Connection qaDashboardConnection = null;
+    private static Connection automationConnection = null;
     private static Connection stagingConnection = null;
 	
 
@@ -50,8 +49,7 @@ public class DatabaseHelper
     {
         return switch (databaseName)
         {
-            case Thanos -> thanosConnection;
-            case QA_Dashboard -> qaDashboardConnection;
+            case Automation -> automationConnection;
             case Staging -> stagingConnection;
         };
     }
@@ -60,8 +58,7 @@ public class DatabaseHelper
     {
         switch (databaseName)
         {
-            case Thanos -> thanosConnection = connection;
-            case QA_Dashboard -> qaDashboardConnection = connection;
+            case Automation -> automationConnection = connection;
             case Staging -> stagingConnection = connection;
         }
     }
@@ -116,21 +113,21 @@ public class DatabaseHelper
                         config.logWarning("No record updated for this query");
                     } else
                     {
-                        config.logComment("Total record updated - " + recordsModified);
+                        config.logCommentForDebugging("Total record updated - " + recordsModified);
                     }
                     returnValue = recordsModified;
                     break;
                 case delete:
                     returnValue = connection.createStatement().executeUpdate(sqlQuery);
-                    config.logComment("Total records deleted - " + returnValue);
+                    config.logCommentForDebugging("Total records deleted - " + returnValue);
                     break;
                 case create:
                     returnValue = connection.createStatement().executeUpdate(sqlQuery);
-                    config.logComment("Table created successfully - " + returnValue);
+                    config.logCommentForDebugging("Table created successfully - " + returnValue);
                     break;
                 case set:
                     returnValue = connection.createStatement().executeUpdate(sqlQuery);
-                    config.logComment("Total records set - " + returnValue);
+                    config.logCommentForDebugging("Total records set - " + returnValue);
                     break;
             }
         }
@@ -160,7 +157,7 @@ public class DatabaseHelper
                     config.logWarning(String.format("SLOW QUERY: Executed in %d ms (>%d ms threshold). Monitor performance.",
                         executionTime, SLOW_QUERY_WARNING_THRESHOLD));
                 } else {
-                    config.logComment(String.format("Query executed in %d ms", executionTime));
+                    config.logCommentForDebugging(String.format("Query executed in %d ms", executionTime));
                 }
 
                 queryStartTime.remove();

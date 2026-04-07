@@ -45,8 +45,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class JsonTestReporter implements ITestListener
 {
 
-    private static final String OUTPUT_DIR  = "test-results";
-    private static final String OUTPUT_FILE = OUTPUT_DIR + "/report.json";
+    private static String outputDir()  { return Config.resultsDirectory; }
+    private static String outputFile() { return outputDir() + File.separator + "report.json"; }
 
     /** Thread-safe list of JSON entries accumulated during the suite run. */
     private final List<String> entries = new CopyOnWriteArrayList<>();
@@ -167,7 +167,7 @@ public class JsonTestReporter implements ITestListener
 
     private void writeReport()
     {
-        File dir = new File(OUTPUT_DIR);
+        File dir = new File(outputDir());
         if (!dir.exists())
         {
             dir.mkdirs();
@@ -182,10 +182,11 @@ public class JsonTestReporter implements ITestListener
         }
         sb.append("]");
 
-        try (FileWriter fw = new FileWriter(new File(OUTPUT_FILE)))
+        String outputFile = outputFile();
+        try (FileWriter fw = new FileWriter(new File(outputFile)))
         {
             fw.write(sb.toString());
-            System.out.println("[JsonTestReporter] Results written to: " + OUTPUT_FILE);
+            System.out.println("[JsonTestReporter] Results written to: " + outputFile);
         }
         catch (IOException e)
         {

@@ -45,7 +45,7 @@ public class UserManagement
         String query = "UPDATE `users_" + environment + "` SET usageStatus = 'FREE', testcaseName = NULL WHERE id = " + userId;
         try
         {
-            DatabaseHelper.executeQuery(config, query, QueryType.update, DatabaseName.Thanos);
+            DatabaseHelper.executeQuery(config, query, QueryType.update, DatabaseName.Automation);
         }
         catch (Exception e)
         {
@@ -68,12 +68,12 @@ public class UserManagement
             try
             {
                 String selectQuery = builder.buildSelectQuery(environment);
-                ResultSet rs = (ResultSet) DatabaseHelper.executeQuery(config, selectQuery, QueryType.select, DatabaseName.Thanos);
+                ResultSet rs = (ResultSet) DatabaseHelper.executeQuery(config, selectQuery, QueryType.select, DatabaseName.Automation);
                 if (rs != null && rs.next())
                 {
                     int userId = rs.getInt("id");
                     String updateQuery = builder.buildUpdateQuery(environment, userId);
-                    DatabaseHelper.executeQuery(config, updateQuery, QueryType.update, DatabaseName.Thanos);
+                    DatabaseHelper.executeQuery(config, updateQuery, QueryType.update, DatabaseName.Automation);
 
                     return User.builder()
                         .id(userId)

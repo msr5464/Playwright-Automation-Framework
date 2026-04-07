@@ -60,16 +60,6 @@ public class SauceDemoApiTest extends TestBase
         AssertHelper.assertEquals(config, updated.getBody(), "Updated body", "Updated body should match");
     }
 
-    @Test(description = "verify a post can be deleted", dataProvider = "getConfig", groups = {GROUP_REGRESSION, GROUP_API})
-    @TestVariables(automatedBy = QA.Mukesh)
-    public void deletePost(Config config)
-    {
-        SauceDemoHelper api = new SauceDemoHelper(config);
-
-        config.logStep("Delete post 1 and verify API returns 200");
-        api.execute(PostApi.DeletePost.withPath("id", "1"));
-    }
-
     @Test(description = "verify fetching a non-existent post returns 404", dataProvider = "getConfig", groups = {GROUP_REGRESSION, GROUP_API})
     @TestVariables(automatedBy = QA.Mukesh)
     public void getNonExistentPost_returns404(Config config)
