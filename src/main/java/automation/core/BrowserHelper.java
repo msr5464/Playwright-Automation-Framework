@@ -7,6 +7,7 @@ import automation.core.Enums.ProjectName;
 import automation.core.Enums.VideoMode;
 
 import java.io.File;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -87,6 +88,9 @@ public class BrowserHelper
                 .setFullPage(true));
             String link = "<a href='" + screenshotPath + "' target='_blank' style='color:#2563EB;'>&#128247; View Screenshot</a>";
             Log.comment(config, link);
+            try {
+                com.aventstack.chaintest.plugins.ChainTestListener.embed(Files.readAllBytes(screenshotPath), "image/png");
+            } catch (Exception ignored) {}
         }
         catch (Exception e)
         {

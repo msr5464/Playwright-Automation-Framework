@@ -268,6 +268,20 @@ public class Log {
         if (config != null) {
             config.testLog += finalHtml;
         }
+
+        // Forward plain-text version to ChainTest so logs appear in its report
+        try {
+            if (mainContent != null && !mainContent.isEmpty()) {
+                String plainText = mainContent.replaceAll("<[^>]+>", "").trim();
+                if (!plainText.isEmpty()) {
+                    String prefix = (badge != null && !badge.isEmpty())
+                        ? badge.replaceAll("<[^>]+>", "").trim() + " " : "";
+                    com.aventstack.chaintest.plugins.ChainTestListener.log(prefix + plainText);
+                }
+            }
+        } catch (Exception ignored) {
+            // ChainTest may not be active in all execution contexts
+        }
     }
 
     public static String escapeHtml(String text) {

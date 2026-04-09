@@ -250,6 +250,10 @@ public class GenerateTestngXmlAndRun
         System.setProperty("org.uncommons.reportng.title", projectName + " Test Report - " + environment);
         System.setProperty("org.uncommons.reportng.escape-output", "false");
 
+        // Set ChainTest output paths to the same results directory as ReportNG
+        System.setProperty("chaintest.generator.simple.output-file", resultsDirectory + File.separator + "chaintest" + File.separator + "Index.html");
+        System.setProperty("chaintest.generator.email.output-file",  resultsDirectory + File.separator + "chaintest" + File.separator + "EmailReport.html");
+
         // Attach listeners
         TestNG testNG = new TestNG();
         testNG.setXmlSuites(List.of(suite));
@@ -260,10 +264,13 @@ public class GenerateTestngXmlAndRun
         listeners.add(org.testng.reporters.FailedReporter.class);
         listeners.add(org.uncommons.reportng.HTMLReporter.class);
         listeners.add(org.uncommons.reportng.JUnitXMLReporter.class);
+        listeners.add(com.aventstack.chaintest.plugins.ChainTestListener.class);
         testNG.setListenerClasses(listeners);
 
         System.out.println("<----------------- EXECUTING TESTNG.XML -------------------->");
         testNG.run();
+
+        System.out.println("ChainTest Report: " + resultsDirectory + File.separator + "chaintest" + File.separator + "Index.html");
     }
 
     // ============================================================================================
