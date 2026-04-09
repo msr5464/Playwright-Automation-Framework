@@ -5,7 +5,6 @@
     <listeners>
         <listener class-name="automation.core.TestListener"/>
         <listener class-name="automation.core.JsonTestReporter"/>
-        <listener class-name="com.aventstack.chaintest.plugins.ChainTestListener"/>
     </listeners>
 
     <parameter name="environment" value="staging"/>
