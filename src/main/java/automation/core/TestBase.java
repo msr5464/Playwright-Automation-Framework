@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.apache.commons.io.FilenameUtils;
 import org.testng.ITestResult;
+import org.testng.Reporter;
 import org.testng.annotations.*;
 
 @Listeners(automation.core.TestListener.class)
@@ -36,6 +37,20 @@ public class TestBase
     // Test result collection for reporting
     public static List<TestRailHelper.TestResultObject> testResultObjects =
         java.util.Collections.synchronizedList(new ArrayList<>());
+
+    /**
+     * Resolves a config value in priority order:
+     * 1. TestNG suite XML parameter (passed via @Parameters)
+     * 2. -D system property
+     * 3. Current static field value (default / previously set)
+     */
+    private static String resolve(String suiteParam, String sysPropKey, String currentValue)
+    {
+        if (suiteParam != null && !suiteParam.isEmpty()) return suiteParam;
+        String sysProp = System.getProperty(sysPropKey);
+        if (sysProp != null && !sysProp.isEmpty()) return sysProp;
+        return currentValue;
+    }
 
     /**
      * Get TestContext for current thread (parallel-safe shortcut)
@@ -154,7 +169,7 @@ public class TestBase
 
     // ========== LIFECYCLE HOOKS ==========
 
-    @BeforeSuite
+    @BeforeSuite(alwaysRun = true)
     @Parameters({"environment", "browserName", "projectName", "country", "appLanguage",
                  "groupName", "branchName", "resultsDirectory", "debugMode"})
     public void beforeSuite(
@@ -169,15 +184,61 @@ public class TestBase
             @Optional String debugMode)
     {
 
-        if (environment != null) Config.environment = environment;
-        if (browserName != null) Config.browserName = browserName;
-        if (projectName != null) Config.projectName = projectName;
-        if (country != null) Config.country = country;
-        if (appLanguage != null) Config.appLanguage = appLanguage;
-        if (groupName != null) Config.groupName = groupName;
-        if (branchName != null) Config.branchName = branchName;
-        if (resultsDirectory != null) Config.resultsDirectory = resultsDirectory;
-        if (debugMode != null) Config.isDebugMode = Boolean.parseBoolean(debugMode);
+        // If statics are still null (no GenerateTestngXmlAndRun, direct -Dtest= run),
+        // bootstrap from property files so they are never null before resolve() runs.
+        if (Config.environment == null) new Config();
+
+        // Priority: suite XML param → -D system property → already-set static (from GenerateTestngXmlAndRun or property file bootstrap)
+        Config.environment      = resolve(environment,      "environment",      Config.environment);
+        Config.browserName      = resolve(browserName,        "browserName",      Config.browserName);
+        Config.projectName      = resolve(projectName,      "projectName",      Config.projectName);
+        Config.country          = resolve(country,          "country",          Config.country);
+        Config.appLanguage      = resolve(appLanguage,      "appLanguage",      Config.appLanguage);
+        Config.groupName        = resolve(groupName,        "groupName",        Config.groupName);
+        Config.branchName       = resolve(branchName,       "branchName",       Config.branchName);
+        Config.resultsDirectory = resolve(resultsDirectory, "resultsDirectory", Config.resultsDirectory);
+        Config.isDebugMode             = Boolean.parseBoolean(resolve(debugMode,            "debugMode",              String.valueOf(Config.isDebugMode)));
+        Config.isRemoteExecution       = Boolean.parseBoolean(resolve(null,                 "isRemoteExecution",      String.valueOf(Config.isRemoteExecution)));
+        Config.isBrowserStackExecution = Boolean.parseBoolean(resolve(null,                 "isBrowserStackExecution",String.valueOf(Config.isBrowserStackExecution)));
+
+        // Create per-project results table once per suite (only when remote execution is enabled)
+        if (Config.isRemoteExecution)
+        {
+            createResultsTableIfNotExists();
+        }
+    }
+
+    private void createResultsTableIfNotExists()
+    {
+        try
+        {
+            Config config = new Config();
+            String tableName = "results_" + Config.projectName.toLowerCase();
+            String createTableQuery = "CREATE TABLE IF NOT EXISTS `" + tableName + "` ("
+                + "`id` int NOT NULL AUTO_INCREMENT,"
+                + "`createdAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP,"
+                + "`environment` varchar(25) DEFAULT NULL,"
+                + "`groupName` varchar(25) DEFAULT NULL,"
+                + "`testrailSuiteId` varchar(10) DEFAULT NULL,"
+                + "`testrailCaseId` varchar(100) DEFAULT NULL,"
+                + "`testStatus` varchar(10) DEFAULT NULL,"
+                + "`failureReason` text,"
+                + "`platform` varchar(20) DEFAULT NULL,"
+                + "`automatedBy` varchar(50) DEFAULT NULL,"
+                + "`maintainedBy` varchar(50) DEFAULT NULL,"
+                + "`testcaseName` varchar(250) NOT NULL,"
+                + "`buildTag` varchar(50) DEFAULT NULL,"
+                + "`testrailUploadRequired` tinyint NOT NULL,"
+                + "`uploadedToTestrail` tinyint NOT NULL,"
+                + "`knownFailure` varchar(50) DEFAULT NULL,"
+                + "PRIMARY KEY (`id`))";
+            DatabaseHelper.executeQuery(config, createTableQuery, automation.core.Enums.QueryType.create, automation.core.Enums.DatabaseName.Automation);
+            Log.info("Results table ready: " + tableName);
+        }
+        catch (Exception e)
+        {
+            Log.error("Failed to create results table: " + e.getMessage());
+        }
     }
 
     @AfterMethod(alwaysRun = true)
@@ -195,8 +256,19 @@ public class TestBase
                     {
                         UserManagement.releaseUsers(config, config.userId);
                     }
-                    // Close browser
+                    // Close browser (video path is stored in config.videoPath after this)
                     BrowserHelper.closeBrowser(config);
+
+                    // Log video link with explicit ITestResult so ReportNG associates
+                    // it with the correct test — Reporter.log() alone is unreliable in @AfterMethod
+                    if (config.videoPath != null)
+                    {
+                        String videoHtml = "<a href='" + config.videoPath + "' target='_blank' style='color:#2563EB;'>&#127909; View Recording</a>";
+                        ITestResult previous = Reporter.getCurrentTestResult();
+                        Reporter.setCurrentTestResult(result);
+                        Log.comment(config, videoHtml);
+                        Reporter.setCurrentTestResult(previous);
+                    }
                 }
                 catch (Exception e)
                 {
@@ -212,6 +284,5 @@ public class TestBase
     public void afterSuite()
     {
         // Upload results to TestRail, send Slack/Email notifications
-        System.out.println("Test suite completed. Total results: " + testResultObjects.size());
     }
 }

@@ -2,11 +2,17 @@ package automation.core.api;
 
 import io.restassured.response.Response;
 
-import automation.core.Config;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import automation.core.AssertHelper;
+import automation.core.Config;
 import automation.core.Log;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -101,10 +107,10 @@ public class ApiHelper extends BaseApiClient
             if (entry.getValue() != null)
             {
                 Object actualVal = actualMap.get(entry.getKey());
-                AssertHelper.assertEquals(config,
-                    String.valueOf(actualVal),
+                AssertHelper.compareEquals(config,
+                    "Field '" + entry.getKey() + "'",
                     String.valueOf(entry.getValue()),
-                    "Field '" + entry.getKey() + "'");
+                    String.valueOf(actualVal));
             }
         }
         return actual;
@@ -120,7 +126,12 @@ public class ApiHelper extends BaseApiClient
     {
         String endpoint = apiDetails.getEndpoint();
         String fullUrl = baseUrl + endpoint;
-        Log.comment(config, "API " + apiDetails.getMethod() + " " + fullUrl);
+        Log.action(config, apiDetails.getMethod() + " " + fullUrl);
+        logCurlCommand(apiDetails.getMethod().name(), fullUrl, body);
+        if (body != null)
+        {
+            logRequestBody(body);
+        }
 
         return switch (apiDetails.getMethod())
         {
@@ -136,7 +147,12 @@ public class ApiHelper extends BaseApiClient
     {
         String endpoint = apiDetails.getEndpoint();
         String fullUrl = baseUrl + endpoint;
-        Log.comment(config, "API " + apiDetails.getMethod() + " " + fullUrl);
+        Log.action(config, apiDetails.getMethod() + " " + fullUrl);
+        logCurlCommand(apiDetails.getMethod().name(), fullUrl, body);
+        if (body != null)
+        {
+            logRequestBody(body);
+        }
 
         return switch (apiDetails.getMethod())
         {
@@ -146,6 +162,165 @@ public class ApiHelper extends BaseApiClient
             case PATCH -> patch(endpoint, body, extraHeaders);
             case DELETE -> delete(endpoint, extraHeaders);
         };
+    }
+
+    // ========== ERROR HANDLING ==========
+
+    /**
+     * Checks the response for known server/client error codes and calls logFailToEndExecution
+     * if an error is found. Use after executeRaw to skip the test on infrastructure errors.
+     */
+    public void skipOnServerError(Response response)
+    {
+        int status = response.getStatusCode();
+        String body = response.getBody().asString();
+        switch (status)
+        {
+            case 400 -> config.logFailToEndExecution("Bad Request (400): " + body);
+            case 401 -> config.logFailToEndExecution("Unauthorized (401): " + body);
+            case 403 -> config.logFailToEndExecution("Forbidden (403): " + body);
+            case 404 -> config.logFailToEndExecution("Not Found (404): " + body);
+            case 422 -> config.logFailToEndExecution("Unprocessable Entity (422): " + body);
+            case 500 -> config.logFailToEndExecution("Internal Server Error (500): " + body);
+            case 502 -> config.logFailToEndExecution("Bad Gateway (502): " + body);
+            case 503 -> config.logFailToEndExecution("Service Unavailable (503): " + body);
+            case 504 -> config.logFailToEndExecution("Gateway Timeout (504): " + body);
+            default  -> { /* no error */ }
+        }
+    }
+
+    // ========== JSON RESPONSE UTILITIES ==========
+
+    /**
+     * Extract the value of a top-level key from a JSON response body.
+     * Calls logFailToEndExecution if the key is not found.
+     */
+    public String getValueForKeyFromResponse(Response response, String key)
+    {
+        try
+        {
+            JSONObject json = new JSONObject(response.getBody().asString());
+            if (json.has(key))
+            {
+                return String.valueOf(json.get(key));
+            }
+            config.logFailToEndExecution("Key '" + key + "' not found in response: " + response.getBody().asString());
+        }
+        catch (Exception e)
+        {
+            config.logExceptionAndFail("Failed to parse response JSON for key '" + key + "'", e);
+        }
+        return null;
+    }
+
+    /**
+     * From a JSONArray, return a random object where object[key] == value.
+     * Returns null (and logs a warning) if no match is found.
+     */
+    public JSONObject getRandomJSONObjectByKeyValue(JSONArray array, String key, String value)
+    {
+        List<JSONObject> matches = new ArrayList<>();
+        for (int i = 0; i < array.length(); i++)
+        {
+            JSONObject obj = array.getJSONObject(i);
+            if (obj.has(key) && String.valueOf(obj.get(key)).equals(value))
+            {
+                matches.add(obj);
+            }
+        }
+        if (matches.isEmpty())
+        {
+            Log.warning(config, "No JSON object found in array where '" + key + "' == '" + value + "'");
+            return null;
+        }
+        Collections.shuffle(matches);
+        return matches.get(0);
+    }
+
+    // ========== POLLING ==========
+
+    /**
+     * Poll an endpoint until the JSON path matches the expected value, or until
+     * maxAttempts (10) is reached.
+     *
+     * @param waitSeconds delay between retries
+     */
+    public boolean waitForExpectedResponse(ApiDetails apiDetails, Object body,
+                                           String jsonPath, Object expectedValue, int waitSeconds)
+    {
+        int maxAttempts = 10;
+        List<Object> mismatches = new ArrayList<>();
+        for (int attempt = 1; attempt <= maxAttempts; attempt++)
+        {
+            Response response = executeRaw(apiDetails, body);
+            Object actual;
+            try
+            {
+                actual = response.jsonPath().get(jsonPath);
+            }
+            catch (Exception e)
+            {
+                actual = null;
+            }
+
+            if (expectedValue.equals(actual))
+            {
+                Log.pass(config, "waitForExpectedResponse: '" + jsonPath + "' == '" + expectedValue + "' (attempt " + attempt + ")");
+                return true;
+            }
+            mismatches.add("Attempt " + attempt + ": got '" + actual + "'");
+            if (attempt < maxAttempts)
+            {
+                Log.comment(config, "Waiting " + waitSeconds + "s for '" + jsonPath + "' to become '" + expectedValue + "' (attempt " + attempt + "/" + maxAttempts + ")");
+                try { Thread.sleep(waitSeconds * 1000L); } catch (InterruptedException ignored) {}
+            }
+        }
+        Log.warning(config, "waitForExpectedResponse: '" + jsonPath + "' never became '" + expectedValue + "'. Results: " + mismatches);
+        return false;
+    }
+
+    /** Overload with default waitSeconds=3. */
+    public boolean waitForExpectedResponse(ApiDetails apiDetails, Object body,
+                                           String jsonPath, Object expectedValue)
+    {
+        return waitForExpectedResponse(apiDetails, body, jsonPath, expectedValue, 3);
+    }
+
+    /**
+     * Multi-anchor variant: polls until ALL key/value pairs in the anchors map match.
+     */
+    public boolean waitForExpectedResponse(ApiDetails apiDetails, Object body,
+                                           Map<String, Object> anchors, int waitSeconds)
+    {
+        int maxAttempts = 10;
+        for (int attempt = 1; attempt <= maxAttempts; attempt++)
+        {
+            Response response = executeRaw(apiDetails, body);
+            boolean allMatch = true;
+            for (Map.Entry<String, Object> anchor : anchors.entrySet())
+            {
+                Object actual;
+                try { actual = response.jsonPath().get(anchor.getKey()); }
+                catch (Exception e) { actual = null; }
+                if (!anchor.getValue().equals(actual))
+                {
+                    allMatch = false;
+                    Log.comment(config, "Attempt " + attempt + ": '" + anchor.getKey() + "' = '" + actual + "' (expected '" + anchor.getValue() + "')");
+                    break;
+                }
+            }
+            if (allMatch)
+            {
+                Log.pass(config, "waitForExpectedResponse: all anchors matched (attempt " + attempt + ")");
+                return true;
+            }
+            if (attempt < maxAttempts)
+            {
+                try { Thread.sleep(waitSeconds * 1000L); } catch (InterruptedException ignored) {}
+            }
+        }
+        Log.warning(config, "waitForExpectedResponse: not all anchors matched after " + maxAttempts + " attempts");
+        return false;
     }
 
     // ========== MAP BUILDER (for edge-case/negative tests) ==========

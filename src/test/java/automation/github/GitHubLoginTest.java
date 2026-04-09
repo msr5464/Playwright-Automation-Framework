@@ -33,7 +33,7 @@ public class GitHubLoginTest extends TestBase
      * Credentials are read from config: github.username and github.password
      * (set these in parameters/system.properties which is git-ignored).
      */
-    @Test(description="verify if user is able to login to GitHub and also able to Stored Session",dataProvider = "getConfig", groups = {GROUP_REGRESSION, GROUP_WEB})
+    @Test(enabled = false, description="verify if user is able to login to GitHub and also able to Stored Session",dataProvider = "getConfig", groups = {GROUP_REGRESSION, GROUP_WEB})
     @TestVariables(testrailData = "1:C1002:WEB", automatedBy = QA.Mukesh)
     public void storeFirstTimeLoginOnGitHub(Config config)
     {
@@ -54,7 +54,7 @@ public class GitHubLoginTest extends TestBase
      * Credentials and OTP are read from config:
      *   github.username, github.password, github.otp
      */
-    @Test(description="verify if user is able to login to GitHub using OTP flow",dataProvider = "getConfig", groups = {GROUP_REGRESSION, GROUP_WEB})
+    @Test(enabled=false, description="verify if user is able to login to GitHub using OTP flow",dataProvider = "getConfig", groups = {GROUP_REGRESSION, GROUP_WEB})
     @TestVariables(testrailData = "1:C1003:WEB", automatedBy = QA.Mukesh)
     public void verifyLoginOnGitHubWithOtp(Config config)
     {

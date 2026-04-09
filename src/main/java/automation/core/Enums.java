@@ -30,12 +30,12 @@ public class Enums
 
     public enum ProjectName
     {
-        GitHub, SauceDemo
+        GitHub, SauceDemo, FullSuite
     }
 
     public enum DatabaseName
     {
-        Thanos, QA_Dashboard, Staging
+        Automation, Staging
     }
 
     public enum QueryType

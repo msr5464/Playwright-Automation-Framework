@@ -1,6 +1,10 @@
 package automation.core;
 
 import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 import javax.mail.search.FlagTerm;
 import java.util.Properties;
 import java.util.concurrent.locks.ReentrantLock;
@@ -128,6 +132,65 @@ public class EmailHelper
             }
         }
         return null;
+    }
+
+    /**
+     * Send an HTML email report via SMTP.
+     * Requires these properties to be configured:
+     *   smtp.host, smtp.port, smtp.username, smtp.password
+     */
+    public static void sendEmail(Config config, String toAddresses, String subject, String htmlBody)
+    {
+        try
+        {
+            String host     = config.getRunTimeProperty("smtp.host");
+            String port     = config.getRunTimeProperty("smtp.port", "587");
+            String username = config.getRunTimeProperty("smtp.username");
+            String password = config.getRunTimeProperty("smtp.password");
+
+            if (host == null || username == null || password == null)
+            {
+                System.out.println("[WARN] SMTP not configured (smtp.host / smtp.username / smtp.password) — email skipped.");
+                return;
+            }
+
+            Properties props = new Properties();
+            props.put("mail.smtp.auth",            "true");
+            props.put("mail.smtp.starttls.enable", "true");
+            props.put("mail.smtp.host",            host);
+            props.put("mail.smtp.port",            port);
+
+            Session session = Session.getInstance(props, new Authenticator()
+            {
+                @Override
+                protected PasswordAuthentication getPasswordAuthentication()
+                {
+                    return new PasswordAuthentication(username, password);
+                }
+            });
+
+            MimeMessage message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(username));
+            for (String to : toAddresses.split(","))
+            {
+                message.addRecipient(Message.RecipientType.TO, new InternetAddress(to.trim()));
+            }
+            message.setSubject(subject);
+
+            MimeBodyPart htmlPart = new MimeBodyPart();
+            htmlPart.setContent(htmlBody, "text/html; charset=utf-8");
+
+            MimeMultipart multipart = new MimeMultipart("mixed");
+            multipart.addBodyPart(htmlPart);
+            message.setContent(multipart);
+
+            Transport.send(message);
+            System.out.println("Email report sent to: " + toAddresses);
+        }
+        catch (Exception e)
+        {
+            System.err.println("[WARN] Email send failed: " + e.getMessage());
+        }
     }
 
     /**

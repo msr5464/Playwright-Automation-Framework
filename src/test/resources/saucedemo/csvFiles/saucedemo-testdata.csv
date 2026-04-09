@@ -3,5 +3,9 @@ login,staging,standard_user,secret_sauce,standard
 login,qa-1,standard_user,secret_sauce,standard
 add_to_cart,staging,standard_user,secret_sauce,standard
 add_to_cart,qa-1,standard_user,secret_sauce,standard
+verify_cart,staging,standard_user,secret_sauce,standard
+verify_cart,qa-1,standard_user,secret_sauce,standard
+remove_product,staging,standard_user,secret_sauce,standard
+remove_product,qa-1,standard_user,secret_sauce,standard
 problem_user,staging,problem_user,secret_sauce,problem
 performance_user,staging,performance_glitch_user,secret_sauce,performance

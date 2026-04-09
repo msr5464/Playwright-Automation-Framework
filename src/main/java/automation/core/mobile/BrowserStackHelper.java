@@ -197,7 +197,7 @@ public class BrowserStackHelper
         if (sessionDetails != null && sessionDetails.has("automation_session"))
         {
             String videoUrl = sessionDetails.getJSONObject("automation_session").getString("video_url");
-            Log.comment(testConfig, "<a href='" + videoUrl + "' target='_blank'>BrowserStack Video Recording</a>");
+            Log.comment(testConfig, "<a href='" + videoUrl + "' target='_blank' style='display:inline-block;padding:2px 8px;background-color:#E5E7EB;color:#2563EB;text-decoration:none;border-radius:4px;font-size:0.85em;font-weight:500;'>&#127909; View BrowserStack Video Recording</a>");
         }
         else
         {
