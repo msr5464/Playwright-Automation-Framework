@@ -1,82 +1,153 @@
-# Jarvis / Thanos-pw — AI Agent Guide
+# Jarvis — AI Agent Guide
 
-This file is the primary orientation for AI agents working in this repo. Read it before writing any code.
+This is the single source of truth for AI agents working in this repo. Read it fully before writing or running any code.
 
 ---
 
 ## Framework Overview
 
-| Layer | Technology |
-|-------|-----------|
-| Language | Java 21 |
-| Build | Maven 3.8+ |
-| Test Runner | TestNG 7.9.0 |
-| Web UI | Playwright 1.54.0 |
-| API | REST-Assured 5.3.2 |
-| Mobile | Appium 9.3.0 |
-| Reporting | ReportPortal + ReportNG |
+| Layer      | Technology              |
+|------------|-------------------------|
+| Language   | Java 21                 |
+| Build      | Maven 3.8+              |
+| Test Runner| TestNG 7.9.0            |
+| Web UI     | Playwright 1.54.0       |
+| API        | REST-Assured 5.3.2      |
+| Mobile     | Appium 9.3.0            |
+| Reporting  | ReportNG + JsonTestReporter |
 
-Tests live in `src/test/java/automation/`. Framework internals live in `src/main/java/automation/core/`. Feature-specific helpers live in `src/main/java/automation/modules/`.
-
-> **Note:** `src/main/java/automation/aiEval/` is a separate AI evaluation subsystem. Do not modify it unless explicitly working on AI eval features.
+Source layout:
+- `src/main/java/automation/core/` — framework internals (do not modify unless working on the framework itself)
+- `src/main/java/automation/modules/` — feature helpers, POJOs, builders, page objects
+- `src/test/java/automation/` — test classes
+- `src/main/java/automation/aiEval/` — separate AI evaluation subsystem; **do not touch unless explicitly asked**
 
 ---
 
-## Running Tests
+## Reporting — what exists, what does not
 
-**Run a single test method (use this to verify a fix without running the full suite):**
+**Active reporters:**
+- **ReportNG** — HTML report at `{resultsDirectory}/html/index.html`
+- **JsonTestReporter** (`automation.core.JsonTestReporter`) — machine-readable JSON at `{resultsDirectory}/report.json`
+
+---
+
+## How to Run Tests
+
+### Compile only (no tests) — use this first to catch compile errors before running
 ```bash
-mvn test -Dtest=CardApiTest#createAndVerifyCard -Denvironment=staging -Dcountry=SG
+mvn compile -q
 ```
 
-**Run an entire test class:**
+### Run a single test method — use this to self-test any code you write
 ```bash
-mvn test -Dtest=CardApiTest -Denvironment=staging -Dcountry=SG
+mvn test -Dtest=GitHubApiTest#getPublicUserInfo -DfailIfNoTests=false
 ```
 
-**Run by group (preferred for full suite runs):**
+### Run an entire test class
 ```bash
-mvn test -DprojectName=Cards -Denvironment=staging -Dbrowser=chromium -Dgroups=regression -Dcountry=SG
+mvn test -Dtest=GitHubApiTest -DfailIfNoTests=false
 ```
 
-**Legacy positional args (still works, but avoid for new scripts):**
-```bash
-mvn exec:java -Dexec.mainClass="automation.core.GenerateTestngXmlAndRun" \
-  -Dexec.args="Cards staging chromium regression SG EN false false false"
-```
-
-**Via static testng.xml:**
+### Run via static testng.xml (runs GitHub + SauceDemo + AI eval tests)
 ```bash
 mvn test
 ```
 
-**Key system properties:**
+### Run programmatic suite (GenerateTestngXmlAndRun) by project
+```bash
+mvn test -DprojectName=GitHub -Denvironment=staging -DbrowserName=chromium -Dgroups=regression
+mvn test -DprojectName=SauceDemo -Denvironment=staging -DbrowserName=chromium -Dgroups=regression
+mvn test -DprojectName=fullsuite -Denvironment=staging -DbrowserName=chromium -Dgroups=regression
+```
 
-| Property | Values | Default |
-|----------|--------|---------|
-| `projectName` | Cards, Budget, Claims, Payment, Access, Transfers, PublicApi | CustomerFrontend |
-| `environment` | staging, qa-1, demo | staging |
-| `browser` | chromium, firefox, webkit, api | chromium |
-| `groups` | regression, smokeTest, apiCases, webCases, criticalFlows, prodSanity | regression |
-| `country` | SG, HK, US, AU, ID, VN | SG |
-| `headless` | true, false | true |
+### Key system properties
+
+| Property        | Values                                    | Default        |
+|-----------------|-------------------------------------------|----------------|
+| `projectName`   | GitHub, SauceDemo, fullsuite              | CustomerFrontend |
+| `environment`   | staging, qa-1, demo                       | staging        |
+| `browserName`   | chromium, firefox, webkit, api            | chromium       |
+| `groups`        | regression, smokeTest, apiCases, webCases | regression     |
+| `country`       | SG, HK, US, AU, ID, VN                   | sg             |
+| `headless`      | true, false                               | false          |
 
 ---
 
-## Test Results
+## Self-Testing Workflow (MANDATORY for AI agents)
 
-After a run, check:
-- `test-results/report.json` — machine-readable JSON with pass/fail per test, failure message, screenshot path, duration
-- `test-results/screenshots/` — failure screenshots (PNG)
-- `test-results/videos/` — videos (based on VideoMode config)
-- `target/surefire-reports/` — TestNG HTML reports
+Every time you write or modify code, follow this exact sequence before declaring the task done. Do not skip steps.
+
+### Step 1 — Compile
+```bash
+mvn compile -q 2>&1 | head -50
+```
+Fix every compile error before proceeding. Do not run tests against broken code.
+
+### Step 2 — Run the specific test(s) affected by your change
+```bash
+# API test (no browser needed, fast)
+mvn test -Dtest=GitHubApiTest -DfailIfNoTests=false 2>&1 | tail -30
+
+# Web test
+mvn test -Dtest=SauceDemoWebTest#loginAndVerifyProductsPage -DfailIfNoTests=false 2>&1 | tail -30
+```
+
+Use the narrowest scope possible — single method if you touched one test, single class if you touched a helper.
+
+### Step 3 — Read the JSON report
+```bash
+cat test-output/report.json
+```
+The JSON report is the authoritative result source for AI agents. Check every entry:
+- `"status": "FAILED"` → read `failureMessage` and `failureLocation`, fix the issue, go back to Step 1
+- `"status": "PASSED"` → proceed
+
+### Step 4 — Check for compile warnings on test classes
+```bash
+mvn test-compile -q 2>&1 | grep -i "warning\|error"
+```
+
+### Step 5 — Run the full relevant class to catch regressions
+```bash
+mvn test -Dtest=GitHubApiTest -DfailIfNoTests=false
+```
+All tests in the class must pass before the task is done.
+
+### Reading failures
+The JSON report format:
+```json
+{
+  "testName": "getPublicUserInfo",
+  "className": "automation.github.GitHubApiTest",
+  "status": "FAILED",
+  "failureMessage": "Expected [octocat] but got [null]",
+  "failureLocation": "GitHubApiTest.java:36",
+  "durationMs": 1200,
+  "screenshotPath": ""
+}
+```
+`failureLocation` gives you the exact file and line. Go there first.
+
+---
+
+## Existing Test Classes (working reference)
+
+| Class | Location | Type | Notes |
+|-------|----------|------|-------|
+| `GitHubApiTest` | `src/test/java/automation/github/` | API | Public GitHub API, no auth needed — best for self-testing |
+| `GitHubLoginTest` | `src/test/java/automation/github/` | Web | Requires GitHub credentials in config |
+| `SauceDemoApiTest` | `src/test/java/automation/saucedemo/` | API | JSONPlaceholder public API |
+| `SauceDemoWebTest` | `src/test/java/automation/saucedemo/` | Web | SauceDemo public test site |
+| `TestDemo` | `src/test/java/automation/` | Utility | Local Jenkins simulation — not a real test |
+
+**`GitHubApiTest` is the best class to run for a quick self-test** — it hits a public API, needs no credentials, no browser, and runs in seconds.
 
 ---
 
 ## How to Write a Test
 
-### 1. Minimal test structure
-
+### Minimal structure
 ```java
 package automation.{feature};
 
@@ -87,33 +158,28 @@ import org.testng.annotations.Test;
 public class MyFeatureTest extends TestBase {
 
     @Test(dataProvider = "getConfig", groups = {GROUP_REGRESSION, GROUP_API},
-          description = "Create a card and verify it is returned by the list endpoint")
-    @TestVariables(automatedBy = QA.Mukesh, country = Country.SG)
-    public void createAndVerifyCard(Config config) {
-        User user = allocateUser(config, UserType.Admin, Feature.CARD, Country.SG);
-        CardHelper cards = new CardHelper(config);
-        cards.loginAndSetAuth(user);
+          description = "Fetch user info and verify login field is present")
+    @TestVariables(automatedBy = QA.Mukesh)
+    public void fetchUserInfo(Config config) {
+        MyFeatureHelper helper = new MyFeatureHelper(config);
 
-        CardData card = new CardBuilder().withCardName("Marketing").build();
-        CardData created = cards.createCard(card);
+        MyFeatureData result = helper.execute(MyFeatureApi.GetItem.withPath("id", "1"), MyFeatureData.class);
 
-        AssertHelper.assertNotNull(config, created.getId(), "Card ID should be set after creation");
-        AssertHelper.assertEquals(config, created.getCardName(), card.getCardName(), "Card name matches");
+        AssertHelper.assertNotNull(config, result.getId(), "ID should be present");
+        AssertHelper.assertEquals(config, result.getName(), "expected", "Name should match");
     }
 }
 ```
 
-### 2. Key rules
+### Mandatory rules
+- Always `extends TestBase`
+- Always `dataProvider = "getConfig"` (or `"getTwoConfigs"` / `"getMultipleConfigs"` for multi-actor)
+- Always annotate with `@TestVariables(automatedBy = QA.Mukesh)` — add `testrailData = "suiteId:caseId:type"` only when a TestRail case exists
+- Always use `AssertHelper` for assertions — never `Assert.*` directly
+- Always pass `config` to every constructor and helper method
+- Never call `allocateUser()` unless the test requires a DB-backed user pool (the GitHub and SauceDemo tests do not use it — they read credentials from CSV or config)
 
-- Always extend `TestBase`
-- Always use `dataProvider = "getConfig"` (or `"getTwoConfigs"` for two-actor tests, `"getMultipleConfigs"` for three-actor tests)
-- Always call `allocateUser(config, UserType, Feature, Country)` — this reserves a user from the DB pool and auto-releases it after the test
-- Always pass `config` to every helper/page constructor
-- Annotate every `@Test` method with `@TestVariables(automatedBy = QA.Mukesh, country = Country.SG)`. For TestRail linkage add `testrailData = "projectId:caseId:type"` (e.g. `testrailData = "1:C1101:API"`)
-- Use `AssertHelper` for all assertions (not `Assert` directly) — it logs pass/fail with context
-
-### 3. Test groups (use constants from TestBase)
-
+### Test groups (use constants from TestBase)
 | Constant | String | Use |
 |----------|--------|-----|
 | `GROUP_REGRESSION` | `"regression"` | All standard tests |
@@ -122,9 +188,8 @@ public class MyFeatureTest extends TestBase {
 | `GROUP_SMOKE` | `"smokeTest"` | Smoke subset |
 | `GROUP_CRITICAL` | `"criticalFlows"` | Business-critical |
 | `GROUP_PROD_SANITY` | `"prodSanity"` | Production smoke |
-| `GROUP_DEMO_SANITY` | `"demoSanity"` | Demo environment smoke |
-| `GROUP_ANDROID` | `"androidCases"` | Android mobile tests |
-| `GROUP_IOS` | `"iosCases"` | iOS mobile tests |
+| `GROUP_ANDROID` | `"androidCases"` | Android mobile |
+| `GROUP_IOS` | `"iosCases"` | iOS mobile |
 
 Always include at least `GROUP_REGRESSION` plus one of `GROUP_API` or `GROUP_WEB`.
 
@@ -132,45 +197,38 @@ Always include at least `GROUP_REGRESSION` plus one of `GROUP_API` or `GROUP_WEB
 
 ## How to Add a New Feature Module
 
-Follow this exact structure (use `cards` as the reference implementation):
+Follow this exact structure. Use `automation.modules.github` as the live reference implementation.
 
 ```
 src/main/java/automation/modules/{feature}/
-├── {Feature}Data.java          # POJO with @JsonProperty + Lombok @Data
-├── {Feature}Builder.java       # Fluent builder with .with*() methods + build()
-├── {Feature}Helper.java        # High-level orchestration (extends AuthHelper)
-│                               # Exception — external/3rd-party APIs: extend ApiHelper directly
-│                               # with a custom base URL instead of AuthHelper.
-│                               # See GitHubHelper.java for the reference implementation.
+├── {Feature}Data.java          # POJO — @Data @NoArgsConstructor @AllArgsConstructor + @JsonProperty
+├── {Feature}Builder.java       # Fluent builder — .with*() methods + withDefaults() + build()
+├── {Feature}Helper.java        # Extends ApiHelper (external APIs) — orchestration methods
 ├── api/
-│   └── {Feature}Api.java       # Enum implementing ApiDetails — endpoint definitions
+│   └── {Feature}Api.java       # Enum implementing ApiDetails — one entry per endpoint
 └── web/
-    └── {Page}Page.java         # Page objects (extend BasePage)
+    └── {Page}Page.java         # Extends BasePage — locators + actions for ONE page only
 
 src/test/java/automation/{feature}/
-└── {Feature}Test.java          # Test class (extends TestBase)
-
-src/test/resources/{feature}/csvFiles/
-└── {feature}-testcases.csv     # Only if data is reusable across multiple flows (see Test Data section)
+└── {Feature}Test.java          # Extends TestBase — one @Test method per scenario
 ```
 
-### Data POJO pattern
+### Data POJO
 ```java
 @Data @NoArgsConstructor @AllArgsConstructor
 public class WidgetData {
     @JsonProperty("widget_name") private String widgetName;
     @JsonProperty("widget_type") private String widgetType;
-    // response-only fields (set by API, not sent in request):
-    @JsonProperty("id")          private String id;
-    @JsonProperty("status")      private String status;
+    @JsonProperty("id")          private String id;       // response-only
+    @JsonProperty("status")      private String status;   // response-only
 }
 ```
 
-### Builder pattern
+### Builder
 ```java
 public class WidgetBuilder {
     private String widgetName;
-    private String widgetType = "Standard";   // default
+    private String widgetType = "Standard"; // default
 
     public WidgetBuilder withWidgetName(String name) { this.widgetName = name; return this; }
     public WidgetBuilder withWidgetType(String type) { this.widgetType = type; return this; }
@@ -190,18 +248,48 @@ public class WidgetBuilder {
 }
 ```
 
-### API enum pattern
+### API enum
 ```java
 public enum WidgetApi implements ApiDetails {
-    CreateWidget("POST",   "/v1/widgets",      201),
-    GetWidget(   "GET",    "/v1/widgets/{id}", 200),
-    DeleteWidget("DELETE", "/v1/widgets/{id}", 200);
+    CreateWidget(Method.POST,   "/v1/widgets",      201),
+    GetWidget(   Method.GET,    "/v1/widgets/{id}", 200),
+    DeleteWidget(Method.DELETE, "/v1/widgets/{id}", 200);
 
-    // standard boilerplate — copy from CardApi.java
+    private final Method method;
+    private final String endpoint;
+    private final int expectedStatus;
+
+    WidgetApi(Method method, String endpoint, int expectedStatus) {
+        this.method = method; this.endpoint = endpoint; this.expectedStatus = expectedStatus;
+    }
+
+    @Override public Method getMethod()       { return method; }
+    @Override public String getEndpoint()     { return endpoint; }
+    @Override public int getExpectedStatus()  { return expectedStatus; }
+
+    public PathBuilder withPath(String param, String value) {
+        return new PathBuilder(this.method, this.endpoint, this.expectedStatus).withPath(param, value);
+    }
 }
 ```
 
-### Page object pattern
+### Helper (external/3rd-party API — extends ApiHelper directly)
+```java
+public class WidgetHelper extends ApiHelper {
+    private static final String BASE_URL = "https://api.widget.io";
+
+    public WidgetHelper(Config config) {
+        super(config, BASE_URL);
+    }
+
+    public WidgetHelper(Config config, String authToken) {
+        this(config);
+        if (authToken != null) setAuthToken(authToken);
+    }
+}
+```
+
+### Page object
 ```java
 public class WidgetListPage extends BasePage {
     private final Locator createButton = page.locator("[data-cy='create-widget-btn']");
@@ -211,123 +299,99 @@ public class WidgetListPage extends BasePage {
         waitUntilLoaded();
     }
 
-    @Override protected void waitUntilLoaded() {
+    @Override
+    protected void waitUntilLoaded() {
         WaitHelper.waitForElementToBeVisible(config, createButton, "Create Widget button");
     }
 
-    public WidgetPage clickCreate() {
+    public WidgetDetailPage clickCreate() {
         click(createButton, "Create Widget button");
-        return new WidgetPage(config);
+        return new WidgetDetailPage(config);  // always return the next page
     }
 }
 ```
-
-**All UI locators use `data-cy` attributes.** Never use CSS class names, XPath, or IDs unless `data-cy` is unavailable.
-
----
-
-## Configuration System
-
-Config loads in this order (later entries override earlier):
-
-1. `parameters/config.properties` — base defaults
-2. `parameters/{environment}.properties` — env-specific overrides
-3. `parameters/{environment}-{country}.properties` — env + country overrides
-4. `parameters/system.properties` — local developer secrets (git-ignored, never commit)
-5. `-D` system properties — CLI overrides (highest priority)
-
-Access config values in tests via:
-```java
-config.getRunTimeProperty("github.username")   // runtime property
-Config.environment                              // static global
-Config.browser                                 // static global
-```
-
----
-
-## User Allocation
-
-Users are stored in the database with a `usageStatus` of BUSY or FREE. Always allocate via `allocateUser()` — never hardcode credentials.
-
-```java
-// Single user
-User user = allocateUser(config, UserType.Admin, Feature.CARD, Country.SG);
-
-// Two users (for multi-actor tests)
-Config[] configs = getTwoConfigs();   // use as dataProvider = "getTwoConfigs"
-User admin    = allocateUser(configs[0], UserType.Admin,    Feature.CARD, Country.SG);
-User employee = allocateUser(configs[1], UserType.Employee, Feature.CARD, Country.SG);
-```
-
-Users are **automatically released** after each test in `@AfterMethod`. Do not release manually.
 
 ---
 
 ## API Tests
 
+### Execute with typed response (happy path)
 ```java
-CardHelper cards = new CardHelper(config);
-cards.loginAndSetAuth(user);                         // sets auth headers for all API calls
+// No body
+GitHubData user = github.execute(GitHubApi.GetUser.withPath("username", "octocat"), GitHubData.class);
 
-CardData created  = cards.createCard(card);          // POST → deserializes response
-CardData fetched  = cards.getCard(created.getId());  // GET  → deserializes response
-cards.deleteCard(created.getId());                   // DELETE → asserts 200
+// With body
+WidgetData created = helper.execute(WidgetApi.CreateWidget, widgetBody, WidgetData.class);
 ```
 
-For raw response access (negative tests):
+### Execute for side-effect only (delete, follow, etc.)
 ```java
-Response response = api.executeRaw(CardApi.CreateCard, invalidPayload);
+helper.execute(WidgetApi.DeleteWidget.withPath("id", widgetId));
+```
+
+### Negative tests — raw response
+```java
+Response response = github.executeRaw(GitHubApi.GetUser.withPath("username", "nonexistent_xyz"), null);
+AssertHelper.assertEquals(config, response.getStatusCode(), 404, "Non-existent user should return 404");
+```
+
+### Dynamic payload without a POJO
+```java
+Response response = helper.executeRaw(WidgetApi.CreateWidget,
+    helper.map().put("widget_name", "Test").put("invalid_field", true).build());
 AssertHelper.assertEquals(config, response.getStatusCode(), 400, "Should reject invalid payload");
 ```
 
-For dynamic payloads without a POJO (edge-case/negative tests), use the `map()` builder:
+### Path parameters
 ```java
-Response response = api.executeRaw(CardApi.CreateCard,
-    api.map().put("card_name", "Test").put("limit", "invalid").build());
+// Single param
+GitHubApi.GetUser.withPath("username", "octocat")
+
+// Multiple params (chainable)
+GitHubApi.GetRepository.withPath("owner", "torvalds").withPath("repo", "linux")
 ```
 
 ---
 
 ## Assertions
 
-Always use `AssertHelper` — it logs a colored PASS/FAIL entry and ties to the soft-assert context.
+Always use `AssertHelper`. Never use `Assert.*` directly.
 
 ```java
-AssertHelper.assertEquals(config, actual, expected, "Descriptive message");
-AssertHelper.assertTrue(config, condition, "Descriptive message");
-AssertHelper.assertNotNull(config, value, "Descriptive message");
-AssertHelper.assertContains(config, text, substring, "Descriptive message");
+AssertHelper.assertNotNull(config, user.getId(), "User ID should be present");
+AssertHelper.assertEquals(config, user.getLogin(), "octocat", "Login should match");
+AssertHelper.assertTrue(config, user.getPublicRepos() >= 0, "Repos count should be non-negative");
+AssertHelper.assertContains(config, response.getBody().asString(), "octocat", "Body should contain username");
 
-// Element assertions (Playwright)
-AssertHelper.assertElementVisible(config, locator, "Element name");
-AssertHelper.assertElementText(config, locator, "Expected text", "Element name");
+// Element assertions (Web UI only)
+AssertHelper.assertElementVisible(config, locator, "Submit button");
+AssertHelper.assertElementText(config, locator, "Expected Text", "Page title");
 ```
+
+Assertions are soft by default — execution continues after a failure, and the test is marked FAILED at the end. To hard-stop immediately on failure use `config.logFailToEndExecution("message")`.
 
 ---
 
 ## Logging
 
-Use `config.log*()` instance methods — shorter since `config` is always in scope:
+Use `config.log*()` instance methods. They write to ReportNG, the JSON report, and the console.
 
 ```java
-config.logStep("Login as Admin user and navigate to Cards list page");    // test classes only — orange
-config.logComment("Clicking create card button");                          // helpers and page objects — grey
-config.logPass("Card created and verified successfully");                  // green — use inside helpers/loops, NOT as the final line of a test
-config.logFail("Card not found in list");                                  // red + screenshot
-config.logWarning("Optional element not present, continuing");             // yellow
+config.logStep("Login to GitHub and verify dashboard loads");    // test classes ONLY
+config.logComment("Clicking create repository button");           // helpers and page objects
+config.logPass("Repository created with correct name");          // intermediate step confirmations only
+config.logFail("Repository not found in list");                  // red + screenshot
+config.logWarning("Optional banner not present, continuing");    // non-blocking issues
 ```
 
-The static `Log.*` methods (`Log.step(config, "...")`, `Log.comment(config, "...")`) are equivalent and can be used interchangeably, but `config.log*()` is preferred for brevity.
-
-**`config.logPass()` in tests:** Do NOT add it as the last line of a test method. The framework automatically logs PASS/FAIL after each test. Use `logPass` only inside helpers when confirming an intermediate step (e.g. after authentication succeeds).
-
-**Scope rule:** `config.logStep()` is for **test classes only**. Use `config.logComment()` inside helpers and page objects.
+Rules:
+- `config.logStep()` → **test class methods only**
+- `config.logComment()` → helpers and page objects
+- Do **NOT** add `config.logPass()` as the last line of a test — the framework logs PASS/FAIL automatically after each test
 
 ---
 
 ## Element Interactions
-
-Never call Playwright methods directly (`locator.click()`, `locator.fill()`, `locator.textContent()`). Always use the framework wrappers which add logging, waiting, and retry logic.
 
 **In page objects** (extend `BasePage`) — use inherited methods, no `config` arg needed:
 
@@ -335,7 +399,7 @@ Never call Playwright methods directly (`locator.click()`, `locator.fill()`, `lo
 |--------|--------|
 | Click | `click(locator, "Button name")` |
 | Fill / type | `fillText(locator, text, "Field name")` |
-| Type char-by-char (e.g. autocomplete) | `typeText(locator, text, "Field name")` |
+| Type char-by-char | `typeText(locator, text, "Field name")` |
 | Get text | `getText(locator, "Label name")` |
 | Get input value | `getInputValue(locator, "Field name")` |
 | Check checkbox | `check(locator, "Checkbox name")` |
@@ -343,7 +407,7 @@ Never call Playwright methods directly (`locator.click()`, `locator.fill()`, `lo
 | Hover | `hover(locator, "Element name")` |
 | Scroll to | `scrollToElement(locator, "Element name")` |
 | Is visible | `isElementDisplayed(locator)` |
-| JS click (fallback for overlapping elements) | `clickViaJS(locator, "Button name")` |
+| JS click (fallback) | `clickViaJS(locator, "Button name")` |
 
 **In helpers** (do not extend `BasePage`) — use `Element` static methods:
 
@@ -354,200 +418,183 @@ Never call Playwright methods directly (`locator.click()`, `locator.fill()`, `lo
 | Get text | `Element.getText(config, locator, "Label name")` |
 | Is visible | `Element.isElementDisplayed(config, locator, "name")` |
 
+Never call Playwright locator methods directly (`locator.click()`, `locator.fill()`).
+
 ---
 
 ## WaitHelper
 
-Never use `Thread.sleep()`. Always use `WaitHelper`:
+Never use `Thread.sleep()`. Use `WaitHelper`:
 
 | Method | When to use |
 |--------|-------------|
-| `WaitHelper.waitForElementToBeVisible(config, locator, name)` | Standard — wait for element to appear in action methods |
-| `WaitHelper.waitForElementToBeHidden(config, locator, name)` | Wait for loaders, spinners, toasts to disappear |
-| `WaitHelper.waitForOptionalElementToBeVisible(config, locator, name)` | Conditional elements — 5s timeout, returns boolean |
-| `WaitHelper.waitForElementToBeAttached(config, locator, name)` | Element is in DOM but may not be visible yet |
-| `WaitHelper.waitForElementToBeDetached(config, locator, name)` | Wait for element to be removed from DOM |
-| `WaitHelper.waitForAnyElementToBeDisplayed(config, locator...)` | First of several possible elements to appear |
-| `WaitHelper.waitForPageLoad(config)` | After page navigation — **only inside page object constructors** |
-| `WaitHelper.waitForNetworkIdle(config)` | After form submissions with no visible confirmation |
-| `WaitHelper.waitForLoadingComplete(config, spinnerLocator)` | Wait for a specific loading spinner locator to disappear |
+| `waitForElementToBeVisible(config, locator, name)` | Standard — element appears |
+| `waitForElementToBeHidden(config, locator, name)` | Spinners, toasts to disappear |
+| `waitForOptionalElementToBeVisible(config, locator, name)` | Conditional elements — 5s, returns boolean |
+| `waitForElementToBeAttached(config, locator, name)` | In DOM but not yet visible |
+| `waitForElementToBeDetached(config, locator, name)` | Wait for removal from DOM |
+| `waitForPageLoad(config)` | After navigation — **page constructors only** |
+| `waitForNetworkIdle(config)` | After form submissions with no visible feedback |
 
-**Critical distinction — mirrors CONVENTIONS.md rule:**
-- `waitUntilLoaded()` (calls `waitForPageLoad` internally) → **only in page constructors**
-- `WaitHelper.waitForElementToBeVisible()` → **everywhere else** (action methods, verifications)
+Rule: `waitUntilLoaded()` (calls `waitForPageLoad`) → **only in page constructors**. Use `waitForElementToBeVisible` everywhere else.
+
+---
+
+## Configuration System
+
+Config loads in this order (later overrides earlier):
+
+1. `parameters/config.properties` — base defaults
+2. `parameters/{environment}/config.properties` — env subdirectory
+3. `parameters/{environment}-{country}.properties` — env + country
+4. `parameters/{environment}/{environment}-{country}.properties` — env subdirectory + country
+5. `parameters/system.properties` — local developer secrets (git-ignored, never commit)
+6. `-D` system properties — highest priority
+
+Access in code:
+```java
+config.getRunTimeProperty("github.token")   // any runtime property
+Config.environment                           // static globals — use these, not getRunTimeProperty
+Config.browserName
+Config.country
+Config.projectName
+```
+
+Current `parameters/config.properties` defaults:
+```
+environment=staging
+browserName=chromium
+headless=false
+country=sg
+ObjectWaitTime=30       # element wait timeout in seconds
+VideoMode=on_failure    # OFF | ON | ON_FAILURE
+endExecutionOnFailure=false
+```
 
 ---
 
 ## Test Data
 
-### Primary pattern — use Builder directly in the test
-
-Most test data is fully dynamic and created inline using Builders. This is the standard pattern:
-
+### Builder (primary pattern — use this by default)
 ```java
-CardData card = new CardBuilder()
-    .withCardName("Marketing Card")
-    .withSpendingLimit("5000")
-    .withRandomColor()
+WidgetData widget = new WidgetBuilder()
+    .withWidgetName("Marketing Widget")
+    .withWidgetType("Premium")
     .build();
 ```
 
-Builder defaults are already set for optional fields (`cardPurpose`, `sourceOfFunds`, `cardType`), so only specify what is relevant to the test scenario.
-
-Use `DataGenerator` when you need random values:
+### DataGenerator for random values
 ```java
-DataGenerator.randomAlphaString(8)   // random 8-char string
-DataGenerator.randomEmail()           // random email
-DataGenerator.randomFullName()        // random full name
-DataGenerator.randomNumber(10, 100)   // random number in range
+DataGenerator.randomAlphaString(8)       // random 8-char alpha
+DataGenerator.randomAlphaNumericString(10) // random alphanumeric
+DataGenerator.randomEmail()               // random email
+DataGenerator.randomFullName()            // random full name
+DataGenerator.randomNumber(10, 100)       // random int in range
+DataGenerator.getCurrentDateTime("dd-MM-yyyy HH:mm:ss")
 ```
 
-### When to use a CSV file
-
-Only create a CSV when the data is **reusable across multiple different flows** and mixes static and dynamic values. Do NOT create a CSV just for a single test case.
-
-| Situation | Approach |
-|-----------|----------|
-| All values are dynamic / unique per run | Builder in the test class |
-| Data is test-specific | Variable passed through Builder |
-| Data is reused across multiple flows | CSV file |
-
-CSV files live in `src/test/resources/{feature}/csvFiles/`. Read them via:
+### CSV (only when data is reused across multiple flows)
 ```java
-List<Map<String, String>> rows = TestDataReader.readCsv("feature/csvFiles/data.csv");
-String value = rows.get(0).get("columnName");
+// Load one row matched by column value
+Map<String, String> creds = TestDataReader.loadCsvRowByColumnValue(
+    "github",           // module folder under src/test/resources/
+    "github-users",     // CSV filename without .csv
+    "role",             // column to match
+    "admin",            // value to match
+    Config.environment  // optional second filter column
+);
+String username = creds.get("username");
 ```
 
-Supported CSV placeholders:
+CSV files: `src/test/resources/{feature}/csvFiles/{name}.csv`
 
-| Placeholder | Output |
-|-------------|--------|
-| `{randomString:8}` | 8-char random alphanumeric |
-| `{randomEmail}` | Random email address |
-| `{randomNumber:4}` | 4-digit random number |
+Supported placeholders in CSV cells:
+- `{randomString:8}` — 8-char random alphanumeric
+- `{randomEmail}` — random email
+- `{randomNumber:4}` — 4-digit random number
 
 ---
 
-## Coding Guidelines (from Thanos project standards)
+## User Allocation (DB-backed user pool — not used in GitHub/SauceDemo tests)
 
-These rules apply when writing any code in this repo. They are enforced during code review.
+Only use this for internal applications that manage users in a database.
 
-### Page Object classes (`web/{Page}Page.java`)
+```java
+// Single user
+User user = allocateUser(config, UserType.Admin, Feature.CARD, Country.SG);
 
-- Each page class owns **only** the locators and actions for that one page. Never put locators from another page inside a different page class.
-- Locator preference: `data-cy` attribute > `id` > `name` > `css` > `xpath`. Avoid XPath unless nothing else works.
-- When XPath is unavoidable, use `contains()` — never exact text match:
-  ```java
-  // Good
-  page.locator("//button[contains(text(),'Submit')]")
-  // Bad — breaks on whitespace or minor text changes
-  page.locator("//button[text()='Submit']")
-  ```
-- Never use positional XPath (`//div[1]/span[2]`), deep nesting (`//body/main/section/div/article/button`), or auto-generated hash class names (`.v-btn--abc123`).
-- Every method that navigates away must **return the next page object** to maintain chaining:
-  ```java
-  public CardPage clickCreateCard() {
-      click(createCardButton, "Create Card button");
-      return new CardPage(config);    // ← always return the next page
-  }
-  ```
-- Call `waitUntilLoaded()` from the constructor only. Elsewhere use `WaitHelper.waitForElementToBeVisible()`.
-- Use Thanos/framework methods (`Element.click`, `BasePage.click`, etc.) — never call Playwright APIs directly on the locator.
+// Two users
+// dataProvider = "getTwoConfigs" — method receives (Config config1, Config config2)
+User admin    = allocateUser(config1, UserType.Admin,    Feature.CARD, Country.SG);
+User employee = allocateUser(config2, UserType.Employee, Feature.CARD, Country.SG);
+```
 
-### Helper classes (`{Feature}Helper.java`)
+Users are automatically released by `@AfterMethod`. Do not release manually.
 
-- Create a method in a Helper only when it **orchestrates two or more page objects**. If you are chaining calls on one page only, add that method to the page class itself.
-- Static / shared test data belongs in a dedicated `StaticData` helper, not scattered in test classes.
-- Do not instantiate page objects in test classes — use instances and factory methods provided by the Helper.
+---
 
-### Test classes (`{Feature}Test.java`)
+## Coding Rules
 
-- Every test must use its **own dedicated user** — no two test methods share the same user account or business account.
-- Use `Log.step()` inside test methods only. Use `Log.comment()` inside helpers and page objects.
-- `config.logStep()` messages must be written in plain English describing the full action and expected outcome so anyone can follow the test flow by reading the steps alone:
-  ```java
-  // Good
-  config.logStep("Login as Admin user and navigate to Cards list page");
-  config.logStep("Create a virtual card with spending limit 1000 SGD and verify it appears in the card list");
+### Naming
+- Full descriptive names: `merchantName` not `mName`, `orderId` not `id`
+- Methods describe the action: `addProductToCart()`, `verifyRepositoryMetadata()`
+- Enum values in CamelCase: `SpringGreen`, `BerryBlue` — not `SPRING_GREEN`
 
-  // Bad
-  config.logStep("createCard");
-  ```
-- Do not pass data directly as hardcoded literals in test methods. Use Builder methods or CSV test data.
-- If you do not use the return value of a method, do not assign it to a variable:
-  ```java
-  cards.deleteCard(id);         // ← correct, return value not needed
-  CardData d = cards.deleteCard(id);  // ← wrong if d is never used
-  ```
+### Page objects
+- One class = one page. No cross-page locators.
+- Locator priority: `[data-cy='...']` > `#id` > `[name='...']` > css > xpath
+- XPath: use `contains()` only — never exact text match, positional selectors, or deep nesting
+- Navigation methods must return the next page object
+- `waitUntilLoaded()` in constructor only
 
-### Naming conventions
+### Helpers
+- A Helper method orchestrates ≥2 page objects. Single-page chains go in the page class.
+- Do not instantiate page objects in test classes — use the Helper
 
-- Variable names must be **full descriptive names** — no abbreviations:
-  - `merchantName` not `merchName`
-  - `orderId` not `orderID`
-  - `spendingLimit` not `limit`
-- Method names must reflect the action performed:
-  - `fillDetailsAndSubmit()`, `navigateToCardList()`, `verifyCardIsVisible()`
-- Enum values use **CamelCase** (not ALL_CAPS):
-  - `SpringGreen`, `BerryBlue` — correct
-  - `SPRING_GREEN` — wrong
-
-### CSV test data rules
-
-- Create a CSV file when the data is **reusable across multiple flows** or when data mixes static and dynamic values.
-- If all values are dynamic (generated at runtime), hardcode them via Builder in the test class instead.
-- If data is specific to a single test case only, pass it as a variable from the test — do not create a CSV just for it.
-- All URLs must be in properties files, not hardcoded in tests or page objects.
+### Test classes
+- One user per test — never share accounts between test methods
+- `logStep()` in test methods only; `logComment()` in helpers/pages
+- No hardcoded credentials, URLs, or IDs — use properties files and Builders
+- Do not assign return values you don't use
 
 ### Code quality
-
-- Remove all debug output (`System.out.println`, temporary log lines) before committing.
-- Do not push commented-out code or unused imports.
-- Do not create unnecessary intermediate variables:
-  ```java
-  // Good
-  AssertHelper.assertEquals(config, testData.get("cardName"), expected, "Card name matches");
-
-  // Bad — extra variable serves no purpose
-  String name = testData.get("cardName");
-  AssertHelper.assertEquals(config, name, expected, "Card name matches");
-  ```
-- Prefer `assertElementText` over `assertElementDisplayed` wherever you also need to verify text content.
-- Merge methods that perform the same type of action by parameterizing them — don't duplicate logic with slight variations.
+- No `System.out.println` in committed code
+- No commented-out code
+- No unused imports
+- No unnecessary intermediate variables
 
 ---
 
-## Known Patterns to Avoid
+## Patterns to Never Use
 
-- Do NOT use `Thread.sleep()` — always use `WaitHelper` methods
-- Do NOT call Playwright locator methods directly (`locator.click()`, `locator.fill()`) — use `BasePage` or `Element` wrappers
-- Do NOT use `Assert.*` directly — always use `AssertHelper.*`
-- Do NOT hardcode credentials — always use `allocateUser()` + user pool
-- Do NOT use XPath or CSS class-based locators — use `[data-cy='...']`
-- Do NOT create a new `Config` manually — always receive it from `dataProvider`
-- Do NOT release users manually — `@AfterMethod` handles it
-- Do NOT call `config.getRunTimeProperty()` for environment/browser/country — use the static fields on `Config`
-- Do NOT instantiate page objects directly in test classes — use the Helper
-- Do NOT use `Log.step()` inside helpers or page objects — only in test methods
-- Do NOT call `waitUntilLoaded()` outside a page constructor — use `WaitHelper.waitForElementToBeVisible()` elsewhere
-- Do NOT share users or accounts between test methods
-- Do NOT hardcode URLs — put them in properties files
-- Do NOT add `config.logPass()` at the end of test methods — the framework automatically logs PASS/FAIL after each test; a trailing `logPass` is redundant noise
+| Wrong | Correct |
+|-------|---------|
+| `Thread.sleep(2000)` | `WaitHelper.waitForElementToBeVisible(...)` |
+| `locator.click()` | `click(locator, "name")` or `Element.click(config, locator, "name")` |
+| `Assert.assertEquals(...)` | `AssertHelper.assertEquals(config, ...)` |
+| `new Config()` in a test | receive from `dataProvider` |
+| `config.getRunTimeProperty("environment")` | `Config.environment` |
+| `waitUntilLoaded()` outside a constructor | `WaitHelper.waitForElementToBeVisible(...)` |
+| `config.logStep()` in a helper | `config.logComment()` |
+| `config.logPass()` at end of test method | remove it — framework logs automatically |
+| Hardcoded URL in test/page | put in properties file |
+| Hardcoded credential in test | use CSV or `config.getRunTimeProperty()` |
 
 ---
 
-## Reference Implementations
+## Reference Implementations (live, working code)
 
-| What | Where |
-|------|-------|
-| API test (CRUD) | [CardApiTest.java](src/test/java/automation/cards/CardApiTest.java) |
-| Web UI test | [CardWebTest.java](src/test/java/automation/cards/CardWebTest.java) |
-| Data POJO | [CardData.java](src/main/java/automation/modules/cards/CardData.java) |
-| Builder | [CardBuilder.java](src/main/java/automation/modules/cards/CardBuilder.java) |
-| Helper | [CardHelper.java](src/main/java/automation/modules/cards/CardHelper.java) |
-| API enum | [CardApi.java](src/main/java/automation/modules/cards/api/CardApi.java) |
-| Page object | [CardListPage.java](src/main/java/automation/modules/cards/web/CardListPage.java) |
+| What | File |
+|------|------|
+| API test class | [GitHubApiTest.java](src/test/java/automation/github/GitHubApiTest.java) |
+| Web test class | [SauceDemoWebTest.java](src/test/java/automation/saucedemo/SauceDemoWebTest.java) |
 | External API helper | [GitHubHelper.java](src/main/java/automation/modules/github/GitHubHelper.java) |
-| Framework base | [TestBase.java](src/main/java/automation/core/TestBase.java) |
+| API enum | [GitHubApi.java](src/main/java/automation/modules/github/api/GitHubApi.java) |
+| Data POJO | [GitHubData.java](src/main/java/automation/modules/github/GitHubData.java) |
+| Web page object | [LoginPage.java](src/main/java/automation/modules/github/web/LoginPage.java) |
+| Framework base class | [TestBase.java](src/main/java/automation/core/TestBase.java) |
 | Config system | [Config.java](src/main/java/automation/core/Config.java) |
 | All enums | [Enums.java](src/main/java/automation/core/Enums.java) |
+| ApiHelper (base for all helpers) | [ApiHelper.java](src/main/java/automation/core/api/ApiHelper.java) |
+| AssertHelper | [AssertHelper.java](src/main/java/automation/core/AssertHelper.java) |
+| JSON result report | `{resultsDirectory}/report.json` — read this after every run |
