@@ -15,16 +15,6 @@ import java.util.Map;
 
 /**
  * Unified helper for GitHub web and API flows.
- * Extends ApiHelper so it inherits all execute* methods with the GitHub API base URL.
- *
- * API usage:
- *   GitHubHelper github = new GitHubHelper(config, token);
- *   GitHubData user = github.execute(GitHubApi.GetUser.withPath("username", "octocat"), GitHubData.class);
- *   GitHubData repo = github.execute(GitHubApi.GetRepository.withPath("owner", "torvalds").withPath("repo", "linux"), GitHubData.class);
- *
- * Web usage:
- *   GitHubHelper github = new GitHubHelper(config);
- *   DashboardPage dashboard = github.doLogin(username, password);
  */
 public class GitHubHelper extends ApiHelper
 {
@@ -44,11 +34,6 @@ public class GitHubHelper extends ApiHelper
         }
     }
 
-    // ========== WEB FLOWS ==========
-
-    /**
-     * Open browser, navigate to GitHub home, and perform a full login.
-     */
     public DashboardPage doLogin(String username, String password)
     {
         String githubUrl = config.getRunTimeProperty("githubUrl", "https://github.com/");
@@ -58,9 +43,11 @@ public class GitHubHelper extends ApiHelper
         return loginPage.doLogin(username, password);
     }
 
-    /**
-     * Open browser, navigate to GitHub home, perform login, and handle OTP if required.
-     */
+    public DashboardPage doLogin(Map<String, String> credentials)
+    {
+        return doLogin(credentials.get("username"), credentials.get("password"));
+    }
+
     public DashboardPage doLoginWithOtp(String username, String password, String otp)
     {
         String githubUrl = config.getRunTimeProperty("githubUrl", "https://github.com/");
@@ -71,23 +58,11 @@ public class GitHubHelper extends ApiHelper
         return otpPage.enterOtpAndVerify(otp);
     }
 
-    /**
-     * Load GitHub credentials by role for the current environment.
-     * CSV: src/test/resources/github/csvFiles/github-users.csv
-     * Columns: role, environment, username, password, description
-     *
-     * Usage:
-     *   Map&lt;String, String&gt; credentials = github.getCredentials("admin");
-     *   DashboardPage dashboard = github.doLogin(credentials.get("username"), credentials.get("password"));
-     */
     public Map<String, String> getCredentials(String role)
     {
         return TestDataReader.loadCsvRowByColumnValue("github", "github-users", "role", role, Config.environment);
     }
 
-    /**
-     * Load a previously stored session and navigate to GitHub — no login required.
-     */
     public DashboardPage loginWithStoredSession()
     {
         String githubUrl = config.getRunTimeProperty("githubUrl", "https://github.com/");
@@ -97,9 +72,6 @@ public class GitHubHelper extends ApiHelper
         return new DashboardPage(config);
     }
 
-    /**
-     * Save the current browser session so future tests can skip login.
-     */
     public void storeCurrentSession()
     {
         BrowserHelper.storeSession(config, ProjectName.GitHub, SESSION_FILE);
