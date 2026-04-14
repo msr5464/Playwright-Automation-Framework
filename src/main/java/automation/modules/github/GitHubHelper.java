@@ -10,6 +10,7 @@ import automation.modules.github.web.DashboardPage;
 import automation.modules.github.web.HomePage;
 import automation.modules.github.web.LoginPage;
 import automation.modules.github.web.OtpPage;
+import automation.modules.github.web.UserMenuPage;
 
 import java.util.Map;
 
@@ -75,5 +76,12 @@ public class GitHubHelper extends ApiHelper
     public void storeCurrentSession()
     {
         BrowserHelper.storeSession(config, ProjectName.GitHub, SESSION_FILE);
+    }
+
+    public UserMenuPage openUserMenu(DashboardPage dashboardPage)
+    {
+        config.logComment("Opening GitHub user navigation menu");
+        dashboardPage.openUserMenu();
+        return new UserMenuPage(config);
     }
 }

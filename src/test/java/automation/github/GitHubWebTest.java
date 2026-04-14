@@ -11,6 +11,7 @@ import automation.core.TestVariables;
 import automation.core.Enums.*;
 import automation.modules.github.GitHubHelper;
 import automation.modules.github.web.DashboardPage;
+import automation.modules.github.web.UserMenuPage;
 
 public class GitHubWebTest extends TestBase
 {
@@ -29,8 +30,8 @@ public class GitHubWebTest extends TestBase
         AssertHelper.assertTrue(config, dashboard.isLoggedIn(), "User should be logged into GitHub");
 
         config.logStep("Open the user navigation menu and validate the user name");
-        dashboard.openUserMenu();
-        String actualUserName = dashboard.getUserName();
+        UserMenuPage userMenu = github.openUserMenu(dashboard);
+        String actualUserName = userMenu.getDisplayedName();
         AssertHelper.assertNotNull(config, actualUserName, "User name should be displayed in user menu");
         AssertHelper.assertEquals(config, actualUserName, credentials.get("username"),
             "Displayed user name should match the logged-in user");
