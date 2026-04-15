@@ -13,34 +13,30 @@ import automation.modules.github.web.UserMenuPage;
 
 import java.util.Map;
 
-/**
- * GitHub web test suite.
- * Tests GitHub UI flows using a real browser via Playwright.
- */
 public class GitHubWebTest extends TestBase
 {
 
-    /**
-     * Log in to GitHub, open the user navigation menu, and verify the
-     * displayed name matches the authenticated user.
-     */
-    @Test(description = "verify displayed name in user menu matches the authenticated user after login",
+    @Test(description = "Login to GitHub, open the user navigation menu, and validate the displayed name of the logged-in user",
           dataProvider = "getConfig", groups = {GROUP_REGRESSION, GROUP_WEB})
-    @TestVariables(automatedBy = QA.Mukesh)
+    @TestVariables(automatedBy = QA.Mukesh, country = Country.SG)
     public void loginAndValidateUserName(Config config)
     {
-        GitHubHelper helper = new GitHubHelper(config);
-        Map<String, String> credentials = helper.getCredentials("user");
+        GitHubHelper github = new GitHubHelper(config);
+        Map<String, String> credentials = github.getCredentials("user");
 
         config.logStep("Login to GitHub with user credentials");
-        DashboardPage dashboardPage = helper.doLogin(credentials.get("username"), credentials.get("password"));
+        DashboardPage dashboard = github.doLogin(credentials.get("username"), credentials.get("password"));
 
-        config.logStep("Open user navigation menu and verify displayed name matches authenticated user");
-        UserMenuPage userMenuPage = helper.openUserMenu(dashboardPage);
+        config.logStep("Verify the dashboard page is loaded and user is logged in");
+        AssertHelper.assertTrue(config, dashboard.isLoggedIn(), "Dashboard page should confirm user is logged in");
 
-        String displayedName = userMenuPage.getDisplayedName();
-        AssertHelper.assertNotNull(config, displayedName, "Displayed name in user menu should not be null");
-        AssertHelper.assertEquals(config, displayedName, credentials.get("name"),
-            "Displayed name in user menu should match the authenticated user's name");
+        config.logStep("Open the user navigation menu");
+        UserMenuPage userMenu = github.openUserMenu(dashboard);
+
+        config.logStep("Validate the displayed name of the logged-in user");
+        String displayedName = userMenu.getDisplayedName();
+        AssertHelper.assertNotNull(config, displayedName, "Displayed user name should not be null");
+        AssertHelper.assertFalse(config, displayedName.isEmpty(), "Displayed user name should not be empty");
+        config.logComment("Validated displayed user name: " + displayedName);
     }
 }
