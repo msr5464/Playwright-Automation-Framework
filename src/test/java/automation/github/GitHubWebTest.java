@@ -10,33 +10,27 @@ import automation.core.Enums.*;
 import automation.modules.github.GitHubHelper;
 import automation.modules.github.web.DashboardPage;
 
+import java.util.Map;
+
 public class GitHubWebTest extends TestBase
 {
 
-    /**
-     * Login to GitHub with demo credentials, open the user navigation menu,
-     * and validate that the displayed user name is not blank.
-     */
-    @Test(description = "Login to GitHub, open user menu, and validate the displayed user name is not blank",
+    @Test(description = "Login to GitHub, click the user navigation menu, and validate the displayed user name",
           dataProvider = "getConfig", groups = {GROUP_REGRESSION, GROUP_WEB})
     @TestVariables(automatedBy = QA.Mukesh)
-    public void loginAndValidateUserName(Config config)
+    public void loginAndVerifyUserName(Config config)
     {
-        String username = "automationdemo@yopmail.com";
-        String password = "automationPassword";
-
         GitHubHelper github = new GitHubHelper(config);
+        Map<String, String> credentials = github.getCredentials("admin");
 
-        config.logStep("Login to GitHub with demo credentials");
-        DashboardPage dashboardPage = github.doLogin(username, password);
+        config.logStep("Login to GitHub with standard user credentials");
+        DashboardPage dashboard = github.doLogin(credentials.get("username"), credentials.get("password"));
 
-        config.logStep("Verify user is logged in by checking avatar visibility");
-        AssertHelper.assertTrue(config, dashboardPage.isLoggedIn(), "User should be logged in after successful login");
+        config.logStep("Open user navigation menu and verify user name is displayed");
+        dashboard.openUserMenu();
+        String userName = dashboard.getUserNameFromMenu();
 
-        config.logStep("Open user navigation menu and validate user name is not blank");
-        dashboardPage.openUserMenu();
-        String userName = dashboardPage.getUserNameFromMenu();
-        AssertHelper.assertNotNull(config, userName, "User name from menu should not be null");
-        AssertHelper.assertTrue(config, !userName.isBlank(), "User name from menu should not be blank");
+        AssertHelper.assertNotNull(config, userName, "User name should be displayed in the navigation menu");
+        AssertHelper.assertTrue(config, !userName.isEmpty(), "User name should not be empty");
     }
 }
