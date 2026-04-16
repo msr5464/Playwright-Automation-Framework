@@ -28,4 +28,13 @@ public class DashboardPage extends BasePage
     {
         click(userMenu, "User menu");
     }
+
+    /**
+     * Click the user menu button and return the user navigation menu dialog page.
+     */
+    public UserMenuPage clickUserMenu()
+    {
+        click(userMenu, "User menu");
+        return new UserMenuPage(config);
+    }
 }
