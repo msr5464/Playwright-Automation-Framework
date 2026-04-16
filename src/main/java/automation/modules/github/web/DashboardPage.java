@@ -16,7 +16,7 @@ public class DashboardPage extends BasePage
     {
         super(config);
         avatarWidget = page.locator("img[class*='avatar']").first();
-        userMenu     = page.locator("summary[aria-label*='View profile'], .AppHeader-user");
+        userMenu     = page.locator("button[aria-label*='profile'], button[aria-label*='navigation menu'], summary[aria-label*='View profile'], button:has(img[class*='avatar']), .AppHeader-user").first();
         waitUntilLoaded();
     }
 

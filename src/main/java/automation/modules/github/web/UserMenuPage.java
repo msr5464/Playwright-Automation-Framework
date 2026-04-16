@@ -17,7 +17,7 @@ public class UserMenuPage extends BasePage
     public UserMenuPage(Config config)
     {
         super(config);
-        userNameLabel = page.locator("dialog[aria-label='User navigation'] span").first();
+        userNameLabel = page.locator("dialog[aria-label='User navigation'] span, [aria-label='User navigation'] span, [data-target*='user-menu'] span, .p-0 strong, .px-3 span[class*='color-fg']").first();
         waitUntilLoaded();
     }
 
