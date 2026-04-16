@@ -9,6 +9,7 @@ import automation.core.TestVariables;
 import automation.core.Enums.*;
 import automation.modules.github.GitHubHelper;
 import automation.modules.github.web.DashboardPage;
+import automation.modules.github.web.UserMenuPage;
 
 public class GitHubLoginTest extends TestBase
 {
@@ -67,5 +68,30 @@ public class GitHubLoginTest extends TestBase
 
         AssertHelper.assertTrue(config, dashboard.isLoggedIn(),
             "User should be logged in to GitHub after OTP verification");
+    }
+
+    /**
+     * Login to GitHub with test credentials, open the user navigation menu,
+     * and assert the displayed user name is not blank.
+     */
+    @Test(description="verify user name is displayed in user menu after login to GitHub", dataProvider = "getConfig", groups = {GROUP_REGRESSION, GROUP_WEB})
+    @TestVariables(automatedBy = QA.Mukesh)
+    public void loginAndValidateUserName(Config config)
+    {
+        String username = config.getRunTimeProperty("github.username");
+        String password = config.getRunTimeProperty("github.password");
+
+        GitHubHelper github = new GitHubHelper(config);
+
+        config.logStep("Login to GitHub and verify user is logged in");
+        DashboardPage dashboard = github.doLogin(username, password);
+        AssertHelper.assertTrue(config, dashboard.isLoggedIn(),
+            "User should be successfully logged in to GitHub");
+
+        config.logStep("Open user navigation menu and verify user name is displayed");
+        UserMenuPage userMenu = dashboard.openUserMenu();
+        String userName = userMenu.getUserName();
+        AssertHelper.assertNotNull(config, userName, "User name should not be null");
+        AssertHelper.assertTrue(config, !userName.isEmpty(), "User name should not be empty");
     }
 }

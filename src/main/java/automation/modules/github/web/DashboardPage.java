@@ -31,8 +31,12 @@ public class DashboardPage extends BasePage
         return isElementDisplayed(avatarWidget);
     }
 
-    public void openUserMenu()
+    /**
+     * Opens the user navigation menu and returns the resulting UserMenuPage.
+     */
+    public UserMenuPage openUserMenu()
     {
         click(userMenu, "User menu");
+        return new UserMenuPage(config);
     }
 }
