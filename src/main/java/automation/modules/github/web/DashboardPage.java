@@ -4,6 +4,7 @@ import com.microsoft.playwright.Locator;
 
 import automation.core.BasePage;
 import automation.core.Config;
+import automation.core.WaitHelper;
 
 public class DashboardPage extends BasePage
 {
@@ -15,8 +16,14 @@ public class DashboardPage extends BasePage
     {
         super(config);
         avatarWidget = page.locator("img[class*='avatar']").first();
-        userMenu     = page.locator("summary[aria-label*='View profile'], .AppHeader-user");
-        assertPageLoaded(avatarWidget);
+        userMenu     = page.locator("button[aria-label='Open user navigation menu'], summary[aria-label*='View profile'], .AppHeader-user");
+        waitUntilLoaded();
+    }
+
+    @Override
+    protected void waitUntilLoaded()
+    {
+        WaitHelper.waitForElementToBeVisible(config, avatarWidget, "User avatar");
     }
 
     public boolean isLoggedIn()
@@ -24,8 +31,9 @@ public class DashboardPage extends BasePage
         return isElementDisplayed(avatarWidget);
     }
 
-    public void openUserMenu()
+    public UserMenuPage openUserMenu()
     {
         click(userMenu, "User menu");
+        return new UserMenuPage(config);
     }
 }

@@ -9,6 +9,7 @@ import automation.core.TestVariables;
 import automation.core.Enums.*;
 import automation.modules.github.GitHubHelper;
 import automation.modules.github.web.DashboardPage;
+import automation.modules.github.web.UserMenuPage;
 
 public class GitHubLoginTest extends TestBase
 {
@@ -67,5 +68,30 @@ public class GitHubLoginTest extends TestBase
 
         AssertHelper.assertTrue(config, dashboard.isLoggedIn(),
             "User should be logged in to GitHub after OTP verification");
+    }
+
+    /**
+     * Logs in to GitHub and verifies the user name and login are displayed in the navigation menu.
+     * Credentials are read from config: github.username and github.password
+     * (set these in parameters/system.properties which is git-ignored).
+     */
+    @Test(description="verify user name and login are displayed in the GitHub navigation menu after login", dataProvider = "getConfig", groups = {GROUP_REGRESSION, GROUP_WEB})
+    @TestVariables(automatedBy = QA.Mukesh)
+    public void loginAndValidateUserName(Config config)
+    {
+        String username = config.getRunTimeProperty("github.username");
+        String password = config.getRunTimeProperty("github.password");
+
+        GitHubHelper github = new GitHubHelper(config);
+
+        config.logStep("Login to GitHub and verify dashboard loads");
+        DashboardPage dashboard = github.doLogin(username, password);
+        AssertHelper.assertTrue(config, dashboard.isLoggedIn(), "User should be logged in to GitHub");
+
+        config.logStep("Open user navigation menu and verify user name and login are displayed");
+        UserMenuPage userMenu = dashboard.openUserMenu();
+        AssertHelper.assertNotNull(config, userMenu.getUserName(), "User name should be displayed in the navigation menu");
+        AssertHelper.assertNotNull(config, userMenu.getUserLogin(), "User login should be displayed in the navigation menu");
+        userMenu.close();
     }
 }
