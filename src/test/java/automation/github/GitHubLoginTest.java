@@ -9,6 +9,7 @@ import automation.core.TestVariables;
 import automation.core.Enums.*;
 import automation.modules.github.GitHubHelper;
 import automation.modules.github.web.DashboardPage;
+import automation.modules.github.web.RepoPage;
 
 public class GitHubLoginTest extends TestBase
 {
@@ -67,5 +68,32 @@ public class GitHubLoginTest extends TestBase
 
         AssertHelper.assertTrue(config, dashboard.isLoggedIn(),
             "User should be logged in to GitHub after OTP verification");
+    }
+
+    /**
+     * Login to GitHub, navigate to the QA-Dashboard repository, and verify the
+     * FCT Test Coverage screenshot is visible in the README.
+     * Credentials are read from config: github.username and github.password.
+     * Repository URL is read from config: github.qaDashboardUrl
+     * (default: https://github.com/automationdemo/QA-Dashboard).
+     */
+    @Test(description="validate FCT coverage screenshot is visible in README of QA-Dashboard repo", dataProvider = "getConfig", groups = {GROUP_REGRESSION, GROUP_WEB})
+    @TestVariables(automatedBy = QA.Mukesh)
+    public void validateFctCoverageScreenshotInReadme(Config config)
+    {
+        String username = config.getRunTimeProperty("github.username");
+        String password = config.getRunTimeProperty("github.password");
+        String repoUrl  = config.getRunTimeProperty("github.qaDashboardUrl", "https://github.com/automationdemo/QA-Dashboard");
+
+        GitHubHelper github = new GitHubHelper(config);
+
+        config.logStep("Login to GitHub and navigate to QA-Dashboard repository");
+        github.doLogin(username, password);
+        RepoPage repo = github.navigateToRepo(repoUrl);
+
+        config.logStep("Scroll to README section and verify FCT coverage screenshot is visible");
+        repo.scrollToReadme();
+        AssertHelper.assertTrue(config, repo.isFctCoverageScreenshotVisible(),
+            "FCT Test Coverage screenshot should be visible in the README");
     }
 }
