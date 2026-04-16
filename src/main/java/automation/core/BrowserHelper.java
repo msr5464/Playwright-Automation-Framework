@@ -174,7 +174,7 @@ public class BrowserHelper
         }
         Log.action(config, "Navigating to: " + url);
         config.page.navigate(url);
-        WaitHelper.waitForPageLoad(config);
+        WaitHelper.waitForNetworkIdle(config);
     }
 
     /**
