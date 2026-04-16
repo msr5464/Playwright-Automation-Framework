@@ -4,7 +4,6 @@ import com.microsoft.playwright.Locator;
 
 import automation.core.BasePage;
 import automation.core.Config;
-import automation.core.WaitHelper;
 
 public class OtpPage extends BasePage
 {
@@ -17,13 +16,7 @@ public class OtpPage extends BasePage
         super(config);
         otpInputField = page.locator("input[name='otp']");
         verifyButton  = page.locator("button[type='submit']");
-        waitUntilLoaded();
-    }
-
-    @Override
-    protected void waitUntilLoaded()
-    {
-        WaitHelper.waitForElementToBeVisible(config, otpInputField, "OTP input field");
+        assertPageLoaded(otpInputField);
     }
 
     public DashboardPage enterOtpAndVerify(String otp)

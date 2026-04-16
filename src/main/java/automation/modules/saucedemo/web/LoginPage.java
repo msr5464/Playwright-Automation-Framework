@@ -5,7 +5,6 @@ import com.microsoft.playwright.Locator;
 import automation.core.BasePage;
 import automation.core.Config;
 import automation.core.Log;
-import automation.core.WaitHelper;
 
 public class LoginPage extends BasePage
 {
@@ -21,13 +20,7 @@ public class LoginPage extends BasePage
         passwordField = page.locator("#password");
         loginButton   = page.locator("#login-button");
         errorMessage  = page.locator("[data-test='error']");
-        waitUntilLoaded();
-    }
-
-    @Override
-    protected void waitUntilLoaded()
-    {
-        WaitHelper.waitForElementToBeVisible(config, usernameField, "Username field");
+        assertPageLoaded(usernameField);
     }
 
     public ProductsPage doLogin(String username, String password)

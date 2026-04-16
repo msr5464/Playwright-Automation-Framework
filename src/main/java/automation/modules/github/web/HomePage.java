@@ -4,7 +4,6 @@ import com.microsoft.playwright.Locator;
 
 import automation.core.BasePage;
 import automation.core.Config;
-import automation.core.WaitHelper;
 
 public class HomePage extends BasePage
 {
@@ -16,13 +15,7 @@ public class HomePage extends BasePage
         super(config);
         signInButton = page.getByRole(com.microsoft.playwright.options.AriaRole.LINK,
             new com.microsoft.playwright.Page.GetByRoleOptions().setName("Sign in"));
-        waitUntilLoaded();
-    }
-
-    @Override
-    protected void waitUntilLoaded()
-    {
-        WaitHelper.waitForElementToBeVisible(config, signInButton, "Sign In button");
+        assertPageLoaded(signInButton);
     }
 
     public LoginPage clickSignIn()

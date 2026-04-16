@@ -4,7 +4,6 @@ import com.microsoft.playwright.Locator;
 
 import automation.core.BasePage;
 import automation.core.Config;
-import automation.core.WaitHelper;
 
 public class CartPage extends BasePage
 {
@@ -18,13 +17,7 @@ public class CartPage extends BasePage
         pageTitle              = page.locator(".title");
         cartItems              = page.locator(".cart_item");
         continueShoppingButton = page.locator("[data-test='continue-shopping']");
-        waitUntilLoaded();
-    }
-
-    @Override
-    protected void waitUntilLoaded()
-    {
-        WaitHelper.waitForElementToBeVisible(config, pageTitle, "Cart page title");
+        assertPageLoaded(pageTitle);
     }
 
     public int getCartItemCount()

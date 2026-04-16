@@ -20,12 +20,12 @@ public class WaitHelper
             locator.waitFor(new Locator.WaitForOptions()
                 .setState(WaitForSelectorState.VISIBLE)
                 .setTimeout(getTimeout(config)));
-            Log.debug(config, "Element visible: " + elementName);
+            config.logCommentForDebugging("Element is visible: " + elementName);
             return true;
         }
         catch (Exception e)
         {
-            Log.debug(config, "Element not visible after timeout: " + elementName);
+            config.logWarning("Element not visible after timeout: " + elementName);
             return false;
         }
     }
@@ -37,10 +37,12 @@ public class WaitHelper
             locator.waitFor(new Locator.WaitForOptions()
                 .setState(WaitForSelectorState.VISIBLE)
                 .setTimeout(5000));
+            config.logCommentForDebugging("Element is visible: " + elementName);
             return true;
         }
         catch (Exception e)
         {
+            config.logCommentForDebugging("Optional element not visible after timeout: " + elementName);
             return false;
         }
     }
@@ -52,12 +54,12 @@ public class WaitHelper
             locator.waitFor(new Locator.WaitForOptions()
                 .setState(WaitForSelectorState.HIDDEN)
                 .setTimeout(getTimeout(config)));
-            Log.debug(config, "Element hidden: " + elementName);
+            config.logCommentForDebugging("Element is hidden: " + elementName);
             return true;
         }
         catch (Exception e)
         {
-            Log.debug(config, "Element still visible after timeout: " + elementName);
+            config.logWarning("Element still visible after timeout: " + elementName);
             return false;
         }
     }
@@ -111,18 +113,6 @@ public class WaitHelper
         return false;
     }
 
-    public static void waitForPageLoad(Config config)
-    {
-        try
-        {
-            config.page.waitForLoadState();
-        }
-        catch (Exception e)
-        {
-            Log.debug(config, "Page load state wait failed: " + e.getMessage());
-        }
-    }
-
     public static void waitForNetworkIdle(Config config)
     {
         try
@@ -131,7 +121,7 @@ public class WaitHelper
         }
         catch (Exception e)
         {
-            Log.debug(config, "Network idle wait failed: " + e.getMessage());
+            config.logWarning("Network idle wait failed: " + e.getMessage());
         }
     }
 
@@ -151,7 +141,7 @@ public class WaitHelper
         }
         catch (Exception e)
         {
-            Log.debug(config, "Loading indicator wait: " + e.getMessage());
+            config.logWarning("Loading indicator wait: " + e.getMessage());
         }
     }
 }

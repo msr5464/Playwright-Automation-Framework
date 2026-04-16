@@ -296,12 +296,8 @@ public class WidgetListPage extends BasePage {
 
     public WidgetListPage(Config config) {
         super(config);
-        waitUntilLoaded();
-    }
-
-    @Override
-    protected void waitUntilLoaded() {
-        WaitHelper.waitForElementToBeVisible(config, createButton, "Create Widget button");
+        assertPageLoaded(createButton);                     // single element
+        // assertPageLoaded(createButton, alternativeBtn); // any one visible = page loaded
     }
 
     public WidgetDetailPage clickCreate() {
@@ -433,10 +429,10 @@ Never use `Thread.sleep()`. Use `WaitHelper`:
 | `waitForOptionalElementToBeVisible(config, locator, name)` | Conditional elements — 5s, returns boolean |
 | `waitForElementToBeAttached(config, locator, name)` | In DOM but not yet visible |
 | `waitForElementToBeDetached(config, locator, name)` | Wait for removal from DOM |
-| `waitForPageLoad(config)` | After navigation — **page constructors only** |
+| `waitForAnyElementToBeDisplayed(config, locators...)` | Poll until any one of multiple locators is visible |
 | `waitForNetworkIdle(config)` | After form submissions with no visible feedback |
 
-Rule: `waitUntilLoaded()` (calls `waitForPageLoad`) → **only in page constructors**. Use `waitForElementToBeVisible` everywhere else.
+Rule: use `assertPageLoaded(locator)` (inherited from `BasePage`) **at the end of every page constructor** — it waits for the element and hard-fails the test if the page did not load. Use `waitForElementToBeVisible` everywhere else.
 
 ---
 
@@ -545,7 +541,7 @@ Users are automatically released by `@AfterMethod`. Do not release manually.
 - Locator priority: `[data-cy='...']` > `#id` > `[name='...']` > css > xpath
 - XPath: use `contains()` only — never exact text match, positional selectors, or deep nesting
 - Navigation methods must return the next page object
-- `waitUntilLoaded()` in constructor only
+- Call `assertPageLoaded(locator)` at the end of every constructor — no `waitUntilLoaded()` override needed
 
 ### Helpers
 - A Helper method orchestrates ≥2 page objects. Single-page chains go in the page class.
@@ -574,7 +570,8 @@ Users are automatically released by `@AfterMethod`. Do not release manually.
 | `Assert.assertEquals(...)` | `AssertHelper.assertEquals(config, ...)` |
 | `new Config()` in a test | receive from `dataProvider` |
 | `config.getRunTimeProperty("environment")` | `Config.environment` |
-| `waitUntilLoaded()` outside a constructor | `WaitHelper.waitForElementToBeVisible(...)` |
+| `WaitHelper.waitForElementToBeVisible(...)` in constructor | `assertPageLoaded(locator)` — inherited from `BasePage`, hard-fails if page does not load |
+| `waitUntilLoaded()` / `@Override protected void waitUntilLoaded()` | remove both — call `assertPageLoaded(locator)` directly in the constructor |
 | `config.logStep()` in a helper | `config.logComment()` |
 | `config.logPass()` at end of test method | remove it — framework logs automatically |
 | Hardcoded URL in test/page | put in properties file |

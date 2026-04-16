@@ -20,13 +20,7 @@ public class ProductsPage extends BasePage
         cartLink    = page.locator(".shopping_cart_link");
         menuButton  = page.locator("#react-burger-menu-btn");
         logoutLink  = page.locator("#logout_sidebar_link");
-        waitUntilLoaded();
-    }
-
-    @Override
-    protected void waitUntilLoaded()
-    {
-        WaitHelper.waitForElementToBeVisible(config, pageTitle, "Products page title");
+        assertPageLoaded(pageTitle);
     }
 
     public String getPageTitle()

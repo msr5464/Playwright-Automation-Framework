@@ -34,13 +34,25 @@ public class BasePage
     }
 
     /**
-     * Override in each page to define its load condition.
-     * Called at the end of the page's own constructor, after all locators are initialized.
-     * If this method returns without exception, the page is considered loaded and validated.
+     * Assert that a page has loaded by checking that at least one of the given locators is visible.
+     * Fails the test immediately if none of the elements appear within the configured timeout.
+     *
+     * Single element:
+     *   assertPageLoaded(submitButton);
+     *
+     * Multiple elements — page is considered loaded if ANY one is visible:
+     *   assertPageLoaded(avatarWidget, welcomeBanner);
      */
-    protected void waitUntilLoaded()
+    protected void assertPageLoaded(Locator... locators)
     {
-        // no-op by default — override in each page
+        boolean loaded = WaitHelper.waitForAnyElementToBeDisplayed(config, locators);
+        if (!loaded)
+        {
+            String locatorList = java.util.Arrays.stream(locators)
+                .map(Locator::toString)
+                .collect(java.util.stream.Collectors.joining(", "));
+            config.logFailToEndExecution("Failed to load Element " + locatorList + " in " + this.getClass().getSimpleName());
+        }
     }
 
     protected void initCommonLocators()
@@ -288,35 +300,10 @@ public class BasePage
         Element.scrollToElement(config, locator, elementName);
     }
 
-    public void scrollToBottom()
-    {
-        page.evaluate("window.scrollTo(0, document.body.scrollHeight)");
-    }
-
-    public void scrollToTop()
-    {
-        page.evaluate("window.scrollTo(0, 0)");
-    }
-
     // ========== KEYBOARD ==========
 
     public void pressKey(String key)
     {
         page.keyboard().press(key);
-    }
-
-    public void pressEnter()
-    {
-        pressKey("Enter");
-    }
-
-    public void pressEscape()
-    {
-        pressKey("Escape");
-    }
-
-    public void pressTab()
-    {
-        pressKey("Tab");
     }
 }
