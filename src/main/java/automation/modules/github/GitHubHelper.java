@@ -104,4 +104,18 @@ public class GitHubHelper extends ApiHelper
     {
         BrowserHelper.storeSession(config, ProjectName.GitHub, SESSION_FILE);
     }
+
+    /**
+     * Navigate to GitHub, login with credentials loaded by role, and return the DashboardPage.
+     * Orchestrates HomePage → LoginPage → DashboardPage.
+     *
+     * Usage:
+     *   DashboardPage dashboard = github.loginAndOpenUserMenu("admin");
+     */
+    public DashboardPage loginWithRole(String role)
+    {
+        Map<String, String> credentials = getCredentials(role);
+        config.logComment("Logging in with role: " + role);
+        return doLogin(credentials.get("username"), credentials.get("password"));
+    }
 }
