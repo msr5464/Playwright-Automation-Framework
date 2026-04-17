@@ -1,7 +1,7 @@
 package automation.modules.github.web;
 
+import automation.core.BasePage;
 import automation.core.Config;
-import automation.core.web.BasePage;
 import com.microsoft.playwright.Locator;
 
 /**
