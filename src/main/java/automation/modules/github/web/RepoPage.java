@@ -17,7 +17,7 @@ public class RepoPage extends BasePage
     {
         super(config);
         readmeSection = page.locator("article.markdown-body");
-        fctCoverageScreenshot = page.locator("article.markdown-body img[alt=\"Testrail Page\"]");
+        fctCoverageScreenshot = page.locator("article.markdown-body img[alt=\"Testrail Page\"]").first();
         assertPageLoaded(readmeSection);
     }
 
