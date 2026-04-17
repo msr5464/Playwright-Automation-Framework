@@ -10,9 +10,9 @@ import com.microsoft.playwright.Locator;
  */
 public class RepoPage extends BasePage
 {
-    private final Locator readmeSection        = page.locator("[data-cy='readme-section']");
-    private final Locator readmeImages         = page.locator("[data-cy='readme-images']");
-    private final Locator readmeFctScreenshot  = page.locator("[data-cy='readme-fct-screenshot']");
+    private final Locator readmeSection        = page.locator("#readme");
+    private final Locator readmeImages         = page.locator("#readme img");
+    private final Locator readmeFctScreenshot  = page.locator("#readme img");
 
     public RepoPage(Config config)
     {
