@@ -10,6 +10,7 @@ public class CartPage extends BasePage
     private final Locator pageTitle;
     private final Locator cartItems;
     private final Locator continueShoppingButton;
+    private final Locator checkoutButton;
 
     public CartPage(Config config)
     {
@@ -17,6 +18,7 @@ public class CartPage extends BasePage
         pageTitle              = page.locator(".title");
         cartItems              = page.locator(".cart_item");
         continueShoppingButton = page.locator("[data-test='continue-shopping']");
+        checkoutButton         = page.locator("[data-test='checkout']");
         assertPageLoaded(pageTitle);
     }
 
@@ -42,5 +44,14 @@ public class CartPage extends BasePage
     {
         click(continueShoppingButton, "Continue shopping button");
         return new ProductsPage(config);
+    }
+
+    /**
+     * Navigates to the Checkout Information page.
+     */
+    public CheckoutInfoPage clickCheckout()
+    {
+        click(checkoutButton, "Checkout button");
+        return new CheckoutInfoPage(config);
     }
 }
