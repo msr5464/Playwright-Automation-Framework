@@ -10,6 +10,7 @@ import com.microsoft.playwright.Locator;
  */
 public class RepoPage extends BasePage
 {
+    private final Locator repoHeader           = page.locator("#repository-container-header");
     private final Locator readmeSection        = page.locator("#readme");
     private final Locator readmeImages         = page.locator("#readme img");
     private final Locator readmeFctScreenshot  = page.locator("#readme img");
@@ -17,7 +18,7 @@ public class RepoPage extends BasePage
     public RepoPage(Config config)
     {
         super(config);
-        assertPageLoaded(readmeSection);
+        assertPageLoaded(repoHeader);
     }
 
     /**
