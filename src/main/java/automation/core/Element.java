@@ -18,7 +18,8 @@ public class Element {
             locator.scrollIntoViewIfNeeded();
             locator.click();
         } catch (Exception e) {
-            Log.fail(config, "Failed to click on element '" + elementName + "' with locator: " + locator.toString());
+            config.logExceptionAndFail(
+                    "Failed to click on element '" + elementName + "' with locator: " + locator.toString(), e);
         }
     }
 
@@ -28,7 +29,7 @@ public class Element {
             Log.action(config, "JS clicking: " + elementName);
             locator.evaluate("el => el.click()");
         } catch (Exception e) {
-            Log.fail(config, "JS clicking failed for '" + elementName + "'!");
+            config.logExceptionAndFail("JS clicking failed for '" + elementName + "'!", e);
         }
     }
 
@@ -38,7 +39,9 @@ public class Element {
         try {
             locator.click(new Locator.ClickOptions().setPosition(0, 0));
         } catch (Exception e) {
-            Log.fail(config, "Failed to coordinate-click on element '" + elementName + "' with locator: " + locator.toString());
+            config.logExceptionAndFail(
+                    "Failed to coordinate-click on element '" + elementName + "' with locator: " + locator.toString(),
+                    e);
         }
     }
 
@@ -48,7 +51,8 @@ public class Element {
         try {
             locator.dblclick();
         } catch (Exception e) {
-            Log.fail(config, "Failed to double-click on element '" + elementName + "' with locator: " + locator.toString());
+            config.logExceptionAndFail(
+                    "Failed to double-click on element '" + elementName + "' with locator: " + locator.toString(), e);
         }
     }
 
@@ -61,7 +65,8 @@ public class Element {
             locator.clear();
             locator.fill(text);
         } catch (Exception e) {
-            Log.fail(config, "Failed to enter data in element '" + elementName + "' with locator: " + locator.toString());
+            config.logExceptionAndFail(
+                    "Failed to enter data in element '" + elementName + "' with locator: " + locator.toString(), e);
         }
     }
 
@@ -72,7 +77,8 @@ public class Element {
             locator.clear();
             locator.pressSequentially(text);
         } catch (Exception e) {
-            Log.fail(config, "Failed to clear and type in element '" + elementName + "' with locator: " + locator.toString());
+            config.logExceptionAndFail(
+                    "Failed to clear and type in element '" + elementName + "' with locator: " + locator.toString(), e);
         }
     }
 
@@ -82,7 +88,8 @@ public class Element {
         try {
             locator.pressSequentially(text);
         } catch (Exception e) {
-            Log.fail(config, "Failed to append text to element '" + elementName + "' with locator: " + locator.toString());
+            config.logExceptionAndFail(
+                    "Failed to append text to element '" + elementName + "' with locator: " + locator.toString(), e);
         }
     }
 
@@ -96,7 +103,8 @@ public class Element {
                 locator.check();
             }
         } catch (Exception e) {
-            Log.fail(config, "Failed to check element '" + elementName + "' with locator: " + locator.toString());
+            config.logExceptionAndFail(
+                    "Failed to check element '" + elementName + "' with locator: " + locator.toString(), e);
         }
     }
 
@@ -108,7 +116,8 @@ public class Element {
                 locator.uncheck();
             }
         } catch (Exception e) {
-            Log.fail(config, "Failed to uncheck element '" + elementName + "' with locator: " + locator.toString());
+            config.logExceptionAndFail(
+                    "Failed to uncheck element '" + elementName + "' with locator: " + locator.toString(), e);
         }
     }
 
@@ -121,7 +130,8 @@ public class Element {
             Log.debug(config, "Text from '" + elementName + "': " + text);
             return text != null ? text.trim() : "";
         } catch (Exception e) {
-            Log.fail(config, "Failed to get text from element '" + elementName + "' with locator: " + locator.toString());
+            config.logExceptionAndFail(
+                    "Failed to get text from element '" + elementName + "' with locator: " + locator.toString(), e);
             return "";
         }
     }
@@ -131,7 +141,9 @@ public class Element {
         try {
             return locator.inputValue();
         } catch (Exception e) {
-            Log.fail(config, "Failed to get input value from element '" + elementName + "' with locator: " + locator.toString());
+            config.logExceptionAndFail(
+                    "Failed to get input value from element '" + elementName + "' with locator: " + locator.toString(),
+                    e);
             return "";
         }
     }
@@ -141,7 +153,8 @@ public class Element {
         try {
             return locator.getAttribute(attribute);
         } catch (Exception e) {
-            Log.fail(config, "Failed to get attribute '" + attribute + "' from element '" + elementName + "' with locator: " + locator.toString());
+            config.logExceptionAndFail("Failed to get attribute '" + attribute + "' from element '" + elementName
+                    + "' with locator: " + locator.toString(), e);
             return "";
         }
     }
@@ -172,7 +185,10 @@ public class Element {
         try {
             locator.selectOption(value);
         } catch (Exception e) {
-            Log.fail(config, "Failed to select option '" + value + "' in element '" + elementName + "' with locator: " + locator.toString());
+            config.logExceptionAndFail(
+                    "Failed to select option '" + value + "' in element '" + elementName + "' with locator: "
+                            + locator.toString(),
+                    e);
         }
     }
 
@@ -183,7 +199,10 @@ public class Element {
         try {
             locator.setInputFiles(java.nio.file.Paths.get(filePath));
         } catch (Exception e) {
-            Log.fail(config, "Failed to upload file '" + filePath + "' to element '" + elementName + "' with locator: " + locator.toString());
+            config.logExceptionAndFail(
+                    "Failed to upload file '" + filePath + "' to element '" + elementName + "' with locator: "
+                            + locator.toString(),
+                    e);
         }
     }
 
@@ -202,7 +221,8 @@ public class Element {
         try {
             locator.scrollIntoViewIfNeeded();
         } catch (Exception e) {
-            Log.fail(config, "Failed to scroll to element '" + elementName + "' with locator: " + locator.toString());
+            config.logExceptionAndFail(
+                    "Failed to scroll to element '" + elementName + "' with locator: " + locator.toString(), e);
         }
     }
 
@@ -214,7 +234,8 @@ public class Element {
         try {
             locator.hover();
         } catch (Exception e) {
-            Log.fail(config, "Failed to hover over element '" + elementName + "' with locator: " + locator.toString());
+            config.logExceptionAndFail(
+                    "Failed to hover over element '" + elementName + "' with locator: " + locator.toString(), e);
         }
     }
 
@@ -226,7 +247,8 @@ public class Element {
             Log.debug(config, elementName + " count: " + count);
             return count;
         } catch (Exception e) {
-            Log.fail(config, "Failed to get count for element '" + elementName + "' with locator: " + locator.toString());
+            config.logExceptionAndFail(
+                    "Failed to get count for element '" + elementName + "' with locator: " + locator.toString(), e);
             return 0;
         }
     }
