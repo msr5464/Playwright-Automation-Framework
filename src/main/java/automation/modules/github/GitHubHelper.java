@@ -7,7 +7,6 @@ import automation.core.TestDataReader;
 import automation.core.api.ApiHelper;
 import automation.core.Enums.ProjectName;
 import automation.modules.github.web.DashboardPage;
-import automation.modules.github.web.HomePage;
 import automation.modules.github.web.LoginPage;
 import automation.modules.github.web.OtpPage;
 import automation.modules.github.web.RepoPage;
@@ -30,6 +29,7 @@ import java.util.Map;
 public class GitHubHelper extends ApiHelper
 {
     private static final String GITHUB_API_BASE = "https://api.github.com";
+    private static final String GITHUB_LOGIN_URL = "https://github.com/login";
     private static final String SESSION_FILE = "GitHubLoginStorage.json";
 
     public GitHubHelper(Config config)
@@ -48,26 +48,23 @@ public class GitHubHelper extends ApiHelper
     // ========== WEB FLOWS ==========
 
     /**
-     * Open browser, navigate to GitHub home, and perform a full login.
+     * Open browser, navigate directly to the GitHub login page, and perform a full login.
+     * Navigates to /login directly to avoid dependency on the homepage "Sign in" link.
      */
     public DashboardPage doLogin(String username, String password)
     {
-        String githubUrl = config.getRunTimeProperty("githubUrl", "https://github.com/");
-        BrowserHelper.navigateTo(config, githubUrl);
-        HomePage homePage = new HomePage(config);
-        LoginPage loginPage = homePage.clickSignIn();
+        BrowserHelper.navigateTo(config, GITHUB_LOGIN_URL);
+        LoginPage loginPage = new LoginPage(config);
         return loginPage.doLogin(username, password);
     }
 
     /**
-     * Open browser, navigate to GitHub home, perform login, and handle OTP if required.
+     * Open browser, navigate to the GitHub login page, perform login, and handle OTP if required.
      */
     public DashboardPage doLoginWithOtp(String username, String password, String otp)
     {
-        String githubUrl = config.getRunTimeProperty("githubUrl", "https://github.com/");
-        BrowserHelper.navigateTo(config, githubUrl);
-        HomePage homePage = new HomePage(config);
-        LoginPage loginPage = homePage.clickSignIn();
+        BrowserHelper.navigateTo(config, GITHUB_LOGIN_URL);
+        LoginPage loginPage = new LoginPage(config);
         OtpPage otpPage = loginPage.doLoginExpectingOtp(username, password);
         return otpPage.enterOtpAndVerify(otp);
     }
