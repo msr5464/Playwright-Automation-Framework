@@ -11,15 +11,17 @@ import automation.core.Config;
  */
 public class RepoPage extends BasePage
 {
+    private final Locator repoHeader;
     private final Locator readmeSection;
     private final Locator testCoverageImage;
 
     public RepoPage(Config config)
     {
         super(config);
+        repoHeader        = page.locator("#repository-container-header");
         readmeSection     = page.locator("[id='readme']");
         testCoverageImage = page.locator("img[src*='testrailPage1']");
-        assertPageLoaded(readmeSection);
+        assertPageLoaded(repoHeader);
     }
 
     /**
