@@ -4,6 +4,7 @@ import com.microsoft.playwright.Locator;
 
 import automation.core.BasePage;
 import automation.core.Config;
+import automation.core.WaitHelper;
 
 /**
  * GitHub repository page.
@@ -32,7 +33,6 @@ public class RepoPage extends BasePage
 
     public boolean isTestCoverageImageVisible()
     {
-        scrollToElement(readmeSection, "README section");
-        return isElementDisplayed(testCoverageImage);
+        return WaitHelper.waitForOptionalElementToBeVisible(config, testCoverageImage, "Test Coverage image");
     }
 }
