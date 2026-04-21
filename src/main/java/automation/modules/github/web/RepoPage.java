@@ -18,7 +18,7 @@ public class RepoPage extends BasePage
     public RepoPage(Config config)
     {
         super(config);
-        repoContainer    = page.locator("[data-pjax-container]");
+        repoContainer    = page.locator("#repository-container-header");
         readmeSection    = page.locator("#readme");
         testCoverageImage = page.locator("img[src*='testrailPage1']");
         assertPageLoaded(repoContainer);
