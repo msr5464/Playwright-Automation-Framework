@@ -2,6 +2,7 @@ package automation.modules.github.web;
 
 import automation.core.BasePage;
 import automation.core.Config;
+import automation.core.WaitHelper;
 import com.microsoft.playwright.Locator;
 
 /**
@@ -10,15 +11,17 @@ import com.microsoft.playwright.Locator;
  */
 public class RepoPage extends BasePage
 {
+    private final Locator repoContainer;
     private final Locator readmeSection;
     private final Locator testCoverageImage;
 
     public RepoPage(Config config)
     {
         super(config);
+        repoContainer    = page.locator("[data-pjax-container]");
         readmeSection    = page.locator("#readme");
         testCoverageImage = page.locator("img[src*='testrailPage1']");
-        assertPageLoaded(readmeSection);
+        assertPageLoaded(repoContainer);
     }
 
     /**
@@ -26,6 +29,7 @@ public class RepoPage extends BasePage
      */
     public boolean isReadmeVisible()
     {
+        WaitHelper.waitForElementToBeVisible(config, readmeSection, "README section");
         return isElementDisplayed(readmeSection);
     }
 
@@ -34,6 +38,7 @@ public class RepoPage extends BasePage
      */
     public boolean isTestCoverageImageVisible()
     {
+        WaitHelper.waitForElementToBeVisible(config, readmeSection, "README section");
         return isElementDisplayed(testCoverageImage);
     }
 }
