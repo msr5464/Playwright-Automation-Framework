@@ -14,13 +14,15 @@ public class RepoPage extends BasePage
 
     private final Locator readmeSection;
     private final Locator testCoverageImage;
+    private final Locator repoContainer;
 
     public RepoPage(Config config)
     {
         super(config);
         readmeSection     = page.locator("#readme");
         testCoverageImage = page.locator("img[src*='testrailPage1']");
-        assertPageLoaded(readmeSection);
+        repoContainer     = page.locator(".repository-content");
+        assertPageLoaded(repoContainer, readmeSection);
     }
 
     public boolean isReadmeVisible()
