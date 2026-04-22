@@ -10,6 +10,7 @@ import automation.modules.github.web.DashboardPage;
 import automation.modules.github.web.HomePage;
 import automation.modules.github.web.LoginPage;
 import automation.modules.github.web.OtpPage;
+import automation.modules.github.web.RepoPage;
 
 import java.util.Map;
 
@@ -103,5 +104,22 @@ public class GitHubHelper extends ApiHelper
     public void storeCurrentSession()
     {
         BrowserHelper.storeSession(config, ProjectName.GitHub, SESSION_FILE);
+    }
+
+    /**
+     * Navigate the current browser session to a specific GitHub repository and return its page.
+     * Constructs the repository URL from owner and repo name, navigates the browser,
+     * and returns a RepoPage representing the loaded repository.
+     *
+     * @param owner the GitHub username or organisation that owns the repository
+     * @param repo  the repository name
+     * @return RepoPage representing the loaded repository page
+     */
+    public RepoPage navigateToRepo(String owner, String repo)
+    {
+        String githubUrl = config.getRunTimeProperty("githubUrl", "https://github.com/");
+        config.logComment("Navigating to repository: " + owner + "/" + repo);
+        BrowserHelper.navigateTo(config, githubUrl + owner + "/" + repo);
+        return new RepoPage(config);
     }
 }
