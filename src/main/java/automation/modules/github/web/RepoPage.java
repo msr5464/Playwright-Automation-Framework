@@ -10,13 +10,14 @@ import com.microsoft.playwright.Locator;
  */
 public class RepoPage extends BasePage
 {
+    private final Locator repoHeader = page.locator("#repository-container-header, main[id], main");
     private final Locator readmeSection = page.locator("#readme");
     private final Locator testCoverageImage = page.locator("img[src*='testrailPage1']");
 
     public RepoPage(Config config)
     {
         super(config);
-        assertPageLoaded(readmeSection);
+        assertPageLoaded(repoHeader);
     }
 
     /**
