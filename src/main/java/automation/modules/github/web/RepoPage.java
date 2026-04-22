@@ -10,7 +10,7 @@ import com.microsoft.playwright.Locator;
  */
 public class RepoPage extends BasePage
 {
-    private final Locator repoHeader = page.locator("#repository-container-header, main[id], main");
+    private final Locator repoHeader = page.locator("header");
     private final Locator readmeSection = page.locator("#readme");
     private final Locator testCoverageImage = page.locator("img[src*='testrailPage1']");
 
