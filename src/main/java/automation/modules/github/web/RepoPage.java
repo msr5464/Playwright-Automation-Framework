@@ -18,7 +18,7 @@ public class RepoPage extends BasePage
         super(config);
         readmeSection    = page.locator("#readme");
         testCoverageImage = page.locator("img[src*='testrailPage1']");
-        assertPageLoaded(readmeSection);
+        assertPageLoaded(page.locator("main"), readmeSection);
     }
 
     /**
