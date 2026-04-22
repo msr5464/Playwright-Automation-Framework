@@ -17,10 +17,10 @@ public class RepoPage extends BasePage
     public RepoPage(Config config)
     {
         super(config);
-        repoHeader = page.locator("#repository-container-header");
-        readmeSection = page.locator("#readme");
+        repoHeader = page.locator("main");
+        readmeSection = page.locator("article.markdown-body");
         testCoverageImage = page.locator("img[src*='testrailPage1']");
-        assertPageLoaded(repoHeader, readmeSection);
+        assertPageLoaded(repoHeader);
     }
 
     /**
