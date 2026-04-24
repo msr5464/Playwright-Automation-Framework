@@ -9,6 +9,7 @@ import automation.core.TestVariables;
 import automation.core.Enums.*;
 import automation.modules.github.GitHubHelper;
 import automation.modules.github.web.DashboardPage;
+import automation.modules.github.web.RepoPage;
 
 public class GitHubLoginTest extends TestBase
 {
@@ -67,5 +68,28 @@ public class GitHubLoginTest extends TestBase
 
         AssertHelper.assertTrue(config, dashboard.isLoggedIn(),
             "User should be logged in to GitHub after OTP verification");
+    }
+
+    /**
+     * Login to GitHub, navigate to the automationdemo/QA-Dashboard repository via URL,
+     * scroll to the Test Coverage section, and verify the coverage image is visible.
+     */
+    @Test(description = "verify test coverage image is visible on QA-Dashboard repository page", dataProvider = "getConfig", groups = {GROUP_REGRESSION, GROUP_WEB})
+    @TestVariables(automatedBy = QA.Mukesh)
+    public void validateTestCoverageImageOnQADashboard(Config config)
+    {
+        String username = config.getRunTimeProperty("github.username");
+        String password = config.getRunTimeProperty("github.password");
+
+        GitHubHelper github = new GitHubHelper(config);
+
+        config.logStep("Login to GitHub and navigate to automationdemo/QA-Dashboard repository");
+        github.doLogin(username, password);
+        RepoPage repoPage = github.navigateToRepo("automationdemo/QA-Dashboard");
+
+        config.logStep("Scroll to Test Coverage section and verify coverage image is visible");
+        repoPage.scrollToTestCoverageSection();
+        AssertHelper.assertTrue(config, repoPage.isTestCoverageImageVisible(),
+            "Test Coverage image should be visible on QA-Dashboard repository page");
     }
 }
