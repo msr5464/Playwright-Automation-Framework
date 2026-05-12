@@ -230,16 +230,19 @@ public class GenerateTestngXmlAndRun
             else includeGroups.add(g);
         }
 
-        // One XmlTest node per included group for cleaner reporting (mirrors Thanos pattern)
-        List<String> testsToCreate = includeGroups.isEmpty() ? List.of("all") : includeGroups;
-        for (String group : testsToCreate)
+        // One XmlTest node per test class so each class gets its own test tag.
+        for (String className : testClasses)
         {
             XmlTest test = new XmlTest(suite);
-            test.setName(group);
+            String simpleName = className.substring(className.lastIndexOf('.') + 1);
+            test.setName(simpleName);
             test.setVerbose(0);
-            if (!includeGroups.isEmpty()) test.addIncludedGroup(group);
+            if (!includeGroups.isEmpty())
+            {
+                includeGroups.forEach(test::addIncludedGroup);
+            }
             excludeGroups.forEach(test::addExcludedGroup);
-            test.setXmlClasses(testClasses.stream().map(XmlClass::new).toList());
+            test.setXmlClasses(Collections.singletonList(new XmlClass(className)));
         }
 
         // Write XML to disk for reference / rerun
