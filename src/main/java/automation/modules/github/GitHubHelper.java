@@ -6,6 +6,7 @@ import automation.core.Log;
 import automation.core.TestDataReader;
 import automation.core.api.ApiHelper;
 import automation.core.Enums.ProjectName;
+import automation.modules.github.api.GitHubApi;
 import automation.modules.github.web.DashboardPage;
 import automation.modules.github.web.HomePage;
 import automation.modules.github.web.LoginPage;
@@ -103,5 +104,30 @@ public class GitHubHelper extends ApiHelper
     public void storeCurrentSession()
     {
         BrowserHelper.storeSession(config, ProjectName.GitHub, SESSION_FILE);
+    }
+
+    // ========== API METHODS ==========
+
+    /**
+     * Fetch a public GitHub user by username.
+     *
+     * @param username the GitHub username
+     * @return GitHubData populated with the user's public profile fields
+     */
+    public GitHubData getUser(String username)
+    {
+        return execute(GitHubApi.GetUser.withPath("username", username), GitHubData.class);
+    }
+
+    /**
+     * Fetch a public GitHub repository by owner and repo name.
+     *
+     * @param owner the repository owner's login
+     * @param repo  the repository name
+     * @return GitHubData populated with the repository's metadata fields
+     */
+    public GitHubData getRepository(String owner, String repo)
+    {
+        return execute(GitHubApi.GetRepository.withPath("owner", owner).withPath("repo", repo), GitHubData.class);
     }
 }
