@@ -6,10 +6,12 @@ import automation.core.Log;
 import automation.core.TestDataReader;
 import automation.core.api.ApiHelper;
 import automation.core.Enums.ProjectName;
+import automation.modules.github.api.GitHubApi;
 import automation.modules.github.web.DashboardPage;
 import automation.modules.github.web.HomePage;
 import automation.modules.github.web.LoginPage;
 import automation.modules.github.web.OtpPage;
+import automation.modules.github.web.RepoPage;
 
 import java.util.Map;
 
@@ -103,5 +105,52 @@ public class GitHubHelper extends ApiHelper
     public void storeCurrentSession()
     {
         BrowserHelper.storeSession(config, ProjectName.GitHub, SESSION_FILE);
+    }
+
+    // ========== API METHODS ==========
+
+    /**
+     * Fetch repository data from GitHub API.
+     *
+     * @param owner repository owner login
+     * @param repo  repository name
+     * @return GitHubData containing repository metadata
+     */
+    public GitHubData getRepository(String owner, String repo)
+    {
+        return execute(
+            GitHubApi.GetRepository.withPath("owner", owner).withPath("repo", repo),
+            GitHubData.class
+        );
+    }
+
+    /**
+     * Fetch public user data from GitHub API.
+     *
+     * @param username GitHub login handle
+     * @return GitHubData containing user profile fields
+     */
+    public GitHubData getUser(String username)
+    {
+        return execute(
+            GitHubApi.GetUser.withPath("username", username),
+            GitHubData.class
+        );
+    }
+
+    /**
+     * Navigate the browser to a GitHub repository page and return the RepoPage object.
+     * Orchestrates browser navigation and RepoPage initialisation.
+     *
+     * @param owner repository owner login
+     * @param repo  repository name
+     * @return RepoPage for the given repository
+     */
+    public RepoPage navigateToRepo(String owner, String repo)
+    {
+        String repoUrl = "https://github.com/" + owner + "/" + repo;
+        Log.comment(config, "Navigating to GitHub repository: " + repoUrl);
+        BrowserHelper.navigateTo(config, repoUrl);
+        return new RepoPage(config);
     }
 }
