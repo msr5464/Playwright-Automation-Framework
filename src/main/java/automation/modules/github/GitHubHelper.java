@@ -10,6 +10,7 @@ import automation.modules.github.web.DashboardPage;
 import automation.modules.github.web.HomePage;
 import automation.modules.github.web.LoginPage;
 import automation.modules.github.web.OtpPage;
+import automation.modules.github.web.ProfilePage;
 
 import java.util.Map;
 
@@ -103,5 +104,21 @@ public class GitHubHelper extends ApiHelper
     public void storeCurrentSession()
     {
         BrowserHelper.storeSession(config, ProjectName.GitHub, SESSION_FILE);
+    }
+
+    // ========== PROFILE WEB FLOWS ==========
+
+    /**
+     * Navigate directly to a GitHub user's public profile page.
+     *
+     * @param username the GitHub login/username to navigate to
+     * @return ProfilePage for the given user
+     */
+    public ProfilePage navigateToProfile(String username)
+    {
+        String profileUrl = "https://github.com/" + username;
+        config.logComment("Navigating to GitHub profile: " + profileUrl);
+        BrowserHelper.navigateTo(config, profileUrl);
+        return new ProfilePage(config, username);
     }
 }
