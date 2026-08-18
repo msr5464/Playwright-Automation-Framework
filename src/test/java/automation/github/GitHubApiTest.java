@@ -161,4 +161,36 @@ public class GitHubApiTest extends TestBase
         var response = github.executeRaw(GitHubApi.GetRepository.withPath("owner", "nonexistentuser1234").withPath("repo", "nonexistentrepo5678"), null);
         AssertHelper.assertEquals(config, response.getStatusCode(), 404, "Non-existent repository should return 404");
     }
+
+    /**
+     * Verify octocat public profile from GitHub API.
+     * Tests that login field matches 'octocat' and public_repos is non-negative.
+     */
+    @Test(description="verify octocat public profile login and public repos from GitHub API", dataProvider = "getConfig", groups = {GROUP_REGRESSION, GROUP_API})
+    @TestVariables(automatedBy = QA.Mukesh)
+    public void verifyOctocatPublicProfile(Config config)
+    {
+        GitHubHelper github = new GitHubHelper(config);
+
+        GitHubData user = github.execute(GitHubApi.GetUser.withPath("username", "octocat"), GitHubData.class);
+
+        AssertHelper.assertEquals(config, user.getLogin(), "octocat", "User login should be 'octocat'");
+        AssertHelper.assertTrue(config, user.getPublicRepos() >= 0, "Public repos count should be non-negative");
+    }
+
+    /**
+     * Verify Hello-World repository owned by octocat from GitHub API.
+     * Tests that repository name is 'Hello-World' and owner login is 'octocat'.
+     */
+    @Test(description="verify octocat Hello-World repository name and owner from GitHub API", dataProvider = "getConfig", groups = {GROUP_REGRESSION, GROUP_API})
+    @TestVariables(automatedBy = QA.Mukesh)
+    public void verifyHelloWorldRepository(Config config)
+    {
+        GitHubHelper github = new GitHubHelper(config);
+
+        GitHubData repo = github.execute(GitHubApi.GetRepository.withPath("owner", "octocat").withPath("repo", "Hello-World"), GitHubData.class);
+
+        AssertHelper.assertEquals(config, repo.getName(), "Hello-World", "Repository name should be 'Hello-World'");
+        AssertHelper.assertEquals(config, repo.getOwner().getLogin(), "octocat", "Repository owner login should be 'octocat'");
+    }
 }
