@@ -161,4 +161,36 @@ public class GitHubApiTest extends TestBase
         var response = github.executeRaw(GitHubApi.GetRepository.withPath("owner", "nonexistentuser1234").withPath("repo", "nonexistentrepo5678"), null);
         AssertHelper.assertEquals(config, response.getStatusCode(), 404, "Non-existent repository should return 404");
     }
+
+    /**
+     * Verify octocat public profile has expected login and non-negative public repos.
+     * Tests fetching the well-known octocat account and validating core profile fields.
+     */
+    @Test(description="verify octocat public profile has expected login and public repos from GitHub API", dataProvider = "getConfig", groups = {GROUP_REGRESSION, GROUP_API})
+    @TestVariables(automatedBy = QA.Mukesh)
+    public void verifyOctocatPublicProfile(Config config)
+    {
+        GitHubHelper github = new GitHubHelper(config);
+
+        GitHubData user = github.execute(GitHubApi.GetUser.withPath("username", "octocat"), GitHubData.class);
+
+        AssertHelper.assertEquals(config, user.getLogin(), "octocat", "User login should be 'octocat'");
+        AssertHelper.assertTrue(config, user.getPublicRepos() >= 0, "Public repos count should be non-negative");
+    }
+
+    /**
+     * Verify Hello-World repository name and owner login from GitHub API.
+     * Tests fetching octocat/Hello-World and validating the repo name and owner.
+     */
+    @Test(description="verify Hello-World repository name and owner login from GitHub API", dataProvider = "getConfig", groups = {GROUP_REGRESSION, GROUP_API})
+    @TestVariables(automatedBy = QA.Mukesh)
+    public void verifyHelloWorldRepository(Config config)
+    {
+        GitHubHelper github = new GitHubHelper(config);
+
+        GitHubData repo = github.execute(GitHubApi.GetRepository.withPath("owner", "octocat").withPath("repo", "Hello-World"), GitHubData.class);
+
+        AssertHelper.assertEquals(config, repo.getName(), "Hello-World", "Repository name should be 'Hello-World'");
+        AssertHelper.assertEquals(config, repo.getOwner().getLogin(), "octocat", "Repository owner login should be 'octocat'");
+    }
 }
