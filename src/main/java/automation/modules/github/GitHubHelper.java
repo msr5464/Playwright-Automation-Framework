@@ -8,6 +8,8 @@ import automation.core.api.ApiHelper;
 import automation.core.Enums.ProjectName;
 import automation.modules.github.api.GitHubApi;
 import automation.modules.github.web.DashboardPage;
+import automation.modules.github.web.GitHubProfilePage;
+import automation.modules.github.web.GitHubRepoPage;
 import automation.modules.github.web.HomePage;
 import automation.modules.github.web.LoginPage;
 import automation.modules.github.web.OtpPage;
@@ -104,6 +106,30 @@ public class GitHubHelper extends ApiHelper
     public void storeCurrentSession()
     {
         BrowserHelper.storeSession(config, ProjectName.GitHub, SESSION_FILE);
+    }
+
+    /**
+     * Navigate to the GitHub public profile page for a given username.
+     *
+     * @param username the GitHub username whose profile page to open
+     * @return GitHubProfilePage for the user's public profile
+     */
+    public GitHubProfilePage navigateToProfile(String username)
+    {
+        BrowserHelper.navigateTo(config, "https://github.com/" + username);
+        return new GitHubProfilePage(config);
+    }
+
+    /**
+     * Navigate to a GitHub repository page using its full HTML URL.
+     *
+     * @param htmlUrl the full HTML URL of the repository (e.g. from the GitHub API html_url field)
+     * @return GitHubRepoPage for the repository
+     */
+    public GitHubRepoPage navigateToRepository(String htmlUrl)
+    {
+        BrowserHelper.navigateTo(config, htmlUrl);
+        return new GitHubRepoPage(config);
     }
 
     // ========== API METHODS ==========
