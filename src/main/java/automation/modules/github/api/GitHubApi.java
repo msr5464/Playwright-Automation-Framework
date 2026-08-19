@@ -38,7 +38,11 @@ public enum GitHubApi implements ApiDetails
     // Stars/Watchers endpoints
     GetRepositoryStargazers(Method.GET, "/repos/{owner}/{repo}/stargazers", 200),
     FollowUser(Method.PUT, "/user/following/{username}", 204),
-    UnfollowUser(Method.DELETE, "/user/following/{username}", 204);
+    UnfollowUser(Method.DELETE, "/user/following/{username}", 204),
+
+    // Branch and contributor endpoints
+    GetRepositoryBranches(Method.GET, "/repos/{owner}/{repo}/branches", 200),
+    GetRepositoryContributors(Method.GET, "/repos/{owner}/{repo}/contributors", 200);
 
     private final Method method;
     private final String endpoint;
