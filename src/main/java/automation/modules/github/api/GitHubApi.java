@@ -29,6 +29,10 @@ public enum GitHubApi implements ApiDetails
     UpdateRepository(Method.PATCH, "/repos/{owner}/{repo}", 200),
     DeleteRepository(Method.DELETE, "/repos/{owner}/{repo}", 204),
 
+    // Branch and contributor endpoints
+    ListBranches(Method.GET, "/repos/{owner}/{repo}/branches", 200),
+    ListContributors(Method.GET, "/repos/{owner}/{repo}/contributors", 200),
+
     // Issues endpoints
     ListRepositoryIssues(Method.GET, "/repos/{owner}/{repo}/issues", 200),
     CreateIssue(Method.POST, "/repos/{owner}/{repo}/issues", 201),

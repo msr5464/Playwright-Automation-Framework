@@ -11,6 +11,7 @@ import automation.modules.github.web.DashboardPage;
 import automation.modules.github.web.HomePage;
 import automation.modules.github.web.LoginPage;
 import automation.modules.github.web.OtpPage;
+import io.restassured.response.Response;
 
 import java.util.Map;
 
@@ -129,5 +130,29 @@ public class GitHubHelper extends ApiHelper
     public GitHubData getRepository(String owner, String repo)
     {
         return execute(GitHubApi.GetRepository.withPath("owner", owner).withPath("repo", repo), GitHubData.class);
+    }
+
+    /**
+     * List branches of a public GitHub repository.
+     *
+     * @param owner the repository owner's login
+     * @param repo  the repository name
+     * @return raw Response containing the branch list JSON array
+     */
+    public Response listBranches(String owner, String repo)
+    {
+        return execute(GitHubApi.ListBranches.withPath("owner", owner).withPath("repo", repo));
+    }
+
+    /**
+     * List contributors of a public GitHub repository.
+     *
+     * @param owner the repository owner's login
+     * @param repo  the repository name
+     * @return raw Response containing the contributor list JSON array
+     */
+    public Response listContributors(String owner, String repo)
+    {
+        return execute(GitHubApi.ListContributors.withPath("owner", owner).withPath("repo", repo));
     }
 }

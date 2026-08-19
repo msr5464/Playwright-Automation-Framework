@@ -10,6 +10,9 @@ import automation.core.Enums.*;
 import automation.modules.github.GitHubHelper;
 import automation.modules.github.GitHubData;
 import automation.modules.github.api.GitHubApi;
+import io.restassured.response.Response;
+
+import java.util.List;
 
 /**
  * GitHub REST API test suite.
@@ -192,5 +195,47 @@ public class GitHubApiTest extends TestBase
 
         AssertHelper.assertEquals(config, repo.getName(), "Hello-World", "Repository name should be 'Hello-World'");
         AssertHelper.assertEquals(config, repo.getOwner().getLogin(), "octocat", "Repository owner login should be 'octocat'");
+    }
+
+    /**
+     * Verify octocat user profile fields, Hello-World repo metadata, branch list, and contributor list
+     * via four sequential GET calls to the GitHub REST API.
+     */
+    @Test(description = "verify octocat profile, Hello-World repo, branches and contributors via GitHub API",
+          dataProvider = "getConfig", groups = {GROUP_REGRESSION, GROUP_API})
+    @TestVariables(testrailData = "1:C1112:API", automatedBy = QA.Mukesh)
+    public void verifyOctocatProfileAndRepository(Config config)
+    {
+        GitHubHelper github = new GitHubHelper(config);
+
+        config.logStep("Fetch octocat user profile and verify fields");
+        Response userResponse = github.executeRaw(GitHubApi.GetUser.withPath("username", "octocat"), null);
+        AssertHelper.assertEquals(config, userResponse.getStatusCode(), 200, "GET /users/octocat should return 200");
+        GitHubData user = userResponse.as(GitHubData.class);
+        AssertHelper.assertEquals(config, user.getLogin(), "octocat", "Login should be 'octocat'");
+        AssertHelper.assertTrue(config, user.getPublicRepos() >= 0, "public_repos should be >= 0");
+        AssertHelper.assertTrue(config, user.getLocation() != null && !user.getLocation().isEmpty(), "location should not be null or empty");
+        String avatarUrl = userResponse.jsonPath().getString("avatar_url");
+        AssertHelper.assertTrue(config, avatarUrl != null && avatarUrl.startsWith("http"), "avatar_url should be non-null and start with 'http'");
+
+        config.logStep("Fetch Hello-World repository and verify metadata");
+        GitHubData repo = github.getRepository("octocat", "Hello-World");
+        AssertHelper.assertEquals(config, repo.getName(), "Hello-World", "Repository name should be 'Hello-World'");
+        AssertHelper.assertEquals(config, repo.getOwner().getLogin(), "octocat", "Repository owner login should be 'octocat'");
+        AssertHelper.assertTrue(config, repo.getDescription() != null && !repo.getDescription().isEmpty(), "description should not be null or empty");
+        AssertHelper.assertTrue(config, repo.getHtmlUrl() != null && repo.getHtmlUrl().contains("github.com"), "html_url should contain 'github.com'");
+        AssertHelper.assertTrue(config, repo.getStarsCount() >= 0, "stargazers_count should be >= 0");
+
+        config.logStep("List branches of Hello-World and verify at least one branch exists");
+        Response branchResponse = github.listBranches("octocat", "Hello-World");
+        List<String> branchNames = branchResponse.jsonPath().getList("name");
+        AssertHelper.assertTrue(config, branchNames != null && !branchNames.isEmpty(), "Branch list should contain at least one entry");
+        AssertHelper.assertTrue(config, branchNames.contains("master") || branchNames.contains("main"), "Branch list should contain 'master' or 'main'");
+
+        config.logStep("List contributors of Hello-World and verify 'octocat' is a contributor");
+        Response contributorResponse = github.listContributors("octocat", "Hello-World");
+        List<String> contributorLogins = contributorResponse.jsonPath().getList("login");
+        AssertHelper.assertTrue(config, contributorLogins != null && !contributorLogins.isEmpty(), "Contributor list should contain at least one entry");
+        AssertHelper.assertTrue(config, contributorLogins.contains("octocat"), "Contributor list should contain 'octocat'");
     }
 }
