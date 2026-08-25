@@ -258,6 +258,7 @@ public class BrowserHelper {
                     .setSnapshots(true)
                     .setSources(true)
                     .setTitle(config.testcaseName == null ? "test" : config.testcaseName));
+            config.tracingStarted = true;
         } catch (Exception e) {
             Log.warning(config, "Could not start tracing: " + e.getMessage());
         }
@@ -269,8 +270,12 @@ public class BrowserHelper {
      */
     public static void stopTracing(Config config) {
         TraceMode traceMode = TraceMode.fromString(config.getRunTimeProperty("traceMode"));
-        if (traceMode == TraceMode.OFF || config.browserContext == null)
+        // Not every init path traces: an init that skipped startTracing, or a start
+        // that failed, must not turn teardown into a "Must start tracing before
+        // stopping" error on an untraced context.
+        if (traceMode == TraceMode.OFF || config.browserContext == null || !config.tracingStarted)
             return;
+        config.tracingStarted = false;
         try {
             if (traceMode == TraceMode.ON_FAILURE && config.testResult) {
                 config.browserContext.tracing().stop();  // discard: the test passed
@@ -485,6 +490,9 @@ public class BrowserHelper {
         configureVideoRecording(config, contextOptions);
 
         config.browserContext = config.browser.newContext(contextOptions);
+
+        startTracing(config);
+
         config.page = config.browserContext.newPage();
 
         int timeoutMs = WaitHelper.getTimeout(config);
