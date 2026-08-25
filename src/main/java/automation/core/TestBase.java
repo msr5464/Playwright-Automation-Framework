@@ -12,7 +12,13 @@ import org.testng.ITestResult;
 import org.testng.Reporter;
 import org.testng.annotations.*;
 
-@Listeners(automation.core.TestListener.class)
+// Registered here, not only in testng.xml: surefire ignores <suiteXmlFiles>
+// when a run is targeted with -Dtest=Class#method, so a listener declared
+// only in the suite file silently does not run. JsonTestReporter writes the
+// machine-readable report.json the QA agent network reads, and it has to
+// exist for a single-test run too. TestNG de-duplicates listeners, so the
+// testng.xml entries remain harmless.
+@Listeners({automation.core.TestListener.class, automation.core.JsonTestReporter.class})
 public class TestBase
 {
 

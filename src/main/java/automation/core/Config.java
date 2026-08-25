@@ -73,6 +73,12 @@ public class Config {
     public String testEndTime;
     public String testLog = "";
     public String videoPath = null; // set by BrowserHelper after context closes; read by afterMethod
+    public String domSnapshotPath = null; // set by BrowserHelper on failure; read by the QA agent network
+    public String failureUrl = null;      // page URL at the moment of failure
+    public String tracePath = null;       // Playwright trace zip, retained per traceMode
+    public int cdpPort = 0;               // remote-debugging port, when repairMode is on
+    public long repairBrowserPid = 0;     // detached browser process, so it can be reaped
+    public boolean keepBrowserOpen = false; // repairMode: park the browser at failure
     public HashMap<String, String> testData = new HashMap<>();
     public TestContext testContext = new TestContext();
 

@@ -43,6 +43,22 @@ public class Enums
         select, update, delete, create, set
     }
 
+    public enum TraceMode
+    {
+        ON, ON_FAILURE, OFF;
+
+        public static TraceMode fromString(String value)
+        {
+            if (value == null) return OFF;
+            return switch (value.toLowerCase())
+            {
+                case "on" -> ON;
+                case "on_failure", "on-failure" -> ON_FAILURE;
+                default -> OFF;
+            };
+        }
+    }
+
     public enum VideoMode
     {
         ON, ON_FAILURE, OFF;

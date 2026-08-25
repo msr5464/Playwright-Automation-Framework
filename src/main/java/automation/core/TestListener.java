@@ -173,12 +173,66 @@ public class TestListener implements ITestListener, IInvokedMethodListener, IAnn
                     {
                         BrowserHelper.takeScreenshot(config);
                     }
+                    // Capture the DOM too, not just a picture of it. This is what
+                    // lets an automated fixer see why a locator stopped matching,
+                    // without having to replay the flow to get back here.
+                    if (config.page != null)
+                    {
+                        BrowserHelper.captureDomSnapshot(config);
+                    }
+                    // repairMode: park the browser on the failing page and publish
+                    // how to reach it, so a fixing agent can attach to the live
+                    // session rather than work from a static capture.
+                    if (config.cdpPort > 0)
+                    {
+                        openRepairSession(config, result);
+                    }
                     config.endTest(result);
                     String failureReason = result.getThrowable() != null
                         ? result.getThrowable().getMessage() : "Unknown failure";
                     insertTestResultToDb(config, result, "FAILED", failureReason);
                 }
             }
+        }
+    }
+
+    /**
+     * Publish a live repair session for the test that just failed.
+     *
+     * Writes {resultsDirectory}/.repair-session.json describing the parked browser
+     * and marks the config so afterMethod does not tear it down. The QA agent
+     * network reads this file, attaches Playwright MCP to the CDP endpoint, and
+     * inspects the real failing page — where it can count how many elements a
+     * candidate selector matches and try a corrected locator before any Java is
+     * edited. A static capture cannot do either.
+     */
+    private void openRepairSession(Config config, ITestResult result)
+    {
+        try
+        {
+            config.keepBrowserOpen = true;
+            String url = config.failureUrl == null ? "" : config.failureUrl;
+            String testName = result.getTestClass().getName() + "." + result.getName();
+            String json = "{\n"
+                + "  \"cdpEndpoint\": \"http://localhost:" + config.cdpPort + "\",\n"
+                + "  \"test\": \"" + testName + "\",\n"
+                + "  \"url\": \"" + url + "\",\n"
+                + "  \"domSnapshot\": \"" + (config.domSnapshotPath == null ? "" : config.domSnapshotPath.replace("\\", "/")) + "\",\n"
+                + "  \"openedAt\": \"" + new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").format(new Date()) + "\"\n"
+                + "}\n";
+            File sessionFile = new File(Config.resultsDirectory, ".repair-session.json");
+            try (java.io.FileWriter writer = new java.io.FileWriter(sessionFile))
+            {
+                writer.write(json);
+            }
+            Log.comment(config, "Repair session open: " + sessionFile.getAbsolutePath());
+            System.out.println("[RepairMode] Browser parked on the failing page. "
+                + "CDP: http://localhost:" + config.cdpPort);
+            System.out.println("[RepairMode] Run: make run AGENT=test-healing-agent");
+        }
+        catch (Exception e)
+        {
+            Log.warning(config, "Could not open repair session: " + e.getMessage());
         }
     }
 

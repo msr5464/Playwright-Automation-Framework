@@ -4,11 +4,16 @@ import com.microsoft.playwright.*;
 import com.microsoft.playwright.options.ViewportSize;
 
 import automation.core.Enums.ProjectName;
+import automation.core.Enums.TraceMode;
 import automation.core.Enums.VideoMode;
 
 import java.io.File;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 
 public class BrowserHelper {
 
@@ -26,6 +31,27 @@ public class BrowserHelper {
 
         BrowserType.LaunchOptions launchOptions = new BrowserType.LaunchOptions()
                 .setHeadless(headless);
+
+        // repairMode: keep the browser alive past the end of the run so a fixing
+        // agent can attach to the ACTUAL failing page, with its session, test data
+        // and mid-flow state intact.
+        //
+        // The browser must be launched as a DETACHED process that Playwright does
+        // not own. Adding --remote-debugging-port to a normal launch() is not
+        // enough: Playwright's driver kills every browser it started when the JVM
+        // exits, so the "parked" browser was always dead by the time anything tried
+        // to attach — verified by watching the CDP endpoint disappear the moment
+        // Maven finished. Launching it ourselves and attaching with connectOverCDP
+        // inverts that ownership, so the browser outlives the test process.
+        if (Boolean.parseBoolean(config.getRunTimeProperty("repairMode", "false"))) {
+            config.cdpPort = Integer.parseInt(config.getRunTimeProperty("repairCdpPort", "9222"));
+            if (launchDetachedBrowserForRepair(config)) {
+                return;   // config.browser/context/page are set by the helper
+            }
+            Log.warning(config, "Repair mode requested but the detached browser could not "
+                    + "be started — falling back to a normal run");
+            config.cdpPort = 0;
+        }
 
         // Slow motion for debugging
         String slowMo = config.getRunTimeProperty("slowMo");
@@ -46,6 +72,9 @@ public class BrowserHelper {
         configureVideoRecording(config, contextOptions);
 
         config.browserContext = config.browser.newContext(contextOptions);
+
+        startTracing(config);
+
         config.page = config.browserContext.newPage();
 
         // Set timeouts (reuse WaitHelper's centralised timeout calculation)
@@ -85,8 +114,253 @@ public class BrowserHelper {
         }
     }
 
-    public static void closeBrowser(Config config) {
+    /**
+     * Launch Chromium as a detached OS process and attach to it over CDP.
+     *
+     * Used only by repair mode. Playwright terminates browsers it launched when
+     * the owning process exits, which is exactly what must NOT happen here — the
+     * whole point is for the browser to still be sitting on the failing page after
+     * the test run is over. Starting it ourselves and connecting with
+     * connectOverCDP means Playwright is a client, not the owner, so
+     * closeBrowser()'s early return actually leaves something behind.
+     *
+     * The PID is recorded on config so the repair session can publish it and
+     * whoever attaches can terminate the browser when finished.
+     *
+     * Returns true when the browser is up and config.browser/context/page are set.
+     */
+    private static boolean launchDetachedBrowserForRepair(Config config) {
         try {
+            String executable = config.getRunTimeProperty("repairChromePath", "");
+            if (executable == null || executable.isEmpty()) {
+                executable = findPlaywrightChromium();
+            }
+            if (executable == null) {
+                Log.warning(config, "Repair mode: could not locate a Chromium binary "
+                        + "(set -DrepairChromePath=/path/to/chrome)");
+                return false;
+            }
+
+            Path profileDir = Paths.get(Config.resultsDirectory, "repair-profile");
+            new File(profileDir.toString()).mkdirs();
+
+            ProcessBuilder builder = new ProcessBuilder(
+                    executable,
+                    "--remote-debugging-port=" + config.cdpPort,
+                    "--user-data-dir=" + profileDir,
+                    "--no-first-run",
+                    "--no-default-browser-check",
+                    "--window-size=1920,1080");
+            builder.redirectOutput(ProcessBuilder.Redirect.DISCARD);
+            builder.redirectError(ProcessBuilder.Redirect.DISCARD);
+            Process browserProcess = builder.start();
+            config.repairBrowserPid = browserProcess.pid();
+
+            String cdpUrl = "http://localhost:" + config.cdpPort;
+            if (!waitForCdp(cdpUrl, 20000)) {
+                Log.warning(config, "Repair mode: CDP endpoint never came up at " + cdpUrl);
+                browserProcess.destroyForcibly();
+                config.repairBrowserPid = 0;
+                return false;
+            }
+
+            config.playwright = Playwright.create();
+            config.browser = config.playwright.chromium().connectOverCDP(cdpUrl);
+            config.browserContext = config.browser.contexts().isEmpty()
+                    ? config.browser.newContext()
+                    : config.browser.contexts().get(0);
+
+            startTracing(config);
+
+            config.page = config.browserContext.pages().isEmpty()
+                    ? config.browserContext.newPage()
+                    : config.browserContext.pages().get(0);
+            config.page.setViewportSize(1920, 1080);
+            config.page.setDefaultTimeout(WaitHelper.getTimeout(config));
+
+            Log.comment(config, "Repair mode ON — detached browser pid=" + config.repairBrowserPid
+                    + ", CDP " + cdpUrl);
+            return true;
+        } catch (Exception e) {
+            Log.warning(config, "Repair mode: detached launch failed: " + e.getMessage());
+            return false;
+        }
+    }
+
+    /** Newest Chromium that Playwright has already downloaded. */
+    private static String findPlaywrightChromium() {
+        Path cache = Paths.get(System.getProperty("user.home"), "Library", "Caches", "ms-playwright");
+        if (!cache.toFile().isDirectory()) {
+            cache = Paths.get(System.getProperty("user.home"), ".cache", "ms-playwright");
+        }
+        File[] builds = cache.toFile().listFiles(
+                f -> f.isDirectory() && f.getName().startsWith("chromium-"));
+        if (builds == null || builds.length == 0) {
+            return null;
+        }
+        java.util.Arrays.sort(builds, java.util.Comparator.comparing(File::getName).reversed());
+        for (File build : builds) {
+            for (String rel : new String[] {
+                    "chrome-mac/Chromium.app/Contents/MacOS/Chromium",
+                    "chrome-linux/chrome",
+                    "chrome-win/chrome.exe" }) {
+                File candidate = new File(build, rel);
+                if (candidate.canExecute()) {
+                    return candidate.getAbsolutePath();
+                }
+            }
+        }
+        return null;
+    }
+
+    /** Poll the CDP endpoint until the detached browser answers, or time out. */
+    private static boolean waitForCdp(String cdpUrl, long timeoutMs) {
+        long deadline = System.currentTimeMillis() + timeoutMs;
+        while (System.currentTimeMillis() < deadline) {
+            try {
+                java.net.HttpURLConnection conn = (java.net.HttpURLConnection)
+                        new java.net.URL(cdpUrl + "/json/version").openConnection();
+                conn.setConnectTimeout(1000);
+                conn.setReadTimeout(1000);
+                if (conn.getResponseCode() == 200) {
+                    return true;
+                }
+            } catch (Exception ignored) {
+                // not up yet
+            }
+            try {
+                Thread.sleep(250);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                return false;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Start a Playwright trace for this context.
+     *
+     * A trace records every action the test performed, with the selector it used,
+     * plus a DOM snapshot and screenshot per step. For a broken locator that is
+     * the whole flow rather than just the last page: which selectors worked,
+     * which one failed, and what the page looked like at each point. Humans open
+     * the zip in Playwright Trace Viewer; the QA agent network reads the action
+     * timeline out of it.
+     */
+    public static void startTracing(Config config) {
+        TraceMode traceMode = TraceMode.fromString(config.getRunTimeProperty("traceMode"));
+        if (traceMode == TraceMode.OFF || config.browserContext == null)
+            return;
+        try {
+            config.browserContext.tracing().start(new Tracing.StartOptions()
+                    .setScreenshots(true)
+                    .setSnapshots(true)
+                    .setSources(true)
+                    .setTitle(config.testcaseName == null ? "test" : config.testcaseName));
+        } catch (Exception e) {
+            Log.warning(config, "Could not start tracing: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Stop tracing, keeping the zip only when this run is worth keeping.
+     * Must be called while the context is still open.
+     */
+    public static void stopTracing(Config config) {
+        TraceMode traceMode = TraceMode.fromString(config.getRunTimeProperty("traceMode"));
+        if (traceMode == TraceMode.OFF || config.browserContext == null)
+            return;
+        try {
+            if (traceMode == TraceMode.ON_FAILURE && config.testResult) {
+                config.browserContext.tracing().stop();  // discard: the test passed
+                return;
+            }
+            String traceDir = Config.resultsDirectory + File.separator + "traces";
+            new File(traceDir).mkdirs();
+            String fileName = config.testcaseName + "_"
+                    + DataGenerator.getCurrentDateTime("HHmmss") + ".zip";
+            Path tracePath = Paths.get(traceDir, fileName);
+            config.browserContext.tracing().stop(new Tracing.StopOptions().setPath(tracePath));
+            config.tracePath = tracePath.toString();
+            Log.comment(config, "<a href='" + tracePath
+                    + "' target='_blank' style='color:#2563EB;'>&#128269; View Trace</a>");
+        } catch (Exception e) {
+            Log.warning(config, "Could not stop tracing: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Save the page's rendered HTML at the moment of failure.
+     *
+     * A screenshot shows a human what broke; only the DOM shows an automated
+     * fixer WHY a locator stopped matching. Capturing it here is the one moment
+     * where the browser is guaranteed to be in the right session, with the right
+     * test data, at the right step of the flow — state that is expensive or
+     * impossible to reproduce afterwards by replaying the test.
+     *
+     * Written to {resultsDirectory}/dom/{testcaseName}_{HHmmss}.html with a
+     * machine-readable header comment. Never throws: a failed capture must not
+     * turn a test failure into a listener crash.
+     */
+    public static void captureDomSnapshot(Config config) {
+        if (config.page == null)
+            return;
+        try {
+            String domDir = Config.resultsDirectory + File.separator + "dom";
+            new File(domDir).mkdirs();
+            String fileName = config.testcaseName + "_" + DataGenerator.getCurrentDateTime("HHmmss") + ".html";
+            Path domPath = Paths.get(domDir, fileName);
+
+            String url = "";
+            try {
+                url = config.page.url();
+            } catch (Exception ignored) {
+                // A closed or crashed page still has usable content sometimes.
+            }
+
+            String header = "<!-- qa-agent-network:dom-snapshot"
+                    + " test=\"" + config.testcaseName + "\""
+                    + " url=\"" + url + "\""
+                    + " capturedAt=\"" + DataGenerator.getCurrentDateTime("yyyy-MM-dd'T'HH:mm:ss") + "\""
+                    + " -->\n";
+            Files.write(domPath, (header + config.page.content()).getBytes(StandardCharsets.UTF_8));
+
+            config.domSnapshotPath = domPath.toString();
+            config.failureUrl = url;
+
+            String link = "<a href='" + domPath
+                    + "' target='_blank' style='color:#2563EB;'>&#128196; View DOM Snapshot</a>";
+            Log.comment(config, link);
+        } catch (Exception e) {
+            Log.warning(config, "DOM snapshot failed: " + e.getMessage());
+        }
+    }
+
+    public static void closeBrowser(Config config) {
+        if (config.keepBrowserOpen) {
+            // repairMode parked this browser on the failing page. Tearing it down
+            // here would destroy the one thing the repair session exists to inspect.
+            // The trace still has to be flushed while the context is reachable, and
+            // Playwright must be disconnected cleanly — the browser is a detached
+            // process, so disconnecting does not kill it.
+            stopTracing(config);
+            try {
+                if (config.playwright != null) {
+                    config.playwright.close();
+                    config.playwright = null;
+                }
+            } catch (Exception e) {
+                Log.debug(config, "Repair mode: disconnect issue: " + e.getMessage());
+            }
+            Log.comment(config, "Repair mode — browser left open at the failure point "
+                    + "(pid " + config.repairBrowserPid + ", CDP http://localhost:"
+                    + config.cdpPort + ")");
+            return;
+        }
+        try {
+            // Trace must be flushed while the context is still open.
+            stopTracing(config);
             // Capture video path before closing — page.video().path() is only valid while
             // page is open
             VideoMode videoMode = VideoMode.fromString(config.getRunTimeProperty("VideoMode"));
