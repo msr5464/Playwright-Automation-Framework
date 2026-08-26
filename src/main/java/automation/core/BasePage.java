@@ -46,11 +46,28 @@ public class BasePage
     protected void assertPageLoaded(Locator... locators)
     {
         boolean loaded = WaitHelper.waitForAnyElementToBeDisplayed(config, locators);
+        if (loaded)
+        {
+            // Remember what this page looks like when it is right, so a later failure
+            // can be diffed against it instead of guessed at.
+            Baseline.record(config, this);
+        }
         if (!loaded)
         {
             String locatorList = java.util.Arrays.stream(locators)
                 .map(Locator::toString)
                 .collect(java.util.stream.Collectors.joining(", "));
+            // Record why, alongside the message rather than instead of it. This
+            // assertion is really a page-identity check, but it fails with the wording
+            // of an element lookup, so everything downstream reads a session that
+            // expired or a navigation that never happened as a stale locator. The
+            // message stays as it is — several consumers key off it — and the evidence
+            // that tells those cases apart goes into a file next to the DOM snapshot.
+            FailureContext.write(config, this, java.util.Arrays.asList(locators),
+                WaitHelper.LAST_WAIT_MS.get(),
+                WaitHelper.getTimeout(config),
+                WaitHelper.LAST_WAIT_DOM_CHANGED.get());
+
             config.logFailToEndExecution("Failed to load Element " + locatorList + " in " + this.getClass().getSimpleName());
         }
     }

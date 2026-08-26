@@ -18,7 +18,10 @@ import java.nio.file.Paths;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Properties;
 
 /**
@@ -80,6 +83,18 @@ public class Config {
     public int cdpPort = 0;               // remote-debugging port, when repairMode is on
     public long repairBrowserPid = 0;     // detached browser process, so it can be reaped
     public boolean keepBrowserOpen = false; // repairMode: park the browser at failure
+    // ── Flight recorder ───────────────────────────────────────────────────────
+    // Installed once per page by BrowserHelper and dumped by FailureContext when
+    // a test fails. These answer the questions an error message cannot: was the
+    // page still loading, did a request fail, did JavaScript break, did we ever
+    // navigate where we meant to. Bounded so a chatty page cannot grow them
+    // without limit.
+    public static final int FLIGHT_RECORDER_LIMIT = 50;
+    public final List<String> httpErrors = Collections.synchronizedList(new ArrayList<>());
+    public final List<String> jsErrors = Collections.synchronizedList(new ArrayList<>());
+    public final List<String> navigationHistory = Collections.synchronizedList(new ArrayList<>());
+    public String failureContextPath = null; // machine-readable failure context, read by the QA agent network
+
     public HashMap<String, String> testData = new HashMap<>();
     public TestContext testContext = new TestContext();
 

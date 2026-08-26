@@ -77,12 +77,120 @@ public class BrowserHelper {
 
         config.page = config.browserContext.newPage();
 
+        installFlightRecorder(config);
+
         // Set timeouts (reuse WaitHelper's centralised timeout calculation)
         int timeoutMs = WaitHelper.getTimeout(config);
         config.page.setDefaultTimeout(timeoutMs);
         config.page.setDefaultNavigationTimeout(timeoutMs * 3L);
 
         Log.comment(config, "Browser initialized: " + browserName + " (headless=" + headless + ")");
+    }
+
+
+    /**
+     * Which cookies in a stored session have already expired, if any.
+     *
+     * <p>A count of what is still valid proves nothing: an expired session usually keeps
+     * plenty of good cookies while the two that actually authenticate are dead. So this
+     * names them, and returns an empty string when there is nothing to report.
+     *
+     * <p>Cookies with no expiry, or a negative one, are session cookies. They die with the
+     * browser and carry nothing to check.
+     */
+    static String expiredCookiesIn(Path sessionPath) {
+        try {
+            com.fasterxml.jackson.databind.JsonNode root =
+                    new com.fasterxml.jackson.databind.ObjectMapper().readTree(sessionPath.toFile());
+            com.fasterxml.jackson.databind.JsonNode cookies = root.get("cookies");
+            if (cookies == null || !cookies.isArray())
+                return "";
+
+            long now = System.currentTimeMillis() / 1000L;
+            List<String> expired = new ArrayList<>();
+            for (com.fasterxml.jackson.databind.JsonNode cookie : cookies) {
+                com.fasterxml.jackson.databind.JsonNode expires = cookie.get("expires");
+                if (expires == null || !expires.isNumber() || expires.asDouble() < 0)
+                    continue;
+                if (expires.asDouble() < now) {
+                    String name = cookie.hasNonNull("name") ? cookie.get("name").asText() : "?";
+                    expired.add(name + " expired "
+                            + java.time.Instant.ofEpochSecond((long) expires.asDouble())
+                                    .atZone(java.time.ZoneOffset.UTC).toLocalDate());
+                }
+            }
+            if (expired.isEmpty())
+                return "";
+            return expired.size() + " of " + cookies.size() + " cookies have expired ("
+                    + String.join(", ", expired.subList(0, Math.min(4, expired.size()))) + ")";
+        } catch (Throwable e) {
+            // An unreadable session is a separate problem; do not block the run on it.
+            return "";
+        }
+    }
+
+    /**
+     * Install the flight recorder on a freshly created page.
+     *
+     * <p>Every test gets this, with no per-test work, because the evidence that
+     * distinguishes "the locator is stale" from "the page never loaded" has to be
+     * collected while the page is alive. Reconstructing it afterwards is impossible: a
+     * request that failed, an exception that broke rendering and a redirect that went
+     * somewhere unexpected all leave the DOM looking simply, innocently, wrong.
+     *
+     * <p>Each list is capped, so a page that logs a warning on every mouse move cannot
+     * grow them without bound. Listener bodies never throw.
+     */
+    private static void installFlightRecorder(Config config) {
+        if (config == null || config.page == null)
+            return;
+        try {
+            config.page.onResponse(response -> {
+                try {
+                    int status = response.status();
+                    if (status >= 400)
+                        record(config.httpErrors, status + " " + response.request().method()
+                                + " " + response.url());
+                } catch (Throwable ignored) {
+                }
+            });
+            config.page.onRequestFailed(request -> {
+                try {
+                    record(config.httpErrors, "FAILED " + request.method() + " " + request.url()
+                            + " (" + request.failure() + ")");
+                } catch (Throwable ignored) {
+                }
+            });
+            config.page.onConsoleMessage(message -> {
+                try {
+                    if ("error".equalsIgnoreCase(message.type()))
+                        record(config.jsErrors, "console: " + message.text());
+                } catch (Throwable ignored) {
+                }
+            });
+            config.page.onPageError(error -> {
+                try {
+                    record(config.jsErrors, "uncaught: " + error);
+                } catch (Throwable ignored) {
+                }
+            });
+            config.page.onFrameNavigated(frame -> {
+                try {
+                    if (frame.equals(config.page.mainFrame()))
+                        record(config.navigationHistory, frame.url());
+                } catch (Throwable ignored) {
+                }
+            });
+        } catch (Throwable e) {
+            Log.debug(config, "Flight recorder not installed: " + e.getMessage());
+        }
+    }
+
+    private static void record(java.util.List<String> sink, String entry) {
+        synchronized (sink) {
+            if (sink.size() < Config.FLIGHT_RECORDER_LIMIT)
+                sink.add(entry);
+        }
     }
 
     private static void configureVideoRecording(Config config, Browser.NewContextOptions contextOptions) {
@@ -481,10 +589,23 @@ public class BrowserHelper {
         Path sessionPath = Paths.get(Config.testResourcesPath + moduleName.name().toLowerCase() + "/loginStorage",
                 fileName);
         if (sessionPath.toFile().exists()) {
+            String expiry = expiredCookiesIn(sessionPath);
+            if (!expiry.isEmpty()) {
+                // Continuing here is how this class of bug hides. The browser opens,
+                // the page loads, and the first locator looked for on it takes the
+                // blame for a session that died months ago.
+                config.logFailToEndExecution("StoredSessionExpired: " + sessionPath.getFileName()
+                        + " — " + expiry + ". Regenerate it by re-running the login test "
+                        + "that produces it.");
+            }
             contextOptions.setStorageStatePath(sessionPath);
             Log.comment(config, "Loaded stored session: " + sessionPath);
         } else {
-            Log.warning(config, "Session file not found, starting fresh: " + sessionPath);
+            // Previously a warning, which let the run continue unauthenticated and
+            // fail later somewhere unrelated.
+            config.logFailToEndExecution("StoredSessionMissing: the test asked for "
+                    + sessionPath + ", which does not exist, so it would run "
+                    + "unauthenticated. Generate it by running the login test first.");
         }
 
         configureVideoRecording(config, contextOptions);
@@ -494,6 +615,8 @@ public class BrowserHelper {
         startTracing(config);
 
         config.page = config.browserContext.newPage();
+
+        installFlightRecorder(config);
 
         int timeoutMs = WaitHelper.getTimeout(config);
         config.page.setDefaultTimeout(timeoutMs);

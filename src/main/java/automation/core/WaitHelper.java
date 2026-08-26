@@ -72,23 +72,70 @@ public class WaitHelper {
         }
     }
 
+    /**
+     * How long the last wait took, and whether the page changed while it ran.
+     *
+     * <p>Read by {@link BasePage#assertPageLoaded} when the wait gives up. A page that
+     * was byte-identical from the first poll to the last was settled and simply wrong;
+     * one that kept changing was still loading and ran out of time. Those need opposite
+     * fixes, and nothing else in the failure distinguishes them.
+     *
+     * <p>Per-thread because tests run in parallel.
+     */
+    static final ThreadLocal<Long> LAST_WAIT_MS = ThreadLocal.withInitial(() -> 0L);
+    static final ThreadLocal<Boolean> LAST_WAIT_DOM_CHANGED = ThreadLocal.withInitial(() -> null);
+
     public static boolean waitForAnyElementToBeDisplayed(Config config, Locator... locators) {
         long startTime = System.currentTimeMillis();
         int timeout = getTimeout(config);
+
+        // Sampled at each poll, and only the last two are compared. "Was the page
+        // still changing when we ran out of patience" is the diagnostic question;
+        // "did it change at any point since we started" answers yes on every page
+        // that simply finished rendering after the first sample.
+        int previous = 0;
+        int latest = 0;
+        boolean sampled = false;
+
         while (System.currentTimeMillis() - startTime < timeout) {
             for (Locator locator : locators) {
                 try {
-                    if (locator.isVisible())
+                    if (locator.isVisible()) {
+                        LAST_WAIT_MS.set(System.currentTimeMillis() - startTime);
+                        LAST_WAIT_DOM_CHANGED.set(null);
                         return true;
+                    }
                 } catch (Exception ignored) {
                 }
+            }
+            int sample = fingerprint(config);
+            if (sample != 0) {
+                previous = latest;
+                latest = sample;
+                sampled = true;
             }
             try {
                 Thread.sleep(500);
             } catch (InterruptedException ignored) {
             }
         }
+        LAST_WAIT_MS.set(System.currentTimeMillis() - startTime);
+        LAST_WAIT_DOM_CHANGED.set(sampled && previous != 0 ? latest != previous : null);
         return false;
+    }
+
+    /**
+     * A cheap digest of the current DOM. 0 means "could not tell", which callers must
+     * keep distinct from "did not change".
+     */
+    private static int fingerprint(Config config) {
+        try {
+            Object length = config.page.evaluate(
+                    "() => document.body ? document.body.innerHTML.length : 0");
+            return length == null ? 0 : Integer.parseInt(String.valueOf(length));
+        } catch (Throwable e) {
+            return 0;
+        }
     }
 
     public static void waitForNetworkIdle(Config config) {
