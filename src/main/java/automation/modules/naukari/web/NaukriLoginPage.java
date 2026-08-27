@@ -1,7 +1,9 @@
 package automation.modules.naukari.web;
 
 import automation.core.BasePage;
+import automation.core.BrowserHelper;
 import automation.core.Config;
+import automation.core.WaitHelper;
 import com.microsoft.playwright.Locator;
 
 /**
@@ -35,7 +37,8 @@ public class NaukriLoginPage extends BasePage
         fillText(usernameField, username, "Username field");
         fillText(passwordField, password, "Password field");
         click(loginButton, "Login button");
-        page.navigate(PROFILE_URL);
+        WaitHelper.waitForNetworkIdle(config);
+        BrowserHelper.navigateTo(config, PROFILE_URL);
         return new NaukriProfilePage(config);
     }
 }
