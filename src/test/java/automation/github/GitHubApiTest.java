@@ -193,4 +193,63 @@ public class GitHubApiTest extends TestBase
         AssertHelper.assertEquals(config, repo.getName(), "Hello-World", "Repository name should be 'Hello-World'");
         AssertHelper.assertEquals(config, repo.getOwner().getLogin(), "octocat", "Repository owner login should be 'octocat'");
     }
+
+    /**
+     * Verify octocat's user profile including login, public_repos, location, and avatar_url.
+     * Confirms all key identity fields are present and avatar_url is a valid URL.
+     */
+    @Test(description="verify octocat user profile login, public repos, location, and avatar URL from GitHub API", dataProvider = "getConfig", groups = {GROUP_REGRESSION, GROUP_API})
+    @TestVariables(testrailData = "1:C1112:API", automatedBy = QA.Mukesh)
+    public void verifyOctocatUserProfile(Config config)
+    {
+        GitHubHelper github = new GitHubHelper(config);
+
+        var response = github.executeRaw(GitHubApi.GetUser.withPath("username", "octocat"), null);
+        AssertHelper.assertEquals(config, response.getStatusCode(), 200, "Status code should be 200");
+        var user = response.as(GitHubData.class);
+        AssertHelper.assertEquals(config, user.getLogin(), "octocat", "Login should be 'octocat'");
+        AssertHelper.assertTrue(config, user.getPublicRepos() >= 0, "Public repos should be >= 0");
+        var location = response.jsonPath().getString("location");
+        AssertHelper.assertNotNull(config, location, "Location should not be empty");
+        var avatarUrl = response.jsonPath().getString("avatar_url");
+        AssertHelper.assertNotNull(config, avatarUrl, "Avatar URL should not be empty");
+        AssertHelper.assertTrue(config, avatarUrl.startsWith("https://") || avatarUrl.startsWith("http://"),
+            "Avatar URL should be a valid URL starting with http:// or https://");
+    }
+
+    /**
+     * Verify the Hello-World repository has at least one branch and includes 'master' or 'main'.
+     * Tests the branches endpoint for a well-known public repository.
+     */
+    @Test(description="verify Hello-World repository branches list contains master or main from GitHub API", dataProvider = "getConfig", groups = {GROUP_REGRESSION, GROUP_API})
+    @TestVariables(testrailData = "1:C1113:API", automatedBy = QA.Mukesh)
+    public void verifyHelloWorldBranches(Config config)
+    {
+        GitHubHelper github = new GitHubHelper(config);
+
+        var response = github.getRepositoryBranches("octocat", "Hello-World");
+        AssertHelper.assertEquals(config, response.getStatusCode(), 200, "Status code should be 200");
+        var branchNames = response.jsonPath().getList("name", String.class);
+        AssertHelper.assertTrue(config, branchNames.size() >= 1, "Repository should have at least one branch");
+        AssertHelper.assertTrue(config, branchNames.contains("master") || branchNames.contains("main"),
+            "Repository branches should include 'master' or 'main'");
+    }
+
+    /**
+     * Verify the Hello-World repository has at least one contributor and includes 'octocat'.
+     * Tests the contributors endpoint for a well-known public repository.
+     */
+    @Test(description="verify Hello-World repository contributors list contains octocat from GitHub API", dataProvider = "getConfig", groups = {GROUP_REGRESSION, GROUP_API})
+    @TestVariables(testrailData = "1:C1114:API", automatedBy = QA.Mukesh)
+    public void verifyHelloWorldContributors(Config config)
+    {
+        GitHubHelper github = new GitHubHelper(config);
+
+        var response = github.getRepositoryContributors("octocat", "Hello-World");
+        AssertHelper.assertEquals(config, response.getStatusCode(), 200, "Status code should be 200");
+        var contributorLogins = response.jsonPath().getList("login", String.class);
+        AssertHelper.assertTrue(config, contributorLogins.size() >= 1, "Repository should have at least one contributor");
+        AssertHelper.assertTrue(config, contributorLogins.contains("octocat"),
+            "Contributors list should include 'octocat'");
+    }
 }
