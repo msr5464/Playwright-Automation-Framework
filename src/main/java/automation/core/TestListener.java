@@ -215,6 +215,10 @@ public class TestListener implements ITestListener, IInvokedMethodListener, IAnn
             String testName = result.getTestClass().getName() + "." + result.getName();
             String json = "{\n"
                 + "  \"cdpEndpoint\": \"http://localhost:" + config.cdpPort + "\",\n"
+                // The agent reaps this browser by pid once it has finished
+                // inspecting: nothing else ever will, because the process is
+                // deliberately detached from the JVM.
+                + "  \"browserPid\": " + config.repairBrowserPid + ",\n"
                 + "  \"test\": \"" + testName + "\",\n"
                 + "  \"url\": \"" + url + "\",\n"
                 + "  \"domSnapshot\": \"" + (config.domSnapshotPath == null ? "" : config.domSnapshotPath.replace("\\", "/")) + "\",\n"
