@@ -10,11 +10,11 @@ import com.microsoft.playwright.Locator;
  */
 public class NaukriLoginPage extends BasePage
 {
-    private static final String PROFILE_URL = "https://www.naukri.com/mnjuser/profile";
+    private final String profileUrl = config.getRunTimeProperty("naukari.profile.url");
 
     private final Locator usernameField = page.locator("[id='usernameField']");
     private final Locator passwordField = page.locator("[id='passwordField']");
-    private final Locator loginButton   = page.locator("button[type='submit']");
+    private final Locator loginButton   = page.locator("button.blue-btn[type='submit']");
 
     public NaukriLoginPage(Config config)
     {
@@ -35,7 +35,7 @@ public class NaukriLoginPage extends BasePage
         fillText(usernameField, username, "Username field");
         fillText(passwordField, password, "Password field");
         click(loginButton, "Login button");
-        page.navigate(PROFILE_URL);
+        page.navigate(profileUrl);
         return new NaukriProfilePage(config);
     }
 }
