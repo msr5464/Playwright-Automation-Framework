@@ -69,7 +69,7 @@ public class NaukriProfileSummaryWebTest extends TestBase
         String modifiedSummary = naukri.toggleProfileSummaryDot(username, password);
 
         config.logStep("Navigate to the profile page and verify the modified summary persisted");
-        NaukriProfilePage profilePage = naukri.doLogin(username, password);
+        NaukriProfilePage profilePage = naukri.getProfilePage();
         String actualSummary = profilePage.refreshAndGetProfileSummaryText();
         AssertHelper.assertEquals(config, actualSummary, modifiedSummary,
             "Profile summary after page reload should match the toggled summary");

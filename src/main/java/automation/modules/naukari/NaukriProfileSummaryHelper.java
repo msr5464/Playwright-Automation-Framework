@@ -40,6 +40,20 @@ public class NaukriProfileSummaryHelper extends ApiHelper
     }
 
     /**
+     * Navigate directly to the Naukri profile page, assuming the browser session is
+     * already authenticated. Use this instead of doLogin() when a prior doLogin() or
+     * toggleProfileSummaryDot() call has already established the session.
+     *
+     * @return NaukriProfilePage once the profile page has loaded
+     */
+    public NaukriProfilePage getProfilePage()
+    {
+        Log.comment(config, "Navigating to Naukri profile page (session already authenticated)");
+        BrowserHelper.navigateTo(config, config.getRunTimeProperty("naukari.profile.url"));
+        return new NaukriProfilePage(config);
+    }
+
+    /**
      * Login to Naukri and toggle the trailing dot in the Profile Summary:
      * if the current summary ends with '.', remove it; otherwise append '.'.
      * Clicks the edit icon, replaces the text, and saves the change.
