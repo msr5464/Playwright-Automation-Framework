@@ -1,6 +1,7 @@
 package automation.modules.naukari.web;
 
 import automation.core.BasePage;
+import automation.core.BrowserHelper;
 import automation.core.Config;
 import automation.core.WaitHelper;
 import com.microsoft.playwright.Locator;
@@ -10,11 +11,11 @@ import com.microsoft.playwright.Locator;
  */
 public class NaukriProfilePage extends BasePage
 {
-    private final Locator profileSummarySection     = page.locator("[ref='f2e585']");
-    private final Locator profileSummaryDisplayText = page.locator("[ref='f2e590']");
-    private final Locator editProfileSummaryButton  = page.locator("img[ref='f2e589']");
-    private final Locator profileSummaryTextArea    = page.locator("[ref='f2e736']");
-    private final Locator saveButton                = page.locator("button:has-text('Save')");
+    private final Locator profileSummarySection     = page.locator("#profile-section-profile-summary");
+    private final Locator profileSummaryDisplayText = page.locator("#profile-section-profile-summary div.rounded-2\\.5xl");
+    private final Locator editProfileSummaryButton  = page.locator("#profile-section-profile-summary img[alt='PencilSimple']");
+    private final Locator profileSummaryTextArea    = page.locator("textarea[placeholder='Craft a compelling profile summary']");
+    private final Locator saveButton                = page.locator("div.bg-black button[type='submit']");
     private final Locator successToast              = page.locator("[class*='toast'], [class*='snackBar'], [class*='msgBlock']");
 
     public NaukriProfilePage(Config config)
@@ -75,7 +76,7 @@ public class NaukriProfilePage extends BasePage
      */
     public String refreshAndGetProfileSummaryText()
     {
-        page.reload();
+        BrowserHelper.navigateTo(config, config.getRunTimeProperty("naukari.profile.url"));
         WaitHelper.waitForElementToBeVisible(config, profileSummarySection, "Profile Summary Section");
         return getProfileSummaryText();
     }

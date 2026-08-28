@@ -18,12 +18,9 @@ import automation.modules.naukari.web.NaukriProfilePage;
  */
 public class NaukriProfileSummaryHelper extends ApiHelper
 {
-    private static final String BASE_URL  = "https://www.naukri.com";
-    private static final String LOGIN_URL = "https://www.naukri.com/nlogin/login";
-
     public NaukriProfileSummaryHelper(Config config)
     {
-        super(config, BASE_URL);
+        super(config, config.getRunTimeProperty("naukari.url"));
     }
 
     /**
@@ -36,8 +33,8 @@ public class NaukriProfileSummaryHelper extends ApiHelper
      */
     public NaukriProfilePage doLogin(String username, String password)
     {
-        Log.comment(config, "Navigating to Naukri login: " + LOGIN_URL);
-        BrowserHelper.navigateTo(config, LOGIN_URL);
+        Log.comment(config, "Navigating to Naukri login: " + config.getRunTimeProperty("naukari.login.url"));
+        BrowserHelper.navigateTo(config, config.getRunTimeProperty("naukari.login.url"));
         NaukriLoginPage loginPage = new NaukriLoginPage(config);
         return loginPage.doLogin(username, password);
     }

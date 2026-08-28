@@ -1,7 +1,9 @@
 package automation.modules.naukari.web;
 
 import automation.core.BasePage;
+import automation.core.BrowserHelper;
 import automation.core.Config;
+import automation.core.WaitHelper;
 import com.microsoft.playwright.Locator;
 
 /**
@@ -10,11 +12,9 @@ import com.microsoft.playwright.Locator;
  */
 public class NaukriLoginPage extends BasePage
 {
-    private static final String PROFILE_URL = "https://www.naukri.com/mnjuser/profile";
-
     private final Locator usernameField = page.locator("[id='usernameField']");
     private final Locator passwordField = page.locator("[id='passwordField']");
-    private final Locator loginButton   = page.locator("button[type='submit']");
+    private final Locator loginButton   = page.locator("button.blue-btn[type='submit']");
 
     public NaukriLoginPage(Config config)
     {
@@ -23,8 +23,9 @@ public class NaukriLoginPage extends BasePage
     }
 
     /**
-     * Enter credentials, submit the login form, navigate to the profile page,
-     * and return a NaukriProfilePage ready for interaction.
+     * Enter credentials, submit the login form, wait for the post-login redirect to
+     * settle, navigate to the profile page, and return a NaukriProfilePage ready
+     * for interaction.
      *
      * @param username Naukri account email / username
      * @param password Naukri account password
@@ -35,7 +36,8 @@ public class NaukriLoginPage extends BasePage
         fillText(usernameField, username, "Username field");
         fillText(passwordField, password, "Password field");
         click(loginButton, "Login button");
-        page.navigate(PROFILE_URL);
+        WaitHelper.waitForNetworkIdle(config);
+        BrowserHelper.navigateTo(config, config.getRunTimeProperty("naukari.profile.url"));
         return new NaukriProfilePage(config);
     }
 }
