@@ -31,6 +31,12 @@ public class BasePage
         this.config = config;
         this.page = config.page;
         initCommonLocators();
+        // So a later failure can name the page object that declares the locator that
+        // failed. See Config.pageObjects.
+        if (config != null)
+        {
+            config.pageObjects.add(this);
+        }
     }
 
     /**
