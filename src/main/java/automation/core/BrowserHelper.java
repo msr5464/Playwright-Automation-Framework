@@ -249,7 +249,16 @@ public class BrowserHelper {
                 return false;
             }
 
+            // A normal run gets a fresh browser.newContext(); this one gets a Chrome
+            // profile on disk, and mkdirs() on an existing directory keeps whatever is
+            // already in it. Left alone it accumulates cookies across every repair run,
+            // so the re-run starts authenticated while the test is written to start
+            // logged out: the login page redirects away, the very first step fails, and
+            // the browser parks on a page the test never meant to be on. Reproducing the
+            // failure means reproducing the state it happened in, so the profile is
+            // rebuilt each time.
             Path profileDir = Paths.get(Config.resultsDirectory, "repair-profile");
+            deleteRecursively(profileDir.toFile());
             new File(profileDir.toString()).mkdirs();
 
             ProcessBuilder builder = new ProcessBuilder(
@@ -292,6 +301,25 @@ public class BrowserHelper {
         } catch (Exception e) {
             Log.warning(config, "Repair mode: detached launch failed: " + e.getMessage());
             return false;
+        }
+    }
+
+    /** Best-effort recursive delete. A profile we cannot clear is not fatal. */
+    private static void deleteRecursively(File target) {
+        try {
+            if (!target.exists()) {
+                return;
+            }
+            File[] children = target.listFiles();
+            if (children != null) {
+                for (File child : children) {
+                    deleteRecursively(child);
+                }
+            }
+            target.delete();
+        } catch (Throwable ignored) {
+            // A stale profile degrades the repair session; failing here would take
+            // down the run that was only trying to explain a failure.
         }
     }
 
