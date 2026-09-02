@@ -55,6 +55,111 @@ public class FailureContext {
     private FailureContext() {
     }
 
+    /** The element an interaction is currently waiting on, per thread. */
+    private static final ThreadLocal<Pending> PENDING = new ThreadLocal<>();
+
+    /** What WaitHelper was waiting for when it gave up, held until something fails. */
+    private static final class Pending {
+        final Locator locator;
+        final String elementName;
+        final long elapsedMs;
+        final long budgetMs;
+
+        Pending(Locator locator, String elementName, long elapsedMs, long budgetMs) {
+            this.locator = locator;
+            this.elementName = elementName;
+            this.elapsedMs = elapsedMs;
+            this.budgetMs = budgetMs;
+        }
+    }
+
+    /**
+     * Remember the element a wait just gave up on, in case the action then fails.
+     *
+     * <p>Recorded rather than acted on: most waits that time out are followed by an
+     * interaction that succeeds anyway, and writing a failure context for each of those
+     * would fill the report directory with accounts of failures that never happened.
+     */
+    public static void waitingOn(Locator locator, String elementName,
+                                 long elapsedMs, long budgetMs) {
+        try {
+            PENDING.set(new Pending(locator, elementName, elapsedMs, budgetMs));
+        } catch (Throwable ignored) {
+            // Never let bookkeeping about a failure become one.
+        }
+    }
+
+    /**
+     * Record an interaction that failed on an element, when one is pending.
+     *
+     * <p>Until this existed only {@code assertPageLoaded} produced a failure context, so
+     * every other failure — the majority of them — left nothing measured behind. The
+     * agent reading the run had to approximate the page object's coverage by evaluating
+     * selectors against a saved snapshot, where {@code getByRole} and XPath cannot be
+     * evaluated at all, and had no way to tell an element that is absent from one that is
+     * present but covered.
+     *
+     * <p>Writes at most once per test: the first failure is the one that explains the
+     * run, and the ones after it are its consequences.
+     */
+    public static void writeForInteraction(Config config) {
+        if (config == null || config.page == null || config.failureContextPath != null) {
+            return;
+        }
+        Pending pending = null;  // what the last wait gave up on, if anything
+        try {
+            pending = PENDING.get();
+        } catch (Throwable ignored) {
+            // fall through
+        }
+        if (pending == null) {
+            return;
+        }
+        PENDING.remove();
+        write(config, ownerOf(config, pending.locator),
+              java.util.Collections.singletonList(pending.locator),
+              pending.elapsedMs, pending.budgetMs, null, "ELEMENT_INTERACTION");
+    }
+
+    /**
+     * The page object that declares this exact locator, compared by identity.
+     *
+     * <p>Page objects hold their locators in final fields, so the instance that failed is
+     * the instance the owner declares — no name matching, and correct even when a test
+     * holds several page objects at once.
+     */
+    private static Object ownerOf(Config config, Locator locator) {
+        if (locator == null) {
+            return null;
+        }
+        List<Object> candidates;
+        synchronized (config.pageObjects) {
+            candidates = new ArrayList<>(config.pageObjects);
+        }
+        // Most recently constructed first: the page being worked on right now.
+        for (int i = candidates.size() - 1; i >= 0; i--) {
+            Object candidate = candidates.get(i);
+            for (Class<?> type = candidate.getClass();
+                 type != null && type != Object.class && type != BasePage.class;
+                 type = type.getSuperclass()) {
+                for (Field field : type.getDeclaredFields()) {
+                    if (!Locator.class.isAssignableFrom(field.getType())) {
+                        continue;
+                    }
+                    try {
+                        field.setAccessible(true);
+                        if (field.get(candidate) == locator) {
+                            return candidate;
+                        }
+                    } catch (Throwable ignored) {
+                        // An unreadable field simply is not the one.
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
     /**
      * Record why {@code pageObject} could not confirm it had loaded.
      *
@@ -64,7 +169,20 @@ public class FailureContext {
      */
     public static void write(Config config, Object pageObject, List<Locator> anchors,
                              long elapsedMs, long budgetMs, Boolean domChangedDuringWait) {
-        if (config == null || config.page == null) {
+        write(config, pageObject, anchors, elapsedMs, budgetMs, domChangedDuringWait,
+              "PAGE_NOT_LOADED");
+    }
+
+    private static void write(Config config, Object pageObject, List<Locator> anchors,
+                              long elapsedMs, long budgetMs, Boolean domChangedDuringWait,
+                              String kind) {
+        // One account per test, and the first one is the one worth having. A broken
+        // locator makes the click do nothing, which leaves the flow on the previous page,
+        // which makes the *next* page object fail to load — so the last failure in a run
+        // describes a page the test never reached and the first describes why. Letting
+        // the cascade overwrite the cause is how a stale locator ends up reported as a
+        // page that was never loaded.
+        if (config == null || config.page == null || config.failureContextPath != null) {
             return;
         }
         try {
@@ -72,7 +190,7 @@ public class FailureContext {
             root.put("schema", 1);
             root.put("test", config.testcaseClass + "." + config.testcaseName);
             root.put("failedAt", DataGenerator.getCurrentDateTime("yyyy-MM-dd'T'HH:mm:ss"));
-            root.put("failure", failureBlock(pageObject, anchors, elapsedMs, budgetMs));
+            root.put("failure", failureBlock(pageObject, anchors, elapsedMs, budgetMs, kind));
             root.put("page", pageBlock(config.page));
             root.put("pageObjectCoverage", coverageBlock(pageObject));
             root.put("domVolatility", volatilityBlock(domChangedDuringWait));
@@ -100,9 +218,9 @@ public class FailureContext {
     }
 
     private static Map<String, Object> failureBlock(Object pageObject, List<Locator> anchors,
-                                                    long elapsedMs, long budgetMs) {
+                                                    long elapsedMs, long budgetMs, String kind) {
         Map<String, Object> failure = new LinkedHashMap<>();
-        failure.put("kind", "PAGE_NOT_LOADED");
+        failure.put("kind", kind);
         failure.put("pageObject", pageObject == null ? "" : pageObject.getClass().getSimpleName());
 
         List<Map<String, Object>> described = new ArrayList<>();
