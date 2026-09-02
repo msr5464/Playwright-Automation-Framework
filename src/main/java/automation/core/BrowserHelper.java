@@ -460,10 +460,32 @@ public class BrowserHelper {
                 // A closed or crashed page still has usable content sometimes.
             }
 
+            // Fingerprints alongside the HTML. The locator engine ranks candidates by
+            // comparing bounding boxes, computed ARIA roles and accessible names against
+            // the last good run -- none of which survive into static markup. Re-deriving
+            // them from the saved HTML would silently drop the geometry signals and
+            // degrade the strongest one, so they are captured here, while a live page
+            // still exists. The path rides in the header, which parse_header already reads.
+            String fingerprintsAttribute = "";
+            try {
+                Object fingerprints = LocatorCapture.snapshot(config.page);
+                if (fingerprints != null) {
+                    Path printsPath = Paths.get(domDir,
+                            fileName.substring(0, fileName.length() - ".html".length())
+                                    + ".fingerprints.json");
+                    Files.write(printsPath, new com.fasterxml.jackson.databind.ObjectMapper()
+                            .writeValueAsString(fingerprints).getBytes(StandardCharsets.UTF_8));
+                    fingerprintsAttribute = " fingerprints=\"" + printsPath + "\"";
+                }
+            } catch (Throwable ignored) {
+                // The HTML snapshot is the important half; never lose it over this.
+            }
+
             String header = "<!-- qa-agent-network:dom-snapshot"
                     + " test=\"" + config.testcaseName + "\""
                     + " url=\"" + url + "\""
                     + " capturedAt=\"" + DataGenerator.getCurrentDateTime("yyyy-MM-dd'T'HH:mm:ss") + "\""
+                    + fingerprintsAttribute
                     + " -->\n";
             Files.write(domPath, (header + config.page.content()).getBytes(StandardCharsets.UTF_8));
 

@@ -10,6 +10,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -48,6 +49,15 @@ public class Baseline {
 
     private static final Set<String> WRITTEN = Collections.newSetFromMap(new ConcurrentHashMap<>());
 
+    /**
+     * Fingerprints cost one DOM walk per page object. Opt-out for a pathological page or
+     * a debugging run; the coverage counts are recorded either way.
+     */
+    private static final boolean FINGERPRINTS =
+            !"false".equalsIgnoreCase(String.valueOf(System.getenv("BASELINE_FINGERPRINTS")));
+
+
+
     private static final com.fasterxml.jackson.databind.ObjectMapper MAPPER =
             new com.fasterxml.jackson.databind.ObjectMapper();
 
@@ -72,7 +82,16 @@ public class Baseline {
             root.put("urlShape", shapeOf(config.page.url()));
             root.put("title", config.page.title());
             root.put("bodyClass", bodyClass(config));
-            root.put("coverage", coverage(pageObject));
+            Map<String, Object> counts = new LinkedHashMap<>();
+            Map<String, Object> prints = new LinkedHashMap<>();
+            List<Object> landmarks = new java.util.ArrayList<>();
+            collect(config, pageObject, counts, prints, landmarks);
+            root.put("coverage", counts);
+            root.put("fingerprints", prints);
+            // Headings and landmark roles. Cheap, and a far better answer to
+            // "are we even on the right screen" than a URL, which survives a
+            // redirect to a login page unchanged.
+            root.put("landmarks", landmarks);
 
             Path directory = pendingDirectory();
             new File(directory.toString()).mkdirs();
@@ -176,9 +195,8 @@ public class Baseline {
         }
     }
 
-    /** Per-locator match counts, using the same reflection rule as FailureContext. */
-    private static Map<String, Object> coverage(Object pageObject) {
-        Map<String, Object> counts = new LinkedHashMap<>();
+    /** Visits every Locator field, using the same reflection rule as FailureContext. */
+    private static void forEachLocator(Object pageObject, LocatorVisitor visitor) {
         for (Class<?> type = pageObject.getClass();
              type != null && type != Object.class && type != BasePage.class;
              type = type.getSuperclass()) {
@@ -189,11 +207,75 @@ public class Baseline {
                     field.setAccessible(true);
                     Locator locator = (Locator) field.get(pageObject);
                     if (locator != null)
-                        counts.put(field.getName(), locator.count());
+                        visitor.visit(field.getName(), locator);
                 } catch (Throwable ignored) {
                 }
             }
         }
-        return counts;
+    }
+
+    private interface LocatorVisitor {
+        void visit(String name, Locator locator);
+    }
+
+    /**
+     * Per-locator match counts, and what each locator actually matched.
+     *
+     * <p>A count answers "did this still resolve last time". It cannot answer "what did it
+     * resolve to", so a renamed or moved element leaves nothing to compare against and the
+     * diagnosis downstream is reduced to guessing from the selector string. The fingerprint
+     * is that missing half: tag, role, accessible name, text, attributes, neighbouring text
+     * and geometry, captured while the locator still worked.
+     *
+     * <p>Only unambiguous matches are recorded. A locator matching two elements has not told
+     * us which one the test meant, and writing either one down would invent a fact.
+     *
+     * <p>One page snapshot serves every field: the same walk that produced the element list
+     * also answers where a given element sits in it, so the indices cannot disagree.
+     */
+    private static void collect(Config config, Object pageObject,
+                                Map<String, Object> counts, Map<String, Object> prints,
+                                List<Object> landmarks) {
+        String js = FINGERPRINTS ? LocatorCapture.script() : "";
+        java.util.List<?> elements = null;
+        if (!js.isEmpty()) {
+            try {
+                Object snapshot = LocatorCapture.snapshot(config.page);
+                if (snapshot instanceof Map) {
+                    Object found = ((Map<?, ?>) snapshot).get("elements");
+                    if (found instanceof java.util.List)
+                        elements = (java.util.List<?>) found;
+                    Object marks = ((Map<?, ?>) snapshot).get("landmarks");
+                    if (marks instanceof java.util.List)
+                        landmarks.addAll((java.util.List<?>) marks);
+                }
+            } catch (Throwable ignored) {
+                // Unusable snapshot: counts are still worth recording.
+            }
+        }
+        final java.util.List<?> all = elements;
+
+        forEachLocator(pageObject, (name, locator) -> {
+            int count;
+            try {
+                count = locator.count();
+            } catch (Throwable e) {
+                return;
+            }
+            counts.put(name, count);
+            if (all == null || count != 1)
+                return;
+            try {
+                Object index = config.page.evaluate(js, locator.elementHandle(
+                        new Locator.ElementHandleOptions().setTimeout(2000)));
+                if (index instanceof Number) {
+                    int i = ((Number) index).intValue();
+                    if (i >= 0 && i < all.size())
+                        prints.put(name, all.get(i));
+                }
+            } catch (Throwable ignored) {
+                // One unfingerprintable locator must not cost us the others.
+            }
+        });
     }
 }
