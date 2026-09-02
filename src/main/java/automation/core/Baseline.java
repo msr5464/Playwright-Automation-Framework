@@ -28,8 +28,18 @@ import java.util.concurrent.ConcurrentHashMap;
  * stops depending on thresholds. It needs no knowledge of the application, and it gets
  * more useful the longer the suite runs.
  *
- * <p>Written only on success, once per page object per JVM run, and never allowed to fail
- * a test: a baseline is an optimisation for a later diagnosis, not part of the run.
+ * <p>Recorded when the page object confirms it has loaded, but held aside until the test
+ * that recorded it passes. A page-load anchor being visible is not the test succeeding:
+ * a page object whose identity anchor is present while a second locator is broken loads
+ * perfectly well and fails a moment later. Writing the fingerprint straight out meant the
+ * failing run — and the diagnosis probe that re-ran it minutes afterwards — overwrote the
+ * record of the last good run with the broken page, under the name of the good one. Every
+ * comparison against it then confirmed the breakage instead of contradicting it.
+ *
+ * <p>So {@link #record} writes to {@code baselines/pending/}, {@link #promote} moves it
+ * into place when the test passes, and {@link #discard} throws it away when it does not.
+ * Never allowed to fail a test: a baseline is an optimisation for a later diagnosis, not
+ * part of the run.
  */
 public class Baseline {
 
@@ -49,8 +59,11 @@ public class Baseline {
         if (config == null || config.page == null || pageObject == null)
             return;
         String name = pageObject.getClass().getSimpleName();
-        if (!WRITTEN.add(name))
-            return; // once per run is enough; the page does not change mid-suite
+        // Once per test per page object. Keyed by test rather than by page alone: a
+        // pending fingerprint is only promoted if *this* test passes, so a page first
+        // seen by a test that fails must still be recordable by the next one.
+        if (!WRITTEN.add(testKey(config) + "#" + name))
+            return;
 
         try {
             Map<String, Object> root = new LinkedHashMap<>();
@@ -61,16 +74,81 @@ public class Baseline {
             root.put("bodyClass", bodyClass(config));
             root.put("coverage", coverage(pageObject));
 
-            Path directory = Paths.get(DIR != null && !DIR.isEmpty()
-                    ? DIR
-                    : Config.resultsDirectory + File.separator + "baselines");
+            Path directory = pendingDirectory();
             new File(directory.toString()).mkdirs();
-            Files.write(directory.resolve(name + ".json"),
+            Files.write(directory.resolve(pendingName(config, name)),
                     MAPPER.writerWithDefaultPrettyPrinter().writeValueAsString(root)
                             .getBytes(StandardCharsets.UTF_8));
         } catch (Throwable ignored) {
             // A missing baseline only lowers confidence later. It is never fatal.
         }
+    }
+
+    /** The test passed: everything it recorded really is a good-run fingerprint. */
+    public static void promote(Config config) {
+        forEachPending(config, (pending, pageObject) -> {
+            Path directory = baselineDirectory();
+            new File(directory.toString()).mkdirs();
+            Files.move(pending, directory.resolve(pageObject + ".json"),
+                    java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+        });
+    }
+
+    /** The test failed: what it saw is not a record of the page working. */
+    public static void discard(Config config) {
+        forEachPending(config, (pending, pageObject) -> Files.deleteIfExists(pending));
+    }
+
+    private interface PendingAction {
+        void apply(Path pending, String pageObject) throws Exception;
+    }
+
+    private static void forEachPending(Config config, PendingAction action) {
+        if (config == null)
+            return;
+        try {
+            Path directory = pendingDirectory();
+            if (!Files.isDirectory(directory))
+                return;
+            String prefix = testKey(config) + "__";
+            try (java.util.stream.Stream<Path> entries = Files.list(directory)) {
+                for (Path pending : entries.collect(java.util.stream.Collectors.toList())) {
+                    String fileName = pending.getFileName().toString();
+                    if (!fileName.startsWith(prefix) || !fileName.endsWith(".json"))
+                        continue;
+                    String pageObject = fileName.substring(prefix.length(),
+                            fileName.length() - ".json".length());
+                    try {
+                        action.apply(pending, pageObject);
+                    } catch (Throwable ignored) {
+                        // One unusable file must not strand the rest.
+                    }
+                }
+            }
+        } catch (Throwable ignored) {
+            // Baselines are an optimisation; never fail a test over one.
+        }
+    }
+
+    private static Path baselineDirectory() {
+        return Paths.get(DIR != null && !DIR.isEmpty()
+                ? DIR
+                : Config.resultsDirectory + File.separator + "baselines");
+    }
+
+    private static Path pendingDirectory() {
+        return baselineDirectory().resolve("pending");
+    }
+
+    /** A filesystem-safe identifier for the test that recorded a fingerprint. */
+    private static String testKey(Config config) {
+        String test = (config.testcaseClass == null ? "" : config.testcaseClass)
+                + "." + (config.testcaseName == null ? "" : config.testcaseName);
+        return test.replaceAll("[^A-Za-z0-9._-]", "_");
+    }
+
+    private static String pendingName(Config config, String pageObject) {
+        return testKey(config) + "__" + pageObject + ".json";
     }
 
     /**

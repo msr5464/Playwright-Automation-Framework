@@ -12,6 +12,7 @@ public class WaitHelper {
     }
 
     public static boolean waitForElementToBeVisible(Config config, Locator locator, String elementName) {
+        long startTime = System.currentTimeMillis();
         try {
             locator.waitFor(new Locator.WaitForOptions()
                     .setState(WaitForSelectorState.VISIBLE)
@@ -20,6 +21,12 @@ public class WaitHelper {
             return true;
         } catch (Exception e) {
             config.logWarning("Element not visible after timeout: " + elementName);
+            // Every interaction waits here first, so this is the one place that knows
+            // which element an about-to-fail action was reaching for. Remembering it
+            // costs nothing and is what lets the failure be written down as a fact
+            // rather than reconstructed from the message afterwards.
+            FailureContext.waitingOn(locator, elementName,
+                    System.currentTimeMillis() - startTime, getTimeout(config));
             return false;
         }
     }

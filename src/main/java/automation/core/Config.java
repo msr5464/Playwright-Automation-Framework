@@ -95,6 +95,17 @@ public class Config {
     public final List<String> navigationHistory = Collections.synchronizedList(new ArrayList<>());
     public String failureContextPath = null; // machine-readable failure context, read by the QA agent network
 
+    /**
+     * Every page object constructed during this test.
+     *
+     * <p>An interaction failure knows the locator that failed but not who declares it,
+     * and that owner is what makes the failure explicable: how much of *its* locator set
+     * is present is the difference between a renamed element and a page the test never
+     * reached. Registering them here lets the owner be found by identity at the moment
+     * of failure, with no per-page-object code and no guessing from the message.
+     */
+    public final List<Object> pageObjects = Collections.synchronizedList(new ArrayList<>());
+
     public HashMap<String, String> testData = new HashMap<>();
     public TestContext testContext = new TestContext();
 
@@ -385,6 +396,11 @@ public class Config {
 
     /** Logs a failure message + cleaned exception stack trace and hard-stops. */
     public void logExceptionAndFail(String message, Throwable e) {
+        // Every failed interaction funnels through here, which used to be the end of
+        // the machine-readable trail: only assertPageLoaded wrote a failure context, so
+        // for every other failure the agent reading this run had nothing measured to go
+        // on and fell back to approximating selectors against a saved snapshot.
+        FailureContext.writeForInteraction(this);
         Log.failure(this, message + ": " + e.getMessage(), e);
     }
 

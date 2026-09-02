@@ -137,6 +137,9 @@ public class TestListener implements ITestListener, IInvokedMethodListener, IAnn
                 if (config != null)
                 {
                     config.testResult = true;
+                    // The test passed, so the page fingerprints it recorded really do
+                    // describe the pages working. See Baseline.
+                    Baseline.promote(config);
                     config.endTest(result);
                     insertTestResultToDb(config, result, "PASSED", null);
                 }
@@ -156,6 +159,9 @@ public class TestListener implements ITestListener, IInvokedMethodListener, IAnn
             {
                 if (config != null)
                 {
+                    // A page-load anchor being visible is not the test succeeding, so
+                    // nothing this run recorded may stand as a good-run baseline.
+                    Baseline.discard(config);
                     config.logComment("------------END OF EXECUTION------------");
                 }
             }
@@ -250,6 +256,8 @@ public class TestListener implements ITestListener, IInvokedMethodListener, IAnn
             {
                 if (config != null)
                 {
+                    // A skipped test never confirmed anything either.
+                    Baseline.discard(config);
                     Log.warning(config, "Test SKIPPED: " + config.testcaseName);
                 }
             }
