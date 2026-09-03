@@ -7,17 +7,16 @@ import automation.core.WaitHelper;
 import com.microsoft.playwright.Locator;
 
 /**
- * Naukri login page — fills credentials, submits the form, then navigates directly
+ * Naukri login page — fills credentials, submits the form, then navigates
+ * directly
  * to the profile page so callers receive a ready-to-use NaukriProfilePage.
  */
-public class NaukriLoginPage extends BasePage
-{
+public class NaukriLoginPage extends BasePage {
     private final Locator usernameField = page.locator("[id='usernameField']");
     private final Locator passwordField = page.locator("[id='passwordField']");
-    private final Locator loginButton   = page.locator("button.blue-btn[type='submit']");
+    private final Locator loginButton = page.locator("button[type='submit']");
 
-    public NaukriLoginPage(Config config)
-    {
+    public NaukriLoginPage(Config config) {
         super(config);
         assertPageLoaded(usernameField);
     }
@@ -31,11 +30,11 @@ public class NaukriLoginPage extends BasePage
      * @param password Naukri account password
      * @return NaukriProfilePage once the profile page has loaded
      */
-    public NaukriProfilePage doLogin(String username, String password)
-    {
+    public NaukriProfilePage doLogin(String username, String password) {
         fillText(usernameField, username, "Username field");
         fillText(passwordField, password, "Password field");
         click(loginButton, "Login button");
+        WaitHelper.waitForUrl(config, "**/mnjuser/**");
         WaitHelper.waitForNetworkIdle(config);
         BrowserHelper.navigateTo(config, config.getRunTimeProperty("naukari.profile.url"));
         return new NaukriProfilePage(config);

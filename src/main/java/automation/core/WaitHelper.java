@@ -1,6 +1,7 @@
 package automation.core;
 
 import com.microsoft.playwright.Locator;
+import com.microsoft.playwright.Page;
 import com.microsoft.playwright.options.WaitForSelectorState;
 
 public class WaitHelper {
@@ -142,6 +143,31 @@ public class WaitHelper {
             return length == null ? 0 : Integer.parseInt(String.valueOf(length));
         } catch (Throwable e) {
             return 0;
+        }
+    }
+
+    /**
+     * Wait until the page has actually landed on a URL.
+     *
+     * <p>waitForNetworkIdle cannot do this job. waitForLoadState reports on the
+     * CURRENT document, so called straight after a click that submits a form it
+     * returns before the resulting navigation has even begun — the login page is
+     * still there, and still idle. A navigateTo() issued next then races the
+     * in-flight redirect and Chromium aborts one of them, which surfaces as
+     * net::ERR_ABORTED on whichever page the redirect happened to win.
+     *
+     * <p>Returns false rather than throwing: the caller is usually about to
+     * navigate anyway, and a missed wait should not become a different error
+     * than the one the test was written to report.
+     */
+    public static boolean waitForUrl(Config config, String urlPattern) {
+        try {
+            config.page.waitForURL(urlPattern,
+                    new Page.WaitForURLOptions().setTimeout(getTimeout(config)));
+            return true;
+        } catch (Exception e) {
+            config.logWarning("URL never became '" + urlPattern + "' within the timeout");
+            return false;
         }
     }
 

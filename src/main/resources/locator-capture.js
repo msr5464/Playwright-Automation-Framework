@@ -1,13 +1,21 @@
 // Element fingerprinting — the single source of truth for BOTH the Python
 // engine and the Java framework.
 //
-// Dual-mode on purpose. Called with no argument it returns the page snapshot;
-// called with an element it returns that element's index in the very same walk.
+// Multi-mode on purpose. Called with no argument it returns the page snapshot;
+// called with an element it returns that element's index in the very same walk;
+// called with an array of elements it returns the snapshot AND their indices,
+// resolved in that one walk.
 // Two separate implementations of the walk would be free to disagree about what
 // "element #27" means, and every score downstream would be quietly wrong.
 //
-//   evaluate(JS)          -> { url, title, viewport, landmarks, elements[] }
-//   evaluate(JS, element) -> index into that elements[] array, or -1
+//   evaluate(JS)            -> { url, title, viewport, landmarks, elements[] }
+//   evaluate(JS, element)   -> index into that elements[] array, or -1
+//   evaluate(JS, [el, ...]) -> { ...snapshot, indices: [i, ...] }
+//
+// The array form exists because ONE walk per element is not enough: a caller that
+// snapshots the page and then asks for each index separately re-walks a DOM that
+// has moved on, and `elements[index]` then names a different element entirely.
+// That silently recorded a page's logo as its edit button.
 //
 // Keep this file identical in QA-Agent-Network and the automation framework's
 // src/main/resources. capture_parity_test asserts the two agree on a live page.
@@ -238,11 +246,19 @@
   // Element given: answer with its position in the walk above and nothing else.
   if (target && target.nodeType === 1) return all.indexOf(target);
 
-  return {
+  const snapshot = {
     url: location.href,
     title: document.title,
     viewport: {w: vw, h: vh},
     landmarks: Array.from(new Set(landmarks)),
     elements: all.map((el, i) => Object.assign({index: i}, describe(el))),
   };
+
+  // Elements given: their indices come from the walk that just built `elements`,
+  // so the two cannot disagree however much the page moves afterwards.
+  if (Array.isArray(target)) {
+    snapshot.indices = target.map(
+      el => (el && el.nodeType === 1) ? all.indexOf(el) : -1);
+  }
+  return snapshot;
 }
