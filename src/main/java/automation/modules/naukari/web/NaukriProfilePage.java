@@ -14,7 +14,7 @@ public class NaukriProfilePage extends BasePage {
     private final Locator profileSummarySection = page.locator("#profile-section-profile-summary");
     private final Locator profileSummaryDisplayText = page
             .locator("#profile-section-profile-summary div.rounded-2\\.5xl");
-    private final Locator editProfileSummaryButton = page.locator("#profile-section-profile-summary img[alt='mukesh']");
+    private final Locator editProfileSummaryButton = page.locator("#profile-section-profile-summary img[alt='PencilSimple']");
     private final Locator profileSummaryTextArea = page
             .locator("textarea[placeholder='Craft a compelling profile summary']");
     private final Locator saveButton = page.locator("div.bg-black button[type='submit']");
