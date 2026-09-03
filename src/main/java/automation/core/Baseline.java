@@ -259,31 +259,23 @@ public class Baseline {
      * <p>Only unambiguous matches are recorded. A locator matching two elements has not told
      * us which one the test meant, and writing either one down would invent a fact.
      *
-     * <p>One page snapshot serves every field: the same walk that produced the element list
-     * also answers where a given element sits in it, so the indices cannot disagree.
+     * <p>One page snapshot serves every field, and it must be ONE evaluate. Snapshotting the
+     * page and then asking for each locator's index separately re-walks a DOM that has moved
+     * on — the page is still settling when a test ends — and {@code elements[index]} then
+     * names a different element entirely. That is not a loud failure: it writes a confident
+     * fingerprint for the wrong element, and every later heal is scored against it. It once
+     * recorded the site logo as the profile page's edit button, which cost the search its
+     * scope and left it choosing between 815 look-alikes.
      */
     private static void collect(Config config, Object pageObject,
                                 Map<String, Object> counts, Map<String, Object> prints,
                                 List<Object> landmarks) {
         String js = fingerprintsEnabled(config) ? LocatorCapture.script() : "";
-        java.util.List<?> elements = null;
-        if (!js.isEmpty()) {
-            try {
-                Object snapshot = LocatorCapture.snapshot(config.page);
-                if (snapshot instanceof Map) {
-                    Object found = ((Map<?, ?>) snapshot).get("elements");
-                    if (found instanceof java.util.List)
-                        elements = (java.util.List<?>) found;
-                    Object marks = ((Map<?, ?>) snapshot).get("landmarks");
-                    if (marks instanceof java.util.List)
-                        landmarks.addAll((java.util.List<?>) marks);
-                }
-            } catch (Throwable ignored) {
-                // Unusable snapshot: counts are still worth recording.
-            }
-        }
-        final java.util.List<?> all = elements;
-
+        // Resolve every handle first, then hand them to a single evaluate. Only
+        // unambiguous matches are recorded: a locator matching two elements has not
+        // told us which one the test meant, and writing either down invents a fact.
+        final List<String> names = new java.util.ArrayList<>();
+        final List<Object> handles = new java.util.ArrayList<>();
         forEachLocator(pageObject, (name, locator) -> {
             int count;
             try {
@@ -292,19 +284,47 @@ public class Baseline {
                 return;
             }
             counts.put(name, count);
-            if (all == null || count != 1)
+            if (js.isEmpty() || count != 1)
                 return;
             try {
-                Object index = config.page.evaluate(js, locator.elementHandle(
-                        new Locator.ElementHandleOptions().setTimeout(2000)));
-                if (index instanceof Number) {
-                    int i = ((Number) index).intValue();
-                    if (i >= 0 && i < all.size())
-                        prints.put(name, all.get(i));
+                Object handle = locator.elementHandle(
+                        new Locator.ElementHandleOptions().setTimeout(2000));
+                if (handle != null) {
+                    names.add(name);
+                    handles.add(handle);
                 }
             } catch (Throwable ignored) {
-                // One unfingerprintable locator must not cost us the others.
+                // One unresolvable locator must not cost us the others.
             }
         });
+        if (js.isEmpty())
+            return;
+
+        try {
+            Object result = config.page.evaluate(js, handles);
+            if (!(result instanceof Map))
+                return;
+            Map<?, ?> snap = (Map<?, ?>) result;
+            Object found = snap.get("elements");
+            Object idx = snap.get("indices");
+            if (!(found instanceof List))
+                return;
+            List<?> all = (List<?>) found;
+            List<?> indices = (idx instanceof List) ? (List<?>) idx : Collections.emptyList();
+
+            Object marks = snap.get("landmarks");
+            if (marks instanceof List)
+                landmarks.addAll((List<?>) marks);
+
+            for (int n = 0; n < names.size() && n < indices.size(); n++) {
+                if (!(indices.get(n) instanceof Number))
+                    continue;
+                int i = ((Number) indices.get(n)).intValue();
+                if (i >= 0 && i < all.size())
+                    prints.put(names.get(n), all.get(i));
+            }
+        } catch (Throwable ignored) {
+            // An unusable snapshot costs the fingerprints, never the counts.
+        }
     }
 }

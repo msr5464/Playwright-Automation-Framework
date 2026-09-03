@@ -294,6 +294,12 @@ public class BrowserHelper {
                     : config.browserContext.pages().get(0);
             config.page.setViewportSize(1920, 1080);
             config.page.setDefaultTimeout(WaitHelper.getTimeout(config));
+            // Parity with the normal launch path above. A repair run exists to
+            // reproduce the failure it is inspecting, so it must not run under a
+            // different navigation budget — nor without the recorder, which is
+            // where the network log the diagnosis reads comes from.
+            config.page.setDefaultNavigationTimeout(WaitHelper.getTimeout(config) * 3L);
+            installFlightRecorder(config);
 
             Log.comment(config, "Repair mode ON — detached browser pid=" + config.repairBrowserPid
                     + ", CDP " + cdpUrl);

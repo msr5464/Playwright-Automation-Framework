@@ -12,11 +12,32 @@ public class Element {
     // ========== CLICK ==========
 
     public static void click(Config config, Locator locator, String elementName) {
-        WaitHelper.waitForElementToBeVisible(config, locator, elementName);
-        Log.action(config, "Clicking: " + elementName);
+        // The wait already spent the full ObjectWaitTime deciding this element is
+        // not there. Ignoring its answer and calling click() anyway spends the
+        // budget a second time to reach the same conclusion, so every failing
+        // click cost two timeouts instead of one. Clicking with no budget left
+        // still produces the same error and the same call log, just without the
+        // second wait.
+        boolean visible = WaitHelper.waitForElementToBeVisible(config, locator, elementName);
+        if (visible) {
+            Log.action(config, "Clicking: " + elementName);
+        } else {
+            // Say so, because the error below will report a 1ms timeout and that
+            // reads like a misconfiguration rather than the deliberate choice it is.
+            Log.action(config, "Clicking: " + elementName
+                    + " (not visible after the full wait — failing fast rather than "
+                    + "waiting a second time)");
+        }
         try {
-            locator.scrollIntoViewIfNeeded();
-            locator.click();
+            if (visible) {
+                locator.scrollIntoViewIfNeeded();
+                locator.click();
+            } else {
+                // Skip the scroll too. It carries its own full timeout, so
+                // bounding only the click still spent the budget twice — which is
+                // the whole cost this avoids.
+                locator.click(new Locator.ClickOptions().setTimeout(1));
+            }
         } catch (Exception e) {
             config.logExceptionAndFail(
                     "Failed to click on element '" + elementName + "' with locator: " + locator.toString(), e);
