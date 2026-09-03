@@ -33,3 +33,9 @@ logs/
 *.apk
 *.ipa
 *.aab
+
+# Locator baselines: the promoted files are committed on purpose — they describe
+# what each page-object locator matched on a passing run, and reviewing them
+# alongside the page objects is the point. `pending/` is not: it holds records
+# written by a test that has not finished yet, which are discarded if it fails.
+src/main/resources/baselines/pending/

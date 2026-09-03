@@ -1,0 +1,235 @@
+{
+  "pageObject" : "NaukriLoginPage",
+  "recordedAt" : "2026-09-03T08:32:39",
+  "urlShape" : "https://www.naukri.com/nlogin/login",
+  "title" : "Jobseeker's Login: Search the Best Jobs available in India & Abroad - Naukri.com",
+  "bodyClass" : "",
+  "coverage" : {
+    "usernameField" : 1,
+    "passwordField" : 1,
+    "loginButton" : 1
+  },
+  "fingerprints" : {
+    "usernameField" : {
+      "index" : 382,
+      "tag" : "input",
+      "id" : "usernameField",
+      "name" : null,
+      "type" : "text",
+      "class_list" : [ ],
+      "role" : "textbox",
+      "accessible_name" : "Enter Email ID / Username",
+      "aria_label" : null,
+      "placeholder" : "Enter Email ID / Username",
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : null,
+      "text" : "",
+      "attrs" : {
+        "type" : "text",
+        "id" : "usernameField",
+        "placeholder" : "Enter Email ID / Username",
+        "rel" : "required:usernameField_required|blur",
+        "maxlength" : "100",
+        "autocapitalize" : "none",
+        "value" : "",
+        "autocomplete" : "off"
+      },
+      "is_interactive" : true,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/div[3]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/form[1]/div[2]/div[1]/div[1]/input[1]",
+      "id_xpath" : "//*[@id='usernameField']",
+      "ancestor_chain" : [ {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "input-field", "col", "s12" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "row", "mb0" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "form",
+        "id" : "loginForm",
+        "classes" : [ "loginForm" ],
+        "role" : "form",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "gutter" ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 1,
+      "sibling_count" : 3,
+      "bbox_norm" : {
+        "x" : 0.5524983723958333,
+        "y" : 0.18703703703703703,
+        "w" : 0.161767578125,
+        "h" : 0.03888888888888889
+      },
+      "area_norm" : 0.006290961371527778,
+      "aspect" : 7.395089285714286,
+      "neighbor_texts" : [ "Resume samples", "Job letter samples", "Email ID / Username", "Employer Login", "Resume quality score", "Password" ],
+      "_gt" : null
+    },
+    "passwordField" : {
+      "index" : 388,
+      "tag" : "input",
+      "id" : "passwordField",
+      "name" : null,
+      "type" : "password",
+      "class_list" : [ "pr-60" ],
+      "role" : "textbox",
+      "accessible_name" : "Enter Password",
+      "aria_label" : null,
+      "placeholder" : "Enter Password",
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : null,
+      "text" : "",
+      "attrs" : {
+        "type" : "password",
+        "id" : "passwordField",
+        "placeholder" : "Enter Password",
+        "rel" : "required:passwordField_required|blur",
+        "maxlength" : "40",
+        "autocapitalize" : "none",
+        "value" : "",
+        "class" : "pr-60"
+      },
+      "is_interactive" : true,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/div[3]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/form[1]/div[2]/div[2]/div[1]/input[1]",
+      "id_xpath" : "//*[@id='passwordField']",
+      "ancestor_chain" : [ {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "input-field", "password-wrapper", "col", "s12" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "row", "mb0" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "form",
+        "id" : "loginForm",
+        "classes" : [ "loginForm" ],
+        "role" : "form",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "gutter" ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 1,
+      "sibling_count" : 5,
+      "bbox_norm" : {
+        "x" : 0.5524983723958333,
+        "y" : 0.26851851851851855,
+        "w" : 0.161767578125,
+        "h" : 0.03888888888888889
+      },
+      "area_norm" : 0.006290961371527778,
+      "aspect" : 7.395089285714286,
+      "neighbor_texts" : [ "Show", "Password", "Forgot Password?", "Login", "Job letter samples", "Salary Calculator" ],
+      "_gt" : null
+    },
+    "loginButton" : {
+      "index" : 399,
+      "tag" : "button",
+      "id" : null,
+      "name" : null,
+      "type" : "submit",
+      "class_list" : [ "waves-effect", "waves-light", "btn-large", "btn-block", "btn-bold", "blue-btn", "textTransform" ],
+      "role" : "button",
+      "accessible_name" : "Login",
+      "aria_label" : null,
+      "placeholder" : null,
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : null,
+      "text" : "Login",
+      "attrs" : {
+        "data-ga-track" : "spa-event|login|login|Save||||true",
+        "class" : "waves-effect waves-light btn-large btn-block btn-bold blue-btn textTransform",
+        "type" : "submit"
+      },
+      "is_interactive" : true,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/div[3]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/form[1]/div[2]/div[3]/div[1]/button[1]",
+      "id_xpath" : "//*[@id='loginForm']/div[2]/div[3]/div[1]/button[1]",
+      "ancestor_chain" : [ {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "col", "s12" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "action", "row", "mb0" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "form",
+        "id" : "loginForm",
+        "classes" : [ "loginForm" ],
+        "role" : "form",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "gutter" ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 1,
+      "sibling_count" : 3,
+      "bbox_norm" : {
+        "x" : 0.5524983723958333,
+        "y" : 0.34184027777777776,
+        "w" : 0.161767578125,
+        "h" : 0.03518518518518519
+      },
+      "area_norm" : 0.0056918221932870374,
+      "aspect" : 8.173519736842104,
+      "neighbor_texts" : [ "Use OTP to Login", "Forgot Password?", "Or", "Show", "Password", "Sign in with Google" ],
+      "_gt" : null
+    }
+  },
+  "landmarks" : [ "navigation:Main navigation", "button:For employers" ]
+}

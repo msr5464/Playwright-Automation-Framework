@@ -44,17 +44,29 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class Baseline {
 
-    /** Overridable so CI can point at a path that survives between builds. */
-    private static final String DIR = System.getenv("BASELINE_DIR");
+    /**
+     * Where baselines are written, resolved from the first source that answers:
+     * {@code -Dbaseline.dir}, then {@code BASELINE_DIR}, then {@code baselineDir}
+     * in the properties files, then {@code test-output/baselines}.
+     *
+     * <p>Three run contexts have to work and only one of them has the agent's
+     * environment: CI passes {@code -D}, the healing agent exports the variable,
+     * and a plain {@code mvn test} has neither — so the properties file is what
+     * makes fingerprints appear without anyone configuring anything.
+     */
+    private static final String DIR_PROPERTY = "baselineDir";
+    private static final String DIR_ENV = "BASELINE_DIR";
+    private static final String DIR_SYSTEM = "baseline.dir";
 
     private static final Set<String> WRITTEN = Collections.newSetFromMap(new ConcurrentHashMap<>());
 
     /**
-     * Fingerprints cost one DOM walk per page object. Opt-out for a pathological page or
-     * a debugging run; the coverage counts are recorded either way.
+     * Fingerprints cost one DOM walk per page object. On by default; opt out for a
+     * pathological page or a debugging run. Coverage counts are recorded either way.
      */
-    private static final boolean FINGERPRINTS =
-            !"false".equalsIgnoreCase(String.valueOf(System.getenv("BASELINE_FINGERPRINTS")));
+    private static final String FINGERPRINTS_PROPERTY = "baselineFingerprints";
+    private static final String FINGERPRINTS_ENV = "BASELINE_FINGERPRINTS";
+    private static final String FINGERPRINTS_SYSTEM = "baseline.fingerprints";
 
 
 
@@ -93,7 +105,7 @@ public class Baseline {
             // redirect to a login page unchanged.
             root.put("landmarks", landmarks);
 
-            Path directory = pendingDirectory();
+            Path directory = pendingDirectory(config);
             new File(directory.toString()).mkdirs();
             Files.write(directory.resolve(pendingName(config, name)),
                     MAPPER.writerWithDefaultPrettyPrinter().writeValueAsString(root)
@@ -106,7 +118,7 @@ public class Baseline {
     /** The test passed: everything it recorded really is a good-run fingerprint. */
     public static void promote(Config config) {
         forEachPending(config, (pending, pageObject) -> {
-            Path directory = baselineDirectory();
+            Path directory = baselineDirectory(config);
             new File(directory.toString()).mkdirs();
             Files.move(pending, directory.resolve(pageObject + ".json"),
                     java.nio.file.StandardCopyOption.REPLACE_EXISTING);
@@ -126,7 +138,7 @@ public class Baseline {
         if (config == null)
             return;
         try {
-            Path directory = pendingDirectory();
+            Path directory = pendingDirectory(config);
             if (!Files.isDirectory(directory))
                 return;
             String prefix = testKey(config) + "__";
@@ -149,14 +161,31 @@ public class Baseline {
         }
     }
 
-    private static Path baselineDirectory() {
-        return Paths.get(DIR != null && !DIR.isEmpty()
-                ? DIR
+    /** First source that answers: -D system property, environment, properties, null. */
+    private static String setting(Config config, String systemKey, String envKey,
+                                  String propertyKey) {
+        String value = System.getProperty(systemKey);
+        if (value == null || value.isEmpty())
+            value = System.getenv(envKey);
+        if ((value == null || value.isEmpty()) && config != null)
+            value = config.runTimeProperties.getProperty(propertyKey);
+        return value == null || value.isEmpty() ? null : value;
+    }
+
+    private static boolean fingerprintsEnabled(Config config) {
+        return !"false".equalsIgnoreCase(
+                setting(config, FINGERPRINTS_SYSTEM, FINGERPRINTS_ENV, FINGERPRINTS_PROPERTY));
+    }
+
+    private static Path baselineDirectory(Config config) {
+        String configured = setting(config, DIR_SYSTEM, DIR_ENV, DIR_PROPERTY);
+        return Paths.get(configured != null
+                ? configured
                 : Config.resultsDirectory + File.separator + "baselines");
     }
 
-    private static Path pendingDirectory() {
-        return baselineDirectory().resolve("pending");
+    private static Path pendingDirectory(Config config) {
+        return baselineDirectory(config).resolve("pending");
     }
 
     /** A filesystem-safe identifier for the test that recorded a fingerprint. */
@@ -236,7 +265,7 @@ public class Baseline {
     private static void collect(Config config, Object pageObject,
                                 Map<String, Object> counts, Map<String, Object> prints,
                                 List<Object> landmarks) {
-        String js = FINGERPRINTS ? LocatorCapture.script() : "";
+        String js = fingerprintsEnabled(config) ? LocatorCapture.script() : "";
         java.util.List<?> elements = null;
         if (!js.isEmpty()) {
             try {
