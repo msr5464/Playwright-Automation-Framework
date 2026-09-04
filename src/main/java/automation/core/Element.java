@@ -24,8 +24,10 @@ public class Element {
         } else {
             // Say so, because the error below will report a 1ms timeout and that
             // reads like a misconfiguration rather than the deliberate choice it is.
+            // "after the full wait" is not claimed: the wait may have thrown at once
+            // — an ambiguous locator does — and the warning above says which it was.
             Log.action(config, "Clicking: " + elementName
-                    + " (not visible after the full wait — failing fast rather than "
+                    + " (the wait did not succeed — failing fast rather than "
                     + "waiting a second time)");
         }
         try {

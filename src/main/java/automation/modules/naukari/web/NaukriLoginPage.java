@@ -17,7 +17,7 @@ public class NaukriLoginPage extends BasePage {
 
     private final Locator usernameField = page.locator("[id='usernameField']");
     private final Locator passwordField = page.locator("[id='passwordField']");
-    private final Locator loginButton = page.locator("button[type='submit']");
+    private final Locator loginButton = page.locator("button.blue-btn");
 
     public NaukriLoginPage(Config config) {
         super(config);

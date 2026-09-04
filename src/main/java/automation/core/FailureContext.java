@@ -64,13 +64,73 @@ public class FailureContext {
         final String elementName;
         final long elapsedMs;
         final long budgetMs;
+        final String waitError;
 
-        Pending(Locator locator, String elementName, long elapsedMs, long budgetMs) {
+        Pending(Locator locator, String elementName, long elapsedMs, long budgetMs,
+                String waitError) {
             this.locator = locator;
             this.elementName = elementName;
             this.elapsedMs = elapsedMs;
             this.budgetMs = budgetMs;
+            this.waitError = waitError;
         }
+    }
+
+    /** How much of a wait's error message is worth keeping. */
+    private static final int ERROR_CAP = 300;
+
+    /**
+     * The exception that ended a wait, as one line.
+     *
+     * <p>The caller catches every exception and reports them all as "not visible after
+     * timeout", which is true of only one of them. A strict-mode violation — the locator
+     * matched more than one element — is thrown the instant the wait starts and means the
+     * selector is ambiguous, the opposite conclusion from an element that never appeared.
+     * Reading the two apart afterwards is impossible unless this is written down here.
+     */
+    private static String describeCause(Throwable cause) {
+        if (cause == null) {
+            return null;
+        }
+        String message = summarizeError(cause.getMessage());
+        String described = cause.getClass().getSimpleName()
+                + (message.isEmpty() ? "" : ": " + message);
+        return described.length() > ERROR_CAP
+                ? described.substring(0, ERROR_CAP) + "..."
+                : described;
+    }
+
+    /**
+     * The one useful line of a Playwright error, capped.
+     *
+     * <p>Playwright-Java reports a multi-line block whose first line is the bare
+     * "Error {" and whose text lives on the {@code message='} line below it. Taking
+     * line one therefore discards the only part worth keeping — which is how
+     * "strict mode violation: ... resolved to 2 elements" was first recorded as
+     * "Error {".
+     */
+    public static String summarizeError(String raw) {
+        if (raw == null) {
+            return "";
+        }
+        for (String line : raw.split("\\R")) {
+            String text = line.trim();
+            if (text.startsWith("message='")) {
+                text = text.substring("message='".length()).trim();
+            } else if (text.isEmpty() || text.equals("Error {") || text.equals("}")
+                    || text.startsWith("at ") || text.startsWith("name='")
+                    || text.startsWith("stack='") || text.startsWith("Call log:")
+                    || text.startsWith("-")) {
+                continue;
+            }
+            if (text.isEmpty()) {
+                continue;
+            }
+            return text.length() > ERROR_CAP ? text.substring(0, ERROR_CAP) + "..." : text;
+        }
+        String fallback = raw.trim();
+        return fallback.length() > ERROR_CAP
+                ? fallback.substring(0, ERROR_CAP) + "..." : fallback;
     }
 
     /**
@@ -82,8 +142,15 @@ public class FailureContext {
      */
     public static void waitingOn(Locator locator, String elementName,
                                  long elapsedMs, long budgetMs) {
+        waitingOn(locator, elementName, elapsedMs, budgetMs, null);
+    }
+
+    /** As above, also remembering the exception that ended the wait. */
+    public static void waitingOn(Locator locator, String elementName,
+                                 long elapsedMs, long budgetMs, Throwable cause) {
         try {
-            PENDING.set(new Pending(locator, elementName, elapsedMs, budgetMs));
+            PENDING.set(new Pending(locator, elementName, elapsedMs, budgetMs,
+                                    describeCause(cause)));
         } catch (Throwable ignored) {
             // Never let bookkeeping about a failure become one.
         }
@@ -118,7 +185,8 @@ public class FailureContext {
         PENDING.remove();
         write(config, ownerOf(config, pending.locator),
               java.util.Collections.singletonList(pending.locator),
-              pending.elapsedMs, pending.budgetMs, null, "ELEMENT_INTERACTION");
+              pending.elapsedMs, pending.budgetMs, null, "ELEMENT_INTERACTION",
+              pending.waitError);
     }
 
     /**
@@ -170,12 +238,12 @@ public class FailureContext {
     public static void write(Config config, Object pageObject, List<Locator> anchors,
                              long elapsedMs, long budgetMs, Boolean domChangedDuringWait) {
         write(config, pageObject, anchors, elapsedMs, budgetMs, domChangedDuringWait,
-              "PAGE_NOT_LOADED");
+              "PAGE_NOT_LOADED", null);
     }
 
     private static void write(Config config, Object pageObject, List<Locator> anchors,
                               long elapsedMs, long budgetMs, Boolean domChangedDuringWait,
-                              String kind) {
+                              String kind, String waitError) {
         // One account per test, and the first one is the one worth having. A broken
         // locator makes the click do nothing, which leaves the flow on the previous page,
         // which makes the *next* page object fail to load — so the last failure in a run
@@ -190,7 +258,8 @@ public class FailureContext {
             root.put("schema", 1);
             root.put("test", config.testcaseClass + "." + config.testcaseName);
             root.put("failedAt", DataGenerator.getCurrentDateTime("yyyy-MM-dd'T'HH:mm:ss"));
-            root.put("failure", failureBlock(pageObject, anchors, elapsedMs, budgetMs, kind));
+            root.put("failure", failureBlock(pageObject, anchors, elapsedMs, budgetMs, kind,
+                                             waitError));
             root.put("page", pageBlock(config.page));
             root.put("pageObjectCoverage", coverageBlock(pageObject));
             root.put("domVolatility", volatilityBlock(domChangedDuringWait));
@@ -218,7 +287,8 @@ public class FailureContext {
     }
 
     private static Map<String, Object> failureBlock(Object pageObject, List<Locator> anchors,
-                                                    long elapsedMs, long budgetMs, String kind) {
+                                                    long elapsedMs, long budgetMs, String kind,
+                                                    String waitError) {
         Map<String, Object> failure = new LinkedHashMap<>();
         failure.put("kind", kind);
         failure.put("pageObject", pageObject == null ? "" : pageObject.getClass().getSimpleName());
@@ -237,6 +307,9 @@ public class FailureContext {
         failure.put("anchors", described);
         failure.put("elapsedMs", elapsedMs);
         failure.put("budgetMs", budgetMs);
+        if (waitError != null) {
+            failure.put("waitError", waitError);
+        }
         return failure;
     }
 

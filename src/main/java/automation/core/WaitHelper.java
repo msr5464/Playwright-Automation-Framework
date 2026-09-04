@@ -21,15 +21,42 @@ public class WaitHelper {
             config.logCommentForDebugging("Element is visible: " + elementName);
             return true;
         } catch (Exception e) {
-            config.logWarning("Element not visible after timeout: " + elementName);
+            // Not every exception here is a timeout. A locator that matches more than
+            // one element throws a strict-mode violation immediately, and reporting
+            // that as "not visible after timeout" is how an ambiguous selector gets
+            // read downstream as an element that never appeared. Name what happened.
+            config.logWarning(describeWaitFailure(e, elementName,
+                    System.currentTimeMillis() - startTime, getTimeout(config)));
             // Every interaction waits here first, so this is the one place that knows
             // which element an about-to-fail action was reaching for. Remembering it
             // costs nothing and is what lets the failure be written down as a fact
             // rather than reconstructed from the message afterwards.
             FailureContext.waitingOn(locator, elementName,
-                    System.currentTimeMillis() - startTime, getTimeout(config));
+                    System.currentTimeMillis() - startTime, getTimeout(config), e);
             return false;
         }
+    }
+
+    /**
+     * What to log when a visibility wait ends badly.
+     *
+     * <p>A wait that gives up in a fraction of its budget did not time out — it threw.
+     * Saying "after timeout" in that case misdescribes the failure to every reader,
+     * human and agent alike, and points the fix at the wrong thing.
+     */
+    private static String describeWaitFailure(Exception e, String elementName,
+                                              long elapsedMs, long budgetMs) {
+        String message = e.getMessage() == null ? "" : e.getMessage();
+        String summary = FailureContext.summarizeError(message);
+        if (message.toLowerCase().contains("strict mode violation")) {
+            return "Locator for '" + elementName + "' matches more than one element, so "
+                    + "no action can run on it: " + summary;
+        }
+        if (elapsedMs < budgetMs / 10) {
+            return "Wait for '" + elementName + "' failed after " + elapsedMs + "ms of a "
+                    + budgetMs + "ms budget (not a timeout): " + summary;
+        }
+        return "Element not visible after timeout: " + elementName;
     }
 
     public static boolean waitForOptionalElementToBeVisible(Config config, Locator locator, String elementName) {
