@@ -10,6 +10,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -43,10 +44,17 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class Baseline {
 
-    /** Overridable so CI can point at a path that survives between builds. */
-    private static final String DIR = System.getenv("BASELINE_DIR");
+    /** -Dbaseline.dir, then BASELINE_DIR, then baselineDir, then test-output/baselines. */
+    private static final String DIR_PROPERTY = "baselineDir";
+    private static final String DIR_ENV = "BASELINE_DIR";
+    private static final String DIR_SYSTEM = "baseline.dir";
 
     private static final Set<String> WRITTEN = Collections.newSetFromMap(new ConcurrentHashMap<>());
+
+    /** Opt out of the per-page-object DOM walk; coverage counts are recorded either way. */
+    private static final String FINGERPRINTS_PROPERTY = "baselineFingerprints";
+    private static final String FINGERPRINTS_ENV = "BASELINE_FINGERPRINTS";
+    private static final String FINGERPRINTS_SYSTEM = "baseline.fingerprints";
 
     private static final com.fasterxml.jackson.databind.ObjectMapper MAPPER =
             new com.fasterxml.jackson.databind.ObjectMapper();
@@ -72,9 +80,17 @@ public class Baseline {
             root.put("urlShape", shapeOf(config.page.url()));
             root.put("title", config.page.title());
             root.put("bodyClass", bodyClass(config));
-            root.put("coverage", coverage(pageObject));
+            Map<String, Object> counts = new LinkedHashMap<>();
+            Map<String, Object> prints = new LinkedHashMap<>();
+            List<Object> landmarks = new java.util.ArrayList<>();
+            collect(config, pageObject, counts, prints, landmarks);
+            root.put("coverage", counts);
+            root.put("fingerprints", prints);
+            // Headings and landmark roles: a better "right screen?" check than a
+            // URL, which survives a redirect to a login page unchanged.
+            root.put("landmarks", landmarks);
 
-            Path directory = pendingDirectory();
+            Path directory = pendingDirectory(config);
             new File(directory.toString()).mkdirs();
             Files.write(directory.resolve(pendingName(config, name)),
                     MAPPER.writerWithDefaultPrettyPrinter().writeValueAsString(root)
@@ -87,7 +103,7 @@ public class Baseline {
     /** The test passed: everything it recorded really is a good-run fingerprint. */
     public static void promote(Config config) {
         forEachPending(config, (pending, pageObject) -> {
-            Path directory = baselineDirectory();
+            Path directory = baselineDirectory(config);
             new File(directory.toString()).mkdirs();
             Files.move(pending, directory.resolve(pageObject + ".json"),
                     java.nio.file.StandardCopyOption.REPLACE_EXISTING);
@@ -107,7 +123,7 @@ public class Baseline {
         if (config == null)
             return;
         try {
-            Path directory = pendingDirectory();
+            Path directory = pendingDirectory(config);
             if (!Files.isDirectory(directory))
                 return;
             String prefix = testKey(config) + "__";
@@ -130,14 +146,31 @@ public class Baseline {
         }
     }
 
-    private static Path baselineDirectory() {
-        return Paths.get(DIR != null && !DIR.isEmpty()
-                ? DIR
+    /** First source that answers: -D system property, environment, properties, null. */
+    private static String setting(Config config, String systemKey, String envKey,
+                                  String propertyKey) {
+        String value = System.getProperty(systemKey);
+        if (value == null || value.isEmpty())
+            value = System.getenv(envKey);
+        if ((value == null || value.isEmpty()) && config != null)
+            value = config.runTimeProperties.getProperty(propertyKey);
+        return value == null || value.isEmpty() ? null : value;
+    }
+
+    private static boolean fingerprintsEnabled(Config config) {
+        return !"false".equalsIgnoreCase(
+                setting(config, FINGERPRINTS_SYSTEM, FINGERPRINTS_ENV, FINGERPRINTS_PROPERTY));
+    }
+
+    private static Path baselineDirectory(Config config) {
+        String configured = setting(config, DIR_SYSTEM, DIR_ENV, DIR_PROPERTY);
+        return Paths.get(configured != null
+                ? configured
                 : Config.resultsDirectory + File.separator + "baselines");
     }
 
-    private static Path pendingDirectory() {
-        return baselineDirectory().resolve("pending");
+    private static Path pendingDirectory(Config config) {
+        return baselineDirectory(config).resolve("pending");
     }
 
     /** A filesystem-safe identifier for the test that recorded a fingerprint. */
@@ -176,9 +209,8 @@ public class Baseline {
         }
     }
 
-    /** Per-locator match counts, using the same reflection rule as FailureContext. */
-    private static Map<String, Object> coverage(Object pageObject) {
-        Map<String, Object> counts = new LinkedHashMap<>();
+    /** Visits every Locator field, using the same reflection rule as FailureContext. */
+    private static void forEachLocator(Object pageObject, LocatorVisitor visitor) {
         for (Class<?> type = pageObject.getClass();
              type != null && type != Object.class && type != BasePage.class;
              type = type.getSuperclass()) {
@@ -189,11 +221,82 @@ public class Baseline {
                     field.setAccessible(true);
                     Locator locator = (Locator) field.get(pageObject);
                     if (locator != null)
-                        counts.put(field.getName(), locator.count());
+                        visitor.visit(field.getName(), locator);
                 } catch (Throwable ignored) {
                 }
             }
         }
-        return counts;
+    }
+
+    private interface LocatorVisitor {
+        void visit(String name, Locator locator);
+    }
+
+    /**
+     * Per-locator match counts, plus a fingerprint of what each one matched:
+     * tag, role, accessible name, text, attributes, neighbours, geometry.
+     *
+     * <p>Snapshot and indices must come from ONE evaluate — resolving indices in a
+     * second walk picks up a DOM that has moved on, silently fingerprinting the
+     * wrong element.
+     */
+    private static void collect(Config config, Object pageObject,
+                                Map<String, Object> counts, Map<String, Object> prints,
+                                List<Object> landmarks) {
+        String js = fingerprintsEnabled(config) ? LocatorCapture.script() : "";
+        // Resolve every handle first, then one evaluate. count != 1 is skipped: an
+        // ambiguous locator has not said which element the test meant.
+        final List<String> names = new java.util.ArrayList<>();
+        final List<Object> handles = new java.util.ArrayList<>();
+        forEachLocator(pageObject, (name, locator) -> {
+            int count;
+            try {
+                count = locator.count();
+            } catch (Throwable e) {
+                return;
+            }
+            counts.put(name, count);
+            if (js.isEmpty() || count != 1)
+                return;
+            try {
+                Object handle = locator.elementHandle(
+                        new Locator.ElementHandleOptions().setTimeout(2000));
+                if (handle != null) {
+                    names.add(name);
+                    handles.add(handle);
+                }
+            } catch (Throwable ignored) {
+                // One unresolvable locator must not cost us the others.
+            }
+        });
+        if (js.isEmpty())
+            return;
+
+        try {
+            Object result = config.page.evaluate(js, handles);
+            if (!(result instanceof Map))
+                return;
+            Map<?, ?> snap = (Map<?, ?>) result;
+            Object found = snap.get("elements");
+            Object idx = snap.get("indices");
+            if (!(found instanceof List))
+                return;
+            List<?> all = (List<?>) found;
+            List<?> indices = (idx instanceof List) ? (List<?>) idx : Collections.emptyList();
+
+            Object marks = snap.get("landmarks");
+            if (marks instanceof List)
+                landmarks.addAll((List<?>) marks);
+
+            for (int n = 0; n < names.size() && n < indices.size(); n++) {
+                if (!(indices.get(n) instanceof Number))
+                    continue;
+                int i = ((Number) indices.get(n)).intValue();
+                if (i >= 0 && i < all.size())
+                    prints.put(names.get(n), all.get(i));
+            }
+        } catch (Throwable ignored) {
+            // An unusable snapshot costs the fingerprints, never the counts.
+        }
     }
 }

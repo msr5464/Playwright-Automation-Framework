@@ -273,6 +273,17 @@
                 <configuration>
                     <mainClass>automation.core.GenerateTestngXmlAndRun</mainClass>
                 </configuration>
+                <!-- mvn -q compile exec:java@mint -Dmint.helper=... — its own execution
+                     id because the mainClass above overrides -Dexec.mainClass. -->
+                <executions>
+                    <execution>
+                        <id>mint</id>
+                        <goals><goal>java</goal></goals>
+                        <configuration>
+                            <mainClass>automation.core.SessionMinter</mainClass>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

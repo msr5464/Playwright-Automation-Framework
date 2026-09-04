@@ -33,3 +33,6 @@ logs/
 *.apk
 *.ipa
 *.aab
+
+# In-flight baseline records; discarded unless the test passes.
+src/main/resources/baselines/pending/

@@ -1,0 +1,241 @@
+{
+  "pageObject" : "LoginPage",
+  "recordedAt" : "2026-09-02T23:45:34",
+  "urlShape" : "https://www.saucedemo.com/",
+  "title" : "Swag Labs",
+  "bodyClass" : "",
+  "coverage" : {
+    "usernameField" : 1,
+    "passwordField" : 1,
+    "loginButton" : 1,
+    "errorMessage" : 0
+  },
+  "fingerprints" : {
+    "usernameField" : {
+      "index" : 10,
+      "tag" : "input",
+      "id" : "user-name",
+      "name" : "user-name",
+      "type" : "text",
+      "class_list" : [ "input_error", "form_input" ],
+      "role" : "textbox",
+      "accessible_name" : "Username",
+      "aria_label" : null,
+      "placeholder" : "Username",
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : "username",
+      "text" : "",
+      "attrs" : {
+        "class" : "input_error form_input",
+        "placeholder" : "Username",
+        "data-test" : "username",
+        "id" : "user-name",
+        "autocorrect" : "off",
+        "autocapitalize" : "none",
+        "type" : "text",
+        "value" : "",
+        "name" : "user-name"
+      },
+      "is_interactive" : true,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/form[1]/div[1]/input[1]",
+      "id_xpath" : "//*[@id='user-name']",
+      "ancestor_chain" : [ {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "form_group" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "form",
+        "id" : null,
+        "classes" : [ ],
+        "role" : "form",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "login-box" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : "login_button_container",
+        "classes" : [ "form_column" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "login_wrapper-inner" ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 0,
+      "sibling_count" : 1,
+      "bbox_norm" : {
+        "x" : 0.4239583333333333,
+        "y" : 0.1425925925925926,
+        "w" : 0.15208333333333332,
+        "h" : 0.03425925925925926
+      },
+      "area_norm" : 0.0052102623456790126,
+      "aspect" : 7.891891891891892,
+      "neighbor_texts" : [ "Swag Labs", "Accepted usernames are:", "Password for all users:" ],
+      "_gt" : null
+    },
+    "passwordField" : {
+      "index" : 12,
+      "tag" : "input",
+      "id" : "password",
+      "name" : "password",
+      "type" : "password",
+      "class_list" : [ "input_error", "form_input" ],
+      "role" : "textbox",
+      "accessible_name" : "Password",
+      "aria_label" : null,
+      "placeholder" : "Password",
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : "password",
+      "text" : "",
+      "attrs" : {
+        "class" : "input_error form_input",
+        "placeholder" : "Password",
+        "data-test" : "password",
+        "id" : "password",
+        "autocorrect" : "off",
+        "autocapitalize" : "none",
+        "type" : "password",
+        "value" : "",
+        "name" : "password"
+      },
+      "is_interactive" : true,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/form[1]/div[2]/input[1]",
+      "id_xpath" : "//*[@id='password']",
+      "ancestor_chain" : [ {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "form_group" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "form",
+        "id" : null,
+        "classes" : [ ],
+        "role" : "form",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "login-box" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : "login_button_container",
+        "classes" : [ "form_column" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "login_wrapper-inner" ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 0,
+      "sibling_count" : 1,
+      "bbox_norm" : {
+        "x" : 0.4239583333333333,
+        "y" : 0.19074074074074074,
+        "w" : 0.15208333333333332,
+        "h" : 0.03425925925925926
+      },
+      "area_norm" : 0.0052102623456790126,
+      "aspect" : 7.891891891891892,
+      "neighbor_texts" : [ "Swag Labs", "Accepted usernames are:", "Password for all users:" ],
+      "_gt" : null
+    },
+    "loginButton" : {
+      "index" : 14,
+      "tag" : "input",
+      "id" : "login-button",
+      "name" : "login-button",
+      "type" : "submit",
+      "class_list" : [ "submit-button", "btn_action" ],
+      "role" : "button",
+      "accessible_name" : "Login",
+      "aria_label" : null,
+      "placeholder" : null,
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : "login-button",
+      "text" : "",
+      "attrs" : {
+        "class" : "submit-button btn_action",
+        "data-test" : "login-button",
+        "id" : "login-button",
+        "type" : "submit",
+        "value" : "Login",
+        "name" : "login-button"
+      },
+      "is_interactive" : true,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/form[1]/input[1]",
+      "id_xpath" : "//*[@id='login-button']",
+      "ancestor_chain" : [ {
+        "tag" : "form",
+        "id" : null,
+        "classes" : [ ],
+        "role" : "form",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "login-box" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : "login_button_container",
+        "classes" : [ "form_column" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "login_wrapper-inner" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "login_wrapper" ],
+        "role" : "generic",
+        "testid" : "login-container"
+      } ],
+      "sibling_index" : 3,
+      "sibling_count" : 4,
+      "bbox_norm" : {
+        "x" : 0.4239583333333333,
+        "y" : 0.2759259259259259,
+        "w" : 0.15208333333333332,
+        "h" : 0.04259259259259259
+      },
+      "area_norm" : 0.006477623456790123,
+      "aspect" : 6.3478260869565215,
+      "neighbor_texts" : [ "Accepted usernames are:", "Password for all users:", "Swag Labs" ],
+      "_gt" : null
+    }
+  },
+  "landmarks" : [ ]
+}
