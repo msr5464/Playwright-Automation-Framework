@@ -294,10 +294,8 @@ public class BrowserHelper {
                     : config.browserContext.pages().get(0);
             config.page.setViewportSize(1920, 1080);
             config.page.setDefaultTimeout(WaitHelper.getTimeout(config));
-            // Parity with the normal launch path above. A repair run exists to
-            // reproduce the failure it is inspecting, so it must not run under a
-            // different navigation budget — nor without the recorder, which is
-            // where the network log the diagnosis reads comes from.
+            // Parity with the normal launch path: a repair run must reproduce the
+            // failure under the same budget, and with the recorder the diagnosis reads.
             config.page.setDefaultNavigationTimeout(WaitHelper.getTimeout(config) * 3L);
             installFlightRecorder(config);
 
@@ -466,12 +464,8 @@ public class BrowserHelper {
                 // A closed or crashed page still has usable content sometimes.
             }
 
-            // Fingerprints alongside the HTML. The locator engine ranks candidates by
-            // comparing bounding boxes, computed ARIA roles and accessible names against
-            // the last good run -- none of which survive into static markup. Re-deriving
-            // them from the saved HTML would silently drop the geometry signals and
-            // degrade the strongest one, so they are captured here, while a live page
-            // still exists. The path rides in the header, which parse_header already reads.
+            // Fingerprints alongside the HTML: geometry and computed ARIA roles do not
+            // survive into static markup, so capture them while a live page still exists.
             String fingerprintsAttribute = "";
             try {
                 Object fingerprints = LocatorCapture.snapshot(config.page);

@@ -273,12 +273,8 @@
                 <configuration>
                     <mainClass>automation.core.GenerateTestngXmlAndRun</mainClass>
                 </configuration>
-                <!-- Session minting: run a module's own login helper and save the
-                     resulting storage state, so an agent can drive a signed-in
-                     browser without ever being handed a password. Its own
-                     execution id rather than -Dexec.mainClass, because the
-                     mainClass configured above wins over that property.
-                     mvn -q compile exec:java@mint -Dmint.helper=... -->
+                <!-- mvn -q compile exec:java@mint -Dmint.helper=... — its own execution
+                     id because the mainClass above overrides -Dexec.mainClass. -->
                 <executions>
                     <execution>
                         <id>mint</id>

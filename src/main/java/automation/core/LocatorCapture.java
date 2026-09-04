@@ -6,20 +6,11 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 
 /**
- * The element-fingerprinting script, shared byte-for-byte with the Python locator engine.
+ * The element-fingerprinting script, shared byte-for-byte with the Python locator engine —
+ * a resource rather than a string constant so the two cannot drift apart silently.
+ * {@code test_capture_parity.py} asserts both stacks agree on a live page.
  *
- * <p>Two things read it: {@link Baseline}, which records what each locator matched while a
- * test was passing, and {@link BrowserHelper}, which records what the page contained at the
- * moment one failed. The engine scores the second against the first.
- *
- * <p>It lives in a resource rather than a string constant because the Python side loads the
- * identical file. Two implementations of the same DOM walk would be free to drift apart, and
- * when they do nothing breaks loudly — every similarity score is simply computed against a
- * different idea of the page. {@code test_capture_parity.py} asserts both halves of that:
- * the files are identical, and both stacks produce the same fingerprints for a live page.
- *
- * <p>Never throws. A missing or unusable script costs the diagnosis some confidence later;
- * it is not part of the run.
+ * <p>Never throws: a missing script costs the diagnosis confidence, not the run.
  */
 public final class LocatorCapture {
 
