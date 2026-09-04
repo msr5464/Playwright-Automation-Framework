@@ -54,10 +54,12 @@ public class NaukriProfilePage extends BasePage
 
     /**
      * Clicks the Save button to persist the edited Profile Summary.
+     * Waits for network idle so the save XHR completes before the caller proceeds.
      */
     public void saveProfileSummary()
     {
         click(saveButton, "Save button");
+        WaitHelper.waitForNetworkIdle(config);
     }
 
     /**
