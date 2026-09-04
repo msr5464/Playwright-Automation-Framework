@@ -33,3 +33,10 @@ logs/
 *.apk
 *.ipa
 *.aab
+
+# Baseline scratch space. Baseline.record() writes a fingerprint here and
+# promote() moves it up into baselines/ only once the test that recorded it
+# passes; discard() deletes it when the test fails. A file left behind is an
+# interrupted run, named by test key rather than by page object. The promoted
+# baselines themselves ARE committed — that is the point of them.
+src/main/resources/baselines/pending/
