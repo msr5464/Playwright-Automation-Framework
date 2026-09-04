@@ -36,9 +36,8 @@ public class NaukriLoginPage extends BasePage {
         fillText(usernameField, username, "Username field");
         fillText(passwordField, password, "Password field");
         click(loginButton, "Login button");
-        // The click starts a navigation that has not committed yet, so wait
-        // for the post-login URL before navigating anywhere else — otherwise
-        // the goto below races the redirect and one of them is aborted.
+        // The click's navigation has not committed yet; navigating now would race
+        // the redirect and abort one of them.
         WaitHelper.waitForUrl(config, "**/mnjuser/**");
         WaitHelper.waitForNetworkIdle(config);
         BrowserHelper.navigateTo(config, config.getRunTimeProperty("naukari.profile.url"));

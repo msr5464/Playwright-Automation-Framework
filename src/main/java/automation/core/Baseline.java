@@ -44,31 +44,17 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class Baseline {
 
-    /**
-     * Where baselines are written, resolved from the first source that answers:
-     * {@code -Dbaseline.dir}, then {@code BASELINE_DIR}, then {@code baselineDir}
-     * in the properties files, then {@code test-output/baselines}.
-     *
-     * <p>Three run contexts have to work and only one of them has the agent's
-     * environment: CI passes {@code -D}, the healing agent exports the variable,
-     * and a plain {@code mvn test} has neither — so the properties file is what
-     * makes fingerprints appear without anyone configuring anything.
-     */
+    /** -Dbaseline.dir, then BASELINE_DIR, then baselineDir, then test-output/baselines. */
     private static final String DIR_PROPERTY = "baselineDir";
     private static final String DIR_ENV = "BASELINE_DIR";
     private static final String DIR_SYSTEM = "baseline.dir";
 
     private static final Set<String> WRITTEN = Collections.newSetFromMap(new ConcurrentHashMap<>());
 
-    /**
-     * Fingerprints cost one DOM walk per page object. On by default; opt out for a
-     * pathological page or a debugging run. Coverage counts are recorded either way.
-     */
+    /** Opt out of the per-page-object DOM walk; coverage counts are recorded either way. */
     private static final String FINGERPRINTS_PROPERTY = "baselineFingerprints";
     private static final String FINGERPRINTS_ENV = "BASELINE_FINGERPRINTS";
     private static final String FINGERPRINTS_SYSTEM = "baseline.fingerprints";
-
-
 
     private static final com.fasterxml.jackson.databind.ObjectMapper MAPPER =
             new com.fasterxml.jackson.databind.ObjectMapper();
@@ -100,9 +86,8 @@ public class Baseline {
             collect(config, pageObject, counts, prints, landmarks);
             root.put("coverage", counts);
             root.put("fingerprints", prints);
-            // Headings and landmark roles. Cheap, and a far better answer to
-            // "are we even on the right screen" than a URL, which survives a
-            // redirect to a login page unchanged.
+            // Headings and landmark roles: a better "right screen?" check than a
+            // URL, which survives a redirect to a login page unchanged.
             root.put("landmarks", landmarks);
 
             Path directory = pendingDirectory(config);
@@ -248,32 +233,19 @@ public class Baseline {
     }
 
     /**
-     * Per-locator match counts, and what each locator actually matched.
+     * Per-locator match counts, plus a fingerprint of what each one matched:
+     * tag, role, accessible name, text, attributes, neighbours, geometry.
      *
-     * <p>A count answers "did this still resolve last time". It cannot answer "what did it
-     * resolve to", so a renamed or moved element leaves nothing to compare against and the
-     * diagnosis downstream is reduced to guessing from the selector string. The fingerprint
-     * is that missing half: tag, role, accessible name, text, attributes, neighbouring text
-     * and geometry, captured while the locator still worked.
-     *
-     * <p>Only unambiguous matches are recorded. A locator matching two elements has not told
-     * us which one the test meant, and writing either one down would invent a fact.
-     *
-     * <p>One page snapshot serves every field, and it must be ONE evaluate. Snapshotting the
-     * page and then asking for each locator's index separately re-walks a DOM that has moved
-     * on — the page is still settling when a test ends — and {@code elements[index]} then
-     * names a different element entirely. That is not a loud failure: it writes a confident
-     * fingerprint for the wrong element, and every later heal is scored against it. It once
-     * recorded the site logo as the profile page's edit button, which cost the search its
-     * scope and left it choosing between 815 look-alikes.
+     * <p>Snapshot and indices must come from ONE evaluate — resolving indices in a
+     * second walk picks up a DOM that has moved on, silently fingerprinting the
+     * wrong element.
      */
     private static void collect(Config config, Object pageObject,
                                 Map<String, Object> counts, Map<String, Object> prints,
                                 List<Object> landmarks) {
         String js = fingerprintsEnabled(config) ? LocatorCapture.script() : "";
-        // Resolve every handle first, then hand them to a single evaluate. Only
-        // unambiguous matches are recorded: a locator matching two elements has not
-        // told us which one the test meant, and writing either down invents a fact.
+        // Resolve every handle first, then one evaluate. count != 1 is skipped: an
+        // ambiguous locator has not said which element the test meant.
         final List<String> names = new java.util.ArrayList<>();
         final List<Object> handles = new java.util.ArrayList<>();
         forEachLocator(pageObject, (name, locator) -> {

@@ -12,20 +12,13 @@ public class Element {
     // ========== CLICK ==========
 
     public static void click(Config config, Locator locator, String elementName) {
-        // The wait already spent the full ObjectWaitTime deciding this element is
-        // not there. Ignoring its answer and calling click() anyway spends the
-        // budget a second time to reach the same conclusion, so every failing
-        // click cost two timeouts instead of one. Clicking with no budget left
-        // still produces the same error and the same call log, just without the
-        // second wait.
+        // The wait already spent the full ObjectWaitTime on this element; clicking
+        // with a budget would spend it again for the same answer and the same error.
         boolean visible = WaitHelper.waitForElementToBeVisible(config, locator, elementName);
         if (visible) {
             Log.action(config, "Clicking: " + elementName);
         } else {
-            // Say so, because the error below will report a 1ms timeout and that
-            // reads like a misconfiguration rather than the deliberate choice it is.
-            // "after the full wait" is not claimed: the wait may have thrown at once
-            // — an ambiguous locator does — and the warning above says which it was.
+            // Say so: the 1ms timeout in the error below otherwise reads as a misconfig.
             Log.action(config, "Clicking: " + elementName
                     + " (the wait did not succeed — failing fast rather than "
                     + "waiting a second time)");
@@ -35,9 +28,7 @@ public class Element {
                 locator.scrollIntoViewIfNeeded();
                 locator.click();
             } else {
-                // Skip the scroll too. It carries its own full timeout, so
-                // bounding only the click still spent the budget twice — which is
-                // the whole cost this avoids.
+                // Scroll skipped too — it carries its own full timeout.
                 locator.click(new Locator.ClickOptions().setTimeout(1));
             }
         } catch (Exception e) {

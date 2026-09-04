@@ -79,15 +79,8 @@ public class FailureContext {
     /** How much of a wait's error message is worth keeping. */
     private static final int ERROR_CAP = 300;
 
-    /**
-     * The exception that ended a wait, as one line.
-     *
-     * <p>The caller catches every exception and reports them all as "not visible after
-     * timeout", which is true of only one of them. A strict-mode violation — the locator
-     * matched more than one element — is thrown the instant the wait starts and means the
-     * selector is ambiguous, the opposite conclusion from an element that never appeared.
-     * Reading the two apart afterwards is impossible unless this is written down here.
-     */
+    /** The exception that ended a wait, as one line — a timeout and a strict-mode
+     *  violation mean opposite things and cannot be told apart afterwards. */
     private static String describeCause(Throwable cause) {
         if (cause == null) {
             return null;
@@ -101,13 +94,8 @@ public class FailureContext {
     }
 
     /**
-     * The one useful line of a Playwright error, capped.
-     *
-     * <p>Playwright-Java reports a multi-line block whose first line is the bare
-     * "Error {" and whose text lives on the {@code message='} line below it. Taking
-     * line one therefore discards the only part worth keeping — which is how
-     * "strict mode violation: ... resolved to 2 elements" was first recorded as
-     * "Error {".
+     * The one useful line of a Playwright error, capped. Playwright-Java's first line
+     * is a bare "Error {"; the text lives on the {@code message='} line below it.
      */
     public static String summarizeError(String raw) {
         if (raw == null) {

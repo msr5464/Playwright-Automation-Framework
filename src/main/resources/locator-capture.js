@@ -1,24 +1,13 @@
-// Element fingerprinting — the single source of truth for BOTH the Python
-// engine and the Java framework.
-//
-// Multi-mode on purpose. Called with no argument it returns the page snapshot;
-// called with an element it returns that element's index in the very same walk;
-// called with an array of elements it returns the snapshot AND their indices,
-// resolved in that one walk.
-// Two separate implementations of the walk would be free to disagree about what
-// "element #27" means, and every score downstream would be quietly wrong.
+// Element fingerprinting — the single source of truth for BOTH the Python engine
+// and the Java framework. Keep both copies byte-identical; test_capture_parity.py
+// enforces it, because two capture implementations corrupt every similarity score.
 //
 //   evaluate(JS)            -> { url, title, viewport, landmarks, elements[] }
 //   evaluate(JS, element)   -> index into that elements[] array, or -1
 //   evaluate(JS, [el, ...]) -> { ...snapshot, indices: [i, ...] }
 //
-// The array form exists because ONE walk per element is not enough: a caller that
-// snapshots the page and then asks for each index separately re-walks a DOM that
-// has moved on, and `elements[index]` then names a different element entirely.
-// That silently recorded a page's logo as its edit button.
-//
-// Keep this file identical in QA-Agent-Network and the automation framework's
-// src/main/resources. capture_parity_test asserts the two agree on a live page.
+// The array form resolves the snapshot and the indices in ONE walk: a second walk
+// sees a DOM that has moved on, and `elements[index]` names a different element.
 
 (target) => {
   const IGNORED_TAGS = new Set(['HTML','HEAD','META','SCRIPT','STYLE','LINK','TITLE','BASE','NOSCRIPT']);
@@ -113,9 +102,8 @@
       .includes(roleOf(el));
 
   const vw = window.innerWidth || 1, vh = window.innerHeight || 1;
-  // Walk light DOM and open shadow roots together. querySelectorAll('*') stops
-  // at the shadow boundary, which makes every element inside a web component
-  // invisible to scoring -- and web components are exactly where locators rot.
+  // Light DOM and open shadow roots together: querySelectorAll('*') stops at the
+  // shadow boundary, hiding exactly the web components where locators rot.
   const walkAll = (root, out) => {
     const kids = root.querySelectorAll ? root.querySelectorAll('*') : [];
     for (const el of kids) {
@@ -134,9 +122,8 @@
     return t && t.length <= 80;
   }).map(el => ({text: norm(el.textContent), rect: el.getBoundingClientRect()}));
 
-  // Edge-to-edge gap, NOT centre-to-centre. A full-width <label> sitting
-  // directly above an input has a huge centre-distance but a tiny gap — and it
-  // is the single most meaningful piece of context that input has.
+  // Edge-to-edge gap, NOT centre-to-centre: a full-width <label> above an input
+  // has a huge centre-distance but a tiny gap.
   const gap = (a, b) => {
     const dx = Math.max(0, a.left - b.right, b.left - a.right);
     const dy = Math.max(0, a.top - b.bottom, b.top - a.bottom);

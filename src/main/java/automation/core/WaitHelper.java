@@ -21,10 +21,8 @@ public class WaitHelper {
             config.logCommentForDebugging("Element is visible: " + elementName);
             return true;
         } catch (Exception e) {
-            // Not every exception here is a timeout. A locator that matches more than
-            // one element throws a strict-mode violation immediately, and reporting
-            // that as "not visible after timeout" is how an ambiguous selector gets
-            // read downstream as an element that never appeared. Name what happened.
+            // Not every exception here is a timeout — a strict-mode violation throws
+            // at once, and "not visible after timeout" misreads it downstream.
             config.logWarning(describeWaitFailure(e, elementName,
                     System.currentTimeMillis() - startTime, getTimeout(config)));
             // Every interaction waits here first, so this is the one place that knows
@@ -37,13 +35,7 @@ public class WaitHelper {
         }
     }
 
-    /**
-     * What to log when a visibility wait ends badly.
-     *
-     * <p>A wait that gives up in a fraction of its budget did not time out — it threw.
-     * Saying "after timeout" in that case misdescribes the failure to every reader,
-     * human and agent alike, and points the fix at the wrong thing.
-     */
+    /** Name what actually ended the wait: a wait that gave up early did not time out. */
     private static String describeWaitFailure(Exception e, String elementName,
                                               long elapsedMs, long budgetMs) {
         String message = e.getMessage() == null ? "" : e.getMessage();
@@ -174,18 +166,10 @@ public class WaitHelper {
     }
 
     /**
-     * Wait until the page has actually landed on a URL.
-     *
-     * <p>waitForNetworkIdle cannot do this job. waitForLoadState reports on the
-     * CURRENT document, so called straight after a click that submits a form it
-     * returns before the resulting navigation has even begun — the login page is
-     * still there, and still idle. A navigateTo() issued next then races the
-     * in-flight redirect and Chromium aborts one of them, which surfaces as
-     * net::ERR_ABORTED on whichever page the redirect happened to win.
-     *
-     * <p>Returns false rather than throwing: the caller is usually about to
-     * navigate anyway, and a missed wait should not become a different error
-     * than the one the test was written to report.
+     * Wait until the page has landed on a URL. waitForNetworkIdle cannot do this —
+     * it reports on the CURRENT document, so it returns before a submit's navigation
+     * has even begun. Returns false rather than throwing; the caller usually
+     * navigates next and should report its own error, not this one.
      */
     public static boolean waitForUrl(Config config, String urlPattern) {
         try {

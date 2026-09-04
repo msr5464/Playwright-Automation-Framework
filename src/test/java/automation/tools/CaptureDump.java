@@ -11,12 +11,8 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 /**
- * Dumps the shared capture script's output for one URL.
- *
- * <p>Exists so a test can diff this against the Python engine's output for the same page.
- * The two sides load identical bytes, but they drive different Playwright versions and so
- * different Chromium builds — identical source does not by itself prove identical output,
- * and every similarity score depends on the two agreeing.
+ * Dumps the shared capture script's output for one URL, so a test can diff it against
+ * the Python engine's — identical source, but different Chromium builds.
  *
  * <p>Usage: {@code CaptureDump <url> <output.json>}
  */

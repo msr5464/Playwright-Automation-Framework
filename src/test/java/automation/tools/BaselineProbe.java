@@ -13,13 +13,8 @@ import java.nio.file.Paths;
 import java.util.stream.Stream;
 
 /**
- * Exercises the record → promote / record → discard lifecycle directly.
- *
- * <p>A failing test must leave no fingerprint behind: the record it wrote describes
- * the broken page, and promoting it would file the breakage under the name of the
- * last good run — after which every comparison against it confirms the breakage
- * instead of contradicting it. That path is hard to reach from a normal test run,
- * so it gets driven from here.
+ * Exercises the record → promote / record → discard lifecycle directly: a failing
+ * test must leave no fingerprint, or the breakage becomes the baseline.
  *
  * <p>Usage: {@code BaselineProbe <url> promote|discard}
  */
