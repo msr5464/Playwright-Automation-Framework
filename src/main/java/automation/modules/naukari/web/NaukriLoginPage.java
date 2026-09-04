@@ -13,11 +13,10 @@ import com.microsoft.playwright.Locator;
  * to the profile page so callers receive a ready-to-use NaukriProfilePage.
  */
 public class NaukriLoginPage extends BasePage {
-    private static final String PROFILE_URL = "https://www.naukri.com/mnjuser/profile";
 
-    private final Locator usernameField = page.locator("[id='usernameField']");
-    private final Locator passwordField = page.locator("[id='passwordField']");
-    private final Locator loginButton = page.locator("button.blue-btn");
+    private final Locator usernameField = page.locator("#usernameField");
+    private final Locator passwordField = page.locator("#passwordField");
+    private final Locator loginButton   = page.locator("button[type='submit']:not([class*='otp'])");
 
     public NaukriLoginPage(Config config) {
         super(config);

@@ -10,11 +10,11 @@ import com.microsoft.playwright.Locator;
  */
 public class NaukriProfilePage extends BasePage
 {
-    private final Locator profileSummarySection     = page.locator("[ref='f2e585']");
-    private final Locator profileSummaryDisplayText = page.locator("[ref='f2e590']");
-    private final Locator editProfileSummaryButton  = page.locator("img[ref='f2e589']");
-    private final Locator profileSummaryTextArea    = page.locator("[ref='f2e736']");
-    private final Locator saveButton                = page.locator("button:has-text('Save')");
+    private final Locator profileSummarySection     = page.locator("#profile-section-profile-summary");
+    private final Locator profileSummaryDisplayText = page.locator("#profile-section-profile-summary div.text-title16R");
+    private final Locator editProfileSummaryButton  = page.locator("#profile-section-profile-summary p.text-headline24Sb + span");
+    private final Locator profileSummaryTextArea    = page.locator("#profile-section-profile-summary textarea");
+    private final Locator saveButton                = page.locator("#profile-section-profile-summary button[type='submit']");
     private final Locator successToast              = page.locator("[class*='toast'], [class*='snackBar'], [class*='msgBlock']");
 
     public NaukriProfilePage(Config config)
