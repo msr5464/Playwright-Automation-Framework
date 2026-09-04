@@ -1,6 +1,7 @@
-// Element fingerprinting — the single source of truth for BOTH the Python engine
-// and the Java framework. Keep both copies byte-identical; test_capture_parity.py
-// enforces it, because two capture implementations corrupt every similarity score.
+// Element fingerprinting — the single source of truth for BOTH the Java framework
+// and QA-Agent-Network's locator engine, which reads this exact file out of the
+// checkout. Do not copy it: two implementations of this walk are free to drift,
+// and two that disagree silently corrupt every similarity score.
 //
 //   evaluate(JS)            -> { url, title, viewport, landmarks, elements[] }
 //   evaluate(JS, element)   -> index into that elements[] array, or -1
