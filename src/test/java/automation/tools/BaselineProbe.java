@@ -43,7 +43,8 @@ public class BaselineProbe {
             browser.close();
         }
 
-        Path directory = Paths.get(System.getenv("BASELINE_DIR"));
+        String baselineDir = System.getenv("HEALING_BASELINE_DIR");
+        Path directory = Paths.get(baselineDir != null ? baselineDir : "src/main/resources/baselines");
         try (Stream<Path> files = Files.list(directory)) {
             long promoted = files.filter(p -> p.toString().endsWith(".json")).count();
             System.out.println("promoted_files=" + promoted);

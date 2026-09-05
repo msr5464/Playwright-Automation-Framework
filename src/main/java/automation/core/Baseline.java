@@ -44,16 +44,16 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class Baseline {
 
-    /** -Dbaseline.dir, then BASELINE_DIR, then baselineDir, then test-output/baselines. */
+    /** -Dbaseline.dir, then HEALING_BASELINE_DIR, then baselineDir, then test-output/baselines. */
     private static final String DIR_PROPERTY = "baselineDir";
-    private static final String DIR_ENV = "BASELINE_DIR";
+    private static final String DIR_ENV = "HEALING_BASELINE_DIR";
     private static final String DIR_SYSTEM = "baseline.dir";
 
     private static final Set<String> WRITTEN = Collections.newSetFromMap(new ConcurrentHashMap<>());
 
     /** Opt out of the per-page-object DOM walk; coverage counts are recorded either way. */
     private static final String FINGERPRINTS_PROPERTY = "baselineFingerprints";
-    private static final String FINGERPRINTS_ENV = "BASELINE_FINGERPRINTS";
+    private static final String FINGERPRINTS_ENV = "HEALING_BASELINE_FINGERPRINTS";
     private static final String FINGERPRINTS_SYSTEM = "baseline.fingerprints";
 
     private static final com.fasterxml.jackson.databind.ObjectMapper MAPPER =
