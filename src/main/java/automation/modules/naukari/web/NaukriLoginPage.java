@@ -3,7 +3,7 @@ package automation.modules.naukari.web;
 import automation.core.BrowserHelper;
 import automation.core.Config;
 import automation.core.WaitHelper;
-import automation.core.web.BasePage;
+import automation.core.BasePage;
 import com.microsoft.playwright.Locator;
 
 /**
