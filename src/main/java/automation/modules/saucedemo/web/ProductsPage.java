@@ -16,7 +16,7 @@ public class ProductsPage extends BasePage
     public ProductsPage(Config config)
     {
         super(config);
-        pageTitle   = page.locator(".title");
+        pageTitle   = page.locator("[data-test='title']");
         cartLink    = page.locator(".shopping_cart_link");
         menuButton  = page.locator("#react-burger-menu-btn");
         logoutLink  = page.locator("#logout_sidebar_link");
