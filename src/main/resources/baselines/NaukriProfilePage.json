@@ -1,6 +1,6 @@
 {
   "pageObject" : "NaukriProfilePage",
-  "recordedAt" : "2026-09-10T19:08:46",
+  "recordedAt" : "2026-09-11T10:17:14",
   "urlShape" : "https://www.naukri.com/mnjuser/profile",
   "title" : "Naukri TopTier",
   "bodyClass" : "no-scrollbar",
@@ -70,13 +70,14 @@
       "sibling_count" : 1,
       "bbox_norm" : {
         "x" : 0.34765625,
-        "y" : 2.47109375,
+        "y" : 2.488773148148148,
         "w" : 0.3385416666666667,
         "h" : 0.12222222222222222
       },
       "area_norm" : 0.04137731481481482,
       "aspect" : 4.924242424242424,
-      "neighbor_texts" : [ "Profile summary", "Resume", "+2 more", "Projects", "Research publications", "Patents" ],
+      "neighbor_texts" : [ "Profile summary", "Resume", "Projects", "Research publications", "Patents", "Custom section" ],
+      "child" : null,
       "_gt" : null
     },
     "editProfileSummaryButton" : {
@@ -138,13 +139,20 @@
       "sibling_count" : 2,
       "bbox_norm" : {
         "x" : 0.79296875,
-        "y" : 2.4099826388888888,
+        "y" : 2.427662037037037,
         "w" : 0.0125,
         "h" : 0.022222222222222223
       },
       "area_norm" : 2.777777777777778E-4,
       "aspect" : 1,
       "neighbor_texts" : [ "Update" ],
+      "child" : {
+        "tag" : "img",
+        "alt" : "PencilSimple",
+        "aria_label" : null,
+        "title" : null,
+        "testid" : null
+      },
       "_gt" : null
     }
   },

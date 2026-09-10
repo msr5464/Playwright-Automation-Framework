@@ -1,6 +1,6 @@
 {
   "pageObject" : "NaukriLoginPage",
-  "recordedAt" : "2026-09-10T19:08:42",
+  "recordedAt" : "2026-09-11T10:17:09",
   "urlShape" : "https://www.naukri.com/nlogin/login",
   "title" : "Jobseeker's Login: Search the Best Jobs available in India & Abroad - Naukri.com",
   "bodyClass" : "",
@@ -83,6 +83,7 @@
       "area_norm" : 0.006290961371527778,
       "aspect" : 7.395089285714286,
       "neighbor_texts" : [ "Resume samples", "Job letter samples", "Email ID / Username", "Employer Login", "Resume quality score", "Password" ],
+      "child" : null,
       "_gt" : null
     },
     "passwordField" : {
@@ -158,6 +159,7 @@
       "area_norm" : 0.006290961371527778,
       "aspect" : 7.395089285714286,
       "neighbor_texts" : [ "Show", "Password", "Forgot Password?", "Login", "Job letter samples", "Salary Calculator" ],
+      "child" : null,
       "_gt" : null
     },
     "loginButton" : {
@@ -228,6 +230,7 @@
       "area_norm" : 0.0056918221932870374,
       "aspect" : 8.173519736842104,
       "neighbor_texts" : [ "Use OTP to Login", "Forgot Password?", "Or", "Show", "Password", "Sign in with Google" ],
+      "child" : null,
       "_gt" : null
     }
   },

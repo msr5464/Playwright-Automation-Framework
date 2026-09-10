@@ -17,7 +17,7 @@ public class NaukriProfilePage extends BasePage
     {
         super(config);
         profileSummaryText       = page.locator("#profile-section-profile-summary .whitespace-pre-line");
-        editProfileSummaryButton = page.locator("#profile-section-profile-summary span.cursor-pointer");
+        editProfileSummaryButton = page.locator("#profile-section-profile-summary span:has(> img[alt='PencilSimple'])");
         summaryTextArea          = page.locator("textarea[placeholder='Craft a compelling profile summary']");
         saveButton               = page.locator("#profile-section-profile-summary button[type='submit']");
         assertPageLoaded(profileSummaryText);

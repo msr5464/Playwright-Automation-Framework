@@ -17,7 +17,7 @@ public class NaukriLoginPage extends BasePage
         super(config);
         emailField    = page.locator("[id='usernameField']");
         passwordField = page.locator("[id='passwordField']");
-        loginButton   = page.locator("button[type='submit']:first-of-type");
+        loginButton   = page.locator("#loginForm button.blue-btn");
         assertPageLoaded(emailField);
     }
 

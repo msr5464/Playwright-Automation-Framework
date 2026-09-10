@@ -183,6 +183,11 @@
       });
     }
 
+    // An icon wrapper often names itself only through its child —
+    // <span><img alt="PencilSimple"></span> — so record that child's identity.
+    const kid = Array.from(el.children).find(c => c.getAttribute('alt') ||
+      c.getAttribute('aria-label') || c.getAttribute('title') || c.getAttribute('data-testid'));
+
     let sibIndex = 0, sibCount = 0;
     if (el.parentElement) {
       const sibs = Array.from(el.parentElement.children);
@@ -219,6 +224,10 @@
       area_norm: (r.width * r.height) / (vw * vh),
       aspect: r.height > 0 ? r.width / r.height : 0,
       neighbor_texts: neighbors,
+      child: kid ? {tag: kid.tagName.toLowerCase(), alt: kid.getAttribute('alt'),
+                    aria_label: kid.getAttribute('aria-label'),
+                    title: kid.getAttribute('title'),
+                    testid: kid.getAttribute('data-testid')} : null,
       _gt: el.getAttribute('data-gt') || null,   // eval only; stripped before scoring
     };
   };
