@@ -213,6 +213,30 @@ src/test/java/automation/{feature}/
 └── {Feature}Test.java          # Extends TestBase — one @Test method per scenario
 ```
 
+### Exact imports for framework classes
+
+`automation.core` is **flat**. A file living in `modules/{feature}/web/` does *not*
+import from a matching `automation.core.web` — **there is no such package**, and no
+`automation.modules.core` either. Copy these exactly:
+
+| Class | Import |
+|-------|--------|
+| `BasePage` | `import automation.core.BasePage;` |
+| `Config` | `import automation.core.Config;` |
+| `TestBase` | `import automation.core.TestBase;` |
+| `AssertHelper` | `import automation.core.AssertHelper;` |
+| `WaitHelper` | `import automation.core.WaitHelper;` |
+| `BrowserHelper` | `import automation.core.BrowserHelper;` |
+| `Element` | `import automation.core.Element;` |
+| `Log` | `import automation.core.Log;` |
+| `TestVariables` | `import automation.core.TestVariables;` |
+| `ApiHelper` | `import automation.core.api.ApiHelper;` — the one class NOT flat |
+| `ApiDetails`, `PathBuilder` | `import automation.core.api.ApiDetails;` etc. |
+| enums (`QA`, `Country`, …) | `import automation.core.Enums.*;` |
+
+Only `automation.core.api` and `automation.core.mobile` are sub-packages. Everything
+else listed under `core/` sits directly in `automation.core`.
+
 ### Data POJO
 ```java
 @Data @NoArgsConstructor @AllArgsConstructor
@@ -276,10 +300,12 @@ public enum WidgetApi implements ApiDetails {
 ### Helper (external/3rd-party API — extends ApiHelper directly)
 ```java
 public class WidgetHelper extends ApiHelper {
-    private static final String BASE_URL = "https://api.widget.io";
 
     public WidgetHelper(Config config) {
-        super(config, BASE_URL);
+        // Read the base URL from the properties file — never a literal, and never a
+        // `static final` constant, which cannot reach config. Inline it in super(...):
+        // an instance field cannot be referenced before the supertype constructor runs.
+        super(config, config.getRunTimeProperty("widget.api.url"));
     }
 
     public WidgetHelper(Config config, String authToken) {
@@ -291,6 +317,13 @@ public class WidgetHelper extends ApiHelper {
 
 ### Page object
 ```java
+package automation.modules.widget.web;          // the file's OWN package
+
+import com.microsoft.playwright.Locator;
+import automation.core.BasePage;                // NOT automation.core.web.BasePage
+import automation.core.Config;
+import automation.core.Log;
+
 public class WidgetListPage extends BasePage {
     private final Locator createButton = page.locator("[data-cy='create-widget-btn']");
 
@@ -370,20 +403,39 @@ Assertions are soft by default — execution continues after a failure, and the 
 
 ## Logging
 
-Use `config.log*()` instance methods. They write to ReportNG, the JSON report, and the console.
+Which call you use is decided by **which kind of class you are in**, not by what you
+want to say. There are exactly two rules:
+
+| In a… | Use | Never |
+|-------|-----|-------|
+| **test class** (`src/test/java/...`, `extends TestBase`) | `config.logStep("...")` | `Log.step`, `Log.comment`, `config.logComment` |
+| **any other class** (page objects, helpers, builders) | `Log.comment(config, "...")` | `config.logStep`, `Log.step` |
 
 ```java
-config.logStep("Login to GitHub and verify dashboard loads");    // test classes ONLY
-config.logComment("Clicking create repository button");           // helpers and page objects
-config.logPass("Repository created with correct name");          // intermediate step confirmations only
+// In a test class — one logStep per step of the scenario:
+config.logStep("Login to GitHub and verify dashboard loads");
+
+// In a page object or helper:
+Log.comment(config, "Clicking create repository button");
+```
+
+`Log.step()` exists but is **not for module code** — a page object that calls it puts a
+step line in the report for something that is not a step, and the run report stops being
+a readable list of what the test did. `automation.modules.github.web.LoginPage` does this;
+it is a known violation, not a pattern to copy. `automation.modules.saucedemo.web.LoginPage`
+is the correct reference.
+
+Also available in test classes:
+```java
+config.logPass("Repository created with correct name");          // intermediate confirmations only
 config.logFail("Repository not found in list");                  // red + screenshot
 config.logWarning("Optional banner not present, continuing");    // non-blocking issues
 ```
 
-Rules:
-- `config.logStep()` → **test class methods only**
-- `config.logComment()` → helpers and page objects
-- Do **NOT** add `config.logPass()` as the last line of a test — the framework logs PASS/FAIL automatically after each test
+- One `config.logStep()` per step of the scenario, immediately before the calls that carry
+  it out — never one run-on logStep summarising the whole test.
+- Do **NOT** add `config.logPass()` as the last line of a test — the framework logs
+  PASS/FAIL automatically after each test
 
 ---
 
@@ -455,6 +507,28 @@ Config.browserName
 Config.country
 Config.projectName
 ```
+
+### URLs are properties — add the key BEFORE you read it
+
+**`getRunTimeProperty` returns `null` for a key that is not in the file.** It does not
+throw and does not warn (the debug line only prints with `debugMode=true`). So a key
+that was never added fails far from its cause — `BrowserHelper.navigateTo` now rejects
+a null URL by name, but any other consumer just gets null.
+
+Every URL a test or page navigates to needs a key in
+`parameters/{environment}-{country}.properties` **before** any code reads it:
+
+| What | Key | Example |
+|------|-----|---------|
+| Module base URL | `{module}.url` | `saucedemo.url=https://www.saucedemo.com/` |
+| A specific page | `{module}.{page}.url` | `naukari.login.url=https://www.naukri.com/nlogin/login` |
+| API base URL | `{module}.api.url` | `widget.api.url=https://api.widget.io` |
+
+`{module}` is lowercase and matches the package name (`naukari`, `saucedemo`). The page
+segment is the last meaningful path segment — `/nlogin/login` → `login`. Never name a key
+after an id, hash or date; those identify one record, not one page.
+
+(`githubUrl` predates this convention. Do not copy its shape for anything new.)
 
 Current `parameters/config.properties` defaults:
 ```
@@ -549,7 +623,7 @@ Users are automatically released by `@AfterMethod`. Do not release manually.
 
 ### Test classes
 - One user per test — never share accounts between test methods
-- `logStep()` in test methods only; `logComment()` in helpers/pages
+- `config.logStep()` in test classes only; `Log.comment(config, ...)` everywhere else
 - No hardcoded credentials, URLs, or IDs — use properties files and Builders
 - Do not assign return values you don't use
 
@@ -572,7 +646,8 @@ Users are automatically released by `@AfterMethod`. Do not release manually.
 | `config.getRunTimeProperty("environment")` | `Config.environment` |
 | `WaitHelper.waitForElementToBeVisible(...)` in constructor | `assertPageLoaded(locator)` — inherited from `BasePage`, hard-fails if page does not load |
 | `waitUntilLoaded()` / `@Override protected void waitUntilLoaded()` | remove both — call `assertPageLoaded(locator)` directly in the constructor |
-| `config.logStep()` in a helper | `config.logComment()` |
+| `config.logStep()` or `Log.step()` in a helper or page object | `Log.comment(config, "...")` |
+| `Log.comment(config, ...)` / `Log.step(...)` in a test class | `config.logStep("...")` |
 | `config.logPass()` at end of test method | remove it — framework logs automatically |
 | Hardcoded URL in test/page | put in properties file |
 | Hardcoded credential in test | use CSV or `config.getRunTimeProperty()` |

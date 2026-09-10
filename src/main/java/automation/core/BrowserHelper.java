@@ -584,6 +584,18 @@ public class BrowserHelper {
      * Navigate to a URL
      */
     public static void navigateTo(Config config, String url) {
+        // Every navigation in the framework funnels through here, so this is the one
+        // place worth checking. config.getRunTimeProperty() returns null for a key
+        // that is not in the properties file — no throw, no log — and that null used
+        // to reach Playwright as "url: expected string, got undefined", a protocol
+        // error that reads nothing like the missing setting it actually is.
+        if (url == null || url.isBlank()) {
+            throw new IllegalArgumentException(
+                    "Navigation URL is null or blank. A config.getRunTimeProperty(\"...url\") "
+                            + "key is missing from parameters/" + Config.environment + "-"
+                            + Config.country + ".properties — add it there rather than "
+                            + "hardcoding the URL.");
+        }
         if (config.page == null) {
             initBrowser(config);
         }
