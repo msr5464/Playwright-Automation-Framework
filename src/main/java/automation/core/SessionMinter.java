@@ -26,6 +26,10 @@ import java.util.List;
  *   -Dmint.out=/abs/path/to/NaukariLoginStorage.json
  * </pre>
  *
+ * <p>When the test fetches its credentials through the helper instead — SauceDemo's
+ * {@code doLogin(getCredentials("add_to_cart"))} — pass {@code -Dmint.dataMethod=getCredentials}
+ * and {@code -Dmint.dataArg=add_to_cart} in place of argKeys: only the row's name crosses.
+ *
  * <p>A login that throws can still have authenticated — the destination page object
  * asserts itself loaded and may be the very thing that changed. So the state is saved
  * whenever the context holds cookies, flagged {@code degraded} with the error.
@@ -45,6 +49,8 @@ public final class SessionMinter
         String methodName = property("mint.method");
         String out        = property("mint.out");
         String argKeys    = System.getProperty("mint.argKeys", "").trim();
+        String dataMethod = property("mint.dataMethod");
+        String dataArg    = System.getProperty("mint.dataArg", "");
 
         if (helperName.isEmpty() || methodName.isEmpty() || out.isEmpty())
         {
@@ -88,7 +94,6 @@ public final class SessionMinter
             config.testcaseClass = SessionMinter.class.getSimpleName();
 
             Class<?> helperClass = Class.forName(helperName);
-            Method login = helperClass.getMethod(methodName, types);
 
             Object helper;
             try
@@ -106,6 +111,27 @@ public final class SessionMinter
                 System.exit(1);
                 return;
             }
+
+            // Credentials the test fetches through the helper are fetched the same way
+            // here, so the login receives exactly the object the test would pass it.
+            if (!dataMethod.isEmpty())
+            {
+                Method data = helperClass.getMethod(dataMethod, String.class);
+                try
+                {
+                    values = new Object[] { data.invoke(helper, dataArg) };
+                }
+                catch (InvocationTargetException e)
+                {
+                    Throwable cause = e.getCause() != null ? e.getCause() : e;
+                    emit(false, "", 0, dataMethod + "(\"" + dataArg + "\") failed: "
+                            + cause.getMessage() + originOf(cause));
+                    System.exit(1);
+                    return;
+                }
+                types = new Class<?>[] { data.getReturnType() };
+            }
+            Method login = helperClass.getMethod(methodName, types);
 
             // Throws on a rejected credential — and on a changed destination page.
             String loginError = "";
@@ -152,7 +178,8 @@ public final class SessionMinter
         }
         catch (NoSuchMethodException e)
         {
-            emit(false, "", 0, helperName + " has no method " + methodName
+            emit(false, "", 0, !dataMethod.isEmpty() ? "no such method: " + e.getMessage()
+                    : helperName + " has no method " + methodName
                     + " taking " + (argKeys.isEmpty() ? "no arguments"
                     : argKeys.split(",").length + " String argument(s)"));
             System.exit(1);
