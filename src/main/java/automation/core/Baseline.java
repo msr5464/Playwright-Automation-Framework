@@ -39,6 +39,9 @@ import java.util.concurrent.ConcurrentHashMap;
  *
  * <p>So {@link #record} writes to {@code baselines/pending/}, {@link #promote} moves it
  * into place when the test passes, and {@link #discard} throws it away when it does not.
+ * "In place" is {@code baselines/<module>/<PageObject>.json} for a page object under
+ * {@code .modules.}: two modules can each own a {@code LoginPage}, and a flat directory
+ * let whichever module ran last overwrite the other's fingerprint.
  * Never allowed to fail a test: a baseline is an optimisation for a later diagnosis, not
  * part of the run.
  */
@@ -67,15 +70,21 @@ public class Baseline {
         if (config == null || config.page == null || pageObject == null)
             return;
         String name = pageObject.getClass().getSimpleName();
+        // Two modules can each own a LoginPage. Stored per module, so a passing run of
+        // one never overwrites the other's fingerprint under the shared simple name.
+        String module = getModule(pageObject);
         // Once per test per page object. Keyed by test rather than by page alone: a
         // pending fingerprint is only promoted if *this* test passes, so a page first
         // seen by a test that fails must still be recordable by the next one.
-        if (!WRITTEN.add(testKey(config) + "#" + name))
+        if (!WRITTEN.add(testKey(config) + "#" + module + "#" + name))
             return;
 
         try {
             Map<String, Object> root = new LinkedHashMap<>();
             root.put("pageObject", name);
+            if (!module.isEmpty())
+                root.put("module", module);
+            root.put("fullClassName", pageObject.getClass().getName());
             root.put("recordedAt", DataGenerator.getCurrentDateTime("yyyy-MM-dd'T'HH:mm:ss"));
             root.put("urlShape", shapeOf(config.page.url()));
             root.put("title", config.page.title());
@@ -92,7 +101,7 @@ public class Baseline {
 
             Path directory = pendingDirectory(config);
             new File(directory.toString()).mkdirs();
-            Files.write(directory.resolve(pendingName(config, name)),
+            Files.write(directory.resolve(pendingName(config, module, name)),
                     MAPPER.writerWithDefaultPrettyPrinter().writeValueAsString(root)
                             .getBytes(StandardCharsets.UTF_8));
         } catch (Throwable ignored) {
@@ -102,8 +111,10 @@ public class Baseline {
 
     /** The test passed: everything it recorded really is a good-run fingerprint. */
     public static void promote(Config config) {
-        forEachPending(config, (pending, pageObject) -> {
+        forEachPending(config, (pending, module, pageObject) -> {
             Path directory = baselineDirectory(config);
+            if (!module.isEmpty())
+                directory = directory.resolve(module);
             new File(directory.toString()).mkdirs();
             Files.move(pending, directory.resolve(pageObject + ".json"),
                     java.nio.file.StandardCopyOption.REPLACE_EXISTING);
@@ -112,11 +123,11 @@ public class Baseline {
 
     /** The test failed: what it saw is not a record of the page working. */
     public static void discard(Config config) {
-        forEachPending(config, (pending, pageObject) -> Files.deleteIfExists(pending));
+        forEachPending(config, (pending, module, pageObject) -> Files.deleteIfExists(pending));
     }
 
     private interface PendingAction {
-        void apply(Path pending, String pageObject) throws Exception;
+        void apply(Path pending, String module, String pageObject) throws Exception;
     }
 
     private static void forEachPending(Config config, PendingAction action) {
@@ -132,10 +143,15 @@ public class Baseline {
                     String fileName = pending.getFileName().toString();
                     if (!fileName.startsWith(prefix) || !fileName.endsWith(".json"))
                         continue;
-                    String pageObject = fileName.substring(prefix.length(),
+                    String rest = fileName.substring(prefix.length(),
                             fileName.length() - ".json".length());
+                    // {module}__{PageObject}, or a bare {PageObject} recorded before
+                    // baselines were stored per module.
+                    int split = rest.indexOf("__");
+                    String module = split > 0 ? rest.substring(0, split) : "";
+                    String pageObject = split > 0 ? rest.substring(split + 2) : rest;
                     try {
-                        action.apply(pending, pageObject);
+                        action.apply(pending, module, pageObject);
                     } catch (Throwable ignored) {
                         // One unusable file must not strand the rest.
                     }
@@ -180,8 +196,26 @@ public class Baseline {
         return test.replaceAll("[^A-Za-z0-9._-]", "_");
     }
 
-    private static String pendingName(Config config, String pageObject) {
-        return testKey(config) + "__" + pageObject + ".json";
+    private static String pendingName(Config config, String module, String pageObject) {
+        return testKey(config) + "__" + (module.isEmpty() ? "" : module + "__")
+                + pageObject + ".json";
+    }
+
+    /**
+     * The feature module a page object belongs to: {@code automation.modules.checkout.web}
+     * gives {@code checkout}. Empty outside {@code .modules.}, which keeps the flat layout.
+     */
+    public static String getModule(Object pageObject) {
+        if (pageObject == null)
+            return "";
+        Package pkg = pageObject.getClass().getPackage();
+        String name = pkg == null ? "" : pkg.getName();
+        int start = name.indexOf(".modules.");
+        if (start < 0)
+            return "";
+        String after = name.substring(start + ".modules.".length());
+        int dot = after.indexOf('.');
+        return dot > 0 ? after.substring(0, dot) : after;
     }
 
     /**

@@ -171,6 +171,9 @@ public class MyFeatureTest extends TestBase {
 }
 ```
 
+The API call is inline only to keep this skeleton short. Real tests put request building, API
+chains and response parsing behind a Helper method — see *Coding Rules › Test classes*.
+
 ### Mandatory rules
 - Always `extends TestBase`
 - Always `dataProvider = "getConfig"` (or `"getTwoConfigs"` / `"getMultipleConfigs"` for multi-actor)
@@ -545,7 +548,7 @@ endExecutionOnFailure=false
 
 ## Test Data
 
-### Builder (primary pattern — use this by default)
+### Builder (primary pattern — build inside Helper methods, not in `@Test`)
 ```java
 WidgetData widget = new WidgetBuilder()
     .withWidgetName("Marketing Widget")
@@ -577,6 +580,10 @@ String username = creds.get("username");
 ```
 
 CSV files: `src/test/resources/{feature}/csvFiles/{name}.csv`
+
+- **Module-scoped, one file per business entity**: keep a module's data in its own `csvFiles/` folder and name each file for the entity it holds — `users.csv`, `products.csv`, `orders.csv` — not for the test layer. API and web tests that use the same entity read the same sheet.
+- Add rows for a new scenario; never rewrite or drop rows that other tests read.
+- Credentials never go into a new CSV — they belong in the properties file (see *Configuration System*). The existing credential sheets predate this rule.
 
 Supported placeholders in CSV cells:
 - `{randomString:8}` — 8-char random alphanumeric
@@ -612,16 +619,23 @@ Users are automatically released by `@AfterMethod`. Do not release manually.
 
 ### Page objects
 - One class = one page. No cross-page locators.
+- Several small actions on the same page in a row (filling a form's fields) become one higher-level method — `fillCheckoutDetails(data)` — so the test calls one step, not five.
 - Locator priority: `[data-cy='...']` > `#id` > `[name='...']` > css > xpath
 - XPath: use `contains()` only — never exact text match, positional selectors, or deep nesting
 - Navigation methods must return the next page object
 - Call `assertPageLoaded(locator)` at the end of every constructor — no `waitUntilLoaded()` override needed
 
 ### Helpers
-- A Helper method orchestrates ≥2 page objects. Single-page chains go in the page class.
+- A Helper method orchestrates ≥2 page objects or encapsulates non-trivial logic. Single-page chains go in the page class.
+- Steps several tests repeat belong in one Helper method called from each, not copied into every test.
+- JSON extraction (`response.jsonPath().getList(...)`), Java Stream filtering/mapping, loops and multi-step data preparation live in the Helper, which returns what the test asserts on.
+- No thin wrapper around a single existing call — grouping multiple steps or real logic is the point.
 - Do not instantiate page objects in test classes — use the Helper
 
 ### Test classes
+- **Declarative only**: a `@Test` method reads like the scenario — high-level calls to the Helper and page objects, then `AssertHelper` assertions. No loops, Stream filtering or JSONPath extraction inside it.
+- **Hide API intricacies**: request bodies (`new XBuilder()...build()`) and chains of dependent API calls are built and run inside the Helper, not in the `@Test` method.
+- **No data hardcoding**: test data comes from the module's CSV (read through a Helper method) or a Builder, never from literals in the test.
 - One user per test — never share accounts between test methods
 - `config.logStep()` in test classes only; `Log.comment(config, ...)` everywhere else
 - No hardcoded credentials, URLs, or IDs — use properties files and Builders

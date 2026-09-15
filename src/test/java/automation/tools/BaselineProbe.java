@@ -45,8 +45,10 @@ public class BaselineProbe {
 
         String baselineDir = System.getenv("HEALING_BASELINE_DIR");
         Path directory = Paths.get(baselineDir != null ? baselineDir : "src/main/resources/baselines");
-        try (Stream<Path> files = Files.list(directory)) {
-            long promoted = files.filter(p -> p.toString().endsWith(".json")).count();
+        // Walked, not listed: promoted baselines live in per-module subdirectories.
+        try (Stream<Path> files = Files.walk(directory)) {
+            long promoted = files.filter(p -> p.toString().endsWith(".json")
+                    && !directory.relativize(p).startsWith("pending")).count();
             System.out.println("promoted_files=" + promoted);
         }
     }
