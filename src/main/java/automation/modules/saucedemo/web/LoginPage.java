@@ -41,4 +41,9 @@ public class LoginPage extends BasePage
     {
         return getText(errorMessage, "Error message");
     }
+
+    public boolean isLoginPageLoaded()
+    {
+        return isElementDisplayed(loginButton);
+    }
 }

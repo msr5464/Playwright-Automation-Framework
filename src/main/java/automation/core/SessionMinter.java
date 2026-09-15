@@ -27,8 +27,8 @@ import java.util.List;
  * </pre>
  *
  * <p>When the test fetches its credentials through the helper instead — SauceDemo's
- * {@code doLogin(getCredentials("add_to_cart"))} — pass {@code -Dmint.dataMethod=getCredentials}
- * and {@code -Dmint.dataArg=add_to_cart} in place of argKeys: only the row's name crosses.
+ * {@code doLogin(user)} after {@code user = getUser("standard")} — pass {@code -Dmint.dataMethod=getUser}
+ * and {@code -Dmint.dataArg=standard} in place of argKeys: only the row's name crosses.
  *
  * <p>A login that throws can still have authenticated — the destination page object
  * asserts itself loaded and may be the very thing that changed. So the state is saved

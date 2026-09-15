@@ -2,17 +2,89 @@
   "pageObject" : "ProductsPage",
   "module" : "saucedemo",
   "fullClassName" : "automation.modules.saucedemo.web.ProductsPage",
-  "recordedAt" : "2026-09-15T15:22:11",
+  "recordedAt" : "2026-09-15T20:08:02",
   "urlShape" : "https://www.saucedemo.com/inventory.html",
   "title" : "Swag Labs",
   "bodyClass" : "",
   "coverage" : {
+    "inventory" : 1,
     "pageTitle" : 1,
     "cartLink" : 1,
     "menuButton" : 1,
     "logoutLink" : 1
   },
   "fingerprints" : {
+    "inventory" : {
+      "index" : 41,
+      "tag" : "div",
+      "id" : "inventory_container",
+      "name" : null,
+      "type" : null,
+      "class_list" : [ "inventory_container" ],
+      "role" : "generic",
+      "accessible_name" : "",
+      "aria_label" : null,
+      "placeholder" : null,
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : "inventory-container",
+      "text" : "Sauce Labs Backpackcarry.allTheThings() with the sleek, streamlined Sly Pack that melds uncompromising style with unequaled laptop and tablet protection.$29.99Add to cartSauce Labs Bike LightA red lig",
+      "attrs" : {
+        "id" : "inventory_container",
+        "class" : "inventory_container",
+        "data-test" : "inventory-container"
+      },
+      "is_interactive" : false,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]",
+      "id_xpath" : "//*[@id='inventory_container']",
+      "ancestor_chain" : [ {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : "inventory_container",
+        "classes" : [ ],
+        "role" : "main",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : "contents_wrapper",
+        "classes" : [ ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : "page_wrapper",
+        "classes" : [ "page_wrapper" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : "root",
+        "classes" : [ ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 0,
+      "sibling_count" : 1,
+      "bbox_norm" : {
+        "x" : 0,
+        "y" : 0.10555555555555556,
+        "w" : 0.9921875,
+        "h" : 0.7648148148148148
+      },
+      "area_norm" : 0.7588396990740741,
+      "aspect" : 2.3062953995157387,
+      "neighbor_texts" : [ "Sauce Labs Backpack", "$29.99", "Add to cart", "Sauce Labs Bike Light", "$9.99", "Sauce Labs Bolt T-Shirt" ],
+      "child" : null,
+      "_gt" : null
+    },
     "pageTitle" : {
       "index" : 30,
       "tag" : "span",

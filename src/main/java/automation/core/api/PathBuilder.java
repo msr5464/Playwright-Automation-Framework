@@ -34,6 +34,19 @@ public class PathBuilder implements ApiDetails
         return this;
     }
 
+    public PathBuilder withQueryParam(String param, String value)
+    {
+        if (this.endpoint.contains("?"))
+        {
+            this.endpoint = this.endpoint + "&" + param + "=" + value;
+        }
+        else
+        {
+            this.endpoint = this.endpoint + "?" + param + "=" + value;
+        }
+        return this;
+    }
+
     @Override public ApiDetails.Method getMethod() { return method; }
     @Override public String getEndpoint() { return endpoint; }
     @Override public int getExpectedStatus() { return expectedStatus; }

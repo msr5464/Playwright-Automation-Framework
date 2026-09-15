@@ -52,6 +52,18 @@ public class ApiHelper extends BaseApiClient
     }
 
     /**
+     * Execute API with extra request headers, assert expected status, return typed POJO.
+     *
+     *   SauceDemoData created = api.execute(SauceDemoApi.CreatePost, post, headers, SauceDemoData.class);
+     */
+    public <T> T execute(ApiDetails apiDetails, Object body, Map<String, String> headers, Class<T> responseType)
+    {
+        Response response = executeRaw(apiDetails, body, headers);
+        assertStatus(response, apiDetails.getExpectedStatus());
+        return response.as(responseType);
+    }
+
+    /**
      * Execute API with body, assert expected status, return raw Response.
      */
     public Response execute(ApiDetails apiDetails, Object body)

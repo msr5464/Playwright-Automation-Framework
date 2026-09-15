@@ -1,0 +1,11 @@
+post_key,environment,postId,userId,title,body,limit
+lifecycle,staging,1,99,End-to-End Test Post,This post is created as part of the full lifecycle test.,5
+lifecycle,qa-1,1,99,End-to-End Test Post,This post is created as part of the full lifecycle test.,5
+get_post,staging,1,,,,
+get_post,qa-1,1,,,,
+create_post,staging,1,1,My Test Post,Some content,
+create_post,qa-1,1,1,My Test Post,Some content,
+update_post,staging,1,1,Updated Title,Updated body,
+update_post,qa-1,1,1,Updated Title,Updated body,
+not_found,staging,99999,,,,
+not_found,qa-1,99999,,,,
