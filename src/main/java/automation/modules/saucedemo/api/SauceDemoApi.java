@@ -21,7 +21,7 @@ public enum SauceDemoApi implements ApiDetails
     PatchPost( Method.PATCH,  "/posts/{id}", 200),
     DeletePost(Method.DELETE, "/posts/{id}", 200),
 
-    CreateTodo(   Method.POST,   "/todos",                200),
+    CreateTodo(   Method.POST,   "/todos",                201),
     GetTodo(      Method.GET,    "/todos/{id}",           200),
     UpdateTodo(   Method.PUT,    "/todos/{id}",           200),
     PatchTodo(    Method.PATCH,  "/todos/{id}",           200),
