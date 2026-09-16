@@ -124,4 +124,114 @@ public class SauceDemoApiTest extends TestBase
 
         AssertHelper.assertEquals(config, response.getStatusCode(), 404, "Non-existent post should return 404");
     }
+
+    @Test(description = "Create a todo via POST and verify the 201 response fields", dataProvider = "getConfig", groups = {GROUP_REGRESSION, GROUP_API})
+    @TestVariables(automatedBy = QA.Mukesh)
+    public void createTodo(Config config)
+    {
+        SauceDemoHelper api = new SauceDemoHelper(config);
+        java.util.Map<String, String> data = api.getTodoData("create_todo");
+        int userId = Integer.parseInt(data.get("userId"));
+        String title = data.get("title");
+
+        config.logStep("Call CreateTodo with userId=" + userId + " and title='" + title + "' and verify the response returns status 201");
+        SauceDemoData created = api.createTodo(userId, title, false);
+
+        config.logStep("Verify the response contains a generated ID");
+        AssertHelper.assertNotNull(config, created.getId(), "Created todo should have a generated ID");
+
+        config.logStep("Verify created userId equals " + userId);
+        AssertHelper.assertEquals(config, created.getUserId(), userId, "Created userId should match request");
+
+        config.logStep("Verify created title equals '" + title + "'");
+        AssertHelper.assertEquals(config, created.getTitle(), title, "Created title should match request");
+
+        config.logStep("Verify completed flag is false on newly created todo");
+        AssertHelper.assertFalse(config, created.getCompleted(), "Completed should be false on newly created todo");
+    }
+
+    @Test(description = "Fetch todo 1 via GET and verify id and userId", dataProvider = "getConfig", groups = {GROUP_REGRESSION, GROUP_API})
+    @TestVariables(automatedBy = QA.Mukesh)
+    public void fetchTodo(Config config)
+    {
+        SauceDemoHelper api = new SauceDemoHelper(config);
+        java.util.Map<String, String> data = api.getTodoData("fetch_todo");
+        int todoId = Integer.parseInt(data.get("todoId"));
+        int userId = Integer.parseInt(data.get("userId"));
+
+        config.logStep("Call GetTodo with id=" + todoId + " and verify the response returns status 200");
+        SauceDemoData todo = api.getTodo(todoId);
+
+        config.logStep("Verify returned todo id equals " + todoId);
+        AssertHelper.assertEquals(config, todo.getId(), todoId, "Todo id should be " + todoId);
+
+        config.logStep("Verify returned todo userId equals " + userId);
+        AssertHelper.assertEquals(config, todo.getUserId(), userId, "Todo userId should be " + userId);
+    }
+
+    @Test(description = "Replace todo 1 via PUT and verify the updated title", dataProvider = "getConfig", groups = {GROUP_REGRESSION, GROUP_API})
+    @TestVariables(automatedBy = QA.Mukesh)
+    public void replaceTodo(Config config)
+    {
+        SauceDemoHelper api = new SauceDemoHelper(config);
+        java.util.Map<String, String> data = api.getTodoData("replace_todo");
+        int todoId = Integer.parseInt(data.get("todoId"));
+        int userId = Integer.parseInt(data.get("userId"));
+        String title = data.get("title");
+
+        config.logStep("Call UpdateTodo with id=" + todoId + " and title='" + title + "' and verify the response returns status 200");
+        SauceDemoData replaced = api.updateTodo(todoId, userId, title, false);
+
+        config.logStep("Verify the replaced todo title equals '" + title + "'");
+        AssertHelper.assertEquals(config, replaced.getTitle(), title, "Replaced title should match request");
+    }
+
+    @Test(description = "Patch todo 1 to mark it completed and verify completed flag and non-empty title", dataProvider = "getConfig", groups = {GROUP_REGRESSION, GROUP_API})
+    @TestVariables(automatedBy = QA.Mukesh)
+    public void patchTodo(Config config)
+    {
+        SauceDemoHelper api = new SauceDemoHelper(config);
+        java.util.Map<String, String> data = api.getTodoData("patch_todo");
+        int todoId = Integer.parseInt(data.get("todoId"));
+
+        config.logStep("Call PatchTodo with id=" + todoId + " to set completed=true and verify the response returns status 200");
+        SauceDemoData patched = api.patchTodo(todoId, true);
+
+        config.logStep("Verify completed flag is true after patching todo " + todoId);
+        AssertHelper.assertTrue(config, patched.getCompleted(), "Completed flag should be true after patch");
+
+        config.logStep("Verify the patched todo title is present and non-empty");
+        AssertHelper.assertNotNull(config, patched.getTitle(), "Title should be present after patch");
+        AssertHelper.assertTrue(config, patched.getTitle() != null && !patched.getTitle().isEmpty(), "Title should not be empty after patch");
+    }
+
+    @Test(description = "Delete todo 1 via DELETE and verify 200 status", dataProvider = "getConfig", groups = {GROUP_REGRESSION, GROUP_API})
+    @TestVariables(automatedBy = QA.Mukesh)
+    public void deleteTodo(Config config)
+    {
+        SauceDemoHelper api = new SauceDemoHelper(config);
+        java.util.Map<String, String> data = api.getTodoData("delete_todo");
+        int todoId = Integer.parseInt(data.get("todoId"));
+
+        config.logStep("Call DeleteTodo with id=" + todoId + " and verify the operation returns status 200");
+        api.deleteTodo(todoId);
+    }
+
+    @Test(description = "List todos for user 1 and verify count and userId on every entry", dataProvider = "getConfig", groups = {GROUP_REGRESSION, GROUP_API})
+    @TestVariables(automatedBy = QA.Mukesh)
+    public void listUserTodos(Config config)
+    {
+        SauceDemoHelper api = new SauceDemoHelper(config);
+        java.util.Map<String, String> data = api.getTodoData("list_todos");
+        int userId = Integer.parseInt(data.get("userId"));
+
+        config.logStep("Call ListUserTodos with userId=" + userId + " and verify the response returns status 200");
+        java.util.List<SauceDemoData> todos = api.listUserTodos(userId);
+
+        config.logStep("Verify the returned list contains exactly 20 todos for user " + userId);
+        AssertHelper.assertEquals(config, todos.size(), 20, "User " + userId + " should have exactly 20 todos");
+
+        config.logStep("Verify every todo in the list has userId=" + userId);
+        AssertHelper.assertTrue(config, api.allTodosHaveUserId(todos, userId), "All todos in the list should have userId " + userId);
+    }
 }

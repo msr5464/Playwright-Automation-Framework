@@ -1,0 +1,13 @@
+todo_key,environment,todoId,userId,title,completed
+create_todo,staging,,1,Buy Sauce Labs Backpack,false
+create_todo,qa-1,,1,Buy Sauce Labs Backpack,false
+fetch_todo,staging,1,1,,
+fetch_todo,qa-1,1,1,,
+replace_todo,staging,1,1,Buy Sauce Labs Bike Light,false
+replace_todo,qa-1,1,1,Buy Sauce Labs Bike Light,false
+patch_todo,staging,1,,,
+patch_todo,qa-1,1,,,
+delete_todo,staging,1,,,
+delete_todo,qa-1,1,,,
+list_todos,staging,,1,,
+list_todos,qa-1,,1,,

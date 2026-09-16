@@ -19,7 +19,14 @@ public enum SauceDemoApi implements ApiDetails
     CreatePost(Method.POST,   "/posts",      201),
     UpdatePost(Method.PUT,    "/posts/{id}", 200),
     PatchPost( Method.PATCH,  "/posts/{id}", 200),
-    DeletePost(Method.DELETE, "/posts/{id}", 200);
+    DeletePost(Method.DELETE, "/posts/{id}", 200),
+
+    CreateTodo(   Method.POST,   "/todos",                200),
+    GetTodo(      Method.GET,    "/todos/{id}",           200),
+    UpdateTodo(   Method.PUT,    "/todos/{id}",           200),
+    PatchTodo(    Method.PATCH,  "/todos/{id}",           200),
+    DeleteTodo(   Method.DELETE, "/todos/{id}",           200),
+    ListUserTodos(Method.GET,    "/users/{userId}/todos", 200);
 
     private final Method method;
     private final String endpoint;

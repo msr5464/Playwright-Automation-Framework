@@ -10,6 +10,8 @@ import automation.modules.saucedemo.web.ProductsPage;
 import automation.modules.saucedemo.api.SauceDemoApi;
 import io.restassured.response.Response;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -32,11 +34,9 @@ import java.util.Map;
  */
 public class SauceDemoHelper extends ApiHelper
 {
-    private static final String API_BASE_URL = "https://jsonplaceholder.typicode.com";
-
     public SauceDemoHelper(Config config)
     {
-        super(config, API_BASE_URL);
+        super(config, config.getRunTimeProperty("saucedemo.api.url"));
     }
 
     public ProductsPage doLogin(Map<String, String> credentials)
@@ -141,5 +141,93 @@ public class SauceDemoHelper extends ApiHelper
     {
         Log.comment(config, "Deleting post " + postId + " via API");
         return executeRaw(SauceDemoApi.DeletePost.withPath("id", String.valueOf(postId)), null);
+    }
+
+    // ========== TODO API HELPERS ==========
+
+    /**
+     * Load todo test data by todo_key from todos.csv.
+     * CSV: src/test/resources/saucedemo/csvFiles/todos.csv
+     */
+    public Map<String, String> getTodoData(String todoKey)
+    {
+        return TestDataReader.loadCsvRowByColumnValue(
+            "saucedemo", "todos", "todo_key", todoKey, Config.environment);
+    }
+
+    /**
+     * Create a todo via POST /todos.
+     */
+    public SauceDemoData createTodo(int userId, String title, boolean completed)
+    {
+        Log.comment(config, "Creating todo via API - userId: " + userId + ", title: " + title);
+        SauceDemoData request = new SauceDemoData();
+        request.setUserId(userId);
+        request.setTitle(title);
+        request.setCompleted(completed);
+        return execute(SauceDemoApi.CreateTodo, request, SauceDemoData.class);
+    }
+
+    /**
+     * Fetch a single todo by ID via GET /todos/{id}.
+     */
+    public SauceDemoData getTodo(int todoId)
+    {
+        Log.comment(config, "Fetching todo " + todoId + " via API");
+        return execute(SauceDemoApi.GetTodo.withPath("id", String.valueOf(todoId)), SauceDemoData.class);
+    }
+
+    /**
+     * Replace a todo via PUT /todos/{id}.
+     */
+    public SauceDemoData updateTodo(int todoId, int userId, String title, boolean completed)
+    {
+        Log.comment(config, "Replacing todo " + todoId + " via API");
+        SauceDemoData request = new SauceDemoData();
+        request.setId(todoId);
+        request.setUserId(userId);
+        request.setTitle(title);
+        request.setCompleted(completed);
+        return execute(SauceDemoApi.UpdateTodo.withPath("id", String.valueOf(todoId)), request, SauceDemoData.class);
+    }
+
+    /**
+     * Patch a todo's completed field via PATCH /todos/{id}.
+     */
+    public SauceDemoData patchTodo(int todoId, boolean completed)
+    {
+        Log.comment(config, "Patching todo " + todoId + " with completed=" + completed);
+        SauceDemoData patchBody = new SauceDemoData();
+        patchBody.setCompleted(completed);
+        return execute(SauceDemoApi.PatchTodo.withPath("id", String.valueOf(todoId)), patchBody, SauceDemoData.class);
+    }
+
+    /**
+     * Delete a todo via DELETE /todos/{id}. Asserts 200 internally.
+     */
+    public void deleteTodo(int todoId)
+    {
+        Log.comment(config, "Deleting todo " + todoId + " via API");
+        execute(SauceDemoApi.DeleteTodo.withPath("id", String.valueOf(todoId)));
+    }
+
+    /**
+     * List all todos for a user via GET /users/{userId}/todos.
+     */
+    public List<SauceDemoData> listUserTodos(int userId)
+    {
+        Log.comment(config, "Listing todos for user " + userId + " via API");
+        SauceDemoData[] todos = execute(
+            SauceDemoApi.ListUserTodos.withPath("userId", String.valueOf(userId)),
+            SauceDemoData[].class);
+        return Arrays.asList(todos);
+    }
+
+    /**
+     * Returns true if every todo in the list has the given userId.
+     */
+    public boolean allTodosHaveUserId(List<SauceDemoData> todos, int userId)
+    {
+        return todos.stream().allMatch(t -> t.getUserId() != null && t.getUserId().equals(userId));
     }
 }
