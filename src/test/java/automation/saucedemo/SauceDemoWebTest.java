@@ -107,6 +107,18 @@ public class SauceDemoWebTest extends TestBase
 
         AssertHelper.assertEquals(config, products.getPageTitle(), "Products", "Products page title should be 'Products'");
         AssertHelper.assertTrue(config, products.getProductCount() > 0, "Products page should display at least one product");
+
+        config.logStep("Add 5 products to the cart; expect cart badge to reach 5");
+        products.addProductToCart("sauce-labs-backpack");
+        products.addProductToCart("sauce-labs-bike-light");
+        products.addProductToCart("sauce-labs-bolt-t-shirt");
+        products.addProductToCart("sauce-labs-fleece-jacket");
+        products.addProductToCart("sauce-labs-onesie");
+        AssertHelper.assertEquals(config, products.getCartCount(), "5", "Cart badge should show 5 after adding 5 products");
+
+        config.logStep("Open cart and verify 5 different items are present");
+        CartPage cart = products.goToCart();
+        AssertHelper.assertEquals(config, cart.getCartItemCount(), 5, "Cart should contain exactly 5 items");
     }
 
     @Test(description = "Verify user can add a product to cart", dataProvider = "getConfig", groups = {GROUP_REGRESSION, GROUP_WEB})
