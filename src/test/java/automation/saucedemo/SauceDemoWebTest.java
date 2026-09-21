@@ -116,13 +116,17 @@ public class SauceDemoWebTest extends TestBase
         SauceDemoHelper sauceDemo = new SauceDemoHelper(config);
         Map<String, String> user = sauceDemo.getUser("standard");
         Map<String, String> product = sauceDemo.getProduct("backpack");
+        Map<String, String> product2 = sauceDemo.getProduct("bike_light");
 
         config.logStep("Login to SauceDemo and add " + product.get("slug") + " to cart");
         ProductsPage products = sauceDemo.doLogin(user);
         products.addProductToCart(product.get("slug"));
 
-        config.logStep("Verify cart badge shows 1 item");
-        AssertHelper.assertEquals(config, products.getCartCount(), "1", "Cart badge should show 1 after adding a product");
+        config.logStep("Add last listed product " + product2.get("slug") + " to cart; expect cart badge to increment to 2");
+        products.addProductToCart(product2.get("slug"));
+
+        config.logStep("Verify cart badge shows 2 items after adding 2 products");
+        AssertHelper.assertEquals(config, products.getCartCount(), "2", "Cart badge should show 1 after adding a product");
     }
 
     @Test(description = "Verify cart contains the product that was added", dataProvider = "getConfig", groups = {GROUP_REGRESSION, GROUP_WEB})
