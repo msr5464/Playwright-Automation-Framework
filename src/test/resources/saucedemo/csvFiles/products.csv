@@ -5,3 +5,5 @@ bike_light,staging,sauce-labs-bike-light,Sauce Labs Bike Light
 bike_light,qa-1,sauce-labs-bike-light,Sauce Labs Bike Light
 fleece_jacket,staging,sauce-labs-fleece-jacket,Sauce Labs Fleece Jacket
 fleece_jacket,qa-1,sauce-labs-fleece-jacket,Sauce Labs Fleece Jacket
+tshirt_red,staging,test.allthethings()-t-shirt-(red),Test.allTheThings() T-Shirt (Red)
+tshirt_red,qa-1,test.allthethings()-t-shirt-(red),Test.allTheThings() T-Shirt (Red)
