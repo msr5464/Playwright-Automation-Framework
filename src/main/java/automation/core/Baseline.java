@@ -116,9 +116,60 @@ public class Baseline {
             if (!module.isEmpty())
                 directory = directory.resolve(module);
             new File(directory.toString()).mkdirs();
-            Files.move(pending, directory.resolve(pageObject + ".json"),
+            Path target = directory.resolve(pageObject + ".json");
+            carryForwardLastSeen(pending, target);
+            Files.move(pending, target,
                     java.nio.file.StandardCopyOption.REPLACE_EXISTING);
         });
+    }
+
+    /**
+     * Merge {@code lastSeen} from the baseline being replaced into the one replacing it.
+     *
+     * <p>{@code coverage} is a count per locator taken from the page as it was, which is
+     * honest but says less than it appears to. A test promotes a baseline for every page
+     * object it loaded, and {@link #collect} counts every locator declared on those pages
+     * — including the ones this test never went near. So a locator that is simply broken
+     * gets written down as matching nothing on a run that passed, and reading that back
+     * says "absent when the test last passed", which is the evidence for concluding the
+     * element was removed from the product. It was never there to remove: the selector
+     * has been wrong the whole time.
+     *
+     * <p>Those two cases are indistinguishable in a single record and obvious across two.
+     * An element that really was removed matched in earlier runs; a selector that was
+     * always wrong never matched in any. {@code lastSeen} keeps that history — field to
+     * the timestamp it last resolved to something — so the reader can tell "this went
+     * away" from "this never worked", instead of treating both as removal.
+     *
+     * <p>Advisory, like everything else here: any failure leaves the promotion alone.
+     */
+    @SuppressWarnings("unchecked")
+    static void carryForwardLastSeen(Path pending, Path target) {
+        try {
+            Map<String, Object> incoming = MAPPER.readValue(pending.toFile(), Map.class);
+            Map<String, Object> lastSeen = new LinkedHashMap<>();
+            if (Files.exists(target)) {
+                Object previous = MAPPER.readValue(target.toFile(), Map.class).get("lastSeen");
+                if (previous instanceof Map)
+                    lastSeen.putAll((Map<String, Object>) previous);
+            }
+            Object counts = incoming.get("coverage");
+            String now = String.valueOf(incoming.get("recordedAt"));
+            if (counts instanceof Map) {
+                for (Map.Entry<String, Object> entry : ((Map<String, Object>) counts).entrySet()) {
+                    if (entry.getValue() instanceof Number
+                            && ((Number) entry.getValue()).intValue() > 0)
+                        lastSeen.put(entry.getKey(), now);
+                }
+            }
+            if (lastSeen.isEmpty())
+                return;
+            incoming.put("lastSeen", lastSeen);
+            Files.write(pending, MAPPER.writerWithDefaultPrettyPrinter()
+                    .writeValueAsString(incoming).getBytes(StandardCharsets.UTF_8));
+        } catch (Throwable ignored) {
+            // A baseline without lastSeen only makes the next diagnosis abstain.
+        }
     }
 
     /** The test failed: what it saw is not a record of the page working. */
