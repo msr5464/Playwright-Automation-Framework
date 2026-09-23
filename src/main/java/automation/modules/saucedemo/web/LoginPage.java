@@ -16,7 +16,7 @@ public class LoginPage extends BasePage {
         super(config);
         usernameField = page.locator("#user-name");
         passwordField = page.locator("#password");
-        loginButton = page.locator("#login-mukesh");
+        loginButton = page.locator("[data-test='login-button']");
         errorMessage = page.locator("[data-test='error']");
         assertPageLoaded(usernameField);
     }
