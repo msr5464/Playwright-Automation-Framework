@@ -2,7 +2,7 @@
   "pageObject" : "ProductsPage",
   "module" : "saucedemo",
   "fullClassName" : "automation.modules.saucedemo.web.ProductsPage",
-  "recordedAt" : "2026-09-15T20:08:02",
+  "recordedAt" : "2026-09-22T08:28:36",
   "urlShape" : "https://www.saucedemo.com/inventory.html",
   "title" : "Swag Labs",
   "bodyClass" : "",

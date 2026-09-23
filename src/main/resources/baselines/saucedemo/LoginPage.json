@@ -2,7 +2,7 @@
   "pageObject" : "LoginPage",
   "module" : "saucedemo",
   "fullClassName" : "automation.modules.saucedemo.web.LoginPage",
-  "recordedAt" : "2026-09-15T20:08:02",
+  "recordedAt" : "2026-09-22T08:28:35",
   "urlShape" : "https://www.saucedemo.com/",
   "title" : "Swag Labs",
   "bodyClass" : "",
@@ -83,10 +83,10 @@
         "x" : 0.4239583333333333,
         "y" : 0.1425925925925926,
         "w" : 0.15208333333333332,
-        "h" : 0.03425925925925926
+        "h" : 0.03611111111111111
       },
-      "area_norm" : 0.0052102623456790126,
-      "aspect" : 7.891891891891892,
+      "area_norm" : 0.0054918981481481485,
+      "aspect" : 7.487179487179487,
       "neighbor_texts" : [ "Swag Labs", "Accepted usernames are:", "Password for all users:" ],
       "child" : null,
       "_gt" : null
@@ -159,12 +159,12 @@
       "sibling_count" : 1,
       "bbox_norm" : {
         "x" : 0.4239583333333333,
-        "y" : 0.19074074074074074,
+        "y" : 0.1925925925925926,
         "w" : 0.15208333333333332,
-        "h" : 0.03425925925925926
+        "h" : 0.03611111111111111
       },
-      "area_norm" : 0.0052102623456790126,
-      "aspect" : 7.891891891891892,
+      "area_norm" : 0.0054918981481481485,
+      "aspect" : 7.487179487179487,
       "neighbor_texts" : [ "Swag Labs", "Accepted usernames are:", "Password for all users:" ],
       "child" : null,
       "_gt" : null
@@ -233,12 +233,12 @@
       "sibling_count" : 4,
       "bbox_norm" : {
         "x" : 0.4239583333333333,
-        "y" : 0.2759259259259259,
+        "y" : 0.2796296296296296,
         "w" : 0.15208333333333332,
-        "h" : 0.04259259259259259
+        "h" : 0.04537037037037037
       },
-      "area_norm" : 0.006477623456790123,
-      "aspect" : 6.3478260869565215,
+      "area_norm" : 0.0069000771604938275,
+      "aspect" : 5.959183673469388,
       "neighbor_texts" : [ "Accepted usernames are:", "Password for all users:", "Swag Labs" ],
       "child" : null,
       "_gt" : null
