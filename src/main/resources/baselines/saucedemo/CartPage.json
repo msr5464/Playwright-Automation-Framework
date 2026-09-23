@@ -2,17 +2,87 @@
   "pageObject" : "CartPage",
   "module" : "saucedemo",
   "fullClassName" : "automation.modules.saucedemo.web.CartPage",
-  "recordedAt" : "2026-09-15T20:08:03",
+  "recordedAt" : "2026-09-23T21:08:04",
   "urlShape" : "https://www.saucedemo.com/cart.html",
   "title" : "Swag Labs",
   "bodyClass" : "",
   "coverage" : {
-    "cartItems" : 2,
+    "cartItems" : 1,
     "continueShoppingButton" : 1
   },
   "fingerprints" : {
+    "cartItems" : {
+      "index" : 37,
+      "tag" : "div",
+      "id" : null,
+      "name" : null,
+      "type" : null,
+      "class_list" : [ "cart_item" ],
+      "role" : "generic",
+      "accessible_name" : "",
+      "aria_label" : null,
+      "placeholder" : null,
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : "inventory-item",
+      "text" : "1Sauce Labs Bike LightA red light isn't the desired state in testing but it sure helps when riding your bike at night. Water-resistant with 3 lighting modes, 1 AAA battery included.$9.99Remove",
+      "attrs" : {
+        "class" : "cart_item",
+        "data-test" : "inventory-item"
+      },
+      "is_interactive" : false,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[3]",
+      "id_xpath" : "//*[@id='cart_contents_container']/div[1]/div[1]/div[3]",
+      "ancestor_chain" : [ {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "cart_list" ],
+        "role" : "generic",
+        "testid" : "cart-list"
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : "cart_contents_container",
+        "classes" : [ "cart_contents_container" ],
+        "role" : "main",
+        "testid" : "cart-contents-container"
+      }, {
+        "tag" : "div",
+        "id" : "contents_wrapper",
+        "classes" : [ ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : "page_wrapper",
+        "classes" : [ "page_wrapper" ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 2,
+      "sibling_count" : 3,
+      "bbox_norm" : {
+        "x" : 0.16666666666666666,
+        "y" : 0.1648148148148148,
+        "w" : 0.6666666666666666,
+        "h" : 0.16111111111111112
+      },
+      "area_norm" : 0.10740740740740741,
+      "aspect" : 7.35632183908046,
+      "neighbor_texts" : [ "QTY", "1", "Sauce Labs Bike Light", "$9.99", "Remove", "Description" ],
+      "child" : null,
+      "_gt" : null
+    },
     "continueShoppingButton" : {
-      "index" : 56,
+      "index" : 47,
       "tag" : "button",
       "id" : "continue-shopping",
       "name" : "continue-shopping",
@@ -73,16 +143,20 @@
       "sibling_count" : 2,
       "bbox_norm" : {
         "x" : 0.16666666666666666,
-        "y" : 0.5425925925925926,
+        "y" : 0.3814814814814815,
         "w" : 0.11458333333333333,
         "h" : 0.03148148148148148
       },
       "area_norm" : 0.0036072530864197532,
       "aspect" : 6.470588235294118,
-      "neighbor_texts" : [ "$9.99", "1", "Sauce Labs Bike Light" ],
+      "neighbor_texts" : [ "$9.99", "1", "Sauce Labs Bike Light", "QTY", "Description" ],
       "child" : null,
       "_gt" : null
     }
   },
-  "landmarks" : [ "button:All Items", "button:Dynamic Catalog", "button:Logout", "button:Reset App State", "button:Cart, 2 items", "button:View details for Sauce Labs Backpack", "button:View details for Sauce Labs Bike Light" ]
+  "landmarks" : [ "button:All Items", "button:Dynamic Catalog", "button:Logout", "button:Reset App State", "button:Cart, 1 items", "button:View details for Sauce Labs Bike Light" ],
+  "lastSeen" : {
+    "cartItems" : "2026-09-23T21:08:04",
+    "continueShoppingButton" : "2026-09-23T21:08:04"
+  }
 }
