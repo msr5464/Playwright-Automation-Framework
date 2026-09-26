@@ -70,11 +70,9 @@
     <test name="AI Evaluation Tests">
         <parameter name="browserName" value="api"/>
         <classes>
-            <class name="automation.aiEval.AITestCaseLoaderTest"/>
-            <class name="automation.aiEval.CodeMatchEvaluatorTest"/>
-            <class name="automation.aiEval.ForbiddenCodeEvaluatorTest"/>
-            <class name="automation.aiEval.SchemaValidatorEvaluatorTest"/>
-            <class name="automation.aiEval.ScoreAggregatorTest"/>
+            <class name="automation.core.ai.EvalCaseLoaderTest"/>
+            <class name="automation.core.ai.EvaluatorsTest"/>
+            <class name="automation.core.ai.ScoreAggregatorTest"/>
         </classes>
     </test>
 
