@@ -20,7 +20,7 @@ Source layout:
 - `src/main/java/automation/core/` — framework internals (do not modify unless working on the framework itself)
 - `src/main/java/automation/modules/` — feature helpers, POJOs, builders, page objects
 - `src/test/java/automation/` — test classes
-- `src/main/java/automation/aiEval/` — separate AI evaluation subsystem; **do not touch unless explicitly asked**
+- `src/main/java/automation/core/ai/` — AI evaluation layer; read its own `CLAUDE.md` before changing it
 
 ---
 
@@ -237,7 +237,7 @@ import from a matching `automation.core.web` — **there is no such package**, a
 | `ApiDetails`, `PathBuilder` | `import automation.core.api.ApiDetails;` etc. |
 | enums (`QA`, `Country`, …) | `import automation.core.Enums.*;` |
 
-Only `automation.core.api` and `automation.core.mobile` are sub-packages. Everything
+Only `automation.core.api`, `automation.core.mobile` and `automation.core.ai` are sub-packages. Everything
 else listed under `core/` sits directly in `automation.core`.
 
 ### Data POJO

@@ -1,0 +1,14 @@
+[
+  {
+    "caseId": "TTT-SMOKE-001",
+    "suite": "smoke",
+    "tags": ["rag", "smoke"],
+    "input": "Which tests cover login?",
+    "mustNotContain": ["Traceback", "Internal Server Error"],
+    "metadata": {
+      "author": "claude-code",
+      "dataSource": "smoke check; golden cases go in their own file next to this one",
+      "groundTruthVersion": "0"
+    }
+  }
+]

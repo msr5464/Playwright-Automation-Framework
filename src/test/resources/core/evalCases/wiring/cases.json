@@ -1,0 +1,15 @@
+[
+  {
+    "caseId": "WIRING-001",
+    "suite": "wiring",
+    "input": "How long is the return window?",
+    "mustContain": ["return window"],
+    "mustNotContain": ["system prompt"]
+  },
+  {
+    "caseId": "WIRING-002",
+    "suite": "wiring",
+    "input": "Where is my order?",
+    "mustContain": ["order"]
+  }
+]

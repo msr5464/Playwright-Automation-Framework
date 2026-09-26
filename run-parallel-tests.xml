@@ -51,7 +51,7 @@
     <test name="AI Evaluation Tests">
         <parameter name="browserName" value="api"/>
         <packages>
-            <package name="automation.aiEval"/>
+            <package name="automation.core.ai"/>
         </packages>
     </test>
 
