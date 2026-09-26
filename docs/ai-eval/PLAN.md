@@ -420,6 +420,8 @@ A healing eval case, end to end:
 **Build**
 - [ ] Plug in an unrelated app **with zero core changes**, for example your `EvalLearning` toy RAG behind a small HTTP wrapper. If the core has to change, an app-specific detail leaked into it; fix it there.
 - [ ] CI on a self-hosted runner, running the tiers, with the gate failing the build. Hosted runners can't reach localhost or your Claude login.
+  - Give baselines a fixed home first. A CI build writes to its own `test-output/{project}/{buildTag}/`, so the run report never finds an earlier run to compare with.
+  - `GenerateTestngXmlAndRun` lists test classes per project and has no AI entry yet. With `-Dgroups=apiCases` it also keeps only classes whose name contains `Api`, which drops `TalkToTestsEvalTest`.
 - [ ] A trend report across runs.
 
 **Check yourself**
