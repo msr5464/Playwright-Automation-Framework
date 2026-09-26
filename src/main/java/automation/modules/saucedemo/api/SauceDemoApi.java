@@ -14,12 +14,18 @@ import automation.core.api.PathBuilder;
  */
 public enum SauceDemoApi implements ApiDetails
 {
-    ListPosts( Method.GET,    "/posts",      200),
-    GetPost(   Method.GET,    "/posts/{id}", 200),
-    CreatePost(Method.POST,   "/posts",      201),
-    UpdatePost(Method.PUT,    "/posts/{id}", 200),
-    PatchPost( Method.PATCH,  "/posts/{id}", 200),
-    DeletePost(Method.DELETE, "/posts/{id}", 200);
+    ListPosts(  Method.GET,    "/posts",                200),
+    GetPost(    Method.GET,    "/posts/{id}",           200),
+    CreatePost( Method.POST,   "/posts",                201),
+    UpdatePost( Method.PUT,    "/posts/{id}",           200),
+    PatchPost(  Method.PATCH,  "/posts/{id}",           200),
+    DeletePost( Method.DELETE, "/posts/{id}",           200),
+    CreateTodo( Method.POST,   "/todos",                201),
+    GetTodo(    Method.GET,    "/todos/{id}",           200),
+    ReplaceTodo(Method.PUT,    "/todos/{id}",           200),
+    PatchTodo(  Method.PATCH,  "/todos/{id}",           200),
+    DeleteTodo( Method.DELETE, "/todos/{id}",           200),
+    ListUserTodos(Method.GET,  "/users/{userId}/todos", 200);
 
     private final Method method;
     private final String endpoint;

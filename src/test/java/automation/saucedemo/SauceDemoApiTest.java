@@ -52,7 +52,7 @@ public class SauceDemoApiTest extends TestBase
         config.logStep("Step 5: Delete the post and verify the operation succeeds");
         Response deleteResponse = api.deletePost(postId);
         AssertHelper.assertEquals(config, deleteResponse.getStatusCode(), 200, "Delete operation should return 200 OK");
-        
+
         config.logStep("Step 6: Verify fetching a non-existent post correctly returns 404");
         Response notFoundResponse = api.getPostRaw(999999);
         AssertHelper.assertEquals(config, notFoundResponse.getStatusCode(), 404, "Fetching invalid post should return 404");
@@ -123,5 +123,60 @@ public class SauceDemoApiTest extends TestBase
         Response response = api.getPostRaw(postId);
 
         AssertHelper.assertEquals(config, response.getStatusCode(), 404, "Non-existent post should return 404");
+    }
+
+    @Test(description = "Create a todo and verify response body, fetch, replace, patch as completed, delete, then list all todos for user 1", dataProvider = "getConfig", groups = {GROUP_REGRESSION, GROUP_API})
+    @TestVariables(automatedBy = QA.Mukesh)
+    public void manageTodosLifecycle(Config config)
+    {
+        SauceDemoHelper api = new SauceDemoHelper(config);
+        java.util.Map<String, String> testData = api.getTodoData("lifecycle");
+        int todoId = Integer.parseInt(testData.get("todoId"));
+        int userId = Integer.parseInt(testData.get("userId"));
+        String createTitle = testData.get("createTitle");
+        String replaceTitle = testData.get("replaceTitle");
+        int expectedTodoCount = Integer.parseInt(testData.get("expectedTodoCount"));
+
+        config.logStep("POST /todos with body {userId: " + userId + ", title: '" + createTitle + "', completed: false} and verify response status is 201");
+        SauceDemoData created = api.createTodo(userId, createTitle, false);
+
+        config.logStep("Verify id is present in the response");
+        AssertHelper.assertNotNull(config, created.getId(), "Created todo should have an ID");
+
+        config.logStep("Verify response userId=" + userId + ", title='" + createTitle + "', completed=false match the request body");
+        AssertHelper.assertEquals(config, created.getUserId(), userId, "Created todo userId should match");
+        AssertHelper.assertEquals(config, created.getTitle(), createTitle, "Created todo title should match");
+        AssertHelper.assertFalse(config, created.getCompleted(), "Created todo should not be completed");
+
+        config.logStep("Fetch todo " + todoId + " and verify status 200, id=" + todoId + ", userId=" + userId);
+        SauceDemoData fetched = api.getTodo(todoId);
+        AssertHelper.assertEquals(config, fetched.getId(), todoId, "Fetched todo ID should be " + todoId);
+        AssertHelper.assertEquals(config, fetched.getUserId(), userId, "Fetched todo userId should be " + userId);
+
+        config.logStep("PUT /todos/" + todoId + " with body {id: " + todoId + ", userId: " + userId + ", title: '" + replaceTitle + "', completed: false}");
+        SauceDemoData replaced = api.replaceTodo(todoId, userId, replaceTitle, false);
+
+        config.logStep("Verify status 200 and title='" + replaceTitle + "' is returned");
+        AssertHelper.assertEquals(config, replaced.getTitle(), replaceTitle, "Replaced todo title should match");
+
+        config.logStep("PATCH /todos/" + todoId + " with body {completed: true}");
+        SauceDemoData patched = api.patchTodo(todoId, true);
+
+        config.logStep("Verify status 200, completed=true and title is not empty");
+        AssertHelper.assertTrue(config, patched.getCompleted(), "Patched todo should be marked as completed");
+        AssertHelper.assertNotNull(config, patched.getTitle(), "Patched todo should retain its title");
+
+        config.logStep("DELETE /todos/" + todoId);
+        Response deleteResponse = api.deleteTodo(todoId);
+
+        config.logStep("Verify status 200 for the delete operation");
+        AssertHelper.assertEquals(config, deleteResponse.getStatusCode(), 200, "Delete operation should return 200 OK");
+
+        config.logStep("List all todos for user " + userId + " and verify status 200 with exactly " + expectedTodoCount + " todos in the response array");
+        SauceDemoData[] userTodos = api.listUserTodos(userId);
+        AssertHelper.assertEquals(config, userTodos.length, expectedTodoCount, "User todos count should be " + expectedTodoCount);
+
+        config.logStep("Verify every todo in the response has userId=" + userId);
+        AssertHelper.assertTrue(config, api.allTodosHaveUserId(userTodos, userId), "All todos should belong to user " + userId);
     }
 }
