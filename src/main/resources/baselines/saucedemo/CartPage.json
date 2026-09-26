@@ -2,7 +2,7 @@
   "pageObject" : "CartPage",
   "module" : "saucedemo",
   "fullClassName" : "automation.modules.saucedemo.web.CartPage",
-  "recordedAt" : "2026-09-22T08:28:36",
+  "recordedAt" : "2026-09-26T09:39:21",
   "urlShape" : "https://www.saucedemo.com/cart.html",
   "title" : "Swag Labs",
   "bodyClass" : "",
@@ -154,5 +154,9 @@
       "_gt" : null
     }
   },
-  "landmarks" : [ "button:All Items", "button:Dynamic Catalog", "button:Logout", "button:Reset App State", "button:Cart, 1 items", "button:View details for Sauce Labs Bike Light" ]
+  "landmarks" : [ "button:All Items", "button:Dynamic Catalog", "button:Logout", "button:Reset App State", "button:Cart, 1 items", "button:View details for Sauce Labs Bike Light" ],
+  "lastSeen" : {
+    "cartItems" : "2026-09-26T09:39:21",
+    "continueShoppingButton" : "2026-09-26T09:39:21"
+  }
 }

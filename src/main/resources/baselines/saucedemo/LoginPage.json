@@ -2,7 +2,7 @@
   "pageObject" : "LoginPage",
   "module" : "saucedemo",
   "fullClassName" : "automation.modules.saucedemo.web.LoginPage",
-  "recordedAt" : "2026-09-22T08:28:35",
+  "recordedAt" : "2026-09-26T09:39:20",
   "urlShape" : "https://www.saucedemo.com/",
   "title" : "Swag Labs",
   "bodyClass" : "",
@@ -244,5 +244,10 @@
       "_gt" : null
     }
   },
-  "landmarks" : [ "form:Login" ]
+  "landmarks" : [ "form:Login" ],
+  "lastSeen" : {
+    "usernameField" : "2026-09-26T09:39:20",
+    "passwordField" : "2026-09-26T09:39:20",
+    "loginButton" : "2026-09-26T09:39:20"
+  }
 }
