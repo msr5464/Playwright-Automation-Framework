@@ -17,7 +17,7 @@ public class ProductsPage extends BasePage {
         super(config);
         inventory = page.locator("[data-test='inventory-container']");
         pageTitle = page.locator(".title");
-        cartLink = page.locator(".mukesh");
+        cartLink = page.locator("[data-test='shopping-cart-link']");
         menuButton = page.locator("#react-burger-menu-btn");
         logoutLink = page.locator("#logout_sidebar_link");
         // Not pageTitle: the cart page has a .title too, so a ProductsPage built after
