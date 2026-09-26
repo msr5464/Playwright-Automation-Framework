@@ -44,6 +44,12 @@ public class ProductsPage extends BasePage
         click(addButton, "Add to cart: " + productName);
     }
 
+    public void addLastProductToCart()
+    {
+        Locator addButton = page.locator(".inventory_item [data-test^='add-to-cart']").last();
+        click(addButton, "Add to cart: last product");
+    }
+
     public void removeProductFromCart(String productName)
     {
         String dataTestId = "remove-" + productName.toLowerCase().replace(" ", "-");

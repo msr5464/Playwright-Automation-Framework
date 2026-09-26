@@ -121,8 +121,11 @@ public class SauceDemoWebTest extends TestBase
         ProductsPage products = sauceDemo.doLogin(user);
         products.addProductToCart(product.get("slug"));
 
-        config.logStep("Verify cart badge shows 1 item");
-        AssertHelper.assertEquals(config, products.getCartCount(), "1", "Cart badge should show 1 after adding a product");
+        config.logStep("Add the last product listed to the cart");
+        products.addLastProductToCart();
+
+        config.logStep("Verify cart badge shows 2 items");
+        AssertHelper.assertEquals(config, products.getCartCount(), "2", "Cart badge should show 2 after adding 2 products");
     }
 
     @Test(description = "Verify cart contains the product that was added", dataProvider = "getConfig", groups = {GROUP_REGRESSION, GROUP_WEB})
