@@ -73,6 +73,11 @@
             <class name="automation.core.ai.EvalCaseLoaderTest"/>
             <class name="automation.core.ai.EvaluatorsTest"/>
             <class name="automation.core.ai.ScoreAggregatorTest"/>
+            <class name="automation.core.ai.EvalWiringTest"/>
+            <class name="automation.core.ai.EvalRunListenerTest"/>
+            <class name="automation.core.ai.LabelSheetTest"/>
+            <class name="automation.core.ai.CalibrationTest"/>
+            <class name="automation.aiteststudio.TalkToTestsMappingTest"/>
         </classes>
     </test>
 

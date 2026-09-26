@@ -171,6 +171,7 @@ So instead of one assertion per test, an AI eval runs a **dataset** of cases, **
   - record who reviewed each row;
   - hold back ~20% that you never tune against.
 - [ ] A hermetic test environment for AI: a separate Studio instance with its own config and storage, a frozen knowledge base, and `bypass_cache: true` so reruns don't just return cached answers.
+- [ ] What the API exposes limits what you can measure. Unless Studio's `show_matching_sources` setting is on, `source_documents` holds only the documents the answer *cited*, not everything retrieved. Measured from outside, "recall@k" is really "did it cite the right documents?".
 
 **Practice**
 - [ ] Write about 50 golden cases. Each has:
@@ -187,16 +188,21 @@ So instead of one assertion per test, an AI eval runs a **dataset** of cases, **
 
   Environment variables alone don't isolate it, because Studio reloads `config/.env` over them.
 - [ ] Seed the frozen knowledge base through `POST /api/admin/upload`.
-- [ ] `automation.modules.aiteststudio`: an adapter that logs in (session cookie), calls `POST /api/customer/query`, and maps the reply into `EvalResponse`.
-- [ ] TestNG wiring in the core:
-  - a data provider that feeds dataset rows;
+- [x] `automation.modules.aiteststudio`: an adapter that logs in (session cookie), calls `POST /api/customer/query`, and maps the reply into `EvalResponse`.
+- [x] TestNG wiring in the core:
+  - `EvalTestBase` and its `evalCases` data provider: one test invocation per case, each with its own `Config`, retry off;
   - `EvalAssert`, which runs the evaluators and records results;
-  - a suite listener that builds the summary, compares with the baseline, applies the gate and writes the report.
-- [ ] Evaluators:
-  - recall@k (were the expected documents retrieved?)
-  - refusal when the answer isn't in the knowledge base
-  - a cost budget
-- [ ] Threshold keys in the properties files, read through `Config`.
+  - `EvalRunListener`, which builds the summary, compares with the previous run, reports the gate, and writes the report and a labelling sheet.
+- Evaluators:
+  - [ ] recall@k (were the expected documents retrieved?)
+  - [ ] refusal when the answer isn't in the knowledge base
+  - [x] a cost budget (`CostEvaluator`)
+- [x] Threshold keys in the properties files, read through `Config`.
+
+**Run it:**
+1. Add `aiteststudio.username` and `aiteststudio.password` to `parameters/system.properties`.
+2. Put your golden cases in `src/test/resources/aiteststudio/evalCases/talk-to-tests/`, next to the smoke case.
+3. Run `mvn test -Dtest=TalkToTestsEvalTest -DbrowserName=api -DfailIfNoTests=false`.
 
 **Check yourself**
 1. Context recall is high, but the answer is wrong. Is the bug in retrieval or generation?
@@ -238,8 +244,8 @@ So instead of one assertion per test, an AI eval runs a **dataset** of cases, **
 - [ ] Two judges:
   - **Faithfulness:** is every claim supported by the retrieved documents?
   - **Correctness:** does it agree with the expected answer?
-- [ ] A calibration report: judge verdicts vs your labels → TPR, TNR and kappa.
-- [ ] Label export/import between dataset and spreadsheet, so labelling stays manual and easy.
+- [x] A calibration report: automated verdicts vs your labels → TPR, TNR and kappa (`Calibration`). It already works for today's code checks, and judges plug into the same sheet.
+- [x] Label export/import between runs and spreadsheets, so labelling stays manual and easy. Every run writes a `labels.csv`, and `LabelSheet` reads it back.
 
 **Check yourself**
 1. A judge agrees with you 90% of the time. Why might it still be useless?

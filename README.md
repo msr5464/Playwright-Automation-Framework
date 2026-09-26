@@ -2,7 +2,7 @@
 
 # Jarvis - Playwright Automation Framework
 
-A hybrid automation framework combining **Page Object Model** and **Data Driven** design, built on **Java 21 + Maven + TestNG**. Covers **Web UI** (Playwright — Chromium, Firefox, WebKit), **REST API** (REST-Assured), and **Mobile** (Appium) testing through a shared core layer. Each test method receives a fresh, isolated `Config` instance so tests never share state.
+A hybrid automation framework combining **Page Object Model** and **Data Driven** design, built on **Java 21 + Maven + TestNG**. Covers **Web UI** (Playwright — Chromium, Firefox, WebKit), **REST API** (REST-Assured), **Mobile** (Appium) and **AI evaluation** (RAG, LLM pipelines, agents) through a shared core layer. Each test method receives a fresh, isolated `Config` instance so tests never share state.
 
 ---
 
@@ -18,6 +18,7 @@ A hybrid automation framework combining **Page Object Model** and **Data Driven*
 - [Web UI testing](#web-ui-testing)
 - [API testing](#api-testing)
 - [Mobile testing](#mobile-testing)
+- [AI evaluation](#ai-evaluation)
 - [Test data](#test-data)
 - [Adding a new module](#adding-a-new-module)
 - [Key utilities](#key-utilities)
@@ -38,6 +39,7 @@ A hybrid automation framework combining **Page Object Model** and **Data Driven*
 | Web automation | Playwright | 1.54.0 |
 | API testing | REST-Assured | 5.3.2 |
 | Mobile automation | Appium Java Client | 9.3.0 |
+| AI evaluation | `automation.core.ai` (on TestNG + REST-Assured) | — |
 | Data generation | DataFaker | 2.5.3 |
 | Database | MySQL Connector | 8.3.0 |
 | Reporting | ReportPortal / ReportNG | 5.1.4 / 1.1.4 |
@@ -231,12 +233,18 @@ Jarvis/
 │   │   │   ├── BaseApiClient.java     # REST-Assured base with shared auth headers
 │   │   │   ├── ApiHelper.java         # High-level execute* methods — extend this per module
 │   │   │   └── PathBuilder.java       # Fluent path param builder for parameterised endpoints
-│   │   └── mobile/
-│   │       ├── AppiumDriverManager.java    # Android/iOS driver setup — local + BrowserStack
-│   │       ├── BrowserStackHelper.java     # BrowserStack capabilities + session status reporting
-│   │       └── StartStopAppiumServer.java  # Local Appium server lifecycle
+│   │   ├── mobile/
+│   │   │   ├── AppiumDriverManager.java    # Android/iOS driver setup — local + BrowserStack
+│   │   │   ├── BrowserStackHelper.java     # BrowserStack capabilities + session status reporting
+│   │   │   └── StartStopAppiumServer.java  # Local Appium server lifecycle
+│   │   └── ai/                        # AI evaluation — EvalTestBase, evaluators, run reports (own CLAUDE.md)
 │   │
 │   └── modules/                       # One folder per product/feature area
+│       ├── aiteststudio/
+│       │   ├── AiTestStudioHelper.java # Adapter — login, Talk to Tests, reply → EvalResponse
+│       │   ├── TalkToTestsData.java   # POJO for the Talk to Tests request/reply
+│       │   └── api/  AiTestStudioApi.java # Endpoint definitions
+│       │
 │       ├── github/
 │       │   ├── GitHubData.java        # POJO
 │       │   ├── GitHubBuilder.java     # Fluent builder
@@ -480,6 +488,22 @@ mvn exec:java \
 ```
 
 Device list is read from `parameters/mobileConfiguration.json` — a random device is picked per run.
+
+---
+
+## AI evaluation
+
+Evaluates AI features (RAG chat, LLM pipelines, agents) on the same TestNG setup. Each dataset case runs as a test and is scored by evaluators. Every run writes a report compared with the previous run, plus a sheet for labelling outputs by hand.
+
+- Layer guide: [src/main/java/automation/core/ai/CLAUDE.md](src/main/java/automation/core/ai/CLAUDE.md)
+- Learn-and-build plan: [docs/ai-eval/PLAN.md](docs/ai-eval/PLAN.md)
+- First module: `automation.modules.aiteststudio` (AI-Test-Studio's Talk to Tests)
+
+```bash
+mvn test -Dtest=TalkToTestsEvalTest -DbrowserName=api -DfailIfNoTests=false
+```
+
+Reports land in `test-output/ai-eval/{TestClass}/runs/{runId}/`.
 
 ---
 
