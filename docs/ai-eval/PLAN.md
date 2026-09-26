@@ -24,6 +24,38 @@
 
 ---
 
+## Where you are now (26 September 2026)
+
+The framework code for phases 1, 3 and 4 was built ahead of you, so the tools are ready when you reach each phase. Your own part (Learn, Practice, Check yourself) still starts at phase 1, and the rule above applies to it: don't start a phase until the previous milestone exists.
+
+| Phase | Framework code | Your part |
+|---|---|---|
+| 1. Core seed | Done; tests green | Not started |
+| 2. Error analysis | Nothing to build | Not started |
+| 3. Talk to Tests | Adapter, TestNG wiring, cost check and thresholds done, but **never run against a live Studio**. Still to build: eval instance, recall@k, refusal check | Not started |
+| 4. Judges | Labelling sheet and calibration done. Still to build: judge client and two judges | Not started |
+| 5–8 | Not started | Not started |
+
+The code is in [PR #87](https://github.com/msr5464/Playwright-Automation-Framework/pull/87): branch `ai-eval-core` into `adaptation-agent`. Tick steps as you finish them; Claude updates the table when framework code lands.
+
+### Your next steps
+
+1. [ ] **Run Talk to Tests once against your Studio**, following *Run it* in phase 3. Skip its golden-cases step; the smoke case is enough. The adapter has only been tested offline, and the phase 5 adapter waits for this run. If it fails on login or on reading Studio's reply, ask Claude to fix the adapter.
+2. [ ] **Review and merge PR #87.**
+3. [ ] **Phase 1:** read the layer, run its tests, do the weight experiment, answer the questions.
+4. [ ] **Phase 2:** the manual error analysis, ending in `docs/ai-eval/failure-taxonomy.md`. Your golden cases and the refusal check both come out of it.
+5. [ ] **Phase 3:** write your golden cases in the format shown in its Practice section.
+
+### Decisions waiting on you
+
+| Decision | Needed for |
+|---|---|
+| OK to set up a second Studio checkout as the eval instance | Phase 3: golden cases need a frozen knowledge base, and recall@k needs `show_matching_sources` on |
+| Judge provider and API key (Studio runs Gemini, so Claude or GPT) | Phase 4 judges |
+| Whether to hide cookies and tokens in reports. Every reply header is logged, so Studio's login cookie lands in the local report, as other modules' tokens already do. Hiding them changes every module's reports | Before reports leave your machine, for example from CI |
+
+---
+
 ## 0. The big picture (read first)
 
 ### Why AI apps need a different kind of testing
@@ -134,7 +166,9 @@ So instead of one assertion per test, an AI eval runs a **dataset** of cases, **
   - counting questions ("how many P0 checkout tests?"); RAG is weak at counting
 - [ ] **Requirements → Tests:** 5 requirement docs you write yourself, so you know the right answer.
 - [ ] **Agents:** 5 authoring specs, 3 broken locators for healing, 2 change notes for adaptation.
+  - Each run costs money (an authoring run cost about $1.40) and opens a PR you close afterwards. Always use `auto_push: true`, never a dry run, and break healing's locators on a throwaway branch; phase 6 explains both.
 - [ ] Log each one in a sheet: input · output · pass/fail · one-line critique · session id.
+  - For Talk to Tests, a run can fill the sheet for you. Put the 30 questions in `src/test/resources/aiteststudio/evalCases/talk-to-tests/explore.json` with only `caseId` and `input`, run `TalkToTestsEvalTest`, and fill `humanLabel` and `critique` in the run's `labels.csv`. In phase 3, turn the useful questions into golden cases and delete `explore.json`.
 - [ ] Group the critiques into failure types and count them.
 
 **Build:** nothing, on purpose.
@@ -180,29 +214,47 @@ So instead of one assertion per test, an AI eval runs a **dataset** of cases, **
   - the knowledge-base cases that should be retrieved
   - whether the app should refuse
 
+  Put them in `src/test/resources/aiteststudio/evalCases/talk-to-tests/`; every `.json` file there runs. One case looks like this:
+  ```json
+  {
+    "caseId": "TTT-001",
+    "input": "Which tests cover checkout with a saved card?",
+    "mustContain": ["C1042"],
+    "expectedAnswer": "C1042 and C1043 cover checkout with a saved card.",
+    "expectedSources": ["C1042", "C1043"],
+    "shouldRefuse": false,
+    "tags": ["answerable"],
+    "metadata": { "author": "Mukesh", "reviewer": "Mukesh", "groundTruthVersion": "1" }
+  }
+  ```
+  - **Checked today:** `mustContain` and `mustNotContain`. Add `"riskLevel": "high"` to raise a case's pass mark from 0.85 to 0.95.
+  - **Kept in the file but not read yet:** `expectedAnswer`, `expectedSources` and `shouldRefuse`. The correctness judge, recall@k and the refusal check will read them. For `expectedSources`, use the `source_id` values Studio returns; a run's `responses/` folder shows them.
+
 **Build**
-- [ ] An eval instance of Studio: a second checkout with its own `config/.env`:
+- [ ] An eval instance of Studio (waits for your OK): a second checkout with its own `config/.env`:
   - `PORT=5002`
   - its own `STORAGE_DIR` and `CHROMA_DB_DIR`
   - no TestRail or Confluence credentials
 
   Environment variables alone don't isolate it, because Studio reloads `config/.env` over them.
 - [ ] Seed the frozen knowledge base through `POST /api/admin/upload`.
-- [x] `automation.modules.aiteststudio`: an adapter that logs in (session cookie), calls `POST /api/customer/query`, and maps the reply into `EvalResponse`.
+- [x] `automation.modules.aiteststudio`: an adapter that logs in (session cookie), calls `POST /api/customer/query`, and maps the reply into `EvalResponse`. Tested offline only so far; its first live run is step 1 of *Your next steps*.
 - [x] TestNG wiring in the core:
   - `EvalTestBase` and its `evalCases` data provider: one test invocation per case, each with its own `Config`, retry off;
   - `EvalAssert`, which runs the evaluators and records results;
   - `EvalRunListener`, which builds the summary, compares with the previous run, reports the gate, and writes the report and a labelling sheet.
 - Evaluators:
-  - [ ] recall@k (were the expected documents retrieved?)
-  - [ ] refusal when the answer isn't in the knowledge base
+  - [ ] recall@k (were the expected documents retrieved?). Needs the eval instance.
+  - [ ] refusal when the answer isn't in the knowledge base. Built from how Studio refuses in your phase 2 notes.
   - [x] a cost budget (`CostEvaluator`)
 - [x] Threshold keys in the properties files, read through `Config`.
 
 **Run it:**
-1. Add `aiteststudio.username` and `aiteststudio.password` to `parameters/system.properties`.
-2. Put your golden cases in `src/test/resources/aiteststudio/evalCases/talk-to-tests/`, next to the smoke case.
-3. Run `mvn test -Dtest=TalkToTestsEvalTest -DbrowserName=api -DfailIfNoTests=false`.
+1. Start Studio. Its address is `aiteststudio.api.url` in `parameters/staging-sg.properties` (`http://localhost:5001`).
+2. Add `aiteststudio.username` and `aiteststudio.password` to `parameters/system.properties`. Git ignores that file; create it if it doesn't exist.
+3. Put your golden cases in `src/test/resources/aiteststudio/evalCases/talk-to-tests/`, next to the smoke case.
+4. Run `mvn test -Dtest=TalkToTestsEvalTest -DbrowserName=api -DfailIfNoTests=false`.
+5. Open `test-output/ai-eval/TalkToTestsEvalTest/runs/{runId}/`: `report.html` for scores and the comparison with the last run, `labels.csv` for labelling.
 
 **Check yourself**
 1. Context recall is high, but the answer is wrong. Is the bug in retrieval or generation?
@@ -240,7 +292,7 @@ So instead of one assertion per test, an AI eval runs a **dataset** of cases, **
 - [ ] Label 100 Talk to Tests outputs yourself: pass/fail plus a one-line reason.
 
 **Build**
-- [ ] A judge client in the core. It calls any provider's REST API through REST-Assured and asks for a JSON verdict (`pass`/`fail` + reason).
+- [ ] A judge client in the core (waits for your choice of provider and API key). It calls any provider's REST API through REST-Assured and asks for a JSON verdict (`pass`/`fail` + reason).
 - [ ] Two judges:
   - **Faithfulness:** is every claim supported by the retrieved documents?
   - **Correctness:** does it agree with the expected answer?
@@ -278,7 +330,7 @@ So instead of one assertion per test, an AI eval runs a **dataset** of cases, **
 - [ ] Write 15 requirement docs where you know which existing tests are related and which requirements are uncovered.
 
 **Build**
-- [ ] An adapter for `POST /api/customer/requirement-analysis`.
+- [ ] An adapter for `POST /api/customer/requirement-analysis`. Waits until the Talk to Tests adapter has run against a live Studio, so it copies a proven pattern.
 - [ ] Schema and set precision/recall evaluators, and a rubric judge for generated tests.
 - [ ] Move into the core only what modules 1 and 2 both use.
 
