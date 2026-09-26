@@ -11,6 +11,7 @@ import automation.modules.saucedemo.SauceDemoData;
 import automation.modules.saucedemo.SauceDemoHelper;
 import automation.modules.saucedemo.web.CartPage;
 import automation.modules.saucedemo.web.LoginPage;
+import automation.modules.saucedemo.web.ProductDetailsPage;
 import automation.modules.saucedemo.web.ProductsPage;
 
 import java.util.Map;
@@ -143,5 +144,47 @@ public class SauceDemoWebTest extends TestBase
         
         String expectedTitle = product.get("title");
         AssertHelper.assertTrue(config, cart.isProductInCart(expectedTitle), expectedTitle + " should be in cart");
+    }
+
+    @Test(description = "Login as standard user, open the Sauce Labs Backpack details page, verify name and price, add to cart, verify button changes to Remove and badge shows 1, go back to products and verify badge persists", dataProvider = "getConfig", groups = {GROUP_REGRESSION, GROUP_WEB})
+    @TestVariables(automatedBy = QA.Mukesh)
+    public void addToCartFromDetailsPage(Config config)
+    {
+        SauceDemoHelper sauceDemo = new SauceDemoHelper(config);
+        Map<String, String> user = sauceDemo.getUser("standard");
+        Map<String, String> product = sauceDemo.getProduct("backpack");
+
+        config.logStep("Login to SauceDemo as standard user and land on the Products page");
+        ProductsPage products = sauceDemo.doLogin(user);
+
+        config.logStep("Verify the Products page title is 'Products'");
+        AssertHelper.assertEquals(config, products.getPageTitle(), "Products", "User should be on Products page");
+
+        config.logStep("Open the Sauce Labs Backpack product details page");
+        ProductDetailsPage details = products.clickProductByName(product.get("title"));
+
+        config.logStep("Verify the product name on the details page is 'Sauce Labs Backpack'");
+        AssertHelper.assertEquals(config, details.getProductName(), product.get("title"), "Product name on details page should match");
+
+        config.logStep("Verify the product price on the details page is '$29.99'");
+        AssertHelper.assertEquals(config, details.getProductPrice(), "$29.99", "Product price should be $29.99");
+
+        config.logStep("Add the product to cart from the details page");
+        details.addToCart();
+
+        config.logStep("Verify the Remove button is displayed after adding the product to cart");
+        AssertHelper.assertTrue(config, details.isRemoveButtonDisplayed(), "Remove button should be displayed after adding to cart");
+
+        config.logStep("Verify the cart badge shows 1 item after adding the product");
+        AssertHelper.assertEquals(config, details.getCartCount(), "1", "Cart badge should show 1 after adding product from details page");
+
+        config.logStep("Navigate back to the Products page");
+        ProductsPage returnedProducts = details.backToProducts();
+
+        config.logStep("Verify the Products page title is 'Products' after navigating back");
+        AssertHelper.assertEquals(config, returnedProducts.getPageTitle(), "Products", "User should be back on Products page");
+
+        config.logStep("Verify the cart badge still shows 1 item on the Products page");
+        AssertHelper.assertEquals(config, returnedProducts.getCartCount(), "1", "Cart badge should still show 1 after returning to products");
     }
 }

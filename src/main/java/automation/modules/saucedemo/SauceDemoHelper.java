@@ -32,11 +32,9 @@ import java.util.Map;
  */
 public class SauceDemoHelper extends ApiHelper
 {
-    private static final String API_BASE_URL = "https://jsonplaceholder.typicode.com";
-
     public SauceDemoHelper(Config config)
     {
-        super(config, API_BASE_URL);
+        super(config, config.getRunTimeProperty("saucedemo2.url"));
     }
 
     public ProductsPage doLogin(Map<String, String> credentials)
