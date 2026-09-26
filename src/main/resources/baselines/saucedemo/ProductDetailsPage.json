@@ -1,0 +1,310 @@
+{
+  "pageObject" : "ProductDetailsPage",
+  "module" : "saucedemo",
+  "fullClassName" : "automation.modules.saucedemo.web.ProductDetailsPage",
+  "recordedAt" : "2026-09-26T14:25:26",
+  "urlShape" : "https://www.saucedemo.com/inventory-item.html",
+  "title" : "Swag Labs",
+  "bodyClass" : "",
+  "coverage" : {
+    "productName" : 1,
+    "productPrice" : 1,
+    "addToCartButton" : 1,
+    "removeButton" : 0,
+    "backToProductsButton" : 1,
+    "cartBadge" : 0
+  },
+  "fingerprints" : {
+    "productName" : {
+      "index" : 39,
+      "tag" : "div",
+      "id" : null,
+      "name" : null,
+      "type" : null,
+      "class_list" : [ "inventory_details_name", "large_size" ],
+      "role" : "generic",
+      "accessible_name" : "",
+      "aria_label" : null,
+      "placeholder" : null,
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : "inventory-item-name",
+      "text" : "Sauce Labs Backpack",
+      "attrs" : {
+        "class" : "inventory_details_name large_size",
+        "data-test" : "inventory-item-name"
+      },
+      "is_interactive" : false,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]",
+      "id_xpath" : "//*[@id='inventory_item_container']/div[1]/div[1]/div[2]/div[1]",
+      "ancestor_chain" : [ {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "inventory_details_desc_container" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "inventory_details_container" ],
+        "role" : "generic",
+        "testid" : "inventory-item"
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "inventory_details" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : "inventory_item_container",
+        "classes" : [ "inventory_item_container" ],
+        "role" : "main",
+        "testid" : "inventory-container"
+      }, {
+        "tag" : "div",
+        "id" : "contents_wrapper",
+        "classes" : [ ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 0,
+      "sibling_count" : 4,
+      "bbox_norm" : {
+        "x" : 0.446875,
+        "y" : 0.16203703703703703,
+        "w" : 0.2390625,
+        "h" : 0.022222222222222223
+      },
+      "area_norm" : 0.0053125,
+      "aspect" : 19.125,
+      "neighbor_texts" : [ "$29.99", "Swag Labs", "Add to cart" ],
+      "child" : null,
+      "_gt" : null
+    },
+    "productPrice" : {
+      "index" : 41,
+      "tag" : "div",
+      "id" : null,
+      "name" : null,
+      "type" : null,
+      "class_list" : [ "inventory_details_price" ],
+      "role" : "generic",
+      "accessible_name" : "",
+      "aria_label" : null,
+      "placeholder" : null,
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : "inventory-item-price",
+      "text" : "$29.99",
+      "attrs" : {
+        "class" : "inventory_details_price",
+        "data-test" : "inventory-item-price"
+      },
+      "is_interactive" : false,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[3]",
+      "id_xpath" : "//*[@id='inventory_item_container']/div[1]/div[1]/div[2]/div[3]",
+      "ancestor_chain" : [ {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "inventory_details_desc_container" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "inventory_details_container" ],
+        "role" : "generic",
+        "testid" : "inventory-item"
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "inventory_details" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : "inventory_item_container",
+        "classes" : [ "inventory_item_container" ],
+        "role" : "main",
+        "testid" : "inventory-container"
+      }, {
+        "tag" : "div",
+        "id" : "contents_wrapper",
+        "classes" : [ ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 2,
+      "sibling_count" : 4,
+      "bbox_norm" : {
+        "x" : 0.446875,
+        "y" : 0.26296296296296295,
+        "w" : 0.0375,
+        "h" : 0.04259259259259259
+      },
+      "area_norm" : 0.0015972222222222223,
+      "aspect" : 1.565217391304348,
+      "neighbor_texts" : [ "Add to cart", "Sauce Labs Backpack", "Swag Labs" ],
+      "child" : null,
+      "_gt" : null
+    },
+    "addToCartButton" : {
+      "index" : 42,
+      "tag" : "button",
+      "id" : "add-to-cart",
+      "name" : "add-to-cart",
+      "type" : null,
+      "class_list" : [ "btn", "btn_primary", "btn_small", "btn_inventory" ],
+      "role" : "button",
+      "accessible_name" : "Add to cart",
+      "aria_label" : null,
+      "placeholder" : null,
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : "add-to-cart",
+      "text" : "Add to cart",
+      "attrs" : {
+        "class" : "btn btn_primary btn_small btn_inventory",
+        "data-test" : "add-to-cart",
+        "id" : "add-to-cart",
+        "name" : "add-to-cart"
+      },
+      "is_interactive" : true,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/button[1]",
+      "id_xpath" : "//*[@id='add-to-cart']",
+      "ancestor_chain" : [ {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "inventory_details_desc_container" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "inventory_details_container" ],
+        "role" : "generic",
+        "testid" : "inventory-item"
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "inventory_details" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : "inventory_item_container",
+        "classes" : [ "inventory_item_container" ],
+        "role" : "main",
+        "testid" : "inventory-container"
+      }, {
+        "tag" : "div",
+        "id" : "contents_wrapper",
+        "classes" : [ ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 3,
+      "sibling_count" : 4,
+      "bbox_norm" : {
+        "x" : 0.446875,
+        "y" : 0.3333333333333333,
+        "w" : 0.08333333333333333,
+        "h" : 0.03148148148148148
+      },
+      "area_norm" : 0.002623456790123457,
+      "aspect" : 4.705882352941177,
+      "neighbor_texts" : [ "$29.99", "Sauce Labs Backpack" ],
+      "child" : null,
+      "_gt" : null
+    },
+    "backToProductsButton" : {
+      "index" : 31,
+      "tag" : "button",
+      "id" : "back-to-products",
+      "name" : "back-to-products",
+      "type" : null,
+      "class_list" : [ "btn", "btn_secondary", "back", "btn_large", "inventory_details_back_button" ],
+      "role" : "button",
+      "accessible_name" : "Back to products",
+      "aria_label" : null,
+      "placeholder" : null,
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : "back-to-products",
+      "text" : "Back to products",
+      "attrs" : {
+        "class" : "btn btn_secondary back btn_large inventory_details_back_button",
+        "data-test" : "back-to-products",
+        "id" : "back-to-products",
+        "name" : "back-to-products"
+      },
+      "is_interactive" : true,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/div[1]/div[1]/div[1]/header[1]/div[2]/div[1]/button[1]",
+      "id_xpath" : "//*[@id='back-to-products']",
+      "ancestor_chain" : [ {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "left_component" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "header_secondary_container" ],
+        "role" : "generic",
+        "testid" : "secondary-header"
+      }, {
+        "tag" : "header",
+        "id" : "header_container",
+        "classes" : [ "header_container", "inventory_details" ],
+        "role" : "banner",
+        "testid" : "header-container"
+      }, {
+        "tag" : "div",
+        "id" : "contents_wrapper",
+        "classes" : [ ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : "page_wrapper",
+        "classes" : [ ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 0,
+      "sibling_count" : 1,
+      "bbox_norm" : {
+        "x" : 0.010416666666666666,
+        "y" : 0.06388888888888888,
+        "w" : 0.08828125,
+        "h" : 0.02962962962962963
+      },
+      "area_norm" : 0.0026157407407407405,
+      "aspect" : 5.296875,
+      "neighbor_texts" : [ "Swag Labs", "Open Menu", "All Items", "About", "Logout", "Reset App State" ],
+      "child" : null,
+      "_gt" : null
+    }
+  },
+  "landmarks" : [ "button:All Items", "button:Dynamic Catalog", "button:Logout", "button:Reset App State", "button:Cart, empty" ],
+  "lastSeen" : {
+    "productName" : "2026-09-26T14:25:26",
+    "productPrice" : "2026-09-26T14:25:26",
+    "addToCartButton" : "2026-09-26T14:25:26",
+    "backToProductsButton" : "2026-09-26T14:25:26"
+  }
+}

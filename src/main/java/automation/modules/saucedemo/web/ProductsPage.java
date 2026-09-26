@@ -71,4 +71,14 @@ public class ProductsPage extends BasePage
         click(logoutLink, "Logout link");
         return new LoginPage(config);
     }
+
+    /**
+     * Click a product by its display name to open the product details page.
+     */
+    public ProductDetailsPage clickProductByName(String productName)
+    {
+        Locator productLink = page.locator("[data-test='inventory-item-name']").filter(new Locator.FilterOptions().setHasText(productName));
+        click(productLink, "Product link: " + productName);
+        return new ProductDetailsPage(config);
+    }
 }
