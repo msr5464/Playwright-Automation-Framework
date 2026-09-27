@@ -53,7 +53,7 @@ public class PaymentPage extends BasePage
     public void selectCreditCard()
     {
         Log.comment(config, "Selecting Credit Card payment option");
-        click(creditCardOption, "Credit Card option");
+        clickViaJS(creditCardOption, "Credit Card option");
     }
 
     public void enterCardNumber(String cardNumber)
