@@ -1,41 +1,32 @@
 package automation.modules.naukari.web;
 
+import com.microsoft.playwright.Locator;
 import automation.core.BasePage;
 import automation.core.Config;
-import com.microsoft.playwright.Locator;
+import automation.core.Log;
+import automation.core.WaitHelper;
 
-/**
- * Naukri login page — fills credentials, submits the form, then navigates directly
- * to the profile page so callers receive a ready-to-use NaukriProfilePage.
- */
 public class NaukriLoginPage extends BasePage
 {
-    private static final String PROFILE_URL = "https://www.naukri.com/mnjuser/profile";
-
-    private final Locator usernameField = page.locator("[id='usernameField']");
-    private final Locator passwordField = page.locator("[id='passwordField']");
-    private final Locator loginButton   = page.locator("button[type='submit']");
+    private final Locator emailField;
+    private final Locator passwordField;
+    private final Locator loginButton;
 
     public NaukriLoginPage(Config config)
     {
         super(config);
-        assertPageLoaded(usernameField);
+        emailField    = page.locator("[id='usernameField']");
+        passwordField = page.locator("[id='passwordField']");
+        loginButton   = page.locator("#loginForm button.blue-btn");
+        assertPageLoaded(emailField);
     }
 
-    /**
-     * Enter credentials, submit the login form, navigate to the profile page,
-     * and return a NaukriProfilePage ready for interaction.
-     *
-     * @param username Naukri account email / username
-     * @param password Naukri account password
-     * @return NaukriProfilePage once the profile page has loaded
-     */
-    public NaukriProfilePage doLogin(String username, String password)
+    public void doLogin(String email, String password)
     {
-        fillText(usernameField, username, "Username field");
+        Log.comment(config, "Logging in to Naukri as: " + email);
+        fillText(emailField, email, "Email field");
         fillText(passwordField, password, "Password field");
         click(loginButton, "Login button");
-        page.navigate(PROFILE_URL);
-        return new NaukriProfilePage(config);
+        WaitHelper.waitForNetworkIdle(config);
     }
 }

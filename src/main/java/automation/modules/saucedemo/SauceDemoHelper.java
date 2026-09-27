@@ -7,23 +7,26 @@ import automation.core.TestDataReader;
 import automation.core.api.ApiHelper;
 import automation.modules.saucedemo.web.LoginPage;
 import automation.modules.saucedemo.web.ProductsPage;
+import automation.modules.saucedemo.api.SauceDemoApi;
+import io.restassured.response.Response;
 
 import java.util.Map;
 
 /**
  * Unified helper for SauceDemo web flows and JSONPlaceholder API flows.
  * Extends ApiHelper with the JSONPlaceholder base URL (external API — no app auth).
- * Web credentials are loaded from config properties, not the user pool.
+ * Web credentials are loaded from users.csv, not the user pool.
  *
  * API usage:
  *   SauceDemoHelper api = new SauceDemoHelper(config);
- *   PostData created = api.execute(PostApi.CreatePost, post, PostData.class);
- *   PostData fetched = api.execute(PostApi.GetPost.withPath("id", "1"), PostData.class);
- *   api.execute(PostApi.DeletePost.withPath("id", "1"));
+ *   SauceDemoData created = api.execute(SauceDemoApi.CreatePost, post, SauceDemoData.class);
+ *   SauceDemoData fetched = api.execute(SauceDemoApi.GetPost.withPath("id", "1"), SauceDemoData.class);
+ *   api.execute(SauceDemoApi.DeletePost.withPath("id", "1"));
  *
  * Web usage:
  *   SauceDemoHelper sauceDemo = new SauceDemoHelper(config);
- *   ProductsPage products = sauceDemo.doLogin();
+ *   Map<String, String> user = sauceDemo.getUser("standard");
+ *   ProductsPage products = sauceDemo.doLogin(user);
  *   products.addProductToCart("sauce-labs-backpack");
  *   CartPage cart = products.goToCart();
  */
@@ -34,17 +37,6 @@ public class SauceDemoHelper extends ApiHelper
     public SauceDemoHelper(Config config)
     {
         super(config, API_BASE_URL);
-    }
-
-    /**
-     * Login using credentials from config properties (saucedemo.username / saucedemo.password).
-     */
-    public ProductsPage doLogin()
-    {
-        return doLogin(
-            config.getRunTimeProperty("saucedemo.username"),
-            config.getRunTimeProperty("saucedemo.password")
-        );
     }
 
     public ProductsPage doLogin(Map<String, String> credentials)
@@ -61,13 +53,93 @@ public class SauceDemoHelper extends ApiHelper
     }
 
     /**
-     * Load credentials for a scenario from CSV, matched to the current environment.
-     * CSV: src/test/resources/saucedemo/csvFiles/saucedemo-testdata.csv
-     * Columns: scenario, environment, username, password, role
+     * Load user credentials by user_key from users.csv.
+     * CSV: src/test/resources/saucedemo/csvFiles/users.csv
      */
-    public Map<String, String> getCredentials(String scenario)
+    public Map<String, String> getUser(String userKey)
     {
         return TestDataReader.loadCsvRowByColumnValue(
-            "saucedemo", "saucedemo-testdata", "scenario", scenario, Config.environment);
+            "saucedemo", "users", "user_key", userKey, Config.environment);
+    }
+
+    /**
+     * Load product information by product_key from products.csv.
+     * CSV: src/test/resources/saucedemo/csvFiles/products.csv
+     */
+    public Map<String, String> getProduct(String productKey)
+    {
+        return TestDataReader.loadCsvRowByColumnValue(
+            "saucedemo", "products", "product_key", productKey, Config.environment);
+    }
+
+    /**
+     * Load post test data by post_key from posts.csv.
+     * CSV: src/test/resources/saucedemo/csvFiles/posts.csv
+     */
+    public Map<String, String> getPostData(String postKey)
+    {
+        return TestDataReader.loadCsvRowByColumnValue(
+            "saucedemo", "posts", "post_key", postKey, Config.environment);
+    }
+
+    // ========== API HELPERS ==========
+
+    public SauceDemoData[] getAllPosts(int limit)
+    {
+        Log.comment(config, "Fetching posts via API with query parameter limit=" + limit);
+        return execute(SauceDemoApi.ListPosts.withQueryParam("_limit", String.valueOf(limit)), SauceDemoData[].class);
+    }
+
+    public SauceDemoData[] getAllPosts()
+    {
+        Log.comment(config, "Fetching all posts via API");
+        return execute(SauceDemoApi.ListPosts, SauceDemoData[].class);
+    }
+
+    public SauceDemoData getPost(int postId)
+    {
+        Log.comment(config, "Fetching post " + postId + " via API");
+        return execute(SauceDemoApi.GetPost.withPath("id", String.valueOf(postId)), SauceDemoData.class);
+    }
+
+    public Response getPostRaw(int postId)
+    {
+        Log.comment(config, "Fetching post " + postId + " via API (raw)");
+        return executeRaw(SauceDemoApi.GetPost.withPath("id", String.valueOf(postId)), null);
+    }
+
+    public SauceDemoData createPost(int userId, String title, String body)
+    {
+        Log.comment(config, "Creating post via API - userId: " + userId + ", title: " + title);
+        SauceDemoData request = new SauceDemoBuilder()
+            .withUserId(userId)
+            .withTitle(title)
+            .withBody(body)
+            .build();
+            
+        // Demonstrate passing custom headers / Auth token during an execute call
+        Map<String, String> headers = Map.of(
+            "Authorization", "Bearer mock-auth-token-12345",
+            "X-Custom-Header", "JarvisAutomation"
+        );
+        
+        return execute(SauceDemoApi.CreatePost, request, headers, SauceDemoData.class);
+    }
+
+    public SauceDemoData updatePost(int postId, int userId, String title, String body)
+    {
+        Log.comment(config, "Updating post " + postId + " via API");
+        SauceDemoData request = new SauceDemoBuilder()
+            .withUserId(userId)
+            .withTitle(title)
+            .withBody(body)
+            .build();
+        return execute(SauceDemoApi.UpdatePost.withPath("id", String.valueOf(postId)), request, SauceDemoData.class);
+    }
+
+    public Response deletePost(int postId)
+    {
+        Log.comment(config, "Deleting post " + postId + " via API");
+        return executeRaw(SauceDemoApi.DeletePost.withPath("id", String.valueOf(postId)), null);
     }
 }

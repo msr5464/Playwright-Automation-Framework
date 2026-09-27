@@ -8,11 +8,11 @@ import automation.core.api.PathBuilder;
  * Base URL: https://jsonplaceholder.typicode.com
  *
  * Usage:
- *   api.execute(PostApi.GetPost.withPath("id", "1"), PostData.class);
- *   api.execute(PostApi.CreatePost, post, PostData.class);
- *   api.execute(PostApi.DeletePost.withPath("id", "1"));
+ *   api.execute(SauceDemoApi.GetPost.withPath("id", "1"), SauceDemoData.class);
+ *   api.execute(SauceDemoApi.CreatePost, post, SauceDemoData.class);
+ *   api.execute(SauceDemoApi.DeletePost.withPath("id", "1"));
  */
-public enum PostApi implements ApiDetails
+public enum SauceDemoApi implements ApiDetails
 {
     ListPosts( Method.GET,    "/posts",      200),
     GetPost(   Method.GET,    "/posts/{id}", 200),
@@ -25,7 +25,7 @@ public enum PostApi implements ApiDetails
     private final String endpoint;
     private final int expectedStatus;
 
-    PostApi(Method method, String endpoint, int expectedStatus)
+    SauceDemoApi(Method method, String endpoint, int expectedStatus)
     {
         this.method = method;
         this.endpoint = endpoint;
@@ -39,5 +39,10 @@ public enum PostApi implements ApiDetails
     public PathBuilder withPath(String param, String value)
     {
         return new PathBuilder(this.method, this.endpoint, this.expectedStatus).withPath(param, value);
+    }
+
+    public PathBuilder withQueryParam(String param, String value)
+    {
+        return new PathBuilder(this.method, this.endpoint, this.expectedStatus).withQueryParam(param, value);
     }
 }

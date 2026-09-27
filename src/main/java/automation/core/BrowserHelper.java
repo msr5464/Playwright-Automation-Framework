@@ -294,6 +294,10 @@ public class BrowserHelper {
                     : config.browserContext.pages().get(0);
             config.page.setViewportSize(1920, 1080);
             config.page.setDefaultTimeout(WaitHelper.getTimeout(config));
+            // Parity with the normal launch path: a repair run must reproduce the
+            // failure under the same budget, and with the recorder the diagnosis reads.
+            config.page.setDefaultNavigationTimeout(WaitHelper.getTimeout(config) * 3L);
+            installFlightRecorder(config);
 
             Log.comment(config, "Repair mode ON — detached browser pid=" + config.repairBrowserPid
                     + ", CDP " + cdpUrl);
@@ -460,10 +464,46 @@ public class BrowserHelper {
                 // A closed or crashed page still has usable content sometimes.
             }
 
+            // Fingerprints alongside the HTML: geometry and computed ARIA roles do not
+            // survive into static markup, so capture them while a live page still exists.
+            String fingerprintsAttribute = "";
+            try {
+                Object fingerprints = LocatorCapture.snapshot(config.page);
+                if (fingerprints != null) {
+                    Path printsPath = Paths.get(domDir,
+                            fileName.substring(0, fileName.length() - ".html".length())
+                                    + ".fingerprints.json");
+                    Files.write(printsPath, new com.fasterxml.jackson.databind.ObjectMapper()
+                            .writeValueAsString(fingerprints).getBytes(StandardCharsets.UTF_8));
+                    fingerprintsAttribute = " fingerprints=\"" + printsPath + "\"";
+                }
+            } catch (Throwable ignored) {
+                // The HTML snapshot is the important half; never lose it over this.
+            }
+
+            // The iframes, which page.content() leaves as empty tags. An element inside
+            // one would otherwise read as absent to every reader of this failure.
+            String framesAttribute = "";
+            try {
+                java.util.List<java.util.Map<String, Object>> frames = LocatorCapture.frames(config.page);
+                if (!frames.isEmpty()) {
+                    Path framesPath = Paths.get(domDir,
+                            fileName.substring(0, fileName.length() - ".html".length())
+                                    + ".frames.json");
+                    Files.write(framesPath, new com.fasterxml.jackson.databind.ObjectMapper()
+                            .writeValueAsString(frames).getBytes(StandardCharsets.UTF_8));
+                    framesAttribute = " frames=\"" + framesPath + "\"";
+                }
+            } catch (Throwable ignored) {
+                // Same as the fingerprints: never lose the snapshot over its frames.
+            }
+
             String header = "<!-- qa-agent-network:dom-snapshot"
                     + " test=\"" + config.testcaseName + "\""
                     + " url=\"" + url + "\""
                     + " capturedAt=\"" + DataGenerator.getCurrentDateTime("yyyy-MM-dd'T'HH:mm:ss") + "\""
+                    + fingerprintsAttribute
+                    + framesAttribute
                     + " -->\n";
             Files.write(domPath, (header + config.page.content()).getBytes(StandardCharsets.UTF_8));
 
@@ -562,6 +602,18 @@ public class BrowserHelper {
      * Navigate to a URL
      */
     public static void navigateTo(Config config, String url) {
+        // Every navigation in the framework funnels through here, so this is the one
+        // place worth checking. config.getRunTimeProperty() returns null for a key
+        // that is not in the properties file — no throw, no log — and that null used
+        // to reach Playwright as "url: expected string, got undefined", a protocol
+        // error that reads nothing like the missing setting it actually is.
+        if (url == null || url.isBlank()) {
+            throw new IllegalArgumentException(
+                    "Navigation URL is null or blank. A config.getRunTimeProperty(\"...url\") "
+                            + "key is missing from parameters/" + Config.environment + "-"
+                            + Config.country + ".properties — add it there rather than "
+                            + "hardcoding the URL.");
+        }
         if (config.page == null) {
             initBrowser(config);
         }

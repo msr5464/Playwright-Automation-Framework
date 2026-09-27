@@ -1,6 +1,7 @@
 package automation.core;
 
 import com.microsoft.playwright.Locator;
+import com.microsoft.playwright.Page;
 import com.microsoft.playwright.options.WaitForSelectorState;
 
 public class WaitHelper {
@@ -20,15 +21,34 @@ public class WaitHelper {
             config.logCommentForDebugging("Element is visible: " + elementName);
             return true;
         } catch (Exception e) {
-            config.logWarning("Element not visible after timeout: " + elementName);
+            // Not every exception here is a timeout — a strict-mode violation throws
+            // at once, and "not visible after timeout" misreads it downstream.
+            config.logWarning(describeWaitFailure(e, elementName,
+                    System.currentTimeMillis() - startTime, getTimeout(config)));
             // Every interaction waits here first, so this is the one place that knows
             // which element an about-to-fail action was reaching for. Remembering it
             // costs nothing and is what lets the failure be written down as a fact
             // rather than reconstructed from the message afterwards.
             FailureContext.waitingOn(locator, elementName,
-                    System.currentTimeMillis() - startTime, getTimeout(config));
+                    System.currentTimeMillis() - startTime, getTimeout(config), e);
             return false;
         }
+    }
+
+    /** Name what actually ended the wait: a wait that gave up early did not time out. */
+    private static String describeWaitFailure(Exception e, String elementName,
+                                              long elapsedMs, long budgetMs) {
+        String message = e.getMessage() == null ? "" : e.getMessage();
+        String summary = FailureContext.summarizeError(message);
+        if (message.toLowerCase().contains("strict mode violation")) {
+            return "Locator for '" + elementName + "' matches more than one element, so "
+                    + "no action can run on it: " + summary;
+        }
+        if (elapsedMs < budgetMs / 10) {
+            return "Wait for '" + elementName + "' failed after " + elapsedMs + "ms of a "
+                    + budgetMs + "ms budget (not a timeout): " + summary;
+        }
+        return "Element not visible after timeout: " + elementName;
     }
 
     public static boolean waitForOptionalElementToBeVisible(Config config, Locator locator, String elementName) {
@@ -142,6 +162,23 @@ public class WaitHelper {
             return length == null ? 0 : Integer.parseInt(String.valueOf(length));
         } catch (Throwable e) {
             return 0;
+        }
+    }
+
+    /**
+     * Wait until the page has landed on a URL. waitForNetworkIdle cannot do this —
+     * it reports on the CURRENT document, so it returns before a submit's navigation
+     * has even begun. Returns false rather than throwing; the caller usually
+     * navigates next and should report its own error, not this one.
+     */
+    public static boolean waitForUrl(Config config, String urlPattern) {
+        try {
+            config.page.waitForURL(urlPattern,
+                    new Page.WaitForURLOptions().setTimeout(getTimeout(config)));
+            return true;
+        } catch (Exception e) {
+            config.logWarning("URL never became '" + urlPattern + "' within the timeout");
+            return false;
         }
     }
 
