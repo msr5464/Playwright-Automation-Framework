@@ -24,7 +24,7 @@ public class PaymentPopupPage extends BasePage
         super(config);
         detailsIcon              = page.frameLocator("#snap-midtrans").locator(".header-detail-clickable");
         orderDetailsCustomerName = page.frameLocator("#snap-midtrans").locator(".order-customer-group div:first-child");
-        orderDetailsEmail        = page.frameLocator("#snap-midtrans").locator(".order-summary-email");
+        orderDetailsEmail        = page.frameLocator("#snap-midtrans").locator(".order-customer-group div:nth-child(2)");
         orderDetailsPhone        = page.frameLocator("#snap-midtrans").locator(".order-summary-phone");
         creditCardOption         = page.frameLocator("#snap-midtrans").locator("#credit_card a[data-testid='list-item']");
         cardNumberField          = page.frameLocator("#snap-midtrans").locator("input[placeholder='1234 1234 1234 1234']");
