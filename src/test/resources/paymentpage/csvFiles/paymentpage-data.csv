@@ -1,4 +1,4 @@
 data_key,name,phone,environment
-checkout,John Smith,08123456789,staging
-checkout,John Smith,08123456789,qa-1
-checkout,John Smith,08123456789,demo
+checkout,John Smith,+628123456789,staging
+checkout,John Smith,+628123456789,qa-1
+checkout,John Smith,+628123456789,demo
