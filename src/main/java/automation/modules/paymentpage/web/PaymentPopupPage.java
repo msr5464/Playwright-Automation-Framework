@@ -33,7 +33,7 @@ public class PaymentPopupPage extends BasePage
         promoDropdown            = page.frameLocator("#snap-midtrans").locator(".promo-selection");
         amountDisplay            = page.frameLocator("#snap-midtrans").locator("div.text-headline.large");
         continueButton           = page.frameLocator("#snap-midtrans").locator("button.btn.full.primary");
-        assertPageLoaded(amountDisplay);
+        assertPageLoaded(creditCardOption);
     }
 
     public PaymentPopupPage clickDetailsIcon()
