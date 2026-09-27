@@ -8,6 +8,7 @@ import automation.core.Log;
 public class CheckoutFormPage extends BasePage
 {
     private final Locator nameField;
+    private final Locator lastNameField;
     private final Locator phoneField;
     private final Locator checkoutButton;
 
@@ -15,6 +16,7 @@ public class CheckoutFormPage extends BasePage
     {
         super(config);
         nameField      = page.locator(".cart-section:has(input[type='email']) tr:nth-child(1) input");
+        lastNameField  = page.locator(".cart-section:has(input[type='email']) tr:nth-child(2) input");
         phoneField     = page.locator(".cart-section:has(input[type='email']) tr:nth-child(3) input");
         checkoutButton = page.locator(".cart-checkout");
         assertPageLoaded(nameField);
@@ -42,6 +44,7 @@ public class CheckoutFormPage extends BasePage
     public PaymentPage fillAndCheckout(String name, String phone)
     {
         fillName(name);
+        fillText(lastNameField, "", "Last name field");
         fillPhone(phone);
         return clickCheckout();
     }
