@@ -481,11 +481,29 @@ public class BrowserHelper {
                 // The HTML snapshot is the important half; never lose it over this.
             }
 
+            // The iframes, which page.content() leaves as empty tags. An element inside
+            // one would otherwise read as absent to every reader of this failure.
+            String framesAttribute = "";
+            try {
+                java.util.List<java.util.Map<String, Object>> frames = LocatorCapture.frames(config.page);
+                if (!frames.isEmpty()) {
+                    Path framesPath = Paths.get(domDir,
+                            fileName.substring(0, fileName.length() - ".html".length())
+                                    + ".frames.json");
+                    Files.write(framesPath, new com.fasterxml.jackson.databind.ObjectMapper()
+                            .writeValueAsString(frames).getBytes(StandardCharsets.UTF_8));
+                    framesAttribute = " frames=\"" + framesPath + "\"";
+                }
+            } catch (Throwable ignored) {
+                // Same as the fingerprints: never lose the snapshot over its frames.
+            }
+
             String header = "<!-- qa-agent-network:dom-snapshot"
                     + " test=\"" + config.testcaseName + "\""
                     + " url=\"" + url + "\""
                     + " capturedAt=\"" + DataGenerator.getCurrentDateTime("yyyy-MM-dd'T'HH:mm:ss") + "\""
                     + fingerprintsAttribute
+                    + framesAttribute
                     + " -->\n";
             Files.write(domPath, (header + config.page.content()).getBytes(StandardCharsets.UTF_8));
 

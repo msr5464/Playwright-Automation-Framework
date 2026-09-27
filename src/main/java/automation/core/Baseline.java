@@ -1,5 +1,7 @@
 package automation.core;
 
+import com.microsoft.playwright.ElementHandle;
+import com.microsoft.playwright.Frame;
 import com.microsoft.playwright.Locator;
 
 import java.io.File;
@@ -333,6 +335,7 @@ public class Baseline {
         // ambiguous locator has not said which element the test meant.
         final List<String> names = new java.util.ArrayList<>();
         final List<Object> handles = new java.util.ArrayList<>();
+        final List<Frame> owners = new java.util.ArrayList<>();
         forEachLocator(pageObject, (name, locator) -> {
             int count;
             try {
@@ -344,11 +347,12 @@ public class Baseline {
             if (js.isEmpty() || count != 1)
                 return;
             try {
-                Object handle = locator.elementHandle(
+                ElementHandle handle = locator.elementHandle(
                         new Locator.ElementHandleOptions().setTimeout(2000));
                 if (handle != null) {
                     names.add(name);
                     handles.add(handle);
+                    owners.add(handle.ownerFrame());
                 }
             } catch (Throwable ignored) {
                 // One unresolvable locator must not cost us the others.
@@ -357,31 +361,47 @@ public class Baseline {
         if (js.isEmpty())
             return;
 
-        try {
-            Object result = config.page.evaluate(js, handles);
-            if (!(result instanceof Map))
-                return;
-            Map<?, ?> snap = (Map<?, ?>) result;
-            Object found = snap.get("elements");
-            Object idx = snap.get("indices");
-            if (!(found instanceof List))
-                return;
-            List<?> all = (List<?>) found;
-            List<?> indices = (idx instanceof List) ? (List<?>) idx : Collections.emptyList();
-
-            Object marks = snap.get("landmarks");
-            if (marks instanceof List)
-                landmarks.addAll((List<?>) marks);
-
-            for (int n = 0; n < names.size() && n < indices.size(); n++) {
-                if (!(indices.get(n) instanceof Number))
+        // One evaluate per frame. A handle only resolves in the document it lives in:
+        // passing an iframe's element to the page's evaluate threw, and the catch below
+        // then lost every fingerprint on the page object, not just that one. The page's
+        // own frame always runs, since it is also where the landmarks come from.
+        Frame main = config.page.mainFrame();
+        Map<Frame, List<Integer>> byFrame = new LinkedHashMap<>();
+        byFrame.put(main, new java.util.ArrayList<>());
+        for (int n = 0; n < names.size(); n++) {
+            Frame owner = owners.get(n) == null ? main : owners.get(n);
+            byFrame.computeIfAbsent(owner, f -> new java.util.ArrayList<>()).add(n);
+        }
+        for (Map.Entry<Frame, List<Integer>> group : byFrame.entrySet()) {
+            List<Object> groupHandles = new java.util.ArrayList<>();
+            for (int n : group.getValue())
+                groupHandles.add(handles.get(n));
+            try {
+                Object result = group.getKey().evaluate(js, groupHandles);
+                if (!(result instanceof Map))
                     continue;
-                int i = ((Number) indices.get(n)).intValue();
-                if (i >= 0 && i < all.size())
-                    prints.put(names.get(n), all.get(i));
+                Map<?, ?> snap = (Map<?, ?>) result;
+                Object found = snap.get("elements");
+                Object idx = snap.get("indices");
+                if (!(found instanceof List))
+                    continue;
+                List<?> all = (List<?>) found;
+                List<?> indices = (idx instanceof List) ? (List<?>) idx : Collections.emptyList();
+
+                Object marks = snap.get("landmarks");
+                if (group.getKey() == main && marks instanceof List)
+                    landmarks.addAll((List<?>) marks);
+
+                for (int k = 0; k < group.getValue().size() && k < indices.size(); k++) {
+                    if (!(indices.get(k) instanceof Number))
+                        continue;
+                    int i = ((Number) indices.get(k)).intValue();
+                    if (i >= 0 && i < all.size())
+                        prints.put(names.get(group.getValue().get(k)), all.get(i));
+                }
+            } catch (Throwable ignored) {
+                // An unusable snapshot costs that frame's fingerprints, never the counts.
             }
-        } catch (Throwable ignored) {
-            // An unusable snapshot costs the fingerprints, never the counts.
         }
     }
 }

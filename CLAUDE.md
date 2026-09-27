@@ -621,6 +621,7 @@ Users are automatically released by `@AfterMethod`. Do not release manually.
 - One class = one page. No cross-page locators.
 - Several small actions on the same page in a row (filling a form's fields) become one higher-level method — `fillCheckoutDetails(data)` — so the test calls one step, not five.
 - Locator priority: `[data-cy='...']` > `#id` > `[name='...']` > css > xpath
+- Element inside an iframe: enter the frame in the field itself, one `.frameLocator(...)` per nested iframe — `page.frameLocator("#checkout-frame").frameLocator("iframe[title='3ds']").locator("#amount")`. It is still a `Locator`, so `click`, `fillText`, `getText` and `assertPageLoaded` work unchanged. Pick each iframe by a stable `#id`, `[title='...']` or `[name^='stem']` — never by position, or by a per-load name or URL token. A selector written `A >> internal:control=enter-frame >> B` (failure messages print them this way) is exactly this: `page.frameLocator("A").locator("B")`
 - XPath: use `contains()` only — never exact text match, positional selectors, or deep nesting
 - Navigation methods must return the next page object
 - Call `assertPageLoaded(locator)` at the end of every constructor — no `waitUntilLoaded()` override needed
