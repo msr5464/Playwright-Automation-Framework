@@ -66,8 +66,13 @@ public class PaymentGatewayHelper extends ApiHelper
         if (digitsOnly.contains("."))
         {
             int firstDot = digitsOnly.indexOf('.');
-            String integerPart = digitsOnly.substring(0, firstDot).replace(".", "");
             String fractionPart = digitsOnly.substring(firstDot + 1).replace(".", "");
+            if (fractionPart.length() == 3)
+            {
+                // "." is used as a thousands separator in this Rupiah-style amount (e.g. "Rp19.000" = 19000), not a decimal point
+                return digitsOnly.replace(".", "");
+            }
+            String integerPart = digitsOnly.substring(0, firstDot).replace(".", "");
             if (fractionPart.matches("0+"))
             {
                 return integerPart;
