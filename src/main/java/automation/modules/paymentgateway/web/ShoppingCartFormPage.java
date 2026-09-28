@@ -41,7 +41,7 @@ public class ShoppingCartFormPage extends BasePage
     public void fillAmount(String amount)
     {
         Log.comment(config, "Filling amount field with: " + amount);
-        fillText(amountField, amount, "Amount field");
+        typeText(amountField, amount, "Amount field");
     }
 
     public void fillRemainingFieldsWithDummyData()
