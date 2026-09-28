@@ -20,7 +20,7 @@ public class ShoppingCartFormPage extends BasePage
         super(config);
         nameField = page.locator(".cart-section:has(input[type='email']) tr:nth-child(1) input");
         phoneField = page.locator(".cart-section:has(input[type='email']) tr:nth-child(3) input");
-        amountField = page.locator("td.amount");
+        amountField = page.locator(".cart-section:has(input[type='email']) tr:nth-child(2) input");
         emailField = page.locator(".cart-section:has(input[type='email']) input[type='email']");
         checkoutButton = page.locator(".cart-checkout");
         assertPageLoaded(nameField);
