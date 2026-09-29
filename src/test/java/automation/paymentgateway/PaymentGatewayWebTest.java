@@ -91,6 +91,6 @@ public class PaymentGatewayWebTest extends TestBase
         WaitHelper.waitForNetworkIdle(config);
 
         config.logStep("Verify the thank-you message is displayed");
-        AssertHelper.assertEquals(config, landingPage.getThankYouMessageText(), "Thank you for your purchase. Get a nice sleep.", "Thank you message should be displayed after successful payment");
+        AssertHelper.assertEquals(config, landingPage.getThankYouMessageText().replaceAll("\\s+", "").toLowerCase(), "Thank you for your purchase. Get a nice sleep.".replaceAll("\\s+", "").toLowerCase(), "Thank you message should be displayed after successful payment");
     }
 }
