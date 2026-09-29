@@ -1,0 +1,452 @@
+{
+  "pageObject" : "PaymentGatewayCheckoutFormPage",
+  "module" : "paymentgateway",
+  "fullClassName" : "automation.modules.paymentgateway.web.PaymentGatewayCheckoutFormPage",
+  "recordedAt" : "2026-09-29T07:52:45",
+  "urlShape" : "https://demo.midtrans.com/",
+  "title" : "Sample Store",
+  "bodyClass" : "",
+  "coverage" : {
+    "amountField" : 1,
+    "nameField" : 1,
+    "emailField" : 1,
+    "phoneField" : 1,
+    "addressField" : 1,
+    "checkoutButton" : 1
+  },
+  "fingerprints" : {
+    "amountField" : {
+      "index" : 66,
+      "tag" : "input",
+      "id" : null,
+      "name" : null,
+      "type" : "number",
+      "class_list" : [ "text-right" ],
+      "role" : "spinbutton",
+      "accessible_name" : "",
+      "aria_label" : null,
+      "placeholder" : null,
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : null,
+      "text" : "",
+      "attrs" : {
+        "class" : "text-right",
+        "type" : "number",
+        "value" : "20000",
+        "data-reactid" : ".0.0.1.0.1.0.1.0:$1.2.0"
+      },
+      "is_interactive" : true,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[2]/table[1]/tbody[1]/tr[1]/td[3]/input[1]",
+      "id_xpath" : "//*[@id='container']/div[1]/div[1]/div[2]/div[1]/div[2]/table[1]/tbody[1]/tr[1]/td[3]/input[1]",
+      "ancestor_chain" : [ {
+        "tag" : "td",
+        "id" : null,
+        "classes" : [ "input", "text-right" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "tr",
+        "id" : null,
+        "classes" : [ "table-content" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "tbody",
+        "id" : null,
+        "classes" : [ ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "table",
+        "id" : null,
+        "classes" : [ "table" ],
+        "role" : "table",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "cart-section" ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 0,
+      "sibling_count" : 1,
+      "bbox_norm" : {
+        "x" : 0.9743977864583333,
+        "y" : 0.09212962962962963,
+        "w" : 0.025862630208333334,
+        "h" : 0.026851851851851852
+      },
+      "area_norm" : 6.944595148533951E-4,
+      "aspect" : 1.7122844827586208,
+      "neighbor_texts" : [ "× 1", "Qty", "Amount (Rp)", "Total", "20,000", "Midtrans Pillow" ],
+      "child" : null,
+      "_gt" : null
+    },
+    "nameField" : {
+      "index" : 78,
+      "tag" : "input",
+      "id" : null,
+      "name" : null,
+      "type" : "text",
+      "class_list" : [ ],
+      "role" : "textbox",
+      "accessible_name" : "",
+      "aria_label" : null,
+      "placeholder" : null,
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : null,
+      "text" : "",
+      "attrs" : {
+        "type" : "text",
+        "value" : "Budi",
+        "data-reactid" : ".0.0.1.0.3.0.0.0.1.0"
+      },
+      "is_interactive" : true,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[4]/table[1]/tbody[1]/tr[1]/td[2]/input[1]",
+      "id_xpath" : "//*[@id='container']/div[1]/div[1]/div[2]/div[1]/div[4]/table[1]/tbody[1]/tr[1]/td[2]/input[1]",
+      "ancestor_chain" : [ {
+        "tag" : "td",
+        "id" : null,
+        "classes" : [ "input" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "tr",
+        "id" : null,
+        "classes" : [ "table-content" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "tbody",
+        "id" : null,
+        "classes" : [ ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "table",
+        "id" : null,
+        "classes" : [ "table" ],
+        "role" : "table",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "cart-section" ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 0,
+      "sibling_count" : 1,
+      "bbox_norm" : {
+        "x" : 0.9553385416666667,
+        "y" : 0.22199074074074074,
+        "w" : 0.028507486979166666,
+        "h" : 0.026851851851851852
+      },
+      "area_norm" : 7.654788170331791E-4,
+      "aspect" : 1.8873922413793103,
+      "neighbor_texts" : [ "Name", "Customer Details", "Email", "Total", "20,000", "Phone no" ],
+      "child" : null,
+      "_gt" : null
+    },
+    "emailField" : {
+      "index" : 82,
+      "tag" : "input",
+      "id" : null,
+      "name" : null,
+      "type" : "email",
+      "class_list" : [ ],
+      "role" : "textbox",
+      "accessible_name" : "",
+      "aria_label" : null,
+      "placeholder" : null,
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : null,
+      "text" : "",
+      "attrs" : {
+        "type" : "email",
+        "value" : "budi@utomo.com",
+        "data-reactid" : ".0.0.1.0.3.0.0.1.1.0"
+      },
+      "is_interactive" : true,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[4]/table[1]/tbody[1]/tr[2]/td[2]/input[1]",
+      "id_xpath" : "//*[@id='container']/div[1]/div[1]/div[2]/div[1]/div[4]/table[1]/tbody[1]/tr[2]/td[2]/input[1]",
+      "ancestor_chain" : [ {
+        "tag" : "td",
+        "id" : null,
+        "classes" : [ "input" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "tr",
+        "id" : null,
+        "classes" : [ "table-content" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "tbody",
+        "id" : null,
+        "classes" : [ ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "table",
+        "id" : null,
+        "classes" : [ "table" ],
+        "role" : "table",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "cart-section" ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 0,
+      "sibling_count" : 1,
+      "bbox_norm" : {
+        "x" : 0.9553385416666667,
+        "y" : 0.27037037037037037,
+        "w" : 0.028507486979166666,
+        "h" : 0.026851851851851852
+      },
+      "area_norm" : 7.654788170331791E-4,
+      "aspect" : 1.8873922413793103,
+      "neighbor_texts" : [ "Email", "Name", "Phone no", "Customer Details", "City", "Address" ],
+      "child" : null,
+      "_gt" : null
+    },
+    "phoneField" : {
+      "index" : 86,
+      "tag" : "input",
+      "id" : null,
+      "name" : null,
+      "type" : "text",
+      "class_list" : [ ],
+      "role" : "textbox",
+      "accessible_name" : "",
+      "aria_label" : null,
+      "placeholder" : null,
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : null,
+      "text" : "",
+      "attrs" : {
+        "type" : "text",
+        "value" : "081808466410",
+        "data-reactid" : ".0.0.1.0.3.0.0.2.1.0"
+      },
+      "is_interactive" : true,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[4]/table[1]/tbody[1]/tr[3]/td[2]/input[1]",
+      "id_xpath" : "//*[@id='container']/div[1]/div[1]/div[2]/div[1]/div[4]/table[1]/tbody[1]/tr[3]/td[2]/input[1]",
+      "ancestor_chain" : [ {
+        "tag" : "td",
+        "id" : null,
+        "classes" : [ "input" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "tr",
+        "id" : null,
+        "classes" : [ "table-content" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "tbody",
+        "id" : null,
+        "classes" : [ ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "table",
+        "id" : null,
+        "classes" : [ "table" ],
+        "role" : "table",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "cart-section" ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 0,
+      "sibling_count" : 1,
+      "bbox_norm" : {
+        "x" : 0.9553385416666667,
+        "y" : 0.31851851851851853,
+        "w" : 0.028507486979166666,
+        "h" : 0.026851851851851852
+      },
+      "area_norm" : 7.654788170331791E-4,
+      "aspect" : 1.8873922413793103,
+      "neighbor_texts" : [ "Phone no", "Email", "City", "Name", "Address", "MidPlaza 2, 4th Floor Jl.Jend.Sudirman Kav.10-11" ],
+      "child" : null,
+      "_gt" : null
+    },
+    "addressField" : {
+      "index" : 94,
+      "tag" : "textarea",
+      "id" : null,
+      "name" : null,
+      "type" : null,
+      "class_list" : [ ],
+      "role" : "textbox",
+      "accessible_name" : "",
+      "aria_label" : null,
+      "placeholder" : null,
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : null,
+      "text" : "MidPlaza 2, 4th Floor Jl.Jend.Sudirman Kav.10-11",
+      "attrs" : {
+        "data-reactid" : ".0.0.1.0.3.0.0.4.1.0"
+      },
+      "is_interactive" : true,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[4]/table[1]/tbody[1]/tr[5]/td[2]/textarea[1]",
+      "id_xpath" : "//*[@id='container']/div[1]/div[1]/div[2]/div[1]/div[4]/table[1]/tbody[1]/tr[5]/td[2]/textarea[1]",
+      "ancestor_chain" : [ {
+        "tag" : "td",
+        "id" : null,
+        "classes" : [ "input" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "tr",
+        "id" : null,
+        "classes" : [ "table-content" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "tbody",
+        "id" : null,
+        "classes" : [ ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "table",
+        "id" : null,
+        "classes" : [ "table" ],
+        "role" : "table",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "cart-section" ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 0,
+      "sibling_count" : 1,
+      "bbox_norm" : {
+        "x" : 0.9553385416666667,
+        "y" : 0.4060185185185185,
+        "w" : 0.028507486979166666,
+        "h" : 0.044444444444444446
+      },
+      "area_norm" : 0.0012669994212962962,
+      "aspect" : 1.1402994791666667,
+      "neighbor_texts" : [ "Address", "City", "Postal Code", "Phone no", "Email", "Name" ],
+      "child" : null,
+      "_gt" : null
+    },
+    "checkoutButton" : {
+      "index" : 100,
+      "tag" : "div",
+      "id" : null,
+      "name" : null,
+      "type" : null,
+      "class_list" : [ "cart-checkout" ],
+      "role" : "generic",
+      "accessible_name" : "",
+      "aria_label" : null,
+      "placeholder" : null,
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : null,
+      "text" : "CHECKOUT",
+      "attrs" : {
+        "class" : "cart-checkout",
+        "data-reactid" : ".0.0.1.1.0"
+      },
+      "is_interactive" : false,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/div[1]/div[1]/div[1]/div[2]/div[2]/div[1]",
+      "id_xpath" : "//*[@id='container']/div[1]/div[1]/div[2]/div[2]/div[1]",
+      "ancestor_chain" : [ {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "cart-action" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "cart-content", "buying" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "row" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "container-fluid" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : "container",
+        "classes" : [ ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 0,
+      "sibling_count" : 3,
+      "bbox_norm" : {
+        "x" : 0.9210774739583333,
+        "y" : 0.912962962962963,
+        "w" : 0.0455810546875,
+        "h" : 0.04259259259259259
+      },
+      "area_norm" : 0.0019414152922453704,
+      "aspect" : 1.9025135869565217,
+      "neighbor_texts" : [ "cancel" ],
+      "child" : null,
+      "_gt" : null
+    }
+  },
+  "landmarks" : [ "heading:Demo Store", "heading:Welcome to Snap Demo!" ],
+  "lastSeen" : {
+    "amountField" : "2026-09-29T07:52:45",
+    "nameField" : "2026-09-29T07:52:45",
+    "emailField" : "2026-09-29T07:52:45",
+    "phoneField" : "2026-09-29T07:52:45",
+    "addressField" : "2026-09-29T07:52:45",
+    "checkoutButton" : "2026-09-29T07:52:45"
+  }
+}

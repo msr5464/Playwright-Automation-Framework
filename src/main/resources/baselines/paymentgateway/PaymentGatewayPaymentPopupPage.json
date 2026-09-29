@@ -1,0 +1,235 @@
+{
+  "pageObject" : "PaymentGatewayPaymentPopupPage",
+  "module" : "paymentgateway",
+  "fullClassName" : "automation.modules.paymentgateway.web.PaymentGatewayPaymentPopupPage",
+  "recordedAt" : "2026-09-29T07:52:46",
+  "urlShape" : "https://demo.midtrans.com/",
+  "title" : "Sample Store",
+  "bodyClass" : "",
+  "coverage" : {
+    "detailsIcon" : 1,
+    "orderDetailsOverlay" : 0,
+    "orderDetailsNameText" : 0,
+    "orderDetailsPhoneText" : 0,
+    "closeOverlayButton" : 0,
+    "amountDisplay" : 1,
+    "creditCardMethodOption" : 1
+  },
+  "fingerprints" : {
+    "detailsIcon" : {
+      "index" : 28,
+      "tag" : "span",
+      "id" : null,
+      "name" : null,
+      "type" : null,
+      "class_list" : [ "header-detail" ],
+      "role" : "generic",
+      "accessible_name" : "",
+      "aria_label" : null,
+      "placeholder" : null,
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : null,
+      "text" : "Details",
+      "attrs" : {
+        "class" : "header-detail"
+      },
+      "is_interactive" : false,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/div[2]/div[2]/nav[1]/div[2]/div[1]/div[1]/div[2]/div[2]/span[1]",
+      "id_xpath" : "//*[@id='header']/div[2]/div[1]/div[1]/div[2]/div[2]/span[1]",
+      "ancestor_chain" : [ {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "header-detail-clickable" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "order-container" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "order-summary-section" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "order-box" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "order-header" ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 0,
+      "sibling_count" : 2,
+      "bbox_norm" : {
+        "x" : 0.5731038411458333,
+        "y" : 0.31342592592592594,
+        "w" : 0.020646158854166666,
+        "h" : 0.013888888888888888
+      },
+      "area_norm" : 2.8675220630787035E-4,
+      "aspect" : 2.642708333333333,
+      "neighbor_texts" : [ "2 promos available", "23:59:59", "Recommended payment method", "Order ID #sample-store-1790648566", "GoPay QRIS", "All payment methods" ],
+      "child" : null,
+      "_gt" : null
+    },
+    "amountDisplay" : {
+      "index" : 17,
+      "tag" : "div",
+      "id" : null,
+      "name" : null,
+      "type" : null,
+      "class_list" : [ "header-amount" ],
+      "role" : "generic",
+      "accessible_name" : "",
+      "aria_label" : null,
+      "placeholder" : null,
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : null,
+      "text" : "Rp50.000",
+      "attrs" : {
+        "class" : "header-amount"
+      },
+      "is_interactive" : false,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/div[2]/div[2]/nav[1]/div[2]/div[1]/div[1]/div[1]/div[1]",
+      "id_xpath" : "//*[@id='header']/div[2]/div[1]/div[1]/div[1]/div[1]",
+      "ancestor_chain" : [ {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "order-container" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "order-summary-section" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "order-box" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "order-header" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "nav",
+        "id" : "header",
+        "classes" : [ "header" ],
+        "role" : "navigation",
+        "testid" : null
+      } ],
+      "sibling_index" : 0,
+      "sibling_count" : 2,
+      "bbox_norm" : {
+        "x" : 0.396875,
+        "y" : 0.2814814814814815,
+        "w" : 0.05633138020833333,
+        "h" : 0.026851851851851852
+      },
+      "area_norm" : 0.0015126018759645061,
+      "aspect" : 3.7295258620689653,
+      "neighbor_texts" : [ "Order ID #sample-store-1790648566", "2 promos available", "23:59:59", "Recommended payment method", "GoPay QRIS", "Details" ],
+      "child" : null,
+      "_gt" : null
+    },
+    "creditCardMethodOption" : {
+      "index" : 102,
+      "tag" : "a",
+      "id" : null,
+      "name" : null,
+      "type" : null,
+      "class_list" : [ "list" ],
+      "role" : "link",
+      "accessible_name" : "Card Payment",
+      "aria_label" : null,
+      "placeholder" : null,
+      "alt" : null,
+      "href" : "#/credit-card",
+      "title" : null,
+      "testid" : "list-item",
+      "text" : "Card Payment",
+      "attrs" : {
+        "class" : "list",
+        "data-testid" : "list-item",
+        "href" : "#/credit-card"
+      },
+      "is_interactive" : true,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/div[2]/div[2]/div[1]/div[1]/div[7]/a[1]",
+      "id_xpath" : "//*[@id='credit_card']/a[1]",
+      "ancestor_chain" : [ {
+        "tag" : "div",
+        "id" : "credit_card",
+        "classes" : [ ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "payment-container-list" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "page-container", "scroll" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : "application",
+        "classes" : [ "app-container" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : "app",
+        "classes" : [ ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 0,
+      "sibling_count" : 2,
+      "bbox_norm" : {
+        "x" : 0.390625,
+        "y" : 0.7203703703703703,
+        "w" : 0.2109375,
+        "h" : 0.07407407407407407
+      },
+      "area_norm" : 0.015625,
+      "aspect" : 5.0625,
+      "neighbor_texts" : [ "Google Pay", "+6", "Virtual account", "ShopeePay QRIS", "GoPay QRIS", "All payment methods" ],
+      "child" : null,
+      "_gt" : null
+    }
+  },
+  "landmarks" : [ "heading:Demo Store", "heading:Welcome to Snap Demo!" ],
+  "lastSeen" : {
+    "detailsIcon" : "2026-09-29T07:52:46",
+    "amountDisplay" : "2026-09-29T07:52:46",
+    "creditCardMethodOption" : "2026-09-29T07:52:46"
+  }
+}

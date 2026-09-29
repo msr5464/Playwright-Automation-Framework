@@ -1,0 +1,237 @@
+{
+  "pageObject" : "PaymentGatewayIssuingBankPage",
+  "module" : "paymentgateway",
+  "fullClassName" : "automation.modules.paymentgateway.web.PaymentGatewayIssuingBankPage",
+  "recordedAt" : "2026-09-29T07:52:51",
+  "urlShape" : "https://demo.midtrans.com/",
+  "title" : "Sample Store",
+  "bodyClass" : "",
+  "coverage" : {
+    "amountDisplay" : 1,
+    "otpField" : 1,
+    "otpSubmitButton" : 1
+  },
+  "fingerprints" : {
+    "amountDisplay" : {
+      "index" : 21,
+      "tag" : "p",
+      "id" : "txn_amount",
+      "name" : null,
+      "type" : null,
+      "class_list" : [ "form-control-static" ],
+      "role" : "generic",
+      "accessible_name" : "",
+      "aria_label" : null,
+      "placeholder" : null,
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : null,
+      "text" : "49000.00",
+      "attrs" : {
+        "class" : "form-control-static",
+        "id" : "txn_amount"
+      },
+      "is_interactive" : false,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/div[1]/form[1]/div[2]/div[1]/p[1]",
+      "id_xpath" : "//*[@id='txn_amount']",
+      "ancestor_chain" : [ {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "col-xs-7" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "form-group" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "form",
+        "id" : "acsForm",
+        "classes" : [ "form-horizontal" ],
+        "role" : "form",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : "acsMain",
+        "classes" : [ "container" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "body",
+        "id" : null,
+        "classes" : [ ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 0,
+      "sibling_count" : 1,
+      "bbox_norm" : {
+        "x" : 0.4563244047619048,
+        "y" : 0.3484375,
+        "w" : 0.48411458333333335,
+        "h" : 0.0421875
+      },
+      "area_norm" : 0.020423583984375,
+      "aspect" : 7.530671296296297,
+      "neighbor_texts" : [ "Rubicon Store", "29/09/2026 07:52:52", "Merchant Name:", "Amount:", "Transaction Time:", "48111111-1114" ],
+      "child" : null,
+      "_gt" : null
+    },
+    "otpField" : {
+      "index" : 33,
+      "tag" : "input",
+      "id" : "otp",
+      "name" : "otp",
+      "type" : "password",
+      "class_list" : [ "form-control", "input-xs" ],
+      "role" : "textbox",
+      "accessible_name" : "Password:",
+      "aria_label" : null,
+      "placeholder" : "112233",
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : null,
+      "text" : "",
+      "attrs" : {
+        "type" : "password",
+        "class" : "form-control input-xs",
+        "id" : "otp",
+        "name" : "otp",
+        "placeholder" : "112233"
+      },
+      "is_interactive" : true,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/div[1]/form[1]/div[5]/div[1]/input[1]",
+      "id_xpath" : "//*[@id='otp']",
+      "ancestor_chain" : [ {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "col-xs-7" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "form-group" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "form",
+        "id" : "acsForm",
+        "classes" : [ "form-horizontal" ],
+        "role" : "form",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : "acsMain",
+        "classes" : [ "container" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "body",
+        "id" : null,
+        "classes" : [ ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 0,
+      "sibling_count" : 1,
+      "bbox_norm" : {
+        "x" : 0.4563244047619048,
+        "y" : 0.475,
+        "w" : 0.48411458333333335,
+        "h" : 0.053125
+      },
+      "area_norm" : 0.025718587239583333,
+      "aspect" : 5.9802389705882355,
+      "neighbor_texts" : [ "Password:", "48111111-1114", "Resend", "Card Number:", "29/09/2026 07:52:52", "Transaction Time:" ],
+      "child" : null,
+      "_gt" : null
+    },
+    "otpSubmitButton" : {
+      "index" : 36,
+      "tag" : "button",
+      "id" : null,
+      "name" : "ok",
+      "type" : "submit",
+      "class_list" : [ "btn", "btn-sm", "btn-success" ],
+      "role" : "button",
+      "accessible_name" : "OK",
+      "aria_label" : null,
+      "placeholder" : null,
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : null,
+      "text" : "OK",
+      "attrs" : {
+        "type" : "submit",
+        "name" : "ok",
+        "value" : "ok",
+        "class" : "btn btn-sm btn-success"
+      },
+      "is_interactive" : true,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/div[1]/form[1]/div[6]/div[1]/button[1]",
+      "id_xpath" : "//*[@id='acsForm']/div[6]/div[1]/button[1]",
+      "ancestor_chain" : [ {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "center", "col-md-8" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "form-group" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "form",
+        "id" : "acsForm",
+        "classes" : [ "form-horizontal" ],
+        "role" : "form",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : "acsMain",
+        "classes" : [ "container" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "body",
+        "id" : null,
+        "classes" : [ ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 0,
+      "sibling_count" : 3,
+      "bbox_norm" : {
+        "x" : 0.05952380952380952,
+        "y" : 0.54375,
+        "w" : 0.09367559523809524,
+        "h" : 0.046875
+      },
+      "area_norm" : 0.004391043526785714,
+      "aspect" : 1.3114583333333334,
+      "neighbor_texts" : [ "Cancel", "Password:", "Card Number:", "Transaction Time:", "Resend", "Amount:" ],
+      "child" : null,
+      "_gt" : null
+    }
+  },
+  "landmarks" : [ "heading:Demo Store", "heading:Welcome to Snap Demo!" ],
+  "lastSeen" : {
+    "amountDisplay" : "2026-09-29T07:52:51",
+    "otpField" : "2026-09-29T07:52:51",
+    "otpSubmitButton" : "2026-09-29T07:52:51"
+  }
+}
