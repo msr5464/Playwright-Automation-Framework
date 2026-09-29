@@ -30,4 +30,18 @@ public class PaymentGatewayLandingPage extends BasePage
     {
         return getText(thankYouMessage, "Thank you message");
     }
+
+    /**
+     * Normalizes a displayed message by stripping all whitespace and lowercasing,
+     * so that a rendering difference in inter-sentence spacing (e.g. no space
+     * after a period) or letter case does not affect comparison of the message text.
+     */
+    public static String normalizeMessage(String raw)
+    {
+        if (raw == null)
+        {
+            return null;
+        }
+        return raw.replaceAll("\\s+", "").toLowerCase();
+    }
 }

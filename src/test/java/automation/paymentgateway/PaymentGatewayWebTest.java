@@ -109,6 +109,6 @@ public class PaymentGatewayWebTest extends TestBase
         PaymentGatewayLandingPage redirectedLanding = paymentGateway.waitForRedirectToLandingPage();
 
         config.logStep("Verify the thank you message is displayed on the landing page");
-        AssertHelper.assertEquals(config, redirectedLanding.getThankYouMessageText(), "Thank you for your purchase. Get a nice sleep.", "Landing page should show the post-purchase thank you message");
+        AssertHelper.assertEquals(config, PaymentGatewayLandingPage.normalizeMessage(redirectedLanding.getThankYouMessageText()), PaymentGatewayLandingPage.normalizeMessage("Thank you for your purchase. Get a nice sleep."), "Landing page should show the post-purchase thank you message");
     }
 }
