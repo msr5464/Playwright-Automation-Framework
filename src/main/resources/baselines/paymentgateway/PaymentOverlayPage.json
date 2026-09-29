@@ -1,0 +1,96 @@
+{
+  "pageObject" : "PaymentOverlayPage",
+  "module" : "paymentgateway",
+  "fullClassName" : "automation.modules.paymentgateway.web.PaymentOverlayPage",
+  "recordedAt" : "2026-09-29T08:26:05",
+  "urlShape" : "https://demo.midtrans.com/",
+  "title" : "Sample Store",
+  "bodyClass" : "",
+  "coverage" : {
+    "detailsIcon" : 1,
+    "orderDetailsName" : 0,
+    "orderDetailsPhone" : 0,
+    "closeOverlayButton" : 0,
+    "amountDisplay" : 1,
+    "creditCardOption" : 1
+  },
+  "fingerprints" : {
+    "creditCardOption" : {
+      "index" : 102,
+      "tag" : "a",
+      "id" : null,
+      "name" : null,
+      "type" : null,
+      "class_list" : [ "list" ],
+      "role" : "link",
+      "accessible_name" : "Card Payment",
+      "aria_label" : null,
+      "placeholder" : null,
+      "alt" : null,
+      "href" : "#/credit-card",
+      "title" : null,
+      "testid" : "list-item",
+      "text" : "Card Payment",
+      "attrs" : {
+        "class" : "list",
+        "data-testid" : "list-item",
+        "href" : "#/credit-card"
+      },
+      "is_interactive" : true,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/div[2]/div[2]/div[1]/div[1]/div[7]/a[1]",
+      "id_xpath" : "//*[@id='credit_card']/a[1]",
+      "ancestor_chain" : [ {
+        "tag" : "div",
+        "id" : "credit_card",
+        "classes" : [ ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "payment-container-list" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "page-container", "scroll" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : "application",
+        "classes" : [ "app-container" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : "app",
+        "classes" : [ ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 0,
+      "sibling_count" : 2,
+      "bbox_norm" : {
+        "x" : 0.390625,
+        "y" : 0.7203703703703703,
+        "w" : 0.2109375,
+        "h" : 0.07407407407407407
+      },
+      "area_norm" : 0.015625,
+      "aspect" : 5.0625,
+      "neighbor_texts" : [ "Google Pay", "+6", "Virtual account", "ShopeePay QRIS", "GoPay QRIS", "All payment methods" ],
+      "child" : null,
+      "_gt" : null
+    }
+  },
+  "landmarks" : [ "heading:Demo Store", "heading:Welcome to Snap Demo!" ],
+  "lastSeen" : {
+    "detailsIcon" : "2026-09-29T08:26:05",
+    "amountDisplay" : "2026-09-29T08:26:05",
+    "creditCardOption" : "2026-09-29T08:26:05"
+  }
+}
