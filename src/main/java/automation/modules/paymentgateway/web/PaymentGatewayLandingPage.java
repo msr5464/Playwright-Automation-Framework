@@ -14,7 +14,7 @@ public class PaymentGatewayLandingPage extends BasePage
     public PaymentGatewayLandingPage(Config config)
     {
         super(config);
-        buyNowButton = page.locator("button:has-text('Buy Now')");
+        buyNowButton = page.locator("a:has-text('Buy Now')");
         thankYouMessage = page.locator("div.trans-status.trans-success");
         assertPageLoaded(buyNowButton);
     }
