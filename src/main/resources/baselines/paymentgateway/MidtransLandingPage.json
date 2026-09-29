@@ -1,0 +1,90 @@
+{
+  "pageObject" : "MidtransLandingPage",
+  "module" : "paymentgateway",
+  "fullClassName" : "automation.modules.paymentgateway.web.MidtransLandingPage",
+  "recordedAt" : "2026-09-29T08:26:03",
+  "urlShape" : "https://demo.midtrans.com/",
+  "title" : "Sample Store",
+  "bodyClass" : "",
+  "coverage" : {
+    "buyNowButton" : 1,
+    "thankYouMessage" : 0
+  },
+  "fingerprints" : {
+    "buyNowButton" : {
+      "index" : 41,
+      "tag" : "a",
+      "id" : null,
+      "name" : null,
+      "type" : null,
+      "class_list" : [ "btn", "buy" ],
+      "role" : "link",
+      "accessible_name" : "BUY NOW",
+      "aria_label" : null,
+      "placeholder" : null,
+      "alt" : null,
+      "href" : "#",
+      "title" : null,
+      "testid" : null,
+      "text" : "BUY NOW",
+      "attrs" : {
+        "class" : "btn buy",
+        "href" : "#",
+        "data-reactid" : ".0.0.0.2.0.0.5"
+      },
+      "is_interactive" : true,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/a[1]",
+      "id_xpath" : "//*[@id='container']/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/a[1]",
+      "ancestor_chain" : [ {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "ss-box-inner" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "ss-box" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "ss-box-wrapper" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "main-content" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "row" ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 5,
+      "sibling_count" : 8,
+      "bbox_norm" : {
+        "x" : 0.052083333333333336,
+        "y" : 0.4388888888888889,
+        "w" : 0.14166666666666666,
+        "h" : 0.04814814814814815
+      },
+      "area_norm" : 0.006820987654320988,
+      "aspect" : 5.230769230769231,
+      "neighbor_texts" : [ "Please buy a good pillow - your neck will thank you.", "Disclaimer : This is a test transaction, no funds will move from your account.", "Ready to integrate to Midtrans?", "SIGN UP", "Get cozy with our new pillow!", "Rp" ],
+      "child" : null,
+      "_gt" : null
+    }
+  },
+  "landmarks" : [ "heading:Demo Store", "heading:Welcome to Snap Demo!" ],
+  "lastSeen" : {
+    "buyNowButton" : "2026-09-29T08:26:03"
+  }
+}

@@ -1,0 +1,158 @@
+{
+  "pageObject" : "PaymentSuccessPage",
+  "module" : "paymentgateway",
+  "fullClassName" : "automation.modules.paymentgateway.web.PaymentSuccessPage",
+  "recordedAt" : "2026-09-29T08:26:12",
+  "urlShape" : "https://demo.midtrans.com/",
+  "title" : "Sample Store",
+  "bodyClass" : "",
+  "coverage" : {
+    "amountDisplay" : 1,
+    "orderIdDisplay" : 1
+  },
+  "fingerprints" : {
+    "amountDisplay" : {
+      "index" : 12,
+      "tag" : "div",
+      "id" : null,
+      "name" : null,
+      "type" : null,
+      "class_list" : [ "text-headline", "large" ],
+      "role" : "generic",
+      "accessible_name" : "",
+      "aria_label" : null,
+      "placeholder" : null,
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : null,
+      "text" : "Rp49.000",
+      "attrs" : {
+        "class" : "text-headline large"
+      },
+      "is_interactive" : false,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/div[2]/div[2]/div[1]/div[1]/div[1]/div[2]",
+      "id_xpath" : "//*[@id='application']/div[1]/div[1]/div[1]/div[2]",
+      "ancestor_chain" : [ {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "content" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "success-wrapper" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "fullscreen-container" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : "application",
+        "classes" : [ "app-container" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : "app",
+        "classes" : [ ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 3,
+      "sibling_count" : 5,
+      "bbox_norm" : {
+        "x" : 0.390625,
+        "y" : 0.4103587962962963,
+        "w" : 0.21875,
+        "h" : 0.032407407407407406
+      },
+      "area_norm" : 0.007089120370370371,
+      "aspect" : 12,
+      "neighbor_texts" : [ "Order ID #sample-store-1790650565", "Payment successful" ],
+      "child" : null,
+      "_gt" : null
+    },
+    "orderIdDisplay" : {
+      "index" : 14,
+      "tag" : "div",
+      "id" : null,
+      "name" : null,
+      "type" : null,
+      "class_list" : [ "text-info", "small" ],
+      "role" : "generic",
+      "accessible_name" : "",
+      "aria_label" : null,
+      "placeholder" : null,
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : null,
+      "text" : "Order ID #sample-store-1790650565",
+      "attrs" : {
+        "class" : "text-info small"
+      },
+      "is_interactive" : false,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/div[2]/div[2]/div[1]/div[1]/div[1]/div[3]/div[1]",
+      "id_xpath" : "//*[@id='application']/div[1]/div[1]/div[1]/div[3]/div[1]",
+      "ancestor_chain" : [ {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "order-id-wrapper" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "content" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "success-wrapper" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "fullscreen-container" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : "application",
+        "classes" : [ "app-container" ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 0,
+      "sibling_count" : 1,
+      "bbox_norm" : {
+        "x" : 0.390625,
+        "y" : 0.4575810185185185,
+        "w" : 0.21875,
+        "h" : 0.013888888888888888
+      },
+      "area_norm" : 0.0030381944444444445,
+      "aspect" : 28,
+      "neighbor_texts" : [ "Rp49.000", "Payment successful" ],
+      "child" : null,
+      "_gt" : null
+    }
+  },
+  "landmarks" : [ "heading:Demo Store", "heading:Welcome to Snap Demo!" ],
+  "lastSeen" : {
+    "amountDisplay" : "2026-09-29T08:26:12",
+    "orderIdDisplay" : "2026-09-29T08:26:12"
+  }
+}
