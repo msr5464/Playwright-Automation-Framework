@@ -10,6 +10,7 @@ import automation.modules.saucedemo.web.ProductsPage;
 import automation.modules.saucedemo.api.SauceDemoApi;
 import io.restassured.response.Response;
 
+import java.util.Arrays;
 import java.util.Map;
 
 /**
@@ -32,11 +33,9 @@ import java.util.Map;
  */
 public class SauceDemoHelper extends ApiHelper
 {
-    private static final String API_BASE_URL = "https://jsonplaceholder.typicode.com";
-
     public SauceDemoHelper(Config config)
     {
-        super(config, API_BASE_URL);
+        super(config, config.getRunTimeProperty("saucedemo.api.url"));
     }
 
     public ProductsPage doLogin(Map<String, String> credentials)
@@ -80,6 +79,16 @@ public class SauceDemoHelper extends ApiHelper
     {
         return TestDataReader.loadCsvRowByColumnValue(
             "saucedemo", "posts", "post_key", postKey, Config.environment);
+    }
+
+    /**
+     * Load todo test data by todo_key from todos.csv.
+     * CSV: src/test/resources/saucedemo/csvFiles/todos.csv
+     */
+    public Map<String, String> getTodoData(String todoKey)
+    {
+        return TestDataReader.loadCsvRowByColumnValue(
+            "saucedemo", "todos", "todo_key", todoKey, Config.environment);
     }
 
     // ========== API HELPERS ==========
@@ -141,5 +150,58 @@ public class SauceDemoHelper extends ApiHelper
     {
         Log.comment(config, "Deleting post " + postId + " via API");
         return executeRaw(SauceDemoApi.DeletePost.withPath("id", String.valueOf(postId)), null);
+    }
+
+    // ========== TODO API HELPERS ==========
+
+    public SauceDemoData createTodo(int userId, String title, boolean completed)
+    {
+        Log.comment(config, "Creating todo via API - userId: " + userId + ", title: " + title);
+        return execute(SauceDemoApi.CreateTodo,
+            map().put("userId", userId).put("title", title).put("completed", completed).build(),
+            SauceDemoData.class);
+    }
+
+    public SauceDemoData getTodo(int id)
+    {
+        Log.comment(config, "Fetching todo " + id + " via API");
+        return execute(SauceDemoApi.GetTodo.withPath("id", String.valueOf(id)), SauceDemoData.class);
+    }
+
+    public SauceDemoData replaceTodo(int id, int userId, String title, boolean completed)
+    {
+        Log.comment(config, "Replacing todo " + id + " via API");
+        return execute(SauceDemoApi.ReplaceTodo.withPath("id", String.valueOf(id)),
+            map().put("id", id).put("userId", userId).put("title", title).put("completed", completed).build(),
+            SauceDemoData.class);
+    }
+
+    public SauceDemoData patchTodo(int id, boolean completed)
+    {
+        Log.comment(config, "Patching todo " + id + " completed=" + completed + " via API");
+        return execute(SauceDemoApi.PatchTodo.withPath("id", String.valueOf(id)),
+            map().put("completed", completed).build(),
+            SauceDemoData.class);
+    }
+
+    public Response deleteTodo(int id)
+    {
+        Log.comment(config, "Deleting todo " + id + " via API");
+        return executeRaw(SauceDemoApi.DeleteTodo.withPath("id", String.valueOf(id)), null);
+    }
+
+    public SauceDemoData[] listUserTodos(int userId)
+    {
+        Log.comment(config, "Listing todos for user " + userId + " via API");
+        return execute(SauceDemoApi.ListUserTodos.withPath("userId", String.valueOf(userId)), SauceDemoData[].class);
+    }
+
+    /**
+     * Returns true if every todo in the array has the expected userId.
+     * Stream logic kept in the helper so @Test methods stay declarative.
+     */
+    public boolean allTodosHaveUserId(SauceDemoData[] todos, int userId)
+    {
+        return Arrays.stream(todos).allMatch(t -> Integer.valueOf(userId).equals(t.getUserId()));
     }
 }

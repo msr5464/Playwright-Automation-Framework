@@ -25,4 +25,7 @@ public class SauceDemoData
 
     @JsonProperty("body")
     private String body;
+
+    @JsonProperty("completed")
+    private Boolean completed;
 }
