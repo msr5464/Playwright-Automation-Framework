@@ -5,6 +5,7 @@ import automation.core.Config;
 import automation.core.Log;
 import automation.core.TestDataReader;
 import automation.core.api.ApiHelper;
+import automation.modules.saucedemo.web.CartPage;
 import automation.modules.saucedemo.web.LoginPage;
 import automation.modules.saucedemo.web.ProductsPage;
 import automation.modules.saucedemo.api.SauceDemoApi;
@@ -23,12 +24,12 @@ import java.util.Map;
  *   SauceDemoData fetched = api.execute(SauceDemoApi.GetPost.withPath("id", "1"), SauceDemoData.class);
  *   api.execute(SauceDemoApi.DeletePost.withPath("id", "1"));
  *
- * Web usage:
+ * Web usage — business operations, one per test step, each returning what that
+ * step's checks read:
  *   SauceDemoHelper sauceDemo = new SauceDemoHelper(config);
- *   Map<String, String> user = sauceDemo.getUser("standard");
- *   ProductsPage products = sauceDemo.doLogin(user);
- *   products.addProductToCart("sauce-labs-backpack");
- *   CartPage cart = products.goToCart();
+ *   ProductsPage products = sauceDemo.doLogin(sauceDemo.getUser("standard"));
+ *   products = sauceDemo.addToCart(sauceDemo.getProduct("backpack"), sauceDemo.getProduct("bike_light"));
+ *   CartPage cart = sauceDemo.openCartWith(sauceDemo.getProduct("backpack"));
  */
 public class SauceDemoHelper extends ApiHelper
 {
@@ -50,6 +51,31 @@ public class SauceDemoHelper extends ApiHelper
         Log.comment(config, "Navigating to SauceDemo: " + url);
         BrowserHelper.navigateTo(config, url);
         return new LoginPage(config).doLogin(username, password);
+    }
+
+    /**
+     * Add each product to the cart from the Products page, by its products.csv row.
+     * A stage: returns the Products page, so the test can check the cart badge next.
+     */
+    @SafeVarargs
+    public final ProductsPage addToCart(Map<String, String>... products)
+    {
+        ProductsPage productsPage = new ProductsPage(config);
+        for (Map<String, String> product : products)
+        {
+            productsPage.addProductToCart(product.get("slug"));
+        }
+        return productsPage;
+    }
+
+    /**
+     * Add the products to the cart and open it: the stages end to end, for a test
+     * that checks nothing in between.
+     */
+    @SafeVarargs
+    public final CartPage openCartWith(Map<String, String>... products)
+    {
+        return addToCart(products).goToCart();
     }
 
     /**

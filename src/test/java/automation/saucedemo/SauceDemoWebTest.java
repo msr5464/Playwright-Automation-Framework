@@ -31,30 +31,27 @@ public class SauceDemoWebTest extends TestBase
         ProductsPage products = sauceDemo.doLogin(user);
         AssertHelper.assertEquals(config, products.getPageTitle(), "Products", "User should be on Products page");
 
-        config.logStep("Step 2: Add multiple items to the cart");
-        products.addProductToCart(product1.get("slug"));
-        products.addProductToCart(product2.get("slug"));
-        
-        config.logStep("Step 3: Verify the cart badge count reflects 2 items");
+        config.logStep("Step 2: Add both products to the cart and verify the cart badge shows 2 items");
+        products = sauceDemo.addToCart(product1, product2);
         AssertHelper.assertEquals(config, products.getCartCount(), "2", "Cart badge should display 2 items");
 
-        config.logStep("Step 4: Navigate to the cart and verify both products are present");
+        config.logStep("Step 3: Navigate to the cart and verify both products are present");
         CartPage cart = products.goToCart();
         AssertHelper.assertEquals(config, cart.getCartItemCount(), 2, "Cart should contain exactly 2 items");
         AssertHelper.assertTrue(config, cart.isProductInCart(product1.get("title")), "First product should be in cart");
         AssertHelper.assertTrue(config, cart.isProductInCart(product2.get("title")), "Second product should be in cart");
 
-        config.logStep("Step 5: Remove one product from the cart and verify count updates");
+        config.logStep("Step 4: Remove one product from the cart and verify count updates");
         cart.removeProduct(product2.get("title"));
         AssertHelper.assertEquals(config, cart.getCartItemCount(), 1, "Cart should contain exactly 1 item after removal");
         AssertHelper.assertFalse(config, cart.isProductInCart(product2.get("title")), "Removed product should no longer be in cart");
 
-        config.logStep("Step 6: Continue shopping to return to products page");
+        config.logStep("Step 5: Continue shopping to return to products page");
         ProductsPage returnedProductsPage = cart.continueShopping();
         AssertHelper.assertEquals(config, returnedProductsPage.getPageTitle(), "Products", "User should be returned to Products page");
         AssertHelper.assertEquals(config, returnedProductsPage.getCartCount(), "1", "Cart badge should still display 1 item");
 
-        config.logStep("Step 7: Perform logout and verify user is redirected to login page");
+        config.logStep("Step 6: Perform logout and verify user is redirected to login page");
         LoginPage loginPage = returnedProductsPage.logout();
         AssertHelper.assertTrue(config, loginPage.isLoginPageLoaded(), "User should be redirected back to the login page after logging out");
     }
@@ -87,7 +84,7 @@ public class SauceDemoWebTest extends TestBase
         AssertHelper.assertTrue(config, products.getProductCount() > 0, "Products page should display multiple products after loading");
         
         config.logStep("Step 5 (Web): Proceed with UI interactions, adding the " + product.get("slug") + " to the cart");
-        products.addProductToCart(product.get("slug"));
+        products = sauceDemo.addToCart(product);
         AssertHelper.assertEquals(config, products.getCartCount(), "1", "Cart badge should display 1 item added from Web UI");
         
         config.logStep("Step 6 (API): Perform a cleanup / teardown step using the API (Delete the previously fetched post)");
@@ -117,11 +114,11 @@ public class SauceDemoWebTest extends TestBase
         Map<String, String> user = sauceDemo.getUser("standard");
         Map<String, String> product = sauceDemo.getProduct("backpack");
 
-        config.logStep("Login to SauceDemo and add " + product.get("slug") + " to cart");
-        ProductsPage products = sauceDemo.doLogin(user);
-        products.addProductToCart(product.get("slug"));
+        config.logStep("Login to SauceDemo");
+        sauceDemo.doLogin(user);
 
-        config.logStep("Verify cart badge shows 1 item");
+        config.logStep("Add " + product.get("slug") + " to the cart and verify the cart badge shows 1 item");
+        ProductsPage products = sauceDemo.addToCart(product);
         AssertHelper.assertEquals(config, products.getCartCount(), "1", "Cart badge should show 1 after adding a product");
     }
 
@@ -133,14 +130,13 @@ public class SauceDemoWebTest extends TestBase
         Map<String, String> user = sauceDemo.getUser("standard");
         Map<String, String> product = sauceDemo.getProduct("bike_light");
 
-        config.logStep("Login, add " + product.get("slug") + " to cart, and navigate to cart");
-        ProductsPage products = sauceDemo.doLogin(user);
-        products.addProductToCart(product.get("slug"));
-        CartPage cart = products.goToCart();
+        config.logStep("Login to SauceDemo");
+        sauceDemo.doLogin(user);
 
-        config.logStep("Verify " + product.get("slug") + " is present in the cart");
+        config.logStep("Add " + product.get("slug") + " to the cart, open the cart and verify it is listed");
+        CartPage cart = sauceDemo.openCartWith(product);
         AssertHelper.assertTrue(config, cart.getCartItemCount() > 0, "Cart should contain at least one item");
-        
+
         String expectedTitle = product.get("title");
         AssertHelper.assertTrue(config, cart.isProductInCart(expectedTitle), expectedTitle + " should be in cart");
     }
