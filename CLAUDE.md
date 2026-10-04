@@ -200,13 +200,15 @@ Always include at least `GROUP_REGRESSION` plus one of `GROUP_API` or `GROUP_WEB
 
 ## How to Add a New Feature Module
 
-Follow this exact structure. Use `automation.modules.github` as the live reference implementation.
+Follow this exact structure. Use `automation.modules.github` as the live reference for API
+modules and `automation.modules.saucedemo` for web flows.
 
 ```
 src/main/java/automation/modules/{feature}/
 ├── {Feature}Data.java          # POJO — @Data @NoArgsConstructor @AllArgsConstructor + @JsonProperty
 ├── {Feature}Builder.java       # Fluent builder — .with*() methods + withDefaults() + build()
-├── {Feature}Helper.java        # Extends ApiHelper (external APIs) — orchestration methods
+├── {Feature}Helper.java        # Extends ApiHelper — the module's flow API: the business operations tests call
+├── {Feature}Enums.java         # Option enums (one nested enum per choice the UI offers) — only when the module has one
 ├── api/
 │   └── {Feature}Api.java       # Enum implementing ApiDetails — one entry per endpoint
 └── web/
@@ -343,6 +345,98 @@ public class WidgetListPage extends BasePage {
 }
 ```
 
+### Option enums and business operations (web flows)
+
+A module's Helper holds one public field per page of the module, and the page objects chain:
+every action that leaves a page returns the next page object. The test stores each page it is
+handed on the Helper's field for that page and calls the next action on it, so every step
+continues from the page the previous step returned. The Helper's own operations open the
+app (the one place a page object is constructed, right after navigating) and run a whole
+sequence for tests that check nothing in between. A choice among options the UI offers is an
+enum parameter, never part of a method name.
+
+```java
+// WidgetEnums.java — one class per module, a nested enum per choice. The values are every
+// option the page offers; key = the attribute value the option's locator is keyed on.
+public class WidgetEnums {
+    public enum DeliverySpeed {
+        Standard("standard", "Standard"),
+        Express("express", "Express");
+
+        private final String key;
+        private final String label;
+
+        DeliverySpeed(String key, String label) { this.key = key; this.label = label; }
+
+        public String getKey()   { return key; }
+        public String getLabel() { return label; }
+    }
+}
+```
+
+```java
+// Page object: ONE selection method. Its locator is the verified selector with only the
+// key replaced, so every option is selectable through the same code. An option that keeps
+// the user on this page returns `this`; when the option decides which page comes next, the
+// method returns BasePage, builds the page each automated option lands on, and the caller
+// casts.
+public BasePage chooseDelivery(DeliverySpeed speed) {
+    click(page.locator("[data-option='" + speed.getKey() + "']"), speed.getLabel() + " delivery");
+    return switch (speed) {
+        case Standard -> new StandardDeliveryPage(config);
+        default -> throw new UnsupportedOperationException(speed.getLabel() + " delivery is not automated yet");
+    };
+}
+
+// A value a check compares is returned ready to compare, converted by the Helper's one
+// converter. Never a private converter copied into each page.
+public String getTotal() {
+    return WidgetHelper.toPlainAmount(getText(totalDisplay, "Order total"));
+}
+```
+
+```java
+// Helper: one public field per page. The entry operation opens the app and returns the page
+// it lands on; a composed operation continues from the pages already in the fields. Neither
+// constructs a page mid-flow, and operations never assert.
+public WidgetListPage widgetListPage;
+public WidgetSummaryPage widgetSummaryPage;
+public StandardDeliveryPage standardDeliveryPage;
+public OrderPage orderPage;
+
+public WidgetSummaryPage createWidget(WidgetData widget) {          // entry: navigate, then chain
+    BrowserHelper.navigateTo(config, config.getRunTimeProperty("widget.url"));
+    widgetListPage = new WidgetListPage(config);                     // the only page a Helper builds
+    return widgetListPage.clickCreate().fill(widget).submit();
+}
+
+public OrderPage orderWidget(DeliverySpeed speed) {                 // composed: continues from widgetSummaryPage
+    switch (speed) {
+        case Standard -> {
+            standardDeliveryPage = (StandardDeliveryPage) widgetSummaryPage.chooseDelivery(speed);
+            orderPage = standardDeliveryPage.confirm();
+        }
+        default -> throw new UnsupportedOperationException(speed.getLabel() + " delivery is not automated yet");
+    }
+    return orderPage;
+}
+
+public static String toPlainAmount(String shown) { ... }            // the module's one converter
+```
+
+```java
+// Test: each step continues from the page the previous step returned, stored on the Helper's
+// field for that page; that step's checks read the page right after it.
+config.logStep("Create the widget and verify the summary shows its name");
+widgets.widgetSummaryPage = widgets.createWidget(widget);
+AssertHelper.assertEquals(config, widgets.widgetSummaryPage.getWidgetName(), widget.getWidgetName(), "Summary should show the widget name");
+
+config.logStep("Choose standard delivery, confirm, and verify the order shows the same widget");
+widgets.standardDeliveryPage = (StandardDeliveryPage) widgets.widgetSummaryPage.chooseDelivery(DeliverySpeed.Standard);
+widgets.orderPage = widgets.standardDeliveryPage.confirm();
+AssertHelper.assertEquals(config, widgets.orderPage.getWidgetName(), widget.getWidgetName(), "Order should be for the created widget");
+```
+
 ---
 
 ## API Tests
@@ -435,8 +529,9 @@ config.logFail("Repository not found in list");                  // red + screen
 config.logWarning("Optional banner not present, continuing");    // non-blocking issues
 ```
 
-- One `config.logStep()` per step of the scenario, immediately before the calls that carry
-  it out — never one run-on logStep summarising the whole test.
+- One `config.logStep()` per business step, stating the action and its expected outcome,
+  immediately before the calls that carry it out and followed by that step's checks —
+  never one run-on logStep for the whole test, and never one per click.
 - Do **NOT** add `config.logPass()` as the last line of a test — the framework logs
   PASS/FAIL automatically after each test
 
@@ -485,7 +580,8 @@ Never use `Thread.sleep()`. Use `WaitHelper`:
 | `waitForElementToBeAttached(config, locator, name)` | In DOM but not yet visible |
 | `waitForElementToBeDetached(config, locator, name)` | Wait for removal from DOM |
 | `waitForAnyElementToBeDisplayed(config, locators...)` | Poll until any one of multiple locators is visible |
-| `waitForNetworkIdle(config)` | After form submissions with no visible feedback |
+| `waitForPageToSettle(config)` | After an action that updates the page in place — typing that triggers a lookup, a selection that recalculates a total — before the next action or read. A click made while the page is still redrawing can be lost |
+| `waitForNetworkIdle(config)` | After a form submission that navigates. Returns at once on a page that has already loaded, so it never waits for an in-place update |
 
 Rule: use `assertPageLoaded(locator)` (inherited from `BasePage`) **at the end of every page constructor** — it waits for the element and hard-fails the test if the page did not load. Use `waitForElementToBeVisible` everywhere else.
 
@@ -583,7 +679,7 @@ CSV files: `src/test/resources/{feature}/csvFiles/{name}.csv`
 
 - **Module-scoped, one file per business entity**: keep a module's data in its own `csvFiles/` folder and name each file for the entity it holds — `users.csv`, `products.csv`, `orders.csv` — not for the test layer. API and web tests that use the same entity read the same sheet.
 - Add rows for a new scenario; never rewrite or drop rows that other tests read.
-- Credentials never go into a new CSV — they belong in the properties file (see *Configuration System*). The existing credential sheets predate this rule.
+- Login secrets never go into a new CSV: a password, token or API key, or an OTP the login asks for. A CSV is committed and this repository is public. They belong in the properties file (see *Configuration System*), read with `config.getRunTimeProperty()`. Other values a flow types are test data and go in the CSV, including a payment card number, its CVV and a bank page's OTP. The existing credential sheets predate this rule.
 
 Supported placeholders in CSV cells:
 - `{randomString:8}` — 8-char random alphanumeric
@@ -615,28 +711,51 @@ Users are automatically released by `@AfterMethod`. Do not release manually.
 ### Naming
 - Full descriptive names: `merchantName` not `mName`, `orderId` not `id`
 - Methods describe the action: `addProductToCart()`, `verifyRepositoryMetadata()`
+- Helper operations are named for the business action and take the choice as a parameter:
+  `makePayment(PaymentMethod.CreditCard, order)`, never `payByCreditCard()`
 - Enum values in CamelCase: `SpringGreen`, `BerryBlue` — not `SPRING_GREEN`
 
 ### Page objects
 - One class = one page. No cross-page locators.
-- Several small actions on the same page in a row (filling a form's fields) become one higher-level method — `fillCheckoutDetails(data)` — so the test calls one step, not five.
+- Several small actions on the same page in a row (filling a form's fields) become one higher-level method — `fillCheckoutDetails(data)` — so the test calls one action, not five.
 - Locator priority: `[data-cy='...']` > `#id` > `[name='...']` > css > xpath
 - Element inside an iframe: enter the frame in the field itself, one `.frameLocator(...)` per nested iframe — `page.frameLocator("#checkout-frame").frameLocator("iframe[title='3ds']").locator("#amount")`. It is still a `Locator`, so `click`, `fillText`, `getText` and `assertPageLoaded` work unchanged. Pick each iframe by a stable `#id`, `[title='...']` or `[name^='stem']` — never by position, or by a per-load name or URL token. A selector written `A >> internal:control=enter-frame >> B` (failure messages print them this way) is exactly this: `page.frameLocator("A").locator("B")`
 - XPath: use `contains()` only — never exact text match, positional selectors, or deep nesting
-- Navigation methods must return the next page object
+- Page objects chain: an action that leaves the page returns the next page object; an action that stays returns `this`. When the option chosen decides the next page, the method returns `BasePage` and builds the page each automated option lands on — the caller casts, `(CardFormPage) paymentPage.choosePaymentMethod(PaymentMethod.Card)`
+- A getter returns what the page shows. When a check compares it in another form (an amount as plain number text, a phone as its digits), the getter converts it through the module Helper's one `public static` converter — never a converter copied into each page
 - Call `assertPageLoaded(locator)` at the end of every constructor — no `waitUntilLoaded()` override needed
+- An option picked from a set (a payment method, a delivery speed) is selected by ONE method taking
+  the module's option enum. Its locator is a verified selector with only the option's key replaced —
+  the one locator built in a method rather than declared in the constructor. Fix its fixed parts;
+  never write one option's value into it, which silently breaks every other option
 
-### Helpers
-- A Helper method orchestrates ≥2 page objects or encapsulates non-trivial logic. Single-page chains go in the page class.
-- Steps several tests repeat belong in one Helper method called from each, not copied into every test.
+### Helpers — the module's flow API
+- **Reuse before anything new.** Search this module and `automation.core` for a method that already
+  does it. Otherwise change one slightly so it serves both callers — a new enum value and its case, an
+  overload that keeps the old signature, an optional data field — without changing what it does for
+  its current callers. Only then write a new method. A method that differs from an existing one only
+  by a hard-coded value is never new.
+- **One public field per page of the module** (`public PaymentPage paymentPage;`). The test stores every
+  page it is handed on the field for that page; the Helper's operations continue from those fields.
+- Business operations a person would name (`checkout`, `makePayment`, `confirmOtp`), each covering as
+  many pages as the operation takes and returning the page it lands on. An **entry** operation opens
+  the app (navigate, log in, start a checkout) — the ONLY place a page object is constructed, right
+  after navigating. A **composed** operation continues from the pages in the fields, storing each page
+  it passes through, for tests that check nothing in between. Never `new XPage(config)` mid-flow: the
+  page the previous step returned is already in its field.
+- Choices are parameters: a fixed set of options is an enum in the module's `{Feature}Enums` class;
+  options the module does not automate yet throw `UnsupportedOperationException`.
+- Operations never assert — the test does, on the pages they return.
+- The same sequence is never written twice — not in two tests, not in two operations.
 - JSON extraction (`response.jsonPath().getList(...)`), Java Stream filtering/mapping, loops and multi-step data preparation live in the Helper, which returns what the test asserts on.
-- No thin wrapper around a single existing call — grouping multiple steps or real logic is the point.
+- No thin wrapper: a method that only renames one existing call and adds nothing.
 - Do not instantiate page objects in test classes — use the Helper
 
 ### Test classes
-- **Declarative only**: a `@Test` method reads like the scenario — high-level calls to the Helper and page objects, then `AssertHelper` assertions. No loops, Stream filtering or JSONPath extraction inside it.
+- **Each step continues the chain**: a `@Test` method reads like the scenario — each step calls a Helper operation or a business-level page method on the page the previous step returned, stores the page it returns on the Helper's field (`shop.paymentPage = shop.cartPage.checkout(order);`), and is followed by that step's `AssertHelper` checks, read from that page. Never hold a page in a local variable, and never construct one in a test. No loops, Stream filtering or JSONPath extraction inside it.
+- **Short**: about 25-30 lines between the method's braces. Longer usually means small page actions that belong in one page method, or a sequence that belongs in a Helper operation.
 - **Hide API intricacies**: request bodies (`new XBuilder()...build()`) and chains of dependent API calls are built and run inside the Helper, not in the `@Test` method.
-- **No data hardcoding**: test data comes from the module's CSV (read through a Helper method) or a Builder, never from literals in the test.
+- **Test data is one setup line**: a Helper method reads the module's CSV and builds the Data object (`PaymentData payment = shop.buildPayment("card")`) — never a Builder chain, a CSV read or a literal in the test.
 - One user per test — never share accounts between test methods
 - `config.logStep()` in test classes only; `Log.comment(config, ...)` everywhere else
 - No hardcoded credentials, URLs, or IDs — use properties files and Builders
@@ -665,7 +784,7 @@ Users are automatically released by `@AfterMethod`. Do not release manually.
 | `Log.comment(config, ...)` / `Log.step(...)` in a test class | `config.logStep("...")` |
 | `config.logPass()` at end of test method | remove it — framework logs automatically |
 | Hardcoded URL in test/page | put in properties file |
-| Hardcoded credential in test | use CSV or `config.getRunTimeProperty()` |
+| Hardcoded credential in test | use `config.getRunTimeProperty()` (an existing credential sheet's CSV row where the module already reads one) |
 
 ---
 
@@ -676,9 +795,10 @@ Users are automatically released by `@AfterMethod`. Do not release manually.
 | API test class | [GitHubApiTest.java](src/test/java/automation/github/GitHubApiTest.java) |
 | Web test class | [SauceDemoWebTest.java](src/test/java/automation/saucedemo/SauceDemoWebTest.java) |
 | External API helper | [GitHubHelper.java](src/main/java/automation/modules/github/GitHubHelper.java) |
+| Helper business operations (web) | [SauceDemoHelper.java](src/main/java/automation/modules/saucedemo/SauceDemoHelper.java) |
 | API enum | [GitHubApi.java](src/main/java/automation/modules/github/api/GitHubApi.java) |
 | Data POJO | [GitHubData.java](src/main/java/automation/modules/github/GitHubData.java) |
-| Web page object | [LoginPage.java](src/main/java/automation/modules/github/web/LoginPage.java) |
+| Web page object | [ProductsPage.java](src/main/java/automation/modules/saucedemo/web/ProductsPage.java) |
 | Framework base class | [TestBase.java](src/main/java/automation/core/TestBase.java) |
 | Config system | [Config.java](src/main/java/automation/core/Config.java) |
 | All enums | [Enums.java](src/main/java/automation/core/Enums.java) |
