@@ -145,6 +145,17 @@ public class BrowserHelper {
         if (config == null || config.page == null)
             return;
         try {
+            // Requests in flight, for WaitHelper.waitForPageToSettle. Streams never
+            // finish, so they are not the page still loading.
+            config.requestsInFlight.clear();
+            config.page.onRequest(request -> {
+                try {
+                    if (!java.util.Set.of("websocket", "eventsource", "media").contains(request.resourceType()))
+                        config.requestsInFlight.put(request, System.currentTimeMillis());
+                } catch (Throwable ignored) {
+                }
+            });
+            config.page.onRequestFinished(request -> config.requestsInFlight.remove(request));
             config.page.onResponse(response -> {
                 try {
                     int status = response.status();
@@ -155,6 +166,7 @@ public class BrowserHelper {
                 }
             });
             config.page.onRequestFailed(request -> {
+                config.requestsInFlight.remove(request);
                 try {
                     record(config.httpErrors, "FAILED " + request.method() + " " + request.url()
                             + " (" + request.failure() + ")");
