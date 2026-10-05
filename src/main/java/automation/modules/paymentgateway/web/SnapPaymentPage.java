@@ -12,6 +12,7 @@ public class SnapPaymentPage extends BasePage
     private final Locator orderDetailsName;
     private final Locator orderDetailsPhone;
     private final Locator amountDisplay;
+    private final Locator outsideArea;
 
     public SnapPaymentPage(Config config)
     {
@@ -20,6 +21,7 @@ public class SnapPaymentPage extends BasePage
         orderDetailsName = page.frameLocator("#snap-midtrans").locator("div.order-customer-group > div:first-child");
         orderDetailsPhone = page.frameLocator("#snap-midtrans").locator("div.order-summary-phone");
         amountDisplay = page.frameLocator("#snap-midtrans").locator("div.header-amount");
+        outsideArea = page.frameLocator("#snap-midtrans").locator("div.outside-area");
         assertPageLoaded(amountDisplay);
     }
 
@@ -41,7 +43,7 @@ public class SnapPaymentPage extends BasePage
 
     public SnapPaymentPage closeOrderDetailsOverlay()
     {
-        click(detailsIcon, "Order details icon");
+        click(outsideArea, "Outside area (closes order details overlay)");
         return this;
     }
 
