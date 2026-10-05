@@ -28,7 +28,7 @@ public class PaymentGatewayWebTest extends TestBase
     {
         PaymentGatewayHelper paymentGateway = new PaymentGatewayHelper(config);
         Map<String, String> testData = TestDataReader.loadCsvRowByColumnValue(
-            "paymentgateway", "paymentgateway-data", "data_key", "credit_card_payment", Config.environment);
+            "paymentgateway", "paymentgateway-data", "data_key", "credit_card_payment");
         PaymentGatewayData payment = new PaymentGatewayBuilder()
             .withAmount(testData.get("amount"))
             .withCardNumber(testData.get("card_number"))
