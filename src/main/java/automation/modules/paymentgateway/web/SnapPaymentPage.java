@@ -4,6 +4,7 @@ import com.microsoft.playwright.Locator;
 
 import automation.core.BasePage;
 import automation.core.Config;
+import automation.core.Element;
 import automation.core.WaitHelper;
 import automation.modules.paymentgateway.PaymentGatewayEnums.PaymentMethod;
 
@@ -37,7 +38,10 @@ public class SnapPaymentPage extends BasePage
 
     public SnapPaymentPage closeOrderDetailsOverlay()
     {
-        click(closeOverlayButton, "Close order details overlay");
+        // The backdrop spans the full viewport, so a click at its bounding-box center
+        // lands on the still-open modal content sitting on top of it there; click its
+        // corner instead, which the modal does not cover.
+        Element.clickViaCoordinates(config, closeOverlayButton, "Close order details overlay");
         return this;
     }
 
