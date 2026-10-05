@@ -1,2 +1,2 @@
 checkout_key,environment,amount,name,email,phone,address,card_number,expiry,cvv,otp
-checkout,staging,50000,{randomString:8} Tester,{randomEmail},{randomNumber:10},Bangalore, India,4811 1111 1111 1114,01/35,123,112233
+checkout,staging,50000,{randomString:8} Tester,{randomEmail},{randomNumber:10},"Bangalore, India",4811 1111 1111 1114,01/35,123,112233
