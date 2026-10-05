@@ -1,0 +1,22 @@
+{
+  "pageObject" : "SnapPaymentPage",
+  "module" : "paymentgateway",
+  "fullClassName" : "automation.modules.paymentgateway.web.SnapPaymentPage",
+  "recordedAt" : "2026-10-05T14:13:55",
+  "urlShape" : "https://demo.midtrans.com/",
+  "title" : "Sample Store",
+  "bodyClass" : "",
+  "coverage" : {
+    "detailsIcon" : 1,
+    "orderDetailsName" : 0,
+    "orderDetailsPhone" : 0,
+    "amountDisplay" : 1,
+    "outsideArea" : 0
+  },
+  "fingerprints" : { },
+  "landmarks" : [ "heading:Demo Store", "heading:Welcome to Snap Demo!" ],
+  "lastSeen" : {
+    "detailsIcon" : "2026-10-05T14:13:55",
+    "amountDisplay" : "2026-10-05T14:13:55"
+  }
+}
