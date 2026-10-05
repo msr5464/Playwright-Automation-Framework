@@ -2,6 +2,9 @@ package automation.modules.paymentgateway.web;
 
 import com.microsoft.playwright.Locator;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import automation.core.BasePage;
 import automation.core.Config;
 import automation.core.WaitHelper;
@@ -58,10 +61,17 @@ public class CreditCardFormPage extends BasePage
      * Reduces a displayed amount ('Rp50.000', '49000.00') to plain number text
      * ('50000', '49000') - no currency symbol, no thousands separator, no trailing
      * decimal zeros - so two differently-formatted amounts can be compared as strings.
+     *
+     * Once a promo is applied, the header shows the discounted amount immediately
+     * followed by the struck-through original amount (e.g. 'Rp49.000Rp50.000'), and
+     * textContent() returns both concatenated - so only the first amount token in the
+     * raw text is taken; the original (struck-through) amount that may follow is ignored.
      */
     private String normalizeAmount(String rawAmount)
     {
-        String digitsAndDot = rawAmount.replaceAll("[^0-9.]", "");
+        Matcher firstAmountMatcher = Pattern.compile("[0-9][0-9.,]*").matcher(rawAmount);
+        String firstAmount = firstAmountMatcher.find() ? firstAmountMatcher.group() : rawAmount;
+        String digitsAndDot = firstAmount.replaceAll("[^0-9.]", "");
         int lastDot = digitsAndDot.lastIndexOf('.');
         if (lastDot == -1)
         {
