@@ -66,6 +66,7 @@ public class PaymentGatewayWebTest extends TestBase
             .withAmount(data.get("amount"))
             .withName(data.get("name"))
             .withEmail(data.get("email"))
+            .withPhone(data.get("phone"))
             .withAddress(data.get("address"))
             .withCardNumber(data.get("card_number"))
             .withExpiry(data.get("expiry"))
