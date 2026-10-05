@@ -28,9 +28,13 @@ public class CreditCardFormPage extends BasePage
 
     public CreditCardFormPage fillCardDetails(PaymentGatewayData payment)
     {
-        fillText(cardNumberField, payment.getCardNumber(), "Card number field");
-        fillText(expiryField, payment.getExpiry(), "Expiry field");
-        fillText(cvvField, payment.getCvv(), "CVV field");
+        // These are formatted/masked inputs whose client-side validation (which also
+        // gates whether the promo list below becomes enabled) runs off real keystroke
+        // events. fillText() sets the value in one shot with no such events, so the
+        // card is never seen as validated and the promo options stay disabled.
+        typeText(cardNumberField, payment.getCardNumber(), "Card number field");
+        typeText(expiryField, payment.getExpiry(), "Expiry field");
+        typeText(cvvField, payment.getCvv(), "CVV field");
         return this;
     }
 
