@@ -32,8 +32,13 @@ public class CreditCardFormPage extends BasePage
         // gates whether the promo list below becomes enabled) runs off real keystroke
         // events. fillText() sets the value in one shot with no such events, so the
         // card is never seen as validated and the promo options stay disabled.
-        typeText(cardNumberField, payment.getCardNumber(), "Card number field");
-        typeText(expiryField, payment.getExpiry(), "Expiry field");
+        // The mask auto-inserts its own separators (a space every 4 digits in the card
+        // number, a "/" after the month in the expiry) as each digit is typed. Typing
+        // the display-formatted string on top of that double-inserts separators, runs
+        // the field past its masked max length early, and spills the remaining
+        // keystrokes into the next field. Type digits only and let the mask format them.
+        typeText(cardNumberField, payment.getCardNumber().replaceAll("[^0-9]", ""), "Card number field");
+        typeText(expiryField, payment.getExpiry().replaceAll("[^0-9]", ""), "Expiry field");
         typeText(cvvField, payment.getCvv(), "CVV field");
         return this;
     }
