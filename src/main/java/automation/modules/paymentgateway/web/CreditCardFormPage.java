@@ -42,6 +42,10 @@ public class CreditCardFormPage extends BasePage
     {
         Locator promoOption = page.frameLocator("#snap-midtrans").locator("label[for='" + promo.getKey() + "']");
         click(promoOption, promo.getLabel());
+        // Applying the promo recalculates the discounted amount via an async call; wait
+        // for that to settle before the caller reads the header amount, or it reads the
+        // pre-promo value still displayed at click time.
+        WaitHelper.waitForNetworkIdle(config);
         return this;
     }
 
