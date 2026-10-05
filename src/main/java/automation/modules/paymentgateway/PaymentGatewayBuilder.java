@@ -66,7 +66,7 @@ public class PaymentGatewayBuilder
 
     public PaymentGatewayBuilder withDefaults()
     {
-        if (phone == null) phone = DataGenerator.randomPhoneNumber();
+        if (phone == null) phone = String.valueOf(DataGenerator.randomNumber(1000000000, 2147483647));
         return this;
     }
 
