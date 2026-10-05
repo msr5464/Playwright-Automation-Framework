@@ -21,8 +21,9 @@ public class SnapPaymentPage extends BasePage
         detailsIcon = page.frameLocator("#snap-midtrans").locator("div.header-detail-clickable");
         orderDetailsName = page.frameLocator("#snap-midtrans").locator("div.order-customer-group > div:first-child");
         orderDetailsPhone = page.frameLocator("#snap-midtrans").locator("div.order-summary-phone");
-        // The order details overlay toggles open/closed on the same clickable header element.
-        closeOverlayButton = page.frameLocator("#snap-midtrans").locator("div.header-detail-clickable");
+        // While the overlay is open, a full-screen backdrop covers the header toggle and is
+        // itself the widget's click-outside-to-dismiss target, so close via the backdrop.
+        closeOverlayButton = page.frameLocator("#snap-midtrans").locator("div.outside-area");
         amountDisplay = page.frameLocator("#snap-midtrans").locator("div.header-amount");
         assertPageLoaded(amountDisplay);
     }
