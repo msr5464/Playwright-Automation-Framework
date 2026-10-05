@@ -43,7 +43,11 @@ public class SnapPaymentPage extends BasePage
 
     public SnapPaymentPage closeOrderDetailsOverlay()
     {
-        click(outsideArea, "Outside area (closes order details overlay)");
+        // A real mouse click here lands on 'div.header-modal-content', which sits on
+        // top of this backdrop at the same screen coordinate and intercepts every
+        // click attempt. The JS click invokes the element's own click handler
+        // directly, without a browser hit-test at that coordinate.
+        clickViaJS(outsideArea, "Outside area (closes order details overlay)");
         return this;
     }
 
