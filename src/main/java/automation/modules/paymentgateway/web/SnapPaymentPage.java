@@ -6,6 +6,7 @@ import automation.core.BasePage;
 import automation.core.Config;
 import automation.core.WaitHelper;
 import automation.modules.paymentgateway.PaymentGatewayEnums.PaymentMethod;
+import automation.core.Log;
 
 public class SnapPaymentPage extends BasePage
 {
@@ -24,6 +25,12 @@ public class SnapPaymentPage extends BasePage
         closeOverlayButton = page.frameLocator("#snap-midtrans").locator("div.header-modal-content div.close-snap-button.clickable");
         amountDisplay = page.frameLocator("#snap-midtrans").locator("div.header-amount");
         assertPageLoaded(amountDisplay);
+        // The popup's header area keeps re-rendering briefly after the amount first
+        // appears (order-summary data still loading), which detaches elements like
+        // the details icon out from under an in-flight click. Let that settle before
+        // any interaction on this page.
+        Log.comment(config, "Waiting for the payment popup to finish loading before interacting with it");
+        WaitHelper.waitForNetworkIdle(config);
     }
 
     public SnapPaymentPage openOrderDetailsOverlay()
