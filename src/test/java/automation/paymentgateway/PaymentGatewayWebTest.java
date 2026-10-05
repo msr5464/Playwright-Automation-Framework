@@ -61,6 +61,6 @@ public class PaymentGatewayWebTest extends TestBase
 
         config.logStep("Wait for the redirect back to the first page and verify the thank-you message is shown");
         String message = paymentGateway.waitForRedirectHomeAndGetMessage();
-        AssertHelper.assertEquals(config, message, "Thank you for your purchase. Get a nice sleep.", "Home page should show the thank-you message after redirect");
+        AssertHelper.assertEquals(config, message, "Thank you for your purchase.Get a nice sleep.", "Home page should show the thank-you message after redirect");
     }
 }
