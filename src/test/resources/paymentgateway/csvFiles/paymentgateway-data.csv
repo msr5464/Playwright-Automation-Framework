@@ -1,0 +1,2 @@
+data_key,amount,card_number,expiry,cvv,otp
+credit_card_payment,50000,4111 1111 1111 1111,01/35,123,112233
