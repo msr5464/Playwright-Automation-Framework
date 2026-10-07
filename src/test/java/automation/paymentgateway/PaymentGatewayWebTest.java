@@ -22,7 +22,7 @@ public class PaymentGatewayWebTest extends TestBase
     private PaymentGatewayData buildPayment()
     {
         Map<String, String> data = TestDataReader.loadCsvRowByColumnValue(
-            "paymentgateway", "paymentgateway-data", "scenario", "credit_card_promo", Config.environment);
+            "paymentgateway", "paymentgateway-data", "scenario", "credit_card_promo");
         return new PaymentGatewayBuilder()
             .withAmount(data.get("amount"))
             .withCustomerName(data.get("customer_name"))
