@@ -1,5 +1,7 @@
 package automation.core;
 
+import com.microsoft.playwright.ElementHandle;
+import com.microsoft.playwright.Frame;
 import com.microsoft.playwright.Locator;
 
 import java.io.File;
@@ -10,6 +12,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -38,15 +41,25 @@ import java.util.concurrent.ConcurrentHashMap;
  *
  * <p>So {@link #record} writes to {@code baselines/pending/}, {@link #promote} moves it
  * into place when the test passes, and {@link #discard} throws it away when it does not.
+ * "In place" is {@code baselines/<module>/<PageObject>.json} for a page object under
+ * {@code .modules.}: two modules can each own a {@code LoginPage}, and a flat directory
+ * let whichever module ran last overwrite the other's fingerprint.
  * Never allowed to fail a test: a baseline is an optimisation for a later diagnosis, not
  * part of the run.
  */
 public class Baseline {
 
-    /** Overridable so CI can point at a path that survives between builds. */
-    private static final String DIR = System.getenv("BASELINE_DIR");
+    /** -Dbaseline.dir, then HEALING_BASELINE_DIR, then baselineDir, then test-output/baselines. */
+    private static final String DIR_PROPERTY = "baselineDir";
+    private static final String DIR_ENV = "HEALING_BASELINE_DIR";
+    private static final String DIR_SYSTEM = "baseline.dir";
 
     private static final Set<String> WRITTEN = Collections.newSetFromMap(new ConcurrentHashMap<>());
+
+    /** Opt out of the per-page-object DOM walk; coverage counts are recorded either way. */
+    private static final String FINGERPRINTS_PROPERTY = "baselineFingerprints";
+    private static final String FINGERPRINTS_ENV = "HEALING_BASELINE_FINGERPRINTS";
+    private static final String FINGERPRINTS_SYSTEM = "baseline.fingerprints";
 
     private static final com.fasterxml.jackson.databind.ObjectMapper MAPPER =
             new com.fasterxml.jackson.databind.ObjectMapper();
@@ -59,24 +72,38 @@ public class Baseline {
         if (config == null || config.page == null || pageObject == null)
             return;
         String name = pageObject.getClass().getSimpleName();
+        // Two modules can each own a LoginPage. Stored per module, so a passing run of
+        // one never overwrites the other's fingerprint under the shared simple name.
+        String module = getModule(pageObject);
         // Once per test per page object. Keyed by test rather than by page alone: a
         // pending fingerprint is only promoted if *this* test passes, so a page first
         // seen by a test that fails must still be recordable by the next one.
-        if (!WRITTEN.add(testKey(config) + "#" + name))
+        if (!WRITTEN.add(testKey(config) + "#" + module + "#" + name))
             return;
 
         try {
             Map<String, Object> root = new LinkedHashMap<>();
             root.put("pageObject", name);
+            if (!module.isEmpty())
+                root.put("module", module);
+            root.put("fullClassName", pageObject.getClass().getName());
             root.put("recordedAt", DataGenerator.getCurrentDateTime("yyyy-MM-dd'T'HH:mm:ss"));
             root.put("urlShape", shapeOf(config.page.url()));
             root.put("title", config.page.title());
             root.put("bodyClass", bodyClass(config));
-            root.put("coverage", coverage(pageObject));
+            Map<String, Object> counts = new LinkedHashMap<>();
+            Map<String, Object> prints = new LinkedHashMap<>();
+            List<Object> landmarks = new java.util.ArrayList<>();
+            collect(config, pageObject, counts, prints, landmarks);
+            root.put("coverage", counts);
+            root.put("fingerprints", prints);
+            // Headings and landmark roles: a better "right screen?" check than a
+            // URL, which survives a redirect to a login page unchanged.
+            root.put("landmarks", landmarks);
 
-            Path directory = pendingDirectory();
+            Path directory = pendingDirectory(config);
             new File(directory.toString()).mkdirs();
-            Files.write(directory.resolve(pendingName(config, name)),
+            Files.write(directory.resolve(pendingName(config, module, name)),
                     MAPPER.writerWithDefaultPrettyPrinter().writeValueAsString(root)
                             .getBytes(StandardCharsets.UTF_8));
         } catch (Throwable ignored) {
@@ -86,28 +113,81 @@ public class Baseline {
 
     /** The test passed: everything it recorded really is a good-run fingerprint. */
     public static void promote(Config config) {
-        forEachPending(config, (pending, pageObject) -> {
-            Path directory = baselineDirectory();
+        forEachPending(config, (pending, module, pageObject) -> {
+            Path directory = baselineDirectory(config);
+            if (!module.isEmpty())
+                directory = directory.resolve(module);
             new File(directory.toString()).mkdirs();
-            Files.move(pending, directory.resolve(pageObject + ".json"),
+            Path target = directory.resolve(pageObject + ".json");
+            carryForwardLastSeen(pending, target);
+            Files.move(pending, target,
                     java.nio.file.StandardCopyOption.REPLACE_EXISTING);
         });
     }
 
+    /**
+     * Merge {@code lastSeen} from the baseline being replaced into the one replacing it.
+     *
+     * <p>{@code coverage} is a count per locator taken from the page as it was, which is
+     * honest but says less than it appears to. A test promotes a baseline for every page
+     * object it loaded, and {@link #collect} counts every locator declared on those pages
+     * — including the ones this test never went near. So a locator that is simply broken
+     * gets written down as matching nothing on a run that passed, and reading that back
+     * says "absent when the test last passed", which is the evidence for concluding the
+     * element was removed from the product. It was never there to remove: the selector
+     * has been wrong the whole time.
+     *
+     * <p>Those two cases are indistinguishable in a single record and obvious across two.
+     * An element that really was removed matched in earlier runs; a selector that was
+     * always wrong never matched in any. {@code lastSeen} keeps that history — field to
+     * the timestamp it last resolved to something — so the reader can tell "this went
+     * away" from "this never worked", instead of treating both as removal.
+     *
+     * <p>Advisory, like everything else here: any failure leaves the promotion alone.
+     */
+    @SuppressWarnings("unchecked")
+    static void carryForwardLastSeen(Path pending, Path target) {
+        try {
+            Map<String, Object> incoming = MAPPER.readValue(pending.toFile(), Map.class);
+            Map<String, Object> lastSeen = new LinkedHashMap<>();
+            if (Files.exists(target)) {
+                Object previous = MAPPER.readValue(target.toFile(), Map.class).get("lastSeen");
+                if (previous instanceof Map)
+                    lastSeen.putAll((Map<String, Object>) previous);
+            }
+            Object counts = incoming.get("coverage");
+            String now = String.valueOf(incoming.get("recordedAt"));
+            if (counts instanceof Map) {
+                for (Map.Entry<String, Object> entry : ((Map<String, Object>) counts).entrySet()) {
+                    if (entry.getValue() instanceof Number
+                            && ((Number) entry.getValue()).intValue() > 0)
+                        lastSeen.put(entry.getKey(), now);
+                }
+            }
+            if (lastSeen.isEmpty())
+                return;
+            incoming.put("lastSeen", lastSeen);
+            Files.write(pending, MAPPER.writerWithDefaultPrettyPrinter()
+                    .writeValueAsString(incoming).getBytes(StandardCharsets.UTF_8));
+        } catch (Throwable ignored) {
+            // A baseline without lastSeen only makes the next diagnosis abstain.
+        }
+    }
+
     /** The test failed: what it saw is not a record of the page working. */
     public static void discard(Config config) {
-        forEachPending(config, (pending, pageObject) -> Files.deleteIfExists(pending));
+        forEachPending(config, (pending, module, pageObject) -> Files.deleteIfExists(pending));
     }
 
     private interface PendingAction {
-        void apply(Path pending, String pageObject) throws Exception;
+        void apply(Path pending, String module, String pageObject) throws Exception;
     }
 
     private static void forEachPending(Config config, PendingAction action) {
         if (config == null)
             return;
         try {
-            Path directory = pendingDirectory();
+            Path directory = pendingDirectory(config);
             if (!Files.isDirectory(directory))
                 return;
             String prefix = testKey(config) + "__";
@@ -116,10 +196,15 @@ public class Baseline {
                     String fileName = pending.getFileName().toString();
                     if (!fileName.startsWith(prefix) || !fileName.endsWith(".json"))
                         continue;
-                    String pageObject = fileName.substring(prefix.length(),
+                    String rest = fileName.substring(prefix.length(),
                             fileName.length() - ".json".length());
+                    // {module}__{PageObject}, or a bare {PageObject} recorded before
+                    // baselines were stored per module.
+                    int split = rest.indexOf("__");
+                    String module = split > 0 ? rest.substring(0, split) : "";
+                    String pageObject = split > 0 ? rest.substring(split + 2) : rest;
                     try {
-                        action.apply(pending, pageObject);
+                        action.apply(pending, module, pageObject);
                     } catch (Throwable ignored) {
                         // One unusable file must not strand the rest.
                     }
@@ -130,14 +215,31 @@ public class Baseline {
         }
     }
 
-    private static Path baselineDirectory() {
-        return Paths.get(DIR != null && !DIR.isEmpty()
-                ? DIR
+    /** First source that answers: -D system property, environment, properties, null. */
+    private static String setting(Config config, String systemKey, String envKey,
+                                  String propertyKey) {
+        String value = System.getProperty(systemKey);
+        if (value == null || value.isEmpty())
+            value = System.getenv(envKey);
+        if ((value == null || value.isEmpty()) && config != null)
+            value = config.runTimeProperties.getProperty(propertyKey);
+        return value == null || value.isEmpty() ? null : value;
+    }
+
+    private static boolean fingerprintsEnabled(Config config) {
+        return !"false".equalsIgnoreCase(
+                setting(config, FINGERPRINTS_SYSTEM, FINGERPRINTS_ENV, FINGERPRINTS_PROPERTY));
+    }
+
+    private static Path baselineDirectory(Config config) {
+        String configured = setting(config, DIR_SYSTEM, DIR_ENV, DIR_PROPERTY);
+        return Paths.get(configured != null
+                ? configured
                 : Config.resultsDirectory + File.separator + "baselines");
     }
 
-    private static Path pendingDirectory() {
-        return baselineDirectory().resolve("pending");
+    private static Path pendingDirectory(Config config) {
+        return baselineDirectory(config).resolve("pending");
     }
 
     /** A filesystem-safe identifier for the test that recorded a fingerprint. */
@@ -147,8 +249,26 @@ public class Baseline {
         return test.replaceAll("[^A-Za-z0-9._-]", "_");
     }
 
-    private static String pendingName(Config config, String pageObject) {
-        return testKey(config) + "__" + pageObject + ".json";
+    private static String pendingName(Config config, String module, String pageObject) {
+        return testKey(config) + "__" + (module.isEmpty() ? "" : module + "__")
+                + pageObject + ".json";
+    }
+
+    /**
+     * The feature module a page object belongs to: {@code automation.modules.checkout.web}
+     * gives {@code checkout}. Empty outside {@code .modules.}, which keeps the flat layout.
+     */
+    public static String getModule(Object pageObject) {
+        if (pageObject == null)
+            return "";
+        Package pkg = pageObject.getClass().getPackage();
+        String name = pkg == null ? "" : pkg.getName();
+        int start = name.indexOf(".modules.");
+        if (start < 0)
+            return "";
+        String after = name.substring(start + ".modules.".length());
+        int dot = after.indexOf('.');
+        return dot > 0 ? after.substring(0, dot) : after;
     }
 
     /**
@@ -176,9 +296,8 @@ public class Baseline {
         }
     }
 
-    /** Per-locator match counts, using the same reflection rule as FailureContext. */
-    private static Map<String, Object> coverage(Object pageObject) {
-        Map<String, Object> counts = new LinkedHashMap<>();
+    /** Visits every Locator field, using the same reflection rule as FailureContext. */
+    private static void forEachLocator(Object pageObject, LocatorVisitor visitor) {
         for (Class<?> type = pageObject.getClass();
              type != null && type != Object.class && type != BasePage.class;
              type = type.getSuperclass()) {
@@ -189,11 +308,100 @@ public class Baseline {
                     field.setAccessible(true);
                     Locator locator = (Locator) field.get(pageObject);
                     if (locator != null)
-                        counts.put(field.getName(), locator.count());
+                        visitor.visit(field.getName(), locator);
                 } catch (Throwable ignored) {
                 }
             }
         }
-        return counts;
+    }
+
+    private interface LocatorVisitor {
+        void visit(String name, Locator locator);
+    }
+
+    /**
+     * Per-locator match counts, plus a fingerprint of what each one matched:
+     * tag, role, accessible name, text, attributes, neighbours, geometry.
+     *
+     * <p>Snapshot and indices must come from ONE evaluate — resolving indices in a
+     * second walk picks up a DOM that has moved on, silently fingerprinting the
+     * wrong element.
+     */
+    private static void collect(Config config, Object pageObject,
+                                Map<String, Object> counts, Map<String, Object> prints,
+                                List<Object> landmarks) {
+        String js = fingerprintsEnabled(config) ? LocatorCapture.script() : "";
+        // Resolve every handle first, then one evaluate. count != 1 is skipped: an
+        // ambiguous locator has not said which element the test meant.
+        final List<String> names = new java.util.ArrayList<>();
+        final List<Object> handles = new java.util.ArrayList<>();
+        final List<Frame> owners = new java.util.ArrayList<>();
+        forEachLocator(pageObject, (name, locator) -> {
+            int count;
+            try {
+                count = locator.count();
+            } catch (Throwable e) {
+                return;
+            }
+            counts.put(name, count);
+            if (js.isEmpty() || count != 1)
+                return;
+            try {
+                ElementHandle handle = locator.elementHandle(
+                        new Locator.ElementHandleOptions().setTimeout(2000));
+                if (handle != null) {
+                    names.add(name);
+                    handles.add(handle);
+                    owners.add(handle.ownerFrame());
+                }
+            } catch (Throwable ignored) {
+                // One unresolvable locator must not cost us the others.
+            }
+        });
+        if (js.isEmpty())
+            return;
+
+        // One evaluate per frame. A handle only resolves in the document it lives in:
+        // passing an iframe's element to the page's evaluate threw, and the catch below
+        // then lost every fingerprint on the page object, not just that one. The page's
+        // own frame always runs, since it is also where the landmarks come from.
+        Frame main = config.page.mainFrame();
+        Map<Frame, List<Integer>> byFrame = new LinkedHashMap<>();
+        byFrame.put(main, new java.util.ArrayList<>());
+        for (int n = 0; n < names.size(); n++) {
+            Frame owner = owners.get(n) == null ? main : owners.get(n);
+            byFrame.computeIfAbsent(owner, f -> new java.util.ArrayList<>()).add(n);
+        }
+        for (Map.Entry<Frame, List<Integer>> group : byFrame.entrySet()) {
+            List<Object> groupHandles = new java.util.ArrayList<>();
+            for (int n : group.getValue())
+                groupHandles.add(handles.get(n));
+            try {
+                Object result = group.getKey().evaluate(js, groupHandles);
+                if (!(result instanceof Map))
+                    continue;
+                Map<?, ?> snap = (Map<?, ?>) result;
+                Object found = snap.get("elements");
+                Object idx = snap.get("indices");
+                if (!(found instanceof List))
+                    continue;
+                List<?> all = (List<?>) found;
+                List<?> indices = (idx instanceof List) ? (List<?>) idx : Collections.emptyList();
+
+                Object marks = snap.get("landmarks");
+                if (group.getKey() == main && marks instanceof List)
+                    landmarks.addAll((List<?>) marks);
+
+                for (int k = 0; k < group.getValue().size() && k < indices.size(); k++) {
+                    if (!(indices.get(k) instanceof Number))
+                        continue;
+                    int i = ((Number) indices.get(k)).intValue();
+                    if (i >= 0 && i < all.size())
+                        prints.put(names.get(group.getValue().get(k)), all.get(i));
+                }
+            } catch (Throwable ignored) {
+                // An unusable snapshot costs that frame's fingerprints, never the counts.
+            }
+        }
     }
 }

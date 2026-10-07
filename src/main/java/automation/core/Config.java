@@ -93,6 +93,10 @@ public class Config {
     public final List<String> httpErrors = Collections.synchronizedList(new ArrayList<>());
     public final List<String> jsErrors = Collections.synchronizedList(new ArrayList<>());
     public final List<String> navigationHistory = Collections.synchronizedList(new ArrayList<>());
+    // Requests the page has started and not yet finished, with when each started.
+    // WaitHelper.waitForPageToSettle reads it: a request started before the wait
+    // began is one the wait could not otherwise see.
+    public final java.util.Map<Object, Long> requestsInFlight = new java.util.concurrent.ConcurrentHashMap<>();
     public String failureContextPath = null; // machine-readable failure context, read by the QA agent network
 
     /**

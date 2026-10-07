@@ -12,11 +12,25 @@ public class Element {
     // ========== CLICK ==========
 
     public static void click(Config config, Locator locator, String elementName) {
-        WaitHelper.waitForElementToBeVisible(config, locator, elementName);
-        Log.action(config, "Clicking: " + elementName);
+        // The wait already spent the full ObjectWaitTime on this element; clicking
+        // with a budget would spend it again for the same answer and the same error.
+        boolean visible = WaitHelper.waitForElementToBeVisible(config, locator, elementName);
+        if (visible) {
+            Log.action(config, "Clicking: " + elementName);
+        } else {
+            // Say so: the 1ms timeout in the error below otherwise reads as a misconfig.
+            Log.action(config, "Clicking: " + elementName
+                    + " (the wait did not succeed — failing fast rather than "
+                    + "waiting a second time)");
+        }
         try {
-            locator.scrollIntoViewIfNeeded();
-            locator.click();
+            if (visible) {
+                locator.scrollIntoViewIfNeeded();
+                locator.click();
+            } else {
+                // Scroll skipped too — it carries its own full timeout.
+                locator.click(new Locator.ClickOptions().setTimeout(1));
+            }
         } catch (Exception e) {
             config.logExceptionAndFail(
                     "Failed to click on element '" + elementName + "' with locator: " + locator.toString(), e);

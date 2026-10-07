@@ -1,6 +1,8 @@
 package automation.core;
 
+import com.microsoft.playwright.Frame;
 import com.microsoft.playwright.Locator;
+import com.microsoft.playwright.Page;
 import com.microsoft.playwright.options.WaitForSelectorState;
 
 public class WaitHelper {
@@ -20,15 +22,34 @@ public class WaitHelper {
             config.logCommentForDebugging("Element is visible: " + elementName);
             return true;
         } catch (Exception e) {
-            config.logWarning("Element not visible after timeout: " + elementName);
+            // Not every exception here is a timeout — a strict-mode violation throws
+            // at once, and "not visible after timeout" misreads it downstream.
+            config.logWarning(describeWaitFailure(e, elementName,
+                    System.currentTimeMillis() - startTime, getTimeout(config)));
             // Every interaction waits here first, so this is the one place that knows
             // which element an about-to-fail action was reaching for. Remembering it
             // costs nothing and is what lets the failure be written down as a fact
             // rather than reconstructed from the message afterwards.
             FailureContext.waitingOn(locator, elementName,
-                    System.currentTimeMillis() - startTime, getTimeout(config));
+                    System.currentTimeMillis() - startTime, getTimeout(config), e);
             return false;
         }
+    }
+
+    /** Name what actually ended the wait: a wait that gave up early did not time out. */
+    private static String describeWaitFailure(Exception e, String elementName,
+                                              long elapsedMs, long budgetMs) {
+        String message = e.getMessage() == null ? "" : e.getMessage();
+        String summary = FailureContext.summarizeError(message);
+        if (message.toLowerCase().contains("strict mode violation")) {
+            return "Locator for '" + elementName + "' matches more than one element, so "
+                    + "no action can run on it: " + summary;
+        }
+        if (elapsedMs < budgetMs / 10) {
+            return "Wait for '" + elementName + "' failed after " + elapsedMs + "ms of a "
+                    + budgetMs + "ms budget (not a timeout): " + summary;
+        }
+        return "Element not visible after timeout: " + elementName;
     }
 
     public static boolean waitForOptionalElementToBeVisible(Config config, Locator locator, String elementName) {
@@ -145,6 +166,80 @@ public class WaitHelper {
         }
     }
 
+    /**
+     * Wait until the page has landed on a URL. waitForNetworkIdle cannot do this —
+     * it reports on the CURRENT document, so it returns before a submit's navigation
+     * has even begun. Returns false rather than throwing; the caller usually
+     * navigates next and should report its own error, not this one.
+     */
+    public static boolean waitForUrl(Config config, String urlPattern) {
+        try {
+            config.page.waitForURL(urlPattern,
+                    new Page.WaitForURLOptions().setTimeout(getTimeout(config)));
+            return true;
+        } catch (Exception e) {
+            config.logWarning("URL never became '" + urlPattern + "' within the timeout");
+            return false;
+        }
+    }
+
+    // The page has settled once no frame has changed for this long and no request is
+    // in flight. A request older than STALE_REQUEST_MS is a long poll or a beacon,
+    // not the page still loading.
+    private static final int SETTLE_QUIET_MS = 700;
+    private static final int STALE_REQUEST_MS = 5000;
+
+    /**
+     * Wait until the page has finished updating in place: no frame changing for a
+     * moment and no request in flight. For an action that changes the page without
+     * navigating, such as a total recalculated after a field is typed into, where
+     * waitForNetworkIdle returns at once because the page's load state was reached
+     * long before. A click made while the page is still redrawing can be lost, and a
+     * value read then is the old one. This is the rule the authoring agent's browser
+     * validation waits by, so a generated test waits where that run waited.
+     */
+    public static void waitForPageToSettle(Config config) {
+        long start = System.currentTimeMillis();
+        long quietSince = start;
+        String last = pageFingerprint(config);
+        while (System.currentTimeMillis() - start < getTimeout(config)) {
+            config.page.waitForTimeout(150);
+            String now = pageFingerprint(config);
+            if (!now.equals(last) || requestsLoading(config)) {
+                last = now;
+                quietSince = System.currentTimeMillis();
+            } else if (System.currentTimeMillis() - quietSince >= SETTLE_QUIET_MS) {
+                return;
+            }
+        }
+        config.logWarning("The page was still changing after " + getTimeout(config) + " ms");
+    }
+
+    private static boolean requestsLoading(Config config) {
+        long now = System.currentTimeMillis();
+        return config.requestsInFlight.values().stream().anyMatch(t -> now - t < STALE_REQUEST_MS);
+    }
+
+    // Every frame's text length and element count: cheap, and a ticking countdown
+    // changes digits, not lengths, so it does not keep the page "changing".
+    private static String pageFingerprint(Config config) {
+        StringBuilder out = new StringBuilder();
+        for (Frame frame : config.page.frames()) {
+            try {
+                out.append(frame.evaluate("() => document.body ? document.body.innerText.length + ':' "
+                        + "+ document.getElementsByTagName('*').length : '-'")).append('|');
+            } catch (Exception e) {
+                out.append("x|");
+            }
+        }
+        return out.toString();
+    }
+
+    /**
+     * Wait for a navigation's load to go quiet. It returns at once on a page that
+     * has already loaded, so it does not wait for an in-place update: use
+     * waitForPageToSettle for that.
+     */
     public static void waitForNetworkIdle(Config config) {
         try {
             config.page.waitForLoadState(com.microsoft.playwright.options.LoadState.NETWORKIDLE);
