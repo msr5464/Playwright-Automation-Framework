@@ -46,4 +46,24 @@ public class NaukriHelper extends ApiHelper
         BrowserHelper.navigateTo(config, profileUrl);
         return new NaukriProfilePage(config);
     }
+
+    /**
+     * Toggle the trailing dot of the profile summary and save the change.
+     * Adds a dot if the current summary does not end with one; removes it if it does.
+     *
+     * @param profile        the currently loaded NaukriProfilePage
+     * @param currentSummary the current profile summary text
+     * @return the expected summary after the toggle (what was saved)
+     */
+    public String toggleTrailingDotAndSave(NaukriProfilePage profile, String currentSummary)
+    {
+        String expectedSummary = currentSummary.endsWith(".")
+            ? currentSummary.substring(0, currentSummary.length() - 1)
+            : currentSummary + ".";
+        Log.comment(config, "Toggling trailing dot in profile summary. Saving: " + expectedSummary);
+        profile.clickEditSummary();
+        profile.setSummaryText(expectedSummary);
+        profile.clickSave();
+        return expectedSummary;
+    }
 }

@@ -50,4 +50,33 @@ public class NaukriProfileSummaryWebTest extends TestBase
         AssertHelper.assertEquals(config, profile.getDisplayedSummaryText(), expectedSummary,
             "Profile Summary after reload should match the saved modified summary");
     }
+
+    /**
+     * Toggle trailing dot in profile summary via helper and verify the change persisted after reload.
+     */
+    @Test(description = "Toggle trailing dot in profile summary via helper and verify the change persisted after reload",
+          dataProvider = "getConfig", groups = {GROUP_REGRESSION, GROUP_WEB})
+    @TestVariables(automatedBy = QA.Mukesh)
+    public void toggleProfileSummaryDotAndVerify(Config config)
+    {
+        String username = config.getRunTimeProperty("naukari.username");
+        String password = config.getRunTimeProperty("naukari.password");
+        NaukriHelper naukri = new NaukriHelper(config);
+
+        config.logStep("Login to Naukri and open the profile page");
+        NaukriProfilePage profile = naukri.doLogin(username, password);
+
+        config.logStep("Read the current profile summary text");
+        String currentSummary = profile.getCurrentSummaryText();
+
+        config.logStep("Toggle the trailing dot in the profile summary and save the change");
+        String expectedSummary = naukri.toggleTrailingDotAndSave(profile, currentSummary);
+
+        config.logStep("Navigate back to the profile page to verify the change persisted");
+        profile = naukri.openProfilePage();
+
+        config.logStep("Verify the displayed profile summary matches the saved value");
+        AssertHelper.assertEquals(config, profile.getDisplayedSummaryText(), expectedSummary,
+            "Profile Summary after reload should match the saved modified summary");
+    }
 }
