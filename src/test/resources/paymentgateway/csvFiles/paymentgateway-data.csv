@@ -1,0 +1,2 @@
+scenario,amount,customer_name,email,address,phone,card_number,card_expiry,card_cvv,promo_code,bank_otp
+credit_card_promo,50000,Mukesh Rajput,mrajput@yopmail.com,"Bangalore, India",9876543210,4111 1111 1111 1111,01/35,123,Promo Flash Sale (Credit-Card),112233
