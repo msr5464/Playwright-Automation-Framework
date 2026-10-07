@@ -283,6 +283,14 @@
                             <mainClass>automation.core.SessionMinter</mainClass>
                         </configuration>
                     </execution>
+                    <!-- mvn -q compile exec:java@calibration -Dexec.args=".../labels.csv" -->
+                    <execution>
+                        <id>calibration</id>
+                        <goals><goal>java</goal></goals>
+                        <configuration>
+                            <mainClass>automation.core.ai.Calibration</mainClass>
+                        </configuration>
+                    </execution>
                 </executions>
             </plugin>
         </plugins>

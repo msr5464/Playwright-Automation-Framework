@@ -24,6 +24,16 @@ public class AssertHelper {
         }
     }
 
+    // Scores are doubles, so compare within 1e-6 — rounding noise must not fail a test.
+    public static void assertEquals(Config config, double actual, double expected, String message) {
+        if (Math.abs(actual - expected) < 1e-6) {
+            String msg = message.contains("should be") ? message.replace("should be", "is") : message + " is " + actual;
+            Log.pass(config, "✔ PASS: Verified " + msg);
+        } else {
+            Log.fail(config, "✘ FAIL: " + message + " | Expected: " + expected + " | Actual: " + actual);
+        }
+    }
+
     public static void assertTrue(Config config, boolean condition, String message) {
         if (condition) {
             Log.pass(config, "✔ PASS: " + message);
