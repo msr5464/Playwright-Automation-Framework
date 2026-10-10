@@ -7,47 +7,42 @@ import automation.core.Config;
 import automation.modules.paymentgateway.PaymentGatewayHelper;
 import automation.modules.paymentgateway.PaymentGatewayEnums.PaymentMethod;
 
-public class PaymentMethodPage extends BasePage
-{
+public class PaymentMethodPage extends BasePage {
     private final Locator detailsIcon;
     private final Locator orderDetailsName;
     private final Locator orderDetailsPhone;
     private final Locator closeDetailsIcon;
     private final Locator totalAmountDisplay;
 
-    public PaymentMethodPage(Config config)
-    {
+    public PaymentMethodPage(Config config) {
         super(config);
         detailsIcon = page.frameLocator("#snap-midtrans").locator("div.header-detail-clickable");
-        orderDetailsName = page.frameLocator("#snap-midtrans").locator("div.order-customer-group div:has-text('Mukesh Rajput')");
+        orderDetailsName = page.frameLocator("#snap-midtrans")
+                .locator("div.order-customer-group div:has-text('Mukesh Rajput')");
         orderDetailsPhone = page.frameLocator("#snap-midtrans").locator("div.order-summary-phone");
-        closeDetailsIcon = page.frameLocator("#snap-midtrans").locator("div.header-modal-content div.close-snap-button.clickable");
-        totalAmountDisplay = page.frameLocator("#snap-midtrans").locator("div.header-amount");
+        closeDetailsIcon = page.frameLocator("#snap-midtrans")
+                .locator("div.header-modal-content div.close-snap-button.clickable");
+        totalAmountDisplay = page.frameLocator("#snap-midtrans").locator("div.header-mukesh-amount");
         assertPageLoaded(totalAmountDisplay);
     }
 
-    public void openDetailsOverlay()
-    {
+    public void openDetailsOverlay() {
         click(detailsIcon, "Details icon");
     }
 
-    public String getOrderDetailsName()
-    {
+    public String getOrderDetailsName() {
         return getText(orderDetailsName, "Order details name");
     }
 
-    public String getOrderDetailsPhone()
-    {
+    public String getOrderDetailsPhone() {
         return getText(orderDetailsPhone, "Order details phone");
     }
 
-    public void closeDetailsOverlay()
-    {
+    public void closeDetailsOverlay() {
         click(closeDetailsIcon, "Close details icon");
     }
 
-    public String getTotalAmount()
-    {
+    public String getTotalAmount() {
         return PaymentGatewayHelper.toPlainAmount(getText(totalAmountDisplay, "Total amount"));
     }
 
@@ -57,12 +52,10 @@ public class PaymentMethodPage extends BasePage
      * The option chosen decides the next page, so this returns BasePage and the
      * caller casts to the page the exercised value lands on.
      */
-    public BasePage choosePaymentMethod(PaymentMethod method)
-    {
+    public BasePage choosePaymentMethod(PaymentMethod method) {
         Locator option = page.frameLocator("#snap-midtrans").locator("a[href='" + method.getKey() + "']");
         click(option, method.getLabel() + " payment method");
-        return switch (method)
-        {
+        return switch (method) {
             case CreditCard -> new automation.modules.paymentgateway.web.CreditCardFormPage(config);
             default -> throw new UnsupportedOperationException(method.getLabel() + " is not automated yet");
         };
