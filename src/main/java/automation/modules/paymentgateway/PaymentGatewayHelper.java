@@ -86,7 +86,14 @@ public class PaymentGatewayHelper extends ApiHelper
     public static String toPlainAmount(String shown)
     {
         String digitsOnly = shown.replaceAll("[^0-9.]", "");
-        if (digitsOnly.contains("."))
+        if (digitsOnly.matches(".*\\.\\d{3}$"))
+        {
+            // a dot followed by exactly three digits at the end is a thousands
+            // grouping separator (e.g. Indonesian "Rp50.000" meaning 50000, not
+            // a decimal fraction) - remove every such separator, not just the last
+            digitsOnly = digitsOnly.replace(".", "");
+        }
+        else if (digitsOnly.contains("."))
         {
             digitsOnly = digitsOnly.replaceAll("\\.0+$", "");
             digitsOnly = digitsOnly.replaceAll("(\\.\\d*?)0+$", "$1");
