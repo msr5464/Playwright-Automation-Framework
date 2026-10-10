@@ -9,6 +9,19 @@ import com.microsoft.playwright.Locator;
  */
 public class Element {
 
+    /**
+     * The budget for the action that follows a visibility wait.
+     *
+     * <p>The wait already spent the full ObjectWaitTime on this element. When it did
+     * not succeed, acting with a budget of its own spends that time a second time
+     * for the same answer and the same error — a minute per missing element instead
+     * of half of one. So a failed wait leaves the action 1ms: it fails at once, with
+     * the wording and the Playwright error every caller already expects.
+     */
+    private static double actionTimeout(Config config, boolean visible) {
+        return visible ? WaitHelper.getTimeout(config) : 1;
+    }
+
     // ========== CLICK ==========
 
     public static void click(Config config, Locator locator, String elementName) {
@@ -48,10 +61,11 @@ public class Element {
     }
 
     public static void clickViaCoordinates(Config config, Locator locator, String elementName) {
-        WaitHelper.waitForElementToBeVisible(config, locator, elementName);
+        boolean visible = WaitHelper.waitForElementToBeVisible(config, locator, elementName);
         Log.action(config, "Coordinate clicking: " + elementName);
         try {
-            locator.click(new Locator.ClickOptions().setPosition(0, 0));
+            locator.click(new Locator.ClickOptions().setPosition(0, 0)
+                    .setTimeout(actionTimeout(config, visible)));
         } catch (Exception e) {
             config.logExceptionAndFail(
                     "Failed to coordinate-click on element '" + elementName + "' with locator: " + locator.toString(),
@@ -60,10 +74,11 @@ public class Element {
     }
 
     public static void doubleClick(Config config, Locator locator, String elementName) {
-        WaitHelper.waitForElementToBeVisible(config, locator, elementName);
+        boolean visible = WaitHelper.waitForElementToBeVisible(config, locator, elementName);
         Log.action(config, "Double clicking: " + elementName);
         try {
-            locator.dblclick();
+            locator.dblclick(new Locator.DblclickOptions()
+                    .setTimeout(actionTimeout(config, visible)));
         } catch (Exception e) {
             config.logExceptionAndFail(
                     "Failed to double-click on element '" + elementName + "' with locator: " + locator.toString(), e);
@@ -73,11 +88,12 @@ public class Element {
     // ========== TEXT INPUT ==========
 
     public static void enterData(Config config, Locator locator, String text, String elementName) {
-        WaitHelper.waitForElementToBeVisible(config, locator, elementName);
+        boolean visible = WaitHelper.waitForElementToBeVisible(config, locator, elementName);
         Log.action(config, "Entering in '" + elementName + "': " + text);
         try {
-            locator.clear();
-            locator.fill(text);
+            double timeout = actionTimeout(config, visible);
+            locator.clear(new Locator.ClearOptions().setTimeout(timeout));
+            locator.fill(text, new Locator.FillOptions().setTimeout(timeout));
         } catch (Exception e) {
             config.logExceptionAndFail(
                     "Failed to enter data in element '" + elementName + "' with locator: " + locator.toString(), e);
@@ -85,11 +101,13 @@ public class Element {
     }
 
     public static void clearAndType(Config config, Locator locator, String text, String elementName) {
-        WaitHelper.waitForElementToBeVisible(config, locator, elementName);
+        boolean visible = WaitHelper.waitForElementToBeVisible(config, locator, elementName);
         Log.action(config, "Clearing and typing in '" + elementName + "': " + text);
         try {
-            locator.clear();
-            locator.pressSequentially(text);
+            double timeout = actionTimeout(config, visible);
+            locator.clear(new Locator.ClearOptions().setTimeout(timeout));
+            locator.pressSequentially(text,
+                    new Locator.PressSequentiallyOptions().setTimeout(timeout));
         } catch (Exception e) {
             config.logExceptionAndFail(
                     "Failed to clear and type in element '" + elementName + "' with locator: " + locator.toString(), e);
@@ -97,10 +115,11 @@ public class Element {
     }
 
     public static void appendText(Config config, Locator locator, String text, String elementName) {
-        WaitHelper.waitForElementToBeVisible(config, locator, elementName);
+        boolean visible = WaitHelper.waitForElementToBeVisible(config, locator, elementName);
         Log.action(config, "Appending to '" + elementName + "': " + text);
         try {
-            locator.pressSequentially(text);
+            locator.pressSequentially(text, new Locator.PressSequentiallyOptions()
+                    .setTimeout(actionTimeout(config, visible)));
         } catch (Exception e) {
             config.logExceptionAndFail(
                     "Failed to append text to element '" + elementName + "' with locator: " + locator.toString(), e);
@@ -110,11 +129,12 @@ public class Element {
     // ========== CHECKBOX ==========
 
     public static void check(Config config, Locator locator, String elementName) {
-        WaitHelper.waitForElementToBeVisible(config, locator, elementName);
+        boolean visible = WaitHelper.waitForElementToBeVisible(config, locator, elementName);
         try {
-            if (!locator.isChecked()) {
+            double timeout = actionTimeout(config, visible);
+            if (!locator.isChecked(new Locator.IsCheckedOptions().setTimeout(timeout))) {
                 Log.action(config, "Checking: " + elementName);
-                locator.check();
+                locator.check(new Locator.CheckOptions().setTimeout(timeout));
             }
         } catch (Exception e) {
             config.logExceptionAndFail(
@@ -123,11 +143,12 @@ public class Element {
     }
 
     public static void uncheck(Config config, Locator locator, String elementName) {
-        WaitHelper.waitForElementToBeVisible(config, locator, elementName);
+        boolean visible = WaitHelper.waitForElementToBeVisible(config, locator, elementName);
         try {
-            if (locator.isChecked()) {
+            double timeout = actionTimeout(config, visible);
+            if (locator.isChecked(new Locator.IsCheckedOptions().setTimeout(timeout))) {
                 Log.action(config, "Unchecking: " + elementName);
-                locator.uncheck();
+                locator.uncheck(new Locator.UncheckOptions().setTimeout(timeout));
             }
         } catch (Exception e) {
             config.logExceptionAndFail(
@@ -138,9 +159,10 @@ public class Element {
     // ========== TEXT RETRIEVAL ==========
 
     public static String getText(Config config, Locator locator, String elementName) {
-        WaitHelper.waitForElementToBeVisible(config, locator, elementName);
+        boolean visible = WaitHelper.waitForElementToBeVisible(config, locator, elementName);
         try {
-            String text = locator.textContent();
+            String text = locator.textContent(new Locator.TextContentOptions()
+                    .setTimeout(actionTimeout(config, visible)));
             Log.debug(config, "Text from '" + elementName + "': " + text);
             return text != null ? text.trim() : "";
         } catch (Exception e) {
@@ -151,9 +173,10 @@ public class Element {
     }
 
     public static String getInputValue(Config config, Locator locator, String elementName) {
-        WaitHelper.waitForElementToBeVisible(config, locator, elementName);
+        boolean visible = WaitHelper.waitForElementToBeVisible(config, locator, elementName);
         try {
-            return locator.inputValue();
+            return locator.inputValue(new Locator.InputValueOptions()
+                    .setTimeout(actionTimeout(config, visible)));
         } catch (Exception e) {
             config.logExceptionAndFail(
                     "Failed to get input value from element '" + elementName + "' with locator: " + locator.toString(),
@@ -163,9 +186,10 @@ public class Element {
     }
 
     public static String getAttribute(Config config, Locator locator, String attribute, String elementName) {
-        WaitHelper.waitForElementToBeVisible(config, locator, elementName);
+        boolean visible = WaitHelper.waitForElementToBeVisible(config, locator, elementName);
         try {
-            return locator.getAttribute(attribute);
+            return locator.getAttribute(attribute, new Locator.GetAttributeOptions()
+                    .setTimeout(actionTimeout(config, visible)));
         } catch (Exception e) {
             config.logExceptionAndFail("Failed to get attribute '" + attribute + "' from element '" + elementName
                     + "' with locator: " + locator.toString(), e);
@@ -194,10 +218,11 @@ public class Element {
     // ========== SELECT / DROPDOWN ==========
 
     public static void selectOption(Config config, Locator locator, String value, String elementName) {
-        WaitHelper.waitForElementToBeVisible(config, locator, elementName);
+        boolean visible = WaitHelper.waitForElementToBeVisible(config, locator, elementName);
         Log.action(config, "Selecting '" + value + "' in: " + elementName);
         try {
-            locator.selectOption(value);
+            locator.selectOption(value, new Locator.SelectOptionOptions()
+                    .setTimeout(actionTimeout(config, visible)));
         } catch (Exception e) {
             config.logExceptionAndFail(
                     "Failed to select option '" + value + "' in element '" + elementName + "' with locator: "
@@ -243,10 +268,11 @@ public class Element {
     // ========== HOVER ==========
 
     public static void hover(Config config, Locator locator, String elementName) {
-        WaitHelper.waitForElementToBeVisible(config, locator, elementName);
+        boolean visible = WaitHelper.waitForElementToBeVisible(config, locator, elementName);
         Log.action(config, "Hovering over: " + elementName);
         try {
-            locator.hover();
+            locator.hover(new Locator.HoverOptions()
+                    .setTimeout(actionTimeout(config, visible)));
         } catch (Exception e) {
             config.logExceptionAndFail(
                     "Failed to hover over element '" + elementName + "' with locator: " + locator.toString(), e);

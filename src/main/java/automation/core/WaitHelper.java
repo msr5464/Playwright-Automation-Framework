@@ -20,6 +20,9 @@ public class WaitHelper {
                     .setState(WaitForSelectorState.VISIBLE)
                     .setTimeout(getTimeout(config)));
             config.logCommentForDebugging("Element is visible: " + elementName);
+            // Every interaction waits here first, so this is also the one place that
+            // sees each locator at the moment it demonstrably works.
+            Baseline.seen(config, locator);
             return true;
         } catch (Exception e) {
             // Not every exception here is a timeout — a strict-mode violation throws

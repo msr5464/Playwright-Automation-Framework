@@ -44,7 +44,7 @@ public class BrowserHelper {
         // Maven finished. Launching it ourselves and attaching with connectOverCDP
         // inverts that ownership, so the browser outlives the test process.
         if (Boolean.parseBoolean(config.getRunTimeProperty("repairMode", "false"))) {
-            config.cdpPort = Integer.parseInt(config.getRunTimeProperty("repairCdpPort", "9222"));
+            config.cdpPort = Integer.parseInt(config.getRunTimeProperty("repairPort", "9222"));
             if (launchDetachedBrowserForRepair(config)) {
                 return;   // config.browser/context/page are set by the helper
             }
