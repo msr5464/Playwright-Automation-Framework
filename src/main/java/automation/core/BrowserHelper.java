@@ -145,6 +145,17 @@ public class BrowserHelper {
         if (config == null || config.page == null)
             return;
         try {
+            // Requests in flight, for WaitHelper.waitForPageToSettle. Streams never
+            // finish, so they are not the page still loading.
+            config.requestsInFlight.clear();
+            config.page.onRequest(request -> {
+                try {
+                    if (!java.util.Set.of("websocket", "eventsource", "media").contains(request.resourceType()))
+                        config.requestsInFlight.put(request, System.currentTimeMillis());
+                } catch (Throwable ignored) {
+                }
+            });
+            config.page.onRequestFinished(request -> config.requestsInFlight.remove(request));
             config.page.onResponse(response -> {
                 try {
                     int status = response.status();
@@ -155,6 +166,7 @@ public class BrowserHelper {
                 }
             });
             config.page.onRequestFailed(request -> {
+                config.requestsInFlight.remove(request);
                 try {
                     record(config.httpErrors, "FAILED " + request.method() + " " + request.url()
                             + " (" + request.failure() + ")");
@@ -481,11 +493,29 @@ public class BrowserHelper {
                 // The HTML snapshot is the important half; never lose it over this.
             }
 
+            // The iframes, which page.content() leaves as empty tags. An element inside
+            // one would otherwise read as absent to every reader of this failure.
+            String framesAttribute = "";
+            try {
+                java.util.List<java.util.Map<String, Object>> frames = LocatorCapture.frames(config.page);
+                if (!frames.isEmpty()) {
+                    Path framesPath = Paths.get(domDir,
+                            fileName.substring(0, fileName.length() - ".html".length())
+                                    + ".frames.json");
+                    Files.write(framesPath, new com.fasterxml.jackson.databind.ObjectMapper()
+                            .writeValueAsString(frames).getBytes(StandardCharsets.UTF_8));
+                    framesAttribute = " frames=\"" + framesPath + "\"";
+                }
+            } catch (Throwable ignored) {
+                // Same as the fingerprints: never lose the snapshot over its frames.
+            }
+
             String header = "<!-- qa-agent-network:dom-snapshot"
                     + " test=\"" + config.testcaseName + "\""
                     + " url=\"" + url + "\""
                     + " capturedAt=\"" + DataGenerator.getCurrentDateTime("yyyy-MM-dd'T'HH:mm:ss") + "\""
                     + fingerprintsAttribute
+                    + framesAttribute
                     + " -->\n";
             Files.write(domPath, (header + config.page.content()).getBytes(StandardCharsets.UTF_8));
 

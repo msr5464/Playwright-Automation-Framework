@@ -1,0 +1,2 @@
+scenario,amount,customer_name,email,address,phone,card_number,expiry_date,cvv,bank_otp
+credit_card_promo,50000,Mukesh Rajput,mrajput@yopmail.com,"Bangalore, India",{randomNumber:10},4111 1111 1111 1111,01/35,123,112233

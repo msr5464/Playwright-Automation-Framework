@@ -5,6 +5,7 @@ import automation.core.Config;
 import automation.core.Log;
 import automation.core.TestDataReader;
 import automation.core.api.ApiHelper;
+import automation.modules.saucedemo.web.CartPage;
 import automation.modules.saucedemo.web.LoginPage;
 import automation.modules.saucedemo.web.ProductsPage;
 import automation.modules.saucedemo.api.SauceDemoApi;
@@ -23,16 +24,22 @@ import java.util.Map;
  *   SauceDemoData fetched = api.execute(SauceDemoApi.GetPost.withPath("id", "1"), SauceDemoData.class);
  *   api.execute(SauceDemoApi.DeletePost.withPath("id", "1"));
  *
- * Web usage:
+ * Web usage — the Helper holds one public field per page. Every action that leaves a
+ * page returns the next page object, and the test stores it on that page's field, so
+ * each step continues from the page the previous step returned:
  *   SauceDemoHelper sauceDemo = new SauceDemoHelper(config);
- *   Map<String, String> user = sauceDemo.getUser("standard");
- *   ProductsPage products = sauceDemo.doLogin(user);
- *   products.addProductToCart("sauce-labs-backpack");
- *   CartPage cart = products.goToCart();
+ *   sauceDemo.productsPage = sauceDemo.doLogin(sauceDemo.getUser("standard"));
+ *   sauceDemo.productsPage = sauceDemo.addToCart(sauceDemo.getProduct("backpack"));
+ *   sauceDemo.cartPage = sauceDemo.productsPage.goToCart();
+ *   sauceDemo.productsPage = sauceDemo.cartPage.continueShopping();
  */
 public class SauceDemoHelper extends ApiHelper
 {
     private static final String API_BASE_URL = "https://jsonplaceholder.typicode.com";
+
+    public LoginPage loginPage;
+    public ProductsPage productsPage;
+    public CartPage cartPage;
 
     public SauceDemoHelper(Config config)
     {
@@ -44,12 +51,43 @@ public class SauceDemoHelper extends ApiHelper
         return doLogin(credentials.get("username"), credentials.get("password"));
     }
 
+    /**
+     * Open SauceDemo and log in. The entry operation: the one place a page object is
+     * constructed, right after navigating. Returns the Products page it lands on.
+     */
     public ProductsPage doLogin(String username, String password)
     {
         String url = config.getRunTimeProperty("saucedemo.url");
         Log.comment(config, "Navigating to SauceDemo: " + url);
         BrowserHelper.navigateTo(config, url);
-        return new LoginPage(config).doLogin(username, password);
+        loginPage = new LoginPage(config);
+        return loginPage.doLogin(username, password);
+    }
+
+    /**
+     * Add each product to the cart by its products.csv row, continuing from the
+     * Products page the previous step stored in productsPage. Returns that page, so
+     * the test can check the cart badge next.
+     */
+    @SafeVarargs
+    public final ProductsPage addToCart(Map<String, String>... products)
+    {
+        for (Map<String, String> product : products)
+        {
+            productsPage.addProductToCart(product.get("slug"));
+        }
+        return productsPage;
+    }
+
+    /**
+     * Add the products to the cart and open it, for a test that checks nothing in
+     * between. Returns the Cart page it lands on.
+     */
+    @SafeVarargs
+    public final CartPage openCartWith(Map<String, String>... products)
+    {
+        cartPage = addToCart(products).goToCart();
+        return cartPage;
     }
 
     /**
