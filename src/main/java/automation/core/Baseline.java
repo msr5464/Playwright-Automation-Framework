@@ -46,6 +46,19 @@ import java.util.concurrent.ConcurrentHashMap;
  * let whichever module ran last overwrite the other's fingerprint.
  * Never allowed to fail a test: a baseline is an optimisation for a later diagnosis, not
  * part of the run.
+ *
+ * <p>A fingerprint is taken at two moments. When the page object loads, for every locator
+ * that resolves then; and the first time the test finds a locator visible, for any the
+ * first pass did not cover ({@link #seen}). The second exists because a page is not
+ * finished when its anchor appears: an overlay is still closed, an iframe inside an iframe
+ * has not loaded, a header is about to re-render under the handle just taken. Those
+ * locators were left with no fingerprint at all, and a locator with no fingerprint is one
+ * nothing can later be compared against.
+ *
+ * <p>A promotion replaces the file, so whatever the new record does not carry is gone. A
+ * fingerprint the new record lacks is therefore kept from the old one, as long as the
+ * locator itself has not changed — one capture that missed must not erase what every
+ * earlier run recorded.
  */
 public class Baseline {
 
@@ -55,6 +68,17 @@ public class Baseline {
     private static final String DIR_SYSTEM = "baseline.dir";
 
     private static final Set<String> WRITTEN = Collections.newSetFromMap(new ConcurrentHashMap<>());
+
+    /**
+     * Locator → {module, page object, field}, per test, for every page object the test has
+     * loaded. What lets a locator the test has just used be traced back to its field.
+     * Keyed by identity: two locators with the same selector are still two fields.
+     */
+    private static final Map<String, Map<Locator, String[]>> OWNERS = new ConcurrentHashMap<>();
+
+    /** Fields this test already holds a fingerprint for, or has already tried to take. */
+    private static final Set<String> FINGERPRINTED =
+            Collections.newSetFromMap(new ConcurrentHashMap<>());
 
     /** Opt out of the per-page-object DOM walk; coverage counts are recorded either way. */
     private static final String FINGERPRINTS_PROPERTY = "baselineFingerprints";
@@ -75,6 +99,9 @@ public class Baseline {
         // Two modules can each own a LoginPage. Stored per module, so a passing run of
         // one never overwrites the other's fingerprint under the shared simple name.
         String module = getModule(pageObject);
+        // Every instance, before the once-per-test check below: a page object built a
+        // second time holds new Locator objects, and those are the ones the test uses.
+        register(config, pageObject, module, name);
         // Once per test per page object. Keyed by test rather than by page alone: a
         // pending fingerprint is only promoted if *this* test passes, so a page first
         // seen by a test that fails must still be recordable by the next one.
@@ -94,9 +121,15 @@ public class Baseline {
             Map<String, Object> counts = new LinkedHashMap<>();
             Map<String, Object> prints = new LinkedHashMap<>();
             List<Object> landmarks = new java.util.ArrayList<>();
-            collect(config, pageObject, counts, prints, landmarks);
+            Map<String, Object> selectors = new LinkedHashMap<>();
+            collect(config, pageObject, counts, prints, landmarks, selectors);
             root.put("coverage", counts);
             root.put("fingerprints", prints);
+            // Which locator each field held. A fingerprint describes what ONE locator
+            // matched, so it is only worth keeping across runs while this is unchanged.
+            root.put("selectors", selectors);
+            for (String field : prints.keySet())
+                FINGERPRINTED.add(fieldKey(config, module, name, field));
             // Headings and landmark roles: a better "right screen?" check than a
             // URL, which survives a redirect to a login page unchanged.
             root.put("landmarks", landmarks);
@@ -111,6 +144,86 @@ public class Baseline {
         }
     }
 
+    /**
+     * The test has just found {@code locator} visible: fingerprint it, if the pass made
+     * when its page object loaded did not.
+     *
+     * <p>Only the fingerprint is added. {@code coverage} stays a count of the page as it
+     * LOADED, because that is what a failing page-load is later compared with — an overlay
+     * field counted as present there would read as "went missing" on every failure that
+     * happens before the overlay opens.
+     *
+     * <p>Costs a map lookup for a locator that already has one, and one capture — once per
+     * test — for a locator that does not.
+     */
+    @SuppressWarnings("unchecked")
+    public static void seen(Config config, Locator locator) {
+        if (config == null || config.page == null || locator == null)
+            return;
+        try {
+            Map<Locator, String[]> owners = OWNERS.get(testKey(config));
+            String[] owner = owners == null ? null : owners.get(locator);
+            if (owner == null)
+                return;         // not a page-object field: nothing to file it under
+            if (!FINGERPRINTED.add(fieldKey(config, owner[0], owner[1], owner[2])))
+                return;
+            String js = fingerprintsEnabled(config) ? LocatorCapture.script() : "";
+            if (js.isEmpty())
+                return;
+            Path pending = pendingDirectory(config)
+                    .resolve(pendingName(config, owner[0], owner[1]));
+            if (!Files.exists(pending))
+                return;
+            ElementHandle handle = locator.elementHandle(
+                    new Locator.ElementHandleOptions().setTimeout(2000));
+            if (handle == null)
+                return;
+            Frame frame = handle.ownerFrame();
+            List<Object> found = fingerprintsOf(frame == null ? config.page.mainFrame() : frame,
+                    js, Collections.singletonList(handle), null);
+            if (found.isEmpty() || found.get(0) == null)
+                return;
+
+            Map<String, Object> root = MAPPER.readValue(pending.toFile(), Map.class);
+            section(root, "fingerprints").put(owner[2], found.get(0));
+            section(root, "selectors").put(owner[2], String.valueOf(locator));
+            Files.write(pending, MAPPER.writerWithDefaultPrettyPrinter()
+                    .writeValueAsString(root).getBytes(StandardCharsets.UTF_8));
+        } catch (Throwable ignored) {
+            // A locator without a fingerprint only sends a later repair to slower means.
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    private static Map<String, Object> section(Map<String, Object> root, String key) {
+        Object existing = root.get(key);
+        if (existing instanceof Map)
+            return (Map<String, Object>) existing;
+        Map<String, Object> created = new LinkedHashMap<>();
+        root.put(key, created);
+        return created;
+    }
+
+    private static void register(Config config, Object pageObject, String module, String name) {
+        try {
+            Map<Locator, String[]> owners = OWNERS.computeIfAbsent(testKey(config),
+                    key -> Collections.synchronizedMap(new java.util.IdentityHashMap<>()));
+            forEachLocator(pageObject,
+                    (field, locator) -> owners.put(locator, new String[] {module, name, field}));
+        } catch (Throwable ignored) {
+        }
+    }
+
+    private static String fieldKey(Config config, String module, String pageObject, String field) {
+        return testKey(config) + "#" + module + "#" + pageObject + "#" + field;
+    }
+
+    /** The test is over: its locators belong to no later one. */
+    private static void forget(Config config) {
+        if (config != null)
+            OWNERS.remove(testKey(config));
+    }
+
     /** The test passed: everything it recorded really is a good-run fingerprint. */
     public static void promote(Config config) {
         forEachPending(config, (pending, module, pageObject) -> {
@@ -119,10 +232,14 @@ public class Baseline {
                 directory = directory.resolve(module);
             new File(directory.toString()).mkdirs();
             Path target = directory.resolve(pageObject + ".json");
+            // lastSeen first: it stamps what THIS run resolved, and must not count the
+            // fingerprints about to be carried in from an earlier one.
             carryForwardLastSeen(pending, target);
+            carryForwardFingerprints(pending, target);
             Files.move(pending, target,
                     java.nio.file.StandardCopyOption.REPLACE_EXISTING);
         });
+        forget(config);
     }
 
     /**
@@ -164,6 +281,13 @@ public class Baseline {
                         lastSeen.put(entry.getKey(), now);
                 }
             }
+            // A locator fingerprinted in use resolved too, whatever the page-load
+            // count says: the overlay it lives in was simply not open yet.
+            Object prints = incoming.get("fingerprints");
+            if (prints instanceof Map) {
+                for (Object field : ((Map<?, ?>) prints).keySet())
+                    lastSeen.put(String.valueOf(field), now);
+            }
             if (lastSeen.isEmpty())
                 return;
             incoming.put("lastSeen", lastSeen);
@@ -174,9 +298,69 @@ public class Baseline {
         }
     }
 
+    /**
+     * Keep what the baseline being replaced knew and the one replacing it does not.
+     *
+     * <p>A promotion swaps the whole file, so a run whose capture missed — a header that
+     * re-rendered under the handle, a frame mid-navigation — wrote a record with no
+     * fingerprints over one that had them, and every later repair of those locators lost
+     * the only description of what they used to match. A fingerprint is kept when the new
+     * record has none for that field and the field still holds the same locator. A changed
+     * locator is a different element as far as anyone here can tell, and its old
+     * fingerprint would describe the wrong one.
+     *
+     * <p>The repair history is kept on the same terms as the file itself: it is written
+     * into this record by whoever repaired a locator, never by a test run, so a promotion
+     * that dropped it erased the count of how often a locator has had to be repaired.
+     *
+     * <p>Advisory, like everything else here: any failure leaves the promotion alone.
+     */
+    @SuppressWarnings("unchecked")
+    static void carryForwardFingerprints(Path pending, Path target) {
+        try {
+            if (!Files.exists(target))
+                return;
+            Map<String, Object> incoming = MAPPER.readValue(pending.toFile(), Map.class);
+            Map<String, Object> previous = MAPPER.readValue(target.toFile(), Map.class);
+            boolean changed = false;
+
+            Object oldPrints = previous.get("fingerprints");
+            Object oldSelectors = previous.get("selectors");
+            Object newSelectors = incoming.get("selectors");
+            if (oldPrints instanceof Map && oldSelectors instanceof Map
+                    && newSelectors instanceof Map) {
+                Map<String, Object> prints = section(incoming, "fingerprints");
+                for (Map.Entry<String, Object> entry : ((Map<String, Object>) oldPrints).entrySet()) {
+                    String field = entry.getKey();
+                    if (prints.containsKey(field))
+                        continue;
+                    Object was = ((Map<?, ?>) oldSelectors).get(field);
+                    if (was == null || !was.equals(((Map<?, ?>) newSelectors).get(field)))
+                        continue;
+                    prints.put(field, entry.getValue());
+                    changed = true;
+                }
+            }
+
+            for (String key : new String[] {"healHistory", "fallbacks"}) {
+                if (previous.get(key) != null && !incoming.containsKey(key)) {
+                    incoming.put(key, previous.get(key));
+                    changed = true;
+                }
+            }
+
+            if (changed)
+                Files.write(pending, MAPPER.writerWithDefaultPrettyPrinter()
+                        .writeValueAsString(incoming).getBytes(StandardCharsets.UTF_8));
+        } catch (Throwable ignored) {
+            // A thinner baseline only sends a later repair to slower means.
+        }
+    }
+
     /** The test failed: what it saw is not a record of the page working. */
     public static void discard(Config config) {
         forEachPending(config, (pending, module, pageObject) -> Files.deleteIfExists(pending));
+        forget(config);
     }
 
     private interface PendingAction {
@@ -329,7 +513,7 @@ public class Baseline {
      */
     private static void collect(Config config, Object pageObject,
                                 Map<String, Object> counts, Map<String, Object> prints,
-                                List<Object> landmarks) {
+                                List<Object> landmarks, Map<String, Object> selectors) {
         String js = fingerprintsEnabled(config) ? LocatorCapture.script() : "";
         // Resolve every handle first, then one evaluate. count != 1 is skipped: an
         // ambiguous locator has not said which element the test meant.
@@ -337,6 +521,7 @@ public class Baseline {
         final List<Object> handles = new java.util.ArrayList<>();
         final List<Frame> owners = new java.util.ArrayList<>();
         forEachLocator(pageObject, (name, locator) -> {
+            selectors.put(name, String.valueOf(locator));
             int count;
             try {
                 count = locator.count();
@@ -376,32 +561,50 @@ public class Baseline {
             List<Object> groupHandles = new java.util.ArrayList<>();
             for (int n : group.getValue())
                 groupHandles.add(handles.get(n));
-            try {
-                Object result = group.getKey().evaluate(js, groupHandles);
-                if (!(result instanceof Map))
-                    continue;
-                Map<?, ?> snap = (Map<?, ?>) result;
-                Object found = snap.get("elements");
-                Object idx = snap.get("indices");
-                if (!(found instanceof List))
-                    continue;
-                List<?> all = (List<?>) found;
-                List<?> indices = (idx instanceof List) ? (List<?>) idx : Collections.emptyList();
-
-                Object marks = snap.get("landmarks");
-                if (group.getKey() == main && marks instanceof List)
-                    landmarks.addAll((List<?>) marks);
-
-                for (int k = 0; k < group.getValue().size() && k < indices.size(); k++) {
-                    if (!(indices.get(k) instanceof Number))
-                        continue;
-                    int i = ((Number) indices.get(k)).intValue();
-                    if (i >= 0 && i < all.size())
-                        prints.put(names.get(group.getValue().get(k)), all.get(i));
-                }
-            } catch (Throwable ignored) {
-                // An unusable snapshot costs that frame's fingerprints, never the counts.
+            List<Object> found = fingerprintsOf(group.getKey(), js, groupHandles,
+                    group.getKey() == main ? landmarks : null);
+            for (int k = 0; k < group.getValue().size() && k < found.size(); k++) {
+                if (found.get(k) != null)
+                    prints.put(names.get(group.getValue().get(k)), found.get(k));
             }
         }
+    }
+
+    /**
+     * One evaluate in {@code frame}: the fingerprint of each handle, in order, with null
+     * where the walk did not find that element. Empty when the frame could not be read —
+     * an unusable snapshot costs that frame's fingerprints, never the counts.
+     */
+    private static List<Object> fingerprintsOf(Frame frame, String js, List<Object> handles,
+                                               List<Object> landmarks) {
+        List<Object> out = new java.util.ArrayList<>();
+        try {
+            Object result = frame.evaluate(js, handles);
+            if (!(result instanceof Map))
+                return out;
+            Map<?, ?> snap = (Map<?, ?>) result;
+            Object found = snap.get("elements");
+            Object idx = snap.get("indices");
+            if (!(found instanceof List))
+                return out;
+            List<?> all = (List<?>) found;
+            List<?> indices = (idx instanceof List) ? (List<?>) idx : Collections.emptyList();
+
+            Object marks = snap.get("landmarks");
+            if (landmarks != null && marks instanceof List)
+                landmarks.addAll((List<?>) marks);
+
+            for (int k = 0; k < handles.size(); k++) {
+                Object print = null;
+                if (k < indices.size() && indices.get(k) instanceof Number) {
+                    int i = ((Number) indices.get(k)).intValue();
+                    if (i >= 0 && i < all.size())
+                        print = all.get(i);
+                }
+                out.add(print);
+            }
+        } catch (Throwable ignored) {
+        }
+        return out;
     }
 }
