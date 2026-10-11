@@ -2,7 +2,7 @@
   "pageObject" : "PaymentSuccessPage",
   "module" : "paymentgateway",
   "fullClassName" : "automation.modules.paymentgateway.web.PaymentSuccessPage",
-  "recordedAt" : "2026-10-10T18:58:41",
+  "recordedAt" : "2026-10-11T17:29:20",
   "urlShape" : "https://demo.midtrans.com/",
   "title" : "Sample Store",
   "bodyClass" : "",
@@ -26,7 +26,7 @@
       "href" : null,
       "title" : null,
       "testid" : null,
-      "text" : "Rp49.000",
+      "text" : "Rp50.000",
       "attrs" : {
         "class" : "text-headline large"
       },
@@ -76,7 +76,7 @@
       },
       "area_norm" : 0.007089120370370371,
       "aspect" : 12,
-      "neighbor_texts" : [ "Order ID #sample-store-1791638913", "Payment successful" ],
+      "neighbor_texts" : [ "Order ID #sample-store-1791719951", "Payment successful" ],
       "child" : null,
       "_gt" : null
     },
@@ -95,7 +95,7 @@
       "href" : null,
       "title" : null,
       "testid" : null,
-      "text" : "Order ID #sample-store-1791638913",
+      "text" : "Order ID #sample-store-1791719951",
       "attrs" : {
         "class" : "text-info small"
       },
@@ -145,14 +145,14 @@
       },
       "area_norm" : 0.0030381944444444445,
       "aspect" : 28,
-      "neighbor_texts" : [ "Rp49.000", "Payment successful" ],
+      "neighbor_texts" : [ "Rp50.000", "Payment successful" ],
       "child" : null,
       "_gt" : null
     }
   },
   "landmarks" : [ "heading:Demo Store", "heading:Welcome to Snap Demo!" ],
   "lastSeen" : {
-    "successAmountDisplay" : "2026-10-10T18:58:41",
-    "orderIdDisplay" : "2026-10-10T18:58:41"
+    "successAmountDisplay" : "2026-10-11T17:29:20",
+    "orderIdDisplay" : "2026-10-11T17:29:20"
   }
 }

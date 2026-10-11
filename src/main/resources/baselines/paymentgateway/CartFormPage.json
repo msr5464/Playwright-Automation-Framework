@@ -2,7 +2,7 @@
   "pageObject" : "CartFormPage",
   "module" : "paymentgateway",
   "fullClassName" : "automation.modules.paymentgateway.web.CartFormPage",
-  "recordedAt" : "2026-10-10T18:58:32",
+  "recordedAt" : "2026-10-11T17:29:10",
   "urlShape" : "https://demo.midtrans.com/",
   "title" : "Sample Store",
   "bodyClass" : "",
@@ -442,11 +442,11 @@
   },
   "landmarks" : [ "heading:Demo Store", "heading:Welcome to Snap Demo!" ],
   "lastSeen" : {
-    "amountField" : "2026-10-10T18:58:32",
-    "nameField" : "2026-10-10T18:58:32",
-    "emailField" : "2026-10-10T18:58:32",
-    "addressField" : "2026-10-10T18:58:32",
-    "phoneField" : "2026-10-10T18:58:32",
-    "checkoutButton" : "2026-10-10T18:58:32"
+    "amountField" : "2026-10-11T17:29:10",
+    "nameField" : "2026-10-11T17:29:10",
+    "emailField" : "2026-10-11T17:29:10",
+    "addressField" : "2026-10-11T17:29:10",
+    "phoneField" : "2026-10-11T17:29:10",
+    "checkoutButton" : "2026-10-11T17:29:10"
   }
 }
