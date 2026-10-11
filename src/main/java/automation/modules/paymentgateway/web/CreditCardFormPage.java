@@ -21,7 +21,7 @@ public class CreditCardFormPage extends BasePage {
         cardNumberField = page.frameLocator("#snap-midtrans")
                 .locator("div.card-number-input-container input[type='tel']");
         expiryField = page.frameLocator("#snap-midtrans").locator("#card-expiry");
-        cvvField = page.frameLocator("#snap-midtrans").locator("#card-mukesh-cvv");
+        cvvField = page.frameLocator("#snap-midtrans").locator("#card-cvv");
         totalAmountDisplay = page.frameLocator("#snap-midtrans").locator("div.header-amount");
         continueButton = page.frameLocator("#snap-midtrans").locator("button.btn.full.primary.btn-theme");
         assertPageLoaded(cardNumberField);
