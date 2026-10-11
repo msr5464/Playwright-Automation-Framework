@@ -2,7 +2,7 @@
   "pageObject" : "CartFormPage",
   "module" : "paymentgateway",
   "fullClassName" : "automation.modules.paymentgateway.web.CartFormPage",
-  "recordedAt" : "2026-10-10T18:58:32",
+  "recordedAt" : "2026-10-11T07:43:42",
   "urlShape" : "https://demo.midtrans.com/",
   "title" : "Sample Store",
   "bodyClass" : "",
@@ -440,13 +440,21 @@
       "_gt" : null
     }
   },
+  "selectors" : {
+    "amountField" : "Locator@input.text-right",
+    "nameField" : "Locator@div.cart-inner tr:has-text('Name') input[type='text']",
+    "emailField" : "Locator@input[type='email']",
+    "addressField" : "Locator@div.cart-inner tr:has-text('Address') textarea",
+    "phoneField" : "Locator@div.cart-inner tr:has-text('Phone no') input[type='text']",
+    "checkoutButton" : "Locator@div.cart-checkout"
+  },
   "landmarks" : [ "heading:Demo Store", "heading:Welcome to Snap Demo!" ],
   "lastSeen" : {
-    "amountField" : "2026-10-10T18:58:32",
-    "nameField" : "2026-10-10T18:58:32",
-    "emailField" : "2026-10-10T18:58:32",
-    "addressField" : "2026-10-10T18:58:32",
-    "phoneField" : "2026-10-10T18:58:32",
-    "checkoutButton" : "2026-10-10T18:58:32"
+    "amountField" : "2026-10-11T07:43:42",
+    "nameField" : "2026-10-11T07:43:42",
+    "emailField" : "2026-10-11T07:43:42",
+    "addressField" : "2026-10-11T07:43:42",
+    "phoneField" : "2026-10-11T07:43:42",
+    "checkoutButton" : "2026-10-11T07:43:42"
   }
 }

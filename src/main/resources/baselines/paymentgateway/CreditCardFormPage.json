@@ -2,7 +2,7 @@
   "pageObject" : "CreditCardFormPage",
   "module" : "paymentgateway",
   "fullClassName" : "automation.modules.paymentgateway.web.CreditCardFormPage",
-  "recordedAt" : "2026-10-10T18:58:34",
+  "recordedAt" : "2026-10-11T07:43:45",
   "urlShape" : "https://demo.midtrans.com/",
   "title" : "Sample Store",
   "bodyClass" : "",
@@ -85,7 +85,7 @@
       },
       "area_norm" : 0.0061159336419753085,
       "aspect" : 10.970588235294118,
-      "neighbor_texts" : [ "Card number", "Expiration date", "CVV", "Card Payment", "23:59:58", "Select promo" ],
+      "neighbor_texts" : [ "Card number", "Expiration date", "CVV", "Card Payment", "23:59:57", "Select promo" ],
       "child" : null,
       "_gt" : null
     },
@@ -306,16 +306,94 @@
       },
       "area_norm" : 0.0015126018759645061,
       "aspect" : 3.7295258620689653,
-      "neighbor_texts" : [ "Order ID #sample-store-1791638913", "Card Payment", "23:59:58", "Card number", "Expiration date", "CVV" ],
+      "neighbor_texts" : [ "Order ID #sample-store-1791684823", "Card Payment", "23:59:57", "Card number", "Expiration date", "CVV" ],
+      "child" : null,
+      "_gt" : null
+    },
+    "continueButton" : {
+      "index" : 101,
+      "tag" : "button",
+      "id" : null,
+      "name" : null,
+      "type" : "button",
+      "class_list" : [ "btn", "full", "primary", "btn-theme" ],
+      "role" : "button",
+      "accessible_name" : "Pay now",
+      "aria_label" : null,
+      "placeholder" : null,
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : null,
+      "text" : "Pay now",
+      "attrs" : {
+        "type" : "button",
+        "class" : "btn full primary  btn-theme"
+      },
+      "is_interactive" : true,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/div[2]/div[2]/div[1]/form[1]/div[2]/div[1]/button[1]",
+      "id_xpath" : "//*[@id='application']/div[1]/form[1]/div[2]/div[1]/button[1]",
+      "ancestor_chain" : [ {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "card-pay-button-part", "credit-card" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "credit-card__button" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "form",
+        "id" : null,
+        "classes" : [ "credit-card__wrapper" ],
+        "role" : "form",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "page-container", "scroll" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : "application",
+        "classes" : [ "app-container" ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 0,
+      "sibling_count" : 1,
+      "bbox_norm" : {
+        "x" : 0.39895833333333336,
+        "y" : 0.7490740740740741,
+        "w" : 0.19427083333333334,
+        "h" : 0.03518518518518519
+      },
+      "area_norm" : 0.0068354552469135806,
+      "aspect" : 9.81578947368421,
+      "neighbor_texts" : [ "Proceed without promo", "Secure payments by Midtrans", "Midtrans Privacy Policy.", "Promo Flash Sale (Credit-Card)", "-Rp1.000", "Promo Credit-Card (Per 3 Card Number)" ],
       "child" : null,
       "_gt" : null
     }
   },
+  "selectors" : {
+    "cardNumberField" : "Locator@#snap-midtrans >> internal:control=enter-frame >> div.card-number-input-container input[type='tel']",
+    "expiryField" : "Locator@#snap-midtrans >> internal:control=enter-frame >> #card-expiry",
+    "cvvField" : "Locator@#snap-midtrans >> internal:control=enter-frame >> #card-cvv",
+    "totalAmountDisplay" : "Locator@#snap-midtrans >> internal:control=enter-frame >> div.header-amount",
+    "continueButton" : "Locator@#snap-midtrans >> internal:control=enter-frame >> button.btn.full.primary.btn-theme"
+  },
   "landmarks" : [ "heading:Demo Store", "heading:Welcome to Snap Demo!" ],
   "lastSeen" : {
-    "cardNumberField" : "2026-10-10T18:58:34",
-    "expiryField" : "2026-10-10T18:58:34",
-    "cvvField" : "2026-10-10T18:58:34",
-    "totalAmountDisplay" : "2026-10-10T18:58:34"
+    "cardNumberField" : "2026-10-11T07:43:45",
+    "expiryField" : "2026-10-11T07:43:45",
+    "cvvField" : "2026-10-11T07:43:45",
+    "totalAmountDisplay" : "2026-10-11T07:43:45",
+    "continueButton" : "2026-10-11T07:43:45"
   }
 }

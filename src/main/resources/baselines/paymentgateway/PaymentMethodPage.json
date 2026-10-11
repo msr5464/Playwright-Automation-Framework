@@ -2,7 +2,7 @@
   "pageObject" : "PaymentMethodPage",
   "module" : "paymentgateway",
   "fullClassName" : "automation.modules.paymentgateway.web.PaymentMethodPage",
-  "recordedAt" : "2026-10-10T18:58:33",
+  "recordedAt" : "2026-10-11T07:43:43",
   "urlShape" : "https://demo.midtrans.com/",
   "title" : "Sample Store",
   "bodyClass" : "",
@@ -13,10 +13,364 @@
     "closeDetailsIcon" : 0,
     "totalAmountDisplay" : 1
   },
-  "fingerprints" : { },
+  "fingerprints" : {
+    "detailsIcon" : {
+      "index" : 27,
+      "tag" : "div",
+      "id" : null,
+      "name" : null,
+      "type" : null,
+      "class_list" : [ "header-detail-clickable" ],
+      "role" : "generic",
+      "accessible_name" : "",
+      "aria_label" : null,
+      "placeholder" : null,
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : null,
+      "text" : "Details",
+      "attrs" : {
+        "class" : "header-detail-clickable"
+      },
+      "is_interactive" : false,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/div[2]/div[2]/nav[1]/div[2]/div[1]/div[1]/div[2]/div[2]",
+      "id_xpath" : "//*[@id='header']/div[2]/div[1]/div[1]/div[2]/div[2]",
+      "ancestor_chain" : [ {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "order-container" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "order-summary-section" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "order-box" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "order-header" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "nav",
+        "id" : "header",
+        "classes" : [ "header" ],
+        "role" : "navigation",
+        "testid" : null
+      } ],
+      "sibling_index" : 1,
+      "sibling_count" : 2,
+      "bbox_norm" : {
+        "x" : 0.5418782552083333,
+        "y" : 0.31203703703703706,
+        "w" : 0.06124674479166667,
+        "h" : 0.016666666666666666
+      },
+      "area_norm" : 0.001020779079861111,
+      "aspect" : 6.532986111111111,
+      "neighbor_texts" : [ "23:59:58", "2 promos available", "Recommended payment method", "Order ID #sample-store-1791684823", "GoPay QRIS", "Rp50.000" ],
+      "child" : null,
+      "_gt" : null
+    },
+    "totalAmountDisplay" : {
+      "index" : 17,
+      "tag" : "div",
+      "id" : null,
+      "name" : null,
+      "type" : null,
+      "class_list" : [ "header-amount" ],
+      "role" : "generic",
+      "accessible_name" : "",
+      "aria_label" : null,
+      "placeholder" : null,
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : null,
+      "text" : "Rp50.000",
+      "attrs" : {
+        "class" : "header-amount"
+      },
+      "is_interactive" : false,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/div[2]/div[2]/nav[1]/div[2]/div[1]/div[1]/div[1]/div[1]",
+      "id_xpath" : "//*[@id='header']/div[2]/div[1]/div[1]/div[1]/div[1]",
+      "ancestor_chain" : [ {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "order-container" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "order-summary-section" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "order-box" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "order-header" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "nav",
+        "id" : "header",
+        "classes" : [ "header" ],
+        "role" : "navigation",
+        "testid" : null
+      } ],
+      "sibling_index" : 0,
+      "sibling_count" : 2,
+      "bbox_norm" : {
+        "x" : 0.396875,
+        "y" : 0.2814814814814815,
+        "w" : 0.05633138020833333,
+        "h" : 0.026851851851851852
+      },
+      "area_norm" : 0.0015126018759645061,
+      "aspect" : 3.7295258620689653,
+      "neighbor_texts" : [ "Order ID #sample-store-1791684823", "2 promos available", "23:59:58", "Recommended payment method", "GoPay QRIS", "Details" ],
+      "child" : null,
+      "_gt" : null
+    },
+    "orderDetailsName" : {
+      "index" : 12,
+      "tag" : "div",
+      "id" : null,
+      "name" : null,
+      "type" : null,
+      "class_list" : [ ],
+      "role" : "generic",
+      "accessible_name" : "",
+      "aria_label" : null,
+      "placeholder" : null,
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : null,
+      "text" : "Mukesh Rajput",
+      "attrs" : { },
+      "is_interactive" : false,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/div[2]/div[2]/div[2]/div[1]/div[2]/div[1]/div[1]",
+      "id_xpath" : "//*[@id='application']/div[2]/div[1]/div[2]/div[1]/div[1]",
+      "ancestor_chain" : [ {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "order-customer-group" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "order-customer-details" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "content-table", "scroll-y", "order-modal-wrapper" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "header-modal-content" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : "application",
+        "classes" : [ "app-container" ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 0,
+      "sibling_count" : 2,
+      "bbox_norm" : {
+        "x" : 0.4036458333333333,
+        "y" : 0.5574074074074075,
+        "w" : 0.04351399739583333,
+        "h" : 0.014814814814814815
+      },
+      "area_norm" : 6.446518132716049E-4,
+      "aspect" : 5.2216796875,
+      "neighbor_texts" : [ "All payment methods", "GoPay QRIS", "Bangalore, India Jakarta 10220", "Order details", "Midtrans Pillow", "1" ],
+      "child" : null,
+      "_gt" : null
+    },
+    "orderDetailsPhone" : {
+      "index" : 13,
+      "tag" : "div",
+      "id" : null,
+      "name" : null,
+      "type" : null,
+      "class_list" : [ "order-summary-phone" ],
+      "role" : "generic",
+      "accessible_name" : "",
+      "aria_label" : null,
+      "placeholder" : null,
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : null,
+      "text" : "1183442189",
+      "attrs" : {
+        "class" : "order-summary-phone"
+      },
+      "is_interactive" : false,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/div[2]/div[2]/div[2]/div[1]/div[2]/div[1]/div[2]",
+      "id_xpath" : "//*[@id='application']/div[2]/div[1]/div[2]/div[1]/div[2]",
+      "ancestor_chain" : [ {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "order-customer-group" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "order-customer-details" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "content-table", "scroll-y", "order-modal-wrapper" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "header-modal-content" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : "application",
+        "classes" : [ "app-container" ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 1,
+      "sibling_count" : 2,
+      "bbox_norm" : {
+        "x" : 0.562060546875,
+        "y" : 0.5574074074074075,
+        "w" : 0.03429361979166667,
+        "h" : 0.014814814814814815
+      },
+      "area_norm" : 5.080536265432098E-4,
+      "aspect" : 4.115234375,
+      "neighbor_texts" : [ "All payment methods", "Bangalore, India Jakarta 10220", "Order details", "Rp50.000", "Recommended payment method", "+6" ],
+      "child" : null,
+      "_gt" : null
+    },
+    "closeDetailsIcon" : {
+      "index" : 29,
+      "tag" : "div",
+      "id" : null,
+      "name" : null,
+      "type" : null,
+      "class_list" : [ "close-snap-button", "clickable" ],
+      "role" : "generic",
+      "accessible_name" : "",
+      "aria_label" : null,
+      "placeholder" : null,
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : null,
+      "text" : "",
+      "attrs" : {
+        "class" : "close-snap-button clickable"
+      },
+      "is_interactive" : false,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/div[2]/div[2]/div[2]/div[2]",
+      "id_xpath" : "//*[@id='application']/div[2]/div[2]",
+      "ancestor_chain" : [ {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "header-modal-content" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : "application",
+        "classes" : [ "app-container" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : "app",
+        "classes" : [ ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "body",
+        "id" : null,
+        "classes" : [ ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "html",
+        "id" : null,
+        "classes" : [ ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 1,
+      "sibling_count" : 2,
+      "bbox_norm" : {
+        "x" : 0.5921875,
+        "y" : 0.5157407407407407,
+        "w" : 0.008333333333333333,
+        "h" : 0.017592592592592594
+      },
+      "area_norm" : 1.4660493827160494E-4,
+      "aspect" : 0.8421052631578947,
+      "neighbor_texts" : [ "Order details", "All payment methods", "1183442189", "Bangalore, India Jakarta 10220", "Recommended payment method", "Rp50.000" ],
+      "child" : null,
+      "_gt" : null
+    }
+  },
+  "selectors" : {
+    "detailsIcon" : "Locator@#snap-midtrans >> internal:control=enter-frame >> div.header-detail-clickable",
+    "orderDetailsName" : "Locator@#snap-midtrans >> internal:control=enter-frame >> div.order-customer-group div:has-text('Mukesh Rajput')",
+    "orderDetailsPhone" : "Locator@#snap-midtrans >> internal:control=enter-frame >> div.order-summary-phone",
+    "closeDetailsIcon" : "Locator@#snap-midtrans >> internal:control=enter-frame >> div.header-modal-content div.close-snap-button.clickable",
+    "totalAmountDisplay" : "Locator@#snap-midtrans >> internal:control=enter-frame >> div.header-amount"
+  },
   "landmarks" : [ "heading:Demo Store", "heading:Welcome to Snap Demo!" ],
   "lastSeen" : {
-    "detailsIcon" : "2026-10-10T18:58:33",
-    "totalAmountDisplay" : "2026-10-10T18:58:33"
+    "detailsIcon" : "2026-10-11T07:43:43",
+    "totalAmountDisplay" : "2026-10-11T07:43:43",
+    "orderDetailsName" : "2026-10-11T07:43:43",
+    "orderDetailsPhone" : "2026-10-11T07:43:43",
+    "closeDetailsIcon" : "2026-10-11T07:43:43"
   }
 }

@@ -22,7 +22,7 @@ public class PaymentMethodPage extends BasePage {
         orderDetailsPhone = page.frameLocator("#snap-midtrans").locator("div.order-summary-phone");
         closeDetailsIcon = page.frameLocator("#snap-midtrans")
                 .locator("div.header-modal-content div.close-snap-button.clickable");
-        totalAmountDisplay = page.frameLocator("#snap-midtrans").locator("div.header-mukesh-amount");
+        totalAmountDisplay = page.frameLocator("#snap-midtrans").locator("div.header-amount");
         assertPageLoaded(totalAmountDisplay);
     }
 
