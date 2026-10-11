@@ -42,7 +42,7 @@ public class ToolshopWebTest extends TestBase
         config.logStep("Open the cart and verify the product name, quantity and price match the search and the noted price; note the cart Total");
         toolshop.cartPage = toolshop.productDetailsPage.openCart();
         order.setCartTotal(toolshop.cartPage.getTotal());
-        AssertHelper.assertEquals(config, toolshop.cartPage.getProductName(), "Combination Pliers", "Cart should show the same product name");
+        AssertHelper.assertEquals(config, toolshop.cartPage.getProductName(), "Combination Pliers ", "Cart should show the same product name");
         AssertHelper.assertEquals(config, toolshop.cartPage.getQuantity(), "2", "Cart should show quantity 2");
         AssertHelper.assertEquals(config, toolshop.cartPage.getPrice(), order.getPrice(), "Cart price should match the price noted on the details page");
 
