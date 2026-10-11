@@ -2,7 +2,7 @@
   "pageObject" : "IssuingBankPage",
   "module" : "paymentgateway",
   "fullClassName" : "automation.modules.paymentgateway.web.IssuingBankPage",
-  "recordedAt" : "2026-10-10T18:58:37",
+  "recordedAt" : "2026-10-11T17:29:15",
   "urlShape" : "https://demo.midtrans.com/",
   "title" : "Sample Store",
   "bodyClass" : "",
@@ -25,7 +25,7 @@
       "href" : null,
       "title" : null,
       "testid" : null,
-      "text" : "Rp49.000",
+      "text" : "Rp50.000",
       "attrs" : {
         "class" : "header-amount"
       },
@@ -66,22 +66,22 @@
         "testid" : null
       } ],
       "sibling_index" : 0,
-      "sibling_count" : 3,
+      "sibling_count" : 2,
       "bbox_norm" : {
         "x" : 0.396875,
         "y" : 0.2814814814814815,
-        "w" : 0.055078125,
+        "w" : 0.05633138020833333,
         "h" : 0.026851851851851852
       },
-      "area_norm" : 0.0014789496527777778,
-      "aspect" : 3.646551724137931,
-      "neighbor_texts" : [ "Rp50.000", "Order ID #sample-store-1791638913", "Card Payment", "23:59:55", "Card number", "Expiration date" ],
+      "area_norm" : 0.0015126018759645061,
+      "aspect" : 3.7295258620689653,
+      "neighbor_texts" : [ "Order ID #sample-store-1791719951", "Card Payment", "23:59:55", "Card number", "Expiration date", "CVV" ],
       "child" : null,
       "_gt" : null
     }
   },
   "landmarks" : [ "heading:Demo Store", "heading:Welcome to Snap Demo!" ],
   "lastSeen" : {
-    "amountDisplay" : "2026-10-10T18:58:37"
+    "amountDisplay" : "2026-10-11T17:29:15"
   }
 }

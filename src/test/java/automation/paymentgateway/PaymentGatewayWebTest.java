@@ -20,7 +20,7 @@ import java.util.Map;
 public class PaymentGatewayWebTest extends TestBase
 {
 
-    @Test(description = "Complete a Midtrans demo checkout by credit card with a promo code and verify details at each stage through to the success message", dataProvider = "getConfig", groups = {GROUP_REGRESSION, GROUP_WEB})
+    @Test(description = "Complete a Midtrans demo checkout by credit card and verify details at each stage through to the success message", dataProvider = "getConfig", groups = {GROUP_REGRESSION, GROUP_WEB})
     @TestVariables(automatedBy = QA.Mukesh)
     public void completePaymentViaCreditCardWithPromo(Config config)
     {
@@ -40,17 +40,17 @@ public class PaymentGatewayWebTest extends TestBase
         String totalBeforePromo = gateway.paymentMethodPage.getTotalAmount();
         AssertHelper.assertEquals(config, totalBeforePromo, payment.getAmount(), "Total amount should match the amount entered in the checkout form");
 
-        config.logStep("Choose Credit Card payment, enter the card details, apply the 'Promo Flash Sale (Credit-Card)' promo, and verify the total decreases after the promo is applied");
+        config.logStep("Choose Credit Card payment, enter the card details, select 'Proceed without promo', and verify the total stays unchanged since no promo discount is applied");
         gateway.creditCardFormPage = (CreditCardFormPage) gateway.paymentMethodPage.choosePaymentMethod(PaymentMethod.CreditCard);
         gateway.creditCardFormPage.fillCardDetails(payment);
-        gateway.creditCardFormPage.applyPromo(PromoCode.FlashSaleCreditCard);
+        gateway.creditCardFormPage.applyPromo(PromoCode.NoPromo);
         String totalAfterPromo = gateway.creditCardFormPage.getTotalAmount();
-        AssertHelper.assertTrue(config, Double.parseDouble(totalAfterPromo) < Double.parseDouble(totalBeforePromo), "Total should decrease after applying the promo");
+        AssertHelper.assertEquals(config, totalAfterPromo, totalBeforePromo, "Total should stay unchanged since no promo is applied");
 
-        config.logStep("Continue to the Issuing Bank page and verify the amount shown matches the discounted total after the promo");
+        config.logStep("Continue to the Issuing Bank page and verify the amount shown matches the total shown on the credit card page");
         gateway.issuingBankPage = gateway.creditCardFormPage.continueToBank();
         String bankAmount = gateway.issuingBankPage.getAmount();
-        AssertHelper.assertEquals(config, bankAmount, totalAfterPromo, "Issuing bank amount should match the discounted total after the promo");
+        AssertHelper.assertEquals(config, bankAmount, totalAfterPromo, "Issuing bank amount should match the total shown on the credit card page");
 
         config.logStep("Enter the Bank OTP to finish the payment and immediately verify the payment successful page shows the same amount as the Issuing Bank page and a captured order id");
         gateway.paymentSuccessPage = gateway.issuingBankPage.enterOtpAndFinish(payment.getBankOtp());

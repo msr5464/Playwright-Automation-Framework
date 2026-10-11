@@ -2,7 +2,7 @@
   "pageObject" : "StoreHomePage",
   "module" : "paymentgateway",
   "fullClassName" : "automation.modules.paymentgateway.web.StoreHomePage",
-  "recordedAt" : "2026-10-10T18:58:31",
+  "recordedAt" : "2026-10-11T17:29:08",
   "urlShape" : "https://demo.midtrans.com/",
   "title" : "Sample Store",
   "bodyClass" : "",
@@ -85,6 +85,6 @@
   },
   "landmarks" : [ "heading:Demo Store", "heading:Welcome to Snap Demo!" ],
   "lastSeen" : {
-    "buyNowButton" : "2026-10-10T18:58:31"
+    "buyNowButton" : "2026-10-11T17:29:08"
   }
 }

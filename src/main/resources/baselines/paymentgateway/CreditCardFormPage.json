@@ -2,7 +2,7 @@
   "pageObject" : "CreditCardFormPage",
   "module" : "paymentgateway",
   "fullClassName" : "automation.modules.paymentgateway.web.CreditCardFormPage",
-  "recordedAt" : "2026-10-10T18:58:34",
+  "recordedAt" : "2026-10-11T17:29:12",
   "urlShape" : "https://demo.midtrans.com/",
   "title" : "Sample Store",
   "bodyClass" : "",
@@ -306,16 +306,16 @@
       },
       "area_norm" : 0.0015126018759645061,
       "aspect" : 3.7295258620689653,
-      "neighbor_texts" : [ "Order ID #sample-store-1791638913", "Card Payment", "23:59:58", "Card number", "Expiration date", "CVV" ],
+      "neighbor_texts" : [ "Order ID #sample-store-1791719951", "Card Payment", "23:59:58", "Card number", "Expiration date", "CVV" ],
       "child" : null,
       "_gt" : null
     }
   },
   "landmarks" : [ "heading:Demo Store", "heading:Welcome to Snap Demo!" ],
   "lastSeen" : {
-    "cardNumberField" : "2026-10-10T18:58:34",
-    "expiryField" : "2026-10-10T18:58:34",
-    "cvvField" : "2026-10-10T18:58:34",
-    "totalAmountDisplay" : "2026-10-10T18:58:34"
+    "cardNumberField" : "2026-10-11T17:29:12",
+    "expiryField" : "2026-10-11T17:29:12",
+    "cvvField" : "2026-10-11T17:29:12",
+    "totalAmountDisplay" : "2026-10-11T17:29:12"
   }
 }
