@@ -2,7 +2,7 @@
   "pageObject" : "StoreHomePage",
   "module" : "paymentgateway",
   "fullClassName" : "automation.modules.paymentgateway.web.StoreHomePage",
-  "recordedAt" : "2026-10-10T18:58:31",
+  "recordedAt" : "2026-10-11T07:43:41",
   "urlShape" : "https://demo.midtrans.com/",
   "title" : "Sample Store",
   "bodyClass" : "",
@@ -81,10 +81,85 @@
       "neighbor_texts" : [ "Please buy a good pillow - your neck will thank you.", "Disclaimer : This is a test transaction, no funds will move from your account.", "Ready to integrate to Midtrans?", "SIGN UP", "Get cozy with our new pillow!", "Rp" ],
       "child" : null,
       "_gt" : null
+    },
+    "thankYouMessage" : {
+      "index" : 47,
+      "tag" : "div",
+      "id" : null,
+      "name" : null,
+      "type" : null,
+      "class_list" : [ "trans-status", "trans-success" ],
+      "role" : "generic",
+      "accessible_name" : "",
+      "aria_label" : null,
+      "placeholder" : null,
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : null,
+      "text" : "Thank you for your purchase.Get a nice sleep.",
+      "attrs" : {
+        "class" : "trans-status trans-success",
+        "data-reactid" : ".0.0.0.2.0.1.0"
+      },
+      "is_interactive" : false,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[2]/div[1]",
+      "id_xpath" : "//*[@id='container']/div[1]/div[1]/div[1]/div[2]/div[1]/div[2]/div[1]",
+      "ancestor_chain" : [ {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "notification-wrapper" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "ss-box" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "ss-box-wrapper" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "main-content" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "row" ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 0,
+      "sibling_count" : 1,
+      "bbox_norm" : {
+        "x" : 0.027083333333333334,
+        "y" : 0.5092592592592593,
+        "w" : 0.19166666666666668,
+        "h" : 0.09259259259259259
+      },
+      "area_norm" : 0.017746913580246913,
+      "aspect" : 3.68,
+      "neighbor_texts" : [ "Ready to integrate to Midtrans?", "SIGN UP", "Thank you for your purchase.", "Get a nice sleep.", "BUY NOW", "Please buy a good pillow - your neck will thank you." ],
+      "child" : null,
+      "_gt" : null
     }
+  },
+  "selectors" : {
+    "buyNowButton" : "Locator@a.btn.buy",
+    "thankYouMessage" : "Locator@div.trans-status.trans-success"
   },
   "landmarks" : [ "heading:Demo Store", "heading:Welcome to Snap Demo!" ],
   "lastSeen" : {
-    "buyNowButton" : "2026-10-10T18:58:31"
+    "buyNowButton" : "2026-10-11T07:43:41",
+    "thankYouMessage" : "2026-10-11T07:43:41"
   }
 }

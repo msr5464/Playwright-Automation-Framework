@@ -2,7 +2,7 @@
   "pageObject" : "PaymentSuccessPage",
   "module" : "paymentgateway",
   "fullClassName" : "automation.modules.paymentgateway.web.PaymentSuccessPage",
-  "recordedAt" : "2026-10-10T18:58:41",
+  "recordedAt" : "2026-10-11T07:43:52",
   "urlShape" : "https://demo.midtrans.com/",
   "title" : "Sample Store",
   "bodyClass" : "",
@@ -76,7 +76,7 @@
       },
       "area_norm" : 0.007089120370370371,
       "aspect" : 12,
-      "neighbor_texts" : [ "Order ID #sample-store-1791638913", "Payment successful" ],
+      "neighbor_texts" : [ "Order ID #sample-store-1791684823", "Payment successful" ],
       "child" : null,
       "_gt" : null
     },
@@ -95,7 +95,7 @@
       "href" : null,
       "title" : null,
       "testid" : null,
-      "text" : "Order ID #sample-store-1791638913",
+      "text" : "Order ID #sample-store-1791684823",
       "attrs" : {
         "class" : "text-info small"
       },
@@ -150,9 +150,13 @@
       "_gt" : null
     }
   },
+  "selectors" : {
+    "successAmountDisplay" : "Locator@#snap-midtrans >> internal:control=enter-frame >> div.text-headline.large",
+    "orderIdDisplay" : "Locator@#snap-midtrans >> internal:control=enter-frame >> div.text-info.small"
+  },
   "landmarks" : [ "heading:Demo Store", "heading:Welcome to Snap Demo!" ],
   "lastSeen" : {
-    "successAmountDisplay" : "2026-10-10T18:58:41",
-    "orderIdDisplay" : "2026-10-10T18:58:41"
+    "successAmountDisplay" : "2026-10-11T07:43:52",
+    "orderIdDisplay" : "2026-10-11T07:43:52"
   }
 }
