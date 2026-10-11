@@ -1,0 +1,87 @@
+{
+  "pageObject" : "IssuingBankPage",
+  "module" : "paymentgateway",
+  "fullClassName" : "automation.modules.paymentgateway.web.IssuingBankPage",
+  "recordedAt" : "2026-10-10T18:58:37",
+  "urlShape" : "https://demo.midtrans.com/",
+  "title" : "Sample Store",
+  "bodyClass" : "",
+  "coverage" : {
+    "amountDisplay" : 1
+  },
+  "fingerprints" : {
+    "amountDisplay" : {
+      "index" : 17,
+      "tag" : "div",
+      "id" : null,
+      "name" : null,
+      "type" : null,
+      "class_list" : [ "header-amount" ],
+      "role" : "generic",
+      "accessible_name" : "",
+      "aria_label" : null,
+      "placeholder" : null,
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : null,
+      "text" : "Rp49.000",
+      "attrs" : {
+        "class" : "header-amount"
+      },
+      "is_interactive" : false,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/div[2]/div[2]/nav[1]/div[2]/div[1]/div[1]/div[1]/div[1]",
+      "id_xpath" : "//*[@id='header']/div[2]/div[1]/div[1]/div[1]/div[1]",
+      "ancestor_chain" : [ {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "order-container" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "order-summary-section" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "order-box" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "order-header" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "nav",
+        "id" : "header",
+        "classes" : [ "header" ],
+        "role" : "navigation",
+        "testid" : null
+      } ],
+      "sibling_index" : 0,
+      "sibling_count" : 3,
+      "bbox_norm" : {
+        "x" : 0.396875,
+        "y" : 0.2814814814814815,
+        "w" : 0.055078125,
+        "h" : 0.026851851851851852
+      },
+      "area_norm" : 0.0014789496527777778,
+      "aspect" : 3.646551724137931,
+      "neighbor_texts" : [ "Rp50.000", "Order ID #sample-store-1791638913", "Card Payment", "23:59:55", "Card number", "Expiration date" ],
+      "child" : null,
+      "_gt" : null
+    }
+  },
+  "landmarks" : [ "heading:Demo Store", "heading:Welcome to Snap Demo!" ],
+  "lastSeen" : {
+    "amountDisplay" : "2026-10-10T18:58:37"
+  }
+}

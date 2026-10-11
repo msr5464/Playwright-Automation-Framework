@@ -1,0 +1,321 @@
+{
+  "pageObject" : "CreditCardFormPage",
+  "module" : "paymentgateway",
+  "fullClassName" : "automation.modules.paymentgateway.web.CreditCardFormPage",
+  "recordedAt" : "2026-10-10T18:58:34",
+  "urlShape" : "https://demo.midtrans.com/",
+  "title" : "Sample Store",
+  "bodyClass" : "",
+  "coverage" : {
+    "cardNumberField" : 1,
+    "expiryField" : 1,
+    "cvvField" : 1,
+    "totalAmountDisplay" : 1,
+    "continueButton" : 0
+  },
+  "fingerprints" : {
+    "cardNumberField" : {
+      "index" : 57,
+      "tag" : "input",
+      "id" : null,
+      "name" : null,
+      "type" : "tel",
+      "class_list" : [ "valid-input-value" ],
+      "role" : "textbox",
+      "accessible_name" : "1234 1234 1234 1234",
+      "aria_label" : null,
+      "placeholder" : "1234 1234 1234 1234",
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : null,
+      "text" : "",
+      "attrs" : {
+        "type" : "tel",
+        "autocomplete" : "cc-number",
+        "autocorrect" : "off",
+        "spellcheck" : "false",
+        "placeholder" : "1234 1234 1234 1234",
+        "class" : "valid-input-value",
+        "value" : ""
+      },
+      "is_interactive" : true,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/div[2]/div[2]/div[1]/form[1]/div[1]/div[2]/div[2]/input[1]",
+      "id_xpath" : "//*[@id='application']/div[1]/form[1]/div[1]/div[2]/div[2]/input[1]",
+      "ancestor_chain" : [ {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "card-number-input-container" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "card-number" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "credit-card__content" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "form",
+        "id" : null,
+        "classes" : [ "credit-card__wrapper" ],
+        "role" : "form",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "page-container", "scroll" ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 0,
+      "sibling_count" : 1,
+      "bbox_norm" : {
+        "x" : 0.39895833333333336,
+        "y" : 0.44537037037037036,
+        "w" : 0.19427083333333334,
+        "h" : 0.03148148148148148
+      },
+      "area_norm" : 0.0061159336419753085,
+      "aspect" : 10.970588235294118,
+      "neighbor_texts" : [ "Card number", "Expiration date", "CVV", "Card Payment", "23:59:58", "Select promo" ],
+      "child" : null,
+      "_gt" : null
+    },
+    "expiryField" : {
+      "index" : 61,
+      "tag" : "input",
+      "id" : "card-expiry",
+      "name" : null,
+      "type" : "tel",
+      "class_list" : [ "valid-input-value" ],
+      "role" : "textbox",
+      "accessible_name" : "MM/YY",
+      "aria_label" : null,
+      "placeholder" : "MM/YY",
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : null,
+      "text" : "",
+      "attrs" : {
+        "id" : "card-expiry",
+        "type" : "tel",
+        "autocomplete" : "cc-exp",
+        "autocorrect" : "off",
+        "spellcheck" : "false",
+        "placeholder" : "MM/YY",
+        "class" : "valid-input-value",
+        "value" : ""
+      },
+      "is_interactive" : true,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/div[2]/div[2]/div[1]/form[1]/div[1]/div[3]/div[1]/input[1]",
+      "id_xpath" : "//*[@id='card-expiry']",
+      "ancestor_chain" : [ {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "card-expiry-cvv" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "credit-card__info" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "credit-card__content" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "form",
+        "id" : null,
+        "classes" : [ "credit-card__wrapper" ],
+        "role" : "form",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "page-container", "scroll" ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 1,
+      "sibling_count" : 2,
+      "bbox_norm" : {
+        "x" : 0.39895833333333336,
+        "y" : 0.5166666666666667,
+        "w" : 0.08880208333333334,
+        "h" : 0.03148148148148148
+      },
+      "area_norm" : 0.0027956211419753085,
+      "aspect" : 5.014705882352941,
+      "neighbor_texts" : [ "Expiration date", "CVV", "Select promo", "Promo Credit-Card (Per 3 Card Number)", "Card number", "Promo Flash Sale (Credit-Card)" ],
+      "child" : null,
+      "_gt" : null
+    },
+    "cvvField" : {
+      "index" : 64,
+      "tag" : "input",
+      "id" : "card-cvv",
+      "name" : null,
+      "type" : "password",
+      "class_list" : [ "valid-input-value" ],
+      "role" : "textbox",
+      "accessible_name" : "123",
+      "aria_label" : null,
+      "placeholder" : "123",
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : null,
+      "text" : "",
+      "attrs" : {
+        "id" : "card-cvv",
+        "type" : "password",
+        "autocomplete" : "cc-csc",
+        "autocorrect" : "off",
+        "spellcheck" : "false",
+        "placeholder" : "123",
+        "class" : "valid-input-value",
+        "value" : ""
+      },
+      "is_interactive" : true,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/div[2]/div[2]/div[1]/form[1]/div[1]/div[3]/div[2]/input[1]",
+      "id_xpath" : "//*[@id='card-cvv']",
+      "ancestor_chain" : [ {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "card-expiry-cvv" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "credit-card__info" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "credit-card__content" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "form",
+        "id" : null,
+        "classes" : [ "credit-card__wrapper" ],
+        "role" : "form",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "page-container", "scroll" ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 1,
+      "sibling_count" : 2,
+      "bbox_norm" : {
+        "x" : 0.5044270833333333,
+        "y" : 0.5166666666666667,
+        "w" : 0.08880208333333334,
+        "h" : 0.03148148148148148
+      },
+      "area_norm" : 0.0027956211419753085,
+      "aspect" : 5.014705882352941,
+      "neighbor_texts" : [ "CVV", "Promo Credit-Card (Per 3 Card Number)", "-Rp1.000", "Expiration date", "Select promo", "Promo Flash Sale (Credit-Card)" ],
+      "child" : null,
+      "_gt" : null
+    },
+    "totalAmountDisplay" : {
+      "index" : 17,
+      "tag" : "div",
+      "id" : null,
+      "name" : null,
+      "type" : null,
+      "class_list" : [ "header-amount" ],
+      "role" : "generic",
+      "accessible_name" : "",
+      "aria_label" : null,
+      "placeholder" : null,
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : null,
+      "text" : "Rp50.000",
+      "attrs" : {
+        "class" : "header-amount"
+      },
+      "is_interactive" : false,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/div[2]/div[2]/nav[1]/div[2]/div[1]/div[1]/div[1]/div[1]",
+      "id_xpath" : "//*[@id='header']/div[2]/div[1]/div[1]/div[1]/div[1]",
+      "ancestor_chain" : [ {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "order-container" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "order-summary-section" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "order-box" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "order-header" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "nav",
+        "id" : "header",
+        "classes" : [ "header" ],
+        "role" : "navigation",
+        "testid" : null
+      } ],
+      "sibling_index" : 0,
+      "sibling_count" : 2,
+      "bbox_norm" : {
+        "x" : 0.396875,
+        "y" : 0.2814814814814815,
+        "w" : 0.05633138020833333,
+        "h" : 0.026851851851851852
+      },
+      "area_norm" : 0.0015126018759645061,
+      "aspect" : 3.7295258620689653,
+      "neighbor_texts" : [ "Order ID #sample-store-1791638913", "Card Payment", "23:59:58", "Card number", "Expiration date", "CVV" ],
+      "child" : null,
+      "_gt" : null
+    }
+  },
+  "landmarks" : [ "heading:Demo Store", "heading:Welcome to Snap Demo!" ],
+  "lastSeen" : {
+    "cardNumberField" : "2026-10-10T18:58:34",
+    "expiryField" : "2026-10-10T18:58:34",
+    "cvvField" : "2026-10-10T18:58:34",
+    "totalAmountDisplay" : "2026-10-10T18:58:34"
+  }
+}
