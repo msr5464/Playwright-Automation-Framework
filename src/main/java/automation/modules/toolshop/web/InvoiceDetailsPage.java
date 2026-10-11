@@ -37,37 +37,37 @@ public class InvoiceDetailsPage extends BasePage
 
     public String getInvoiceNumber()
     {
-        return getText(invoiceNumberDisplay, "Invoice number");
+        return getInputValue(invoiceNumberDisplay, "Invoice number");
     }
 
     public String getTotal()
     {
-        return getText(totalDisplay, "Total").replaceAll("\\s+", "");
+        return getInputValue(totalDisplay, "Total").replaceAll("\\s+", "");
     }
 
     public String getStreet()
     {
-        return getText(streetDisplay, "Street");
+        return getInputValue(streetDisplay, "Street");
     }
 
     public String getCity()
     {
-        return getText(cityDisplay, "City");
+        return getInputValue(cityDisplay, "City");
     }
 
     public String getPostalCode()
     {
-        return getText(postalCodeDisplay, "Postal code");
+        return getInputValue(postalCodeDisplay, "Postal code");
     }
 
     public String getPaymentMethod()
     {
-        return getText(paymentMethodDisplay, "Payment method");
+        return getInputValue(paymentMethodDisplay, "Payment method");
     }
 
     public String getCardHolderName()
     {
-        return getText(cardHolderNameDisplay, "Card holder name");
+        return getInputValue(cardHolderNameDisplay, "Card holder name");
     }
 
     public String getProductRowQuantity(String productName)
