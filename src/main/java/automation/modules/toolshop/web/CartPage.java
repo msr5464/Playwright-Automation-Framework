@@ -27,7 +27,7 @@ public class CartPage extends BasePage
 
     public String getProductName()
     {
-        return getText(productNameDisplay, "Product name");
+        return getText(productNameDisplay, "Product name").replace('\u00A0', ' ');
     }
 
     public String getQuantity()
