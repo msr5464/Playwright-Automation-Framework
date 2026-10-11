@@ -14,7 +14,7 @@ public class IssuingBankPage extends BasePage {
     public IssuingBankPage(Config config) {
         super(config);
         amountDisplay = page.frameLocator("#snap-midtrans").locator("div.header-amount");
-        otpField = page.frameLocator("#snap-midtrans").frameLocator("iframe[title='3ds-iframe']").locator("#mukesh");
+        otpField = page.frameLocator("#snap-midtrans").frameLocator("iframe[title='3ds-iframe']").locator("#otp");
         otpSubmitButton = page.frameLocator("#snap-midtrans").frameLocator("iframe[title='3ds-iframe']")
                 .locator("button[name='ok']");
         assertPageLoaded(amountDisplay);
