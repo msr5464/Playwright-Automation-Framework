@@ -1,0 +1,554 @@
+{
+  "pageObject" : "CheckoutBillingAddressPage",
+  "module" : "toolshop",
+  "fullClassName" : "automation.modules.toolshop.web.CheckoutBillingAddressPage",
+  "recordedAt" : "2026-10-11T18:58:44",
+  "urlShape" : "https://practicesoftwaretesting.com/checkout",
+  "title" : "Checkout - Practice Software Testing - Toolshop - v5.0",
+  "bodyClass" : "",
+  "coverage" : {
+    "countryField" : 1,
+    "postalCodeField" : 1,
+    "houseNumberField" : 1,
+    "streetField" : 1,
+    "cityField" : 1,
+    "stateField" : 1,
+    "proceedToCheckoutButton" : 1
+  },
+  "fingerprints" : {
+    "countryField" : {
+      "index" : 178,
+      "tag" : "select",
+      "id" : "country",
+      "name" : null,
+      "type" : null,
+      "class_list" : [ "form-select", "ng-untouched", "ng-pristine", "ng-invalid" ],
+      "role" : "combobox",
+      "accessible_name" : "Country",
+      "aria_label" : null,
+      "placeholder" : null,
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : "country",
+      "text" : "Your country *AlbaniaÅland IslandsAlgeriaAmerican SamoaAndorraAngolaAnguillaAntarcticaAntigua and BarbudaArgentinaArmeniaArubaAustraliaAustriaAzerbaijanBahamas (the)BahrainBangladeshBarbadosBelarusBel",
+      "attrs" : {
+        "id" : "country",
+        "data-test" : "country",
+        "formcontrolname" : "country",
+        "class" : "form-select ng-untouched ng-pristine ng-invalid"
+      },
+      "is_interactive" : true,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/app-root[1]/div[2]/app-checkout[1]/aw-wizard[1]/div[1]/aw-wizard-step[3]/app-address[1]/div[1]/div[1]/div[1]/form[1]/div[1]/div[1]/select[1]",
+      "id_xpath" : "//*[@id='country']",
+      "ancestor_chain" : [ {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "mb-3" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "ng-untouched", "ng-pristine", "ng-invalid" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "form",
+        "id" : null,
+        "classes" : [ "ng-untouched", "ng-pristine", "ng-invalid" ],
+        "role" : "form",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "col-md-6", "offset-md-3", "login-form-1" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "row" ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 1,
+      "sibling_count" : 2,
+      "bbox_norm" : {
+        "x" : 0.3375,
+        "y" : 0.3189670138888889,
+        "w" : 0.325,
+        "h" : 0.03518518518518519
+      },
+      "area_norm" : 0.011435185185185185,
+      "aspect" : 16.42105263157895,
+      "neighbor_texts" : [ "Country", "Billing Address", "Postal code", "House number", "Sign in", "2" ],
+      "child" : null,
+      "_gt" : null
+    },
+    "postalCodeField" : {
+      "index" : 432,
+      "tag" : "input",
+      "id" : "postal_code",
+      "name" : null,
+      "type" : "text",
+      "class_list" : [ "form-control", "ng-untouched", "ng-pristine", "ng-invalid" ],
+      "role" : "textbox",
+      "accessible_name" : "Postal code",
+      "aria_label" : null,
+      "placeholder" : "Your Postcode *",
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : "postal_code",
+      "text" : "",
+      "attrs" : {
+        "formcontrolname" : "postal_code",
+        "data-test" : "postal_code",
+        "id" : "postal_code",
+        "type" : "text",
+        "class" : "form-control ng-untouched ng-pristine ng-invalid",
+        "placeholder" : "Your Postcode *"
+      },
+      "is_interactive" : true,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/app-root[1]/div[2]/app-checkout[1]/aw-wizard[1]/div[1]/aw-wizard-step[3]/app-address[1]/div[1]/div[1]/div[1]/form[1]/div[1]/div[2]/div[1]/input[1]",
+      "id_xpath" : "//*[@id='postal_code']",
+      "ancestor_chain" : [ {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "col-md-6", "mb-3" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "row" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "ng-untouched", "ng-pristine", "ng-invalid" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "form",
+        "id" : null,
+        "classes" : [ "ng-untouched", "ng-pristine", "ng-invalid" ],
+        "role" : "form",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "col-md-6", "offset-md-3", "login-form-1" ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 1,
+      "sibling_count" : 2,
+      "bbox_norm" : {
+        "x" : 0.3375,
+        "y" : 0.4254484953703704,
+        "w" : 0.15625,
+        "h" : 0.03518518518518519
+      },
+      "area_norm" : 0.005497685185185185,
+      "aspect" : 7.894736842105263,
+      "neighbor_texts" : [ "Postal code", "Street", "House number", "City", "Country", "Billing Address" ],
+      "child" : null,
+      "_gt" : null
+    },
+    "houseNumberField" : {
+      "index" : 435,
+      "tag" : "input",
+      "id" : "house_number",
+      "name" : null,
+      "type" : "text",
+      "class_list" : [ "form-control", "ng-untouched", "ng-pristine", "ng-invalid" ],
+      "role" : "textbox",
+      "accessible_name" : "House number",
+      "aria_label" : null,
+      "placeholder" : "e.g. 42 *",
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : "house_number",
+      "text" : "",
+      "attrs" : {
+        "formcontrolname" : "house_number",
+        "data-test" : "house_number",
+        "id" : "house_number",
+        "type" : "text",
+        "class" : "form-control ng-untouched ng-pristine ng-invalid",
+        "placeholder" : "e.g. 42 *"
+      },
+      "is_interactive" : true,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/app-root[1]/div[2]/app-checkout[1]/aw-wizard[1]/div[1]/aw-wizard-step[3]/app-address[1]/div[1]/div[1]/div[1]/form[1]/div[1]/div[2]/div[2]/input[1]",
+      "id_xpath" : "//*[@id='house_number']",
+      "ancestor_chain" : [ {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "col-md-6", "mb-3" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "row" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "ng-untouched", "ng-pristine", "ng-invalid" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "form",
+        "id" : null,
+        "classes" : [ "ng-untouched", "ng-pristine", "ng-invalid" ],
+        "role" : "form",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "col-md-6", "offset-md-3", "login-form-1" ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 1,
+      "sibling_count" : 2,
+      "bbox_norm" : {
+        "x" : 0.50625,
+        "y" : 0.4254484953703704,
+        "w" : 0.15625,
+        "h" : 0.03518518518518519
+      },
+      "area_norm" : 0.005497685185185185,
+      "aspect" : 7.894736842105263,
+      "neighbor_texts" : [ "House number", "Billing Address", "3", "Postal code", "Payment", "Sign in" ],
+      "child" : null,
+      "_gt" : null
+    },
+    "streetField" : {
+      "index" : 438,
+      "tag" : "input",
+      "id" : "street",
+      "name" : null,
+      "type" : "text",
+      "class_list" : [ "form-control", "ng-untouched", "ng-pristine", "ng-invalid" ],
+      "role" : "textbox",
+      "accessible_name" : "Street",
+      "aria_label" : null,
+      "placeholder" : "Your Street *",
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : "street",
+      "text" : "",
+      "attrs" : {
+        "formcontrolname" : "street",
+        "data-test" : "street",
+        "id" : "street",
+        "type" : "text",
+        "class" : "form-control ng-untouched ng-pristine ng-invalid",
+        "placeholder" : "Your Street *"
+      },
+      "is_interactive" : true,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/app-root[1]/div[2]/app-checkout[1]/aw-wizard[1]/div[1]/aw-wizard-step[3]/app-address[1]/div[1]/div[1]/div[1]/form[1]/div[1]/div[3]/input[1]",
+      "id_xpath" : "//*[@id='street']",
+      "ancestor_chain" : [ {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "mb-3" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "ng-untouched", "ng-pristine", "ng-invalid" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "form",
+        "id" : null,
+        "classes" : [ "ng-untouched", "ng-pristine", "ng-invalid" ],
+        "role" : "form",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "col-md-6", "offset-md-3", "login-form-1" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "row" ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 1,
+      "sibling_count" : 2,
+      "bbox_norm" : {
+        "x" : 0.3375,
+        "y" : 0.505078125,
+        "w" : 0.325,
+        "h" : 0.03518518518518519
+      },
+      "area_norm" : 0.011435185185185185,
+      "aspect" : 16.42105263157895,
+      "neighbor_texts" : [ "Street", "City", "Postal code", "House number", "State", "Proceed to checkout" ],
+      "child" : null,
+      "_gt" : null
+    },
+    "cityField" : {
+      "index" : 441,
+      "tag" : "input",
+      "id" : "city",
+      "name" : null,
+      "type" : "text",
+      "class_list" : [ "form-control", "ng-untouched", "ng-pristine", "ng-invalid" ],
+      "role" : "textbox",
+      "accessible_name" : "City",
+      "aria_label" : null,
+      "placeholder" : "Your City *",
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : "city",
+      "text" : "",
+      "attrs" : {
+        "formcontrolname" : "city",
+        "data-test" : "city",
+        "id" : "city",
+        "type" : "text",
+        "class" : "form-control ng-untouched ng-pristine ng-invalid",
+        "placeholder" : "Your City *"
+      },
+      "is_interactive" : true,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/app-root[1]/div[2]/app-checkout[1]/aw-wizard[1]/div[1]/aw-wizard-step[3]/app-address[1]/div[1]/div[1]/div[1]/form[1]/div[1]/div[4]/input[1]",
+      "id_xpath" : "//*[@id='city']",
+      "ancestor_chain" : [ {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "mb-3" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "ng-untouched", "ng-pristine", "ng-invalid" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "form",
+        "id" : null,
+        "classes" : [ "ng-untouched", "ng-pristine", "ng-invalid" ],
+        "role" : "form",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "col-md-6", "offset-md-3", "login-form-1" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "row" ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 1,
+      "sibling_count" : 2,
+      "bbox_norm" : {
+        "x" : 0.3375,
+        "y" : 0.5847077546296297,
+        "w" : 0.325,
+        "h" : 0.03518518518518519
+      },
+      "area_norm" : 0.011435185185185185,
+      "aspect" : 16.42105263157895,
+      "neighbor_texts" : [ "City", "State", "Street", "Proceed to checkout", "Postal code", "House number" ],
+      "child" : null,
+      "_gt" : null
+    },
+    "stateField" : {
+      "index" : 444,
+      "tag" : "input",
+      "id" : "state",
+      "name" : null,
+      "type" : "text",
+      "class_list" : [ "form-control", "ng-untouched", "ng-pristine", "ng-invalid" ],
+      "role" : "textbox",
+      "accessible_name" : "State",
+      "aria_label" : null,
+      "placeholder" : "State *",
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : "state",
+      "text" : "",
+      "attrs" : {
+        "formcontrolname" : "state",
+        "data-test" : "state",
+        "id" : "state",
+        "type" : "text",
+        "class" : "form-control ng-untouched ng-pristine ng-invalid",
+        "placeholder" : "State *"
+      },
+      "is_interactive" : true,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/app-root[1]/div[2]/app-checkout[1]/aw-wizard[1]/div[1]/aw-wizard-step[3]/app-address[1]/div[1]/div[1]/div[1]/form[1]/div[1]/div[5]/input[1]",
+      "id_xpath" : "//*[@id='state']",
+      "ancestor_chain" : [ {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "mb-3" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "ng-untouched", "ng-pristine", "ng-invalid" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "form",
+        "id" : null,
+        "classes" : [ "ng-untouched", "ng-pristine", "ng-invalid" ],
+        "role" : "form",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "col-md-6", "offset-md-3", "login-form-1" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "row" ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 1,
+      "sibling_count" : 2,
+      "bbox_norm" : {
+        "x" : 0.3375,
+        "y" : 0.6643373842592593,
+        "w" : 0.325,
+        "h" : 0.03518518518518519
+      },
+      "area_norm" : 0.011435185185185185,
+      "aspect" : 16.42105263157895,
+      "neighbor_texts" : [ "State", "Proceed to checkout", "City", "Learn & Explore", "Learn Test Automation", "API Spector" ],
+      "child" : null,
+      "_gt" : null
+    },
+    "proceedToCheckoutButton" : {
+      "index" : 446,
+      "tag" : "button",
+      "id" : null,
+      "name" : null,
+      "type" : "button",
+      "class_list" : [ "btn", "btn-success" ],
+      "role" : "button",
+      "accessible_name" : "Proceed to checkout",
+      "aria_label" : null,
+      "placeholder" : null,
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : "proceed-3",
+      "text" : "Proceed to checkout",
+      "attrs" : {
+        "data-test" : "proceed-3",
+        "type" : "button",
+        "awnextstep" : "",
+        "class" : "btn btn-success",
+        "disabled" : ""
+      },
+      "is_interactive" : true,
+      "is_visible" : true,
+      "is_enabled" : false,
+      "abs_xpath" : "/html[1]/body[1]/app-root[1]/div[2]/app-checkout[1]/aw-wizard[1]/div[1]/aw-wizard-step[3]/app-address[1]/div[1]/div[1]/div[1]/div[1]/button[1]",
+      "id_xpath" : "/html[1]/body[1]/app-root[1]/div[2]/app-checkout[1]/aw-wizard[1]/div[1]/aw-wizard-step[3]/app-address[1]/div[1]/div[1]/div[1]/div[1]/button[1]",
+      "ancestor_chain" : [ {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "float-end" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "col-md-6", "offset-md-3", "login-form-1" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "row" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "container", "login-container", "ng-star-inserted" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "app-address",
+        "id" : null,
+        "classes" : [ ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 0,
+      "sibling_count" : 1,
+      "bbox_norm" : {
+        "x" : 0.5707763671875,
+        "y" : 0.7143373842592593,
+        "w" : 0.0917236328125,
+        "h" : 0.03518518518518519
+      },
+      "area_norm" : 0.0032273130063657407,
+      "aspect" : 4.634457236842105,
+      "neighbor_texts" : [ "Learn & Explore", "API Spector", "GitHub", "Open-source API testing, mocking and contract testing", "Source code, issues and contributions", "Privacy Policy" ],
+      "child" : null,
+      "_gt" : null
+    }
+  },
+  "selectors" : {
+    "countryField" : "Locator@[data-test='country']",
+    "postalCodeField" : "Locator@[data-test='postal_code']",
+    "houseNumberField" : "Locator@[data-test='house_number']",
+    "streetField" : "Locator@[data-test='street']",
+    "cityField" : "Locator@[data-test='city']",
+    "stateField" : "Locator@[data-test='state']",
+    "proceedToCheckoutButton" : "Locator@[data-test='proceed-3']"
+  },
+  "landmarks" : [ "menubar:Main menu", "menu:EN", "heading:Billing Address", "heading:Payment" ],
+  "lastSeen" : {
+    "countryField" : "2026-10-11T18:58:44",
+    "postalCodeField" : "2026-10-11T18:58:44",
+    "houseNumberField" : "2026-10-11T18:58:44",
+    "streetField" : "2026-10-11T18:58:44",
+    "cityField" : "2026-10-11T18:58:44",
+    "stateField" : "2026-10-11T18:58:44",
+    "proceedToCheckoutButton" : "2026-10-11T18:58:44"
+  }
+}

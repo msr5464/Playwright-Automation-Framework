@@ -1,0 +1,547 @@
+{
+  "pageObject" : "CheckoutPaymentPage",
+  "module" : "toolshop",
+  "fullClassName" : "automation.modules.toolshop.web.CheckoutPaymentPage",
+  "recordedAt" : "2026-10-11T18:58:46",
+  "urlShape" : "https://practicesoftwaretesting.com/checkout",
+  "title" : "Checkout - Practice Software Testing - Toolshop - v5.0",
+  "bodyClass" : "",
+  "coverage" : {
+    "paymentMethodOption" : 1,
+    "cardNumberField" : 0,
+    "expirationDateField" : 0,
+    "cvvField" : 0,
+    "cardHolderNameField" : 0,
+    "paymentActionButton" : 1,
+    "paymentMessage" : 0
+  },
+  "fingerprints" : {
+    "paymentMethodOption" : {
+      "index" : 456,
+      "tag" : "select",
+      "id" : "payment-method",
+      "name" : null,
+      "type" : null,
+      "class_list" : [ "form-select", "ng-untouched", "ng-pristine", "ng-invalid" ],
+      "role" : "combobox",
+      "accessible_name" : "Payment Method",
+      "aria_label" : null,
+      "placeholder" : null,
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : "payment-method",
+      "text" : "Choose your payment methodBank TransferCash on DeliveryCredit CardBuy Now Pay LaterGift Card",
+      "attrs" : {
+        "data-test" : "payment-method",
+        "id" : "payment-method",
+        "formcontrolname" : "payment_method",
+        "class" : "form-select ng-untouched ng-pristine ng-invalid"
+      },
+      "is_interactive" : true,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/app-root[1]/div[2]/app-checkout[1]/aw-wizard[1]/div[1]/aw-wizard-completion-step[1]/app-payment[1]/div[1]/div[1]/div[1]/form[1]/div[1]/select[1]",
+      "id_xpath" : "//*[@id='payment-method']",
+      "ancestor_chain" : [ {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "input-group", "mb-3" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "form",
+        "id" : null,
+        "classes" : [ "ng-untouched", "ng-pristine", "ng-invalid" ],
+        "role" : "form",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "col-md-6", "offset-md-3", "login-form-1", "ng-star-inserted" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "row" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "container", "ng-star-inserted" ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 1,
+      "sibling_count" : 2,
+      "bbox_norm" : {
+        "x" : 0.33697916666666666,
+        "y" : 0.28933738425925926,
+        "w" : 0.3255208333333333,
+        "h" : 0.03518518518518519
+      },
+      "area_norm" : 0.011453510802469136,
+      "aspect" : 16.44736842105263,
+      "neighbor_texts" : [ "Payment Method", "Payment", "Check payment", "Sign in", "Billing Address", "2" ],
+      "child" : null,
+      "_gt" : null
+    },
+    "paymentActionButton" : {
+      "index" : 464,
+      "tag" : "button",
+      "id" : null,
+      "name" : null,
+      "type" : "button",
+      "class_list" : [ "btn", "btn-success" ],
+      "role" : "button",
+      "accessible_name" : "Check payment",
+      "aria_label" : null,
+      "placeholder" : null,
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : "finish",
+      "text" : "Check payment",
+      "attrs" : {
+        "data-test" : "finish",
+        "type" : "button",
+        "class" : "btn btn-success",
+        "disabled" : ""
+      },
+      "is_interactive" : true,
+      "is_visible" : true,
+      "is_enabled" : false,
+      "abs_xpath" : "/html[1]/body[1]/app-root[1]/div[2]/app-checkout[1]/aw-wizard[1]/div[1]/aw-wizard-completion-step[1]/app-payment[1]/div[1]/div[1]/div[1]/div[1]/button[1]",
+      "id_xpath" : "/html[1]/body[1]/app-root[1]/div[2]/app-checkout[1]/aw-wizard[1]/div[1]/aw-wizard-completion-step[1]/app-payment[1]/div[1]/div[1]/div[1]/div[1]/button[1]",
+      "ancestor_chain" : [ {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "float-end" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "col-md-6", "offset-md-3", "login-form-1", "ng-star-inserted" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "row" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "container", "ng-star-inserted" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "app-payment",
+        "id" : null,
+        "classes" : [ ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 0,
+      "sibling_count" : 1,
+      "bbox_norm" : {
+        "x" : 0.5899658203125,
+        "y" : 0.33933738425925924,
+        "w" : 0.0725341796875,
+        "h" : 0.03518518518518519
+      },
+      "area_norm" : 0.002552128544560185,
+      "aspect" : 3.6648848684210527,
+      "neighbor_texts" : [ "Learn & Explore", "Payment", "API Spector", "GitHub", "Open-source API testing, mocking and contract testing", "Source code, issues and contributions" ],
+      "child" : null,
+      "_gt" : null
+    },
+    "cardNumberField" : {
+      "index" : 465,
+      "tag" : "input",
+      "id" : "credit_card_number",
+      "name" : null,
+      "type" : null,
+      "class_list" : [ "form-control", "ng-untouched", "ng-pristine", "ng-valid" ],
+      "role" : "textbox",
+      "accessible_name" : "Credit Card Number",
+      "aria_label" : null,
+      "placeholder" : "Credit Card Number",
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : "credit_card_number",
+      "text" : "",
+      "attrs" : {
+        "id" : "credit_card_number",
+        "formcontrolname" : "credit_card_number",
+        "data-test" : "credit_card_number",
+        "aria-describedby" : "credit_card_number_help",
+        "class" : "form-control ng-untouched ng-pristine ng-valid",
+        "placeholder" : "Credit Card Number"
+      },
+      "is_interactive" : true,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/app-root[1]/div[2]/app-checkout[1]/aw-wizard[1]/div[1]/aw-wizard-completion-step[1]/app-payment[1]/div[1]/div[1]/div[1]/form[1]/div[2]/input[1]",
+      "id_xpath" : "//*[@id='credit_card_number']",
+      "ancestor_chain" : [ {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "ng-star-inserted" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "form",
+        "id" : null,
+        "classes" : [ "ng-untouched", "ng-dirty", "ng-valid" ],
+        "role" : "form",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "col-md-6", "offset-md-3", "login-form-1", "ng-star-inserted" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "row" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "container", "ng-star-inserted" ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 1,
+      "sibling_count" : 10,
+      "bbox_norm" : {
+        "x" : 0.3375,
+        "y" : 0.33933738425925924,
+        "w" : 0.325,
+        "h" : 0.03518518518518519
+      },
+      "area_norm" : 0.011435185185185185,
+      "aspect" : 16.42105263157895,
+      "neighbor_texts" : [ "Credit Card Number", "Payment Method", "Expiration Date", "Payment", "Sign in", "Billing Address" ],
+      "child" : null,
+      "_gt" : null
+    },
+    "expirationDateField" : {
+      "index" : 468,
+      "tag" : "input",
+      "id" : "expiration_date",
+      "name" : null,
+      "type" : null,
+      "class_list" : [ "form-control", "mb-3", "ng-untouched", "ng-pristine", "ng-valid" ],
+      "role" : "textbox",
+      "accessible_name" : "Expiration Date",
+      "aria_label" : null,
+      "placeholder" : "Expiration Date",
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : "expiration_date",
+      "text" : "",
+      "attrs" : {
+        "id" : "expiration_date",
+        "formcontrolname" : "expiration_date",
+        "data-test" : "expiration_date",
+        "class" : "form-control mb-3 ng-untouched ng-pristine ng-valid",
+        "placeholder" : "Expiration Date"
+      },
+      "is_interactive" : true,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/app-root[1]/div[2]/app-checkout[1]/aw-wizard[1]/div[1]/aw-wizard-completion-step[1]/app-payment[1]/div[1]/div[1]/div[1]/form[1]/div[2]/input[2]",
+      "id_xpath" : "//*[@id='expiration_date']",
+      "ancestor_chain" : [ {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "ng-star-inserted" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "form",
+        "id" : null,
+        "classes" : [ "ng-untouched", "ng-dirty", "ng-valid" ],
+        "role" : "form",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "col-md-6", "offset-md-3", "login-form-1", "ng-star-inserted" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "row" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "container", "ng-star-inserted" ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 4,
+      "sibling_count" : 10,
+      "bbox_norm" : {
+        "x" : 0.3375,
+        "y" : 0.43192997685185186,
+        "w" : 0.325,
+        "h" : 0.03518518518518519
+      },
+      "area_norm" : 0.011435185185185185,
+      "aspect" : 16.42105263157895,
+      "neighbor_texts" : [ "Expiration Date", "CVV", "Credit Card Number", "Card Holder Name", "Payment Method", "Payment" ],
+      "child" : null,
+      "_gt" : null
+    },
+    "cvvField" : {
+      "index" : 470,
+      "tag" : "input",
+      "id" : "cvv",
+      "name" : null,
+      "type" : null,
+      "class_list" : [ "form-control", "ng-untouched", "ng-pristine", "ng-valid" ],
+      "role" : "textbox",
+      "accessible_name" : "CVV",
+      "aria_label" : null,
+      "placeholder" : "CVV",
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : "cvv",
+      "text" : "",
+      "attrs" : {
+        "id" : "cvv",
+        "formcontrolname" : "cvv",
+        "data-test" : "cvv",
+        "aria-describedby" : "cvv_help",
+        "class" : "form-control ng-untouched ng-pristine ng-valid",
+        "placeholder" : "CVV"
+      },
+      "is_interactive" : true,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/app-root[1]/div[2]/app-checkout[1]/aw-wizard[1]/div[1]/aw-wizard-completion-step[1]/app-payment[1]/div[1]/div[1]/div[1]/form[1]/div[2]/input[3]",
+      "id_xpath" : "//*[@id='cvv']",
+      "ancestor_chain" : [ {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "ng-star-inserted" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "form",
+        "id" : null,
+        "classes" : [ "ng-dirty", "ng-valid", "ng-touched" ],
+        "role" : "form",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "col-md-6", "offset-md-3", "login-form-1", "ng-star-inserted" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "row" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "container", "ng-star-inserted" ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 6,
+      "sibling_count" : 10,
+      "bbox_norm" : {
+        "x" : 0.3375,
+        "y" : 0.48192997685185185,
+        "w" : 0.325,
+        "h" : 0.03518518518518519
+      },
+      "area_norm" : 0.011435185185185185,
+      "aspect" : 16.42105263157895,
+      "neighbor_texts" : [ "CVV", "Expiration Date", "Card Holder Name", "Check payment", "Credit Card Number", "Learn & Explore" ],
+      "child" : null,
+      "_gt" : null
+    },
+    "cardHolderNameField" : {
+      "index" : 473,
+      "tag" : "input",
+      "id" : "card_holder_name",
+      "name" : null,
+      "type" : null,
+      "class_list" : [ "form-control", "mb-3", "ng-untouched", "ng-pristine", "ng-valid" ],
+      "role" : "textbox",
+      "accessible_name" : "Card Holder Name",
+      "aria_label" : null,
+      "placeholder" : "Card Holder Name",
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : "card_holder_name",
+      "text" : "",
+      "attrs" : {
+        "id" : "card_holder_name",
+        "formcontrolname" : "card_holder_name",
+        "data-test" : "card_holder_name",
+        "class" : "form-control mb-3 ng-untouched ng-pristine ng-valid",
+        "placeholder" : "Card Holder Name"
+      },
+      "is_interactive" : true,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/app-root[1]/div[2]/app-checkout[1]/aw-wizard[1]/div[1]/aw-wizard-completion-step[1]/app-payment[1]/div[1]/div[1]/div[1]/form[1]/div[2]/input[4]",
+      "id_xpath" : "//*[@id='card_holder_name']",
+      "ancestor_chain" : [ {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "ng-star-inserted" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "form",
+        "id" : null,
+        "classes" : [ "ng-dirty", "ng-valid", "ng-touched" ],
+        "role" : "form",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "col-md-6", "offset-md-3", "login-form-1", "ng-star-inserted" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "row" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "container", "ng-star-inserted" ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 9,
+      "sibling_count" : 10,
+      "bbox_norm" : {
+        "x" : 0.3375,
+        "y" : 0.5745225694444445,
+        "w" : 0.325,
+        "h" : 0.03518518518518519
+      },
+      "area_norm" : 0.011435185185185185,
+      "aspect" : 16.42105263157895,
+      "neighbor_texts" : [ "Card Holder Name", "Check payment", "Learn & Explore", "CVV", "Learn Test Automation", "API Spector" ],
+      "child" : null,
+      "_gt" : null
+    },
+    "paymentMessage" : {
+      "index" : 475,
+      "tag" : "div",
+      "id" : null,
+      "name" : null,
+      "type" : null,
+      "class_list" : [ "help-block" ],
+      "role" : "generic",
+      "accessible_name" : "",
+      "aria_label" : null,
+      "placeholder" : null,
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : "payment-success-message",
+      "text" : "Payment was successful",
+      "attrs" : {
+        "data-test" : "payment-success-message",
+        "class" : "help-block"
+      },
+      "is_interactive" : false,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/app-root[1]/div[2]/app-checkout[1]/aw-wizard[1]/div[1]/aw-wizard-completion-step[1]/app-payment[1]/div[1]/div[1]/div[1]/form[1]/div[3]/div[1]",
+      "id_xpath" : "/html[1]/body[1]/app-root[1]/div[2]/app-checkout[1]/aw-wizard[1]/div[1]/aw-wizard-completion-step[1]/app-payment[1]/div[1]/div[1]/div[1]/form[1]/div[3]/div[1]",
+      "ancestor_chain" : [ {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "alert", "alert-success", "ng-star-inserted" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "form",
+        "id" : null,
+        "classes" : [ "ng-dirty", "ng-valid", "ng-touched" ],
+        "role" : "form",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "col-md-6", "offset-md-3", "login-form-1", "ng-star-inserted" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "row" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "container", "ng-star-inserted" ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 0,
+      "sibling_count" : 1,
+      "bbox_norm" : {
+        "x" : 0.3463541666666667,
+        "y" : 0.6402633101851852,
+        "w" : 0.3072916666666667,
+        "h" : 0.022222222222222223
+      },
+      "area_norm" : 0.006828703703703704,
+      "aspect" : 24.583333333333332,
+      "neighbor_texts" : [ "Confirm", "Card Holder Name", "Learn & Explore", "Learn Test Automation", "API Spector", "GitHub" ],
+      "child" : null,
+      "_gt" : null
+    }
+  },
+  "selectors" : {
+    "paymentMethodOption" : "Locator@[data-test='payment-method']",
+    "cardNumberField" : "Locator@[data-test='credit_card_number']",
+    "expirationDateField" : "Locator@[data-test='expiration_date']",
+    "cvvField" : "Locator@[data-test='cvv']",
+    "cardHolderNameField" : "Locator@[data-test='card_holder_name']",
+    "paymentActionButton" : "Locator@[data-test='finish']",
+    "paymentMessage" : "Locator@[data-test='payment-success-message']"
+  },
+  "landmarks" : [ "menubar:Main menu", "menu:EN", "heading:Billing Address", "heading:Payment" ],
+  "lastSeen" : {
+    "paymentMethodOption" : "2026-10-11T18:58:46",
+    "paymentActionButton" : "2026-10-11T18:58:46",
+    "cardNumberField" : "2026-10-11T18:58:46",
+    "expirationDateField" : "2026-10-11T18:58:46",
+    "cvvField" : "2026-10-11T18:58:46",
+    "cardHolderNameField" : "2026-10-11T18:58:46",
+    "paymentMessage" : "2026-10-11T18:58:46"
+  }
+}

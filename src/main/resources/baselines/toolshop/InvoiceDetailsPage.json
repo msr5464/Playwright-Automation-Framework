@@ -1,0 +1,781 @@
+{
+  "pageObject" : "InvoiceDetailsPage",
+  "module" : "toolshop",
+  "fullClassName" : "automation.modules.toolshop.web.InvoiceDetailsPage",
+  "recordedAt" : "2026-10-11T18:58:53",
+  "urlShape" : "https://practicesoftwaretesting.com/account/invoices/{id}m4njdrmbf3zc2bsb3jga48d5",
+  "title" : "Invoice: INV-2026000006 - Practice Software Testing - Toolshop - v5.0",
+  "bodyClass" : "",
+  "coverage" : {
+    "invoiceNumberDisplay" : 1,
+    "totalDisplay" : 1,
+    "streetDisplay" : 1,
+    "cityDisplay" : 1,
+    "postalCodeDisplay" : 1,
+    "paymentMethodDisplay" : 1,
+    "cardHolderNameDisplay" : 1,
+    "productsTable" : 1,
+    "userMenu" : 1,
+    "signOutLink" : 1
+  },
+  "fingerprints" : {
+    "invoiceNumberDisplay" : {
+      "index" : 106,
+      "tag" : "input",
+      "id" : "invoice_number",
+      "name" : null,
+      "type" : "text",
+      "class_list" : [ "form-control-plaintext" ],
+      "role" : "textbox",
+      "accessible_name" : "Invoice Number",
+      "aria_label" : null,
+      "placeholder" : null,
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : "invoice-number",
+      "text" : "",
+      "attrs" : {
+        "_ngcontent-ng-c1529358056" : "",
+        "type" : "text",
+        "readonly" : "",
+        "data-test" : "invoice-number",
+        "id" : "invoice_number",
+        "class" : "form-control-plaintext"
+      },
+      "is_interactive" : true,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/app-root[1]/div[2]/app-details[1]/div[1]/div[2]/div[1]/form[1]/div[1]/div[1]/input[1]",
+      "id_xpath" : "//*[@id='invoice_number']",
+      "ancestor_chain" : [ {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "col-sm-9" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "form-group", "row" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "form",
+        "id" : null,
+        "classes" : [ ],
+        "role" : "form",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "col" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "row" ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 0,
+      "sibling_count" : 1,
+      "bbox_norm" : {
+        "x" : 0.253125,
+        "y" : 0.29304108796296297,
+        "w" : 0.240625,
+        "h" : 0.03518518518518519
+      },
+      "area_norm" : 0.008466435185185184,
+      "aspect" : 12.157894736842104,
+      "neighbor_texts" : [ "Invoice Number", "General Information", "Invoice Date", "Payment Method", "Card Holder Name", "Payment Information" ],
+      "child" : null,
+      "_gt" : null
+    },
+    "totalDisplay" : {
+      "index" : 114,
+      "tag" : "input",
+      "id" : "total",
+      "name" : null,
+      "type" : "text",
+      "class_list" : [ "form-control-plaintext" ],
+      "role" : "textbox",
+      "accessible_name" : "Total",
+      "aria_label" : null,
+      "placeholder" : null,
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : "total",
+      "text" : "",
+      "attrs" : {
+        "_ngcontent-ng-c1529358056" : "",
+        "type" : "text",
+        "readonly" : "",
+        "data-test" : "total",
+        "id" : "total",
+        "class" : "form-control-plaintext"
+      },
+      "is_interactive" : true,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/app-root[1]/div[2]/app-details[1]/div[1]/div[2]/div[1]/form[1]/div[3]/div[1]/input[1]",
+      "id_xpath" : "//*[@id='total']",
+      "ancestor_chain" : [ {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "col-sm-9" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "form-group", "row" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "form",
+        "id" : null,
+        "classes" : [ ],
+        "role" : "form",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "col" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "row" ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 0,
+      "sibling_count" : 1,
+      "bbox_norm" : {
+        "x" : 0.253125,
+        "y" : 0.3634114583333333,
+        "w" : 0.240625,
+        "h" : 0.03518518518518519
+      },
+      "area_norm" : 0.008466435185185184,
+      "aspect" : 12.157894736842104,
+      "neighbor_texts" : [ "Total", "Invoice Date", "Card Holder Name", "Credit Card Number", "Billing Address", "Cvv" ],
+      "child" : null,
+      "_gt" : null
+    },
+    "streetDisplay" : {
+      "index" : 121,
+      "tag" : "input",
+      "id" : "street",
+      "name" : null,
+      "type" : "text",
+      "class_list" : [ "form-control-plaintext" ],
+      "role" : "textbox",
+      "accessible_name" : "Street",
+      "aria_label" : null,
+      "placeholder" : null,
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : "street",
+      "text" : "",
+      "attrs" : {
+        "_ngcontent-ng-c1529358056" : "",
+        "type" : "text",
+        "readonly" : "",
+        "data-test" : "street",
+        "id" : "street",
+        "class" : "form-control-plaintext"
+      },
+      "is_interactive" : true,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/app-root[1]/div[2]/app-details[1]/div[1]/div[2]/div[1]/form[2]/div[1]/div[1]/input[1]",
+      "id_xpath" : "//*[@id='street']",
+      "ancestor_chain" : [ {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "col-sm-9" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "form-group", "row" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "form",
+        "id" : null,
+        "classes" : [ ],
+        "role" : "form",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "col" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "row" ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 0,
+      "sibling_count" : 1,
+      "bbox_norm" : {
+        "x" : 0.253125,
+        "y" : 0.4519241898148148,
+        "w" : 0.240625,
+        "h" : 0.03518518518518519
+      },
+      "area_norm" : 0.008466435185185184,
+      "aspect" : 12.157894736842104,
+      "neighbor_texts" : [ "Street", "Billing Address", "Postal code", "Cvv", "Expiration Date", "Credit Card Number" ],
+      "child" : null,
+      "_gt" : null
+    },
+    "cityDisplay" : {
+      "index" : 129,
+      "tag" : "input",
+      "id" : "city",
+      "name" : null,
+      "type" : "text",
+      "class_list" : [ "form-control-plaintext" ],
+      "role" : "textbox",
+      "accessible_name" : "City",
+      "aria_label" : null,
+      "placeholder" : null,
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : "city",
+      "text" : "",
+      "attrs" : {
+        "_ngcontent-ng-c1529358056" : "",
+        "type" : "text",
+        "readonly" : "",
+        "data-test" : "city",
+        "id" : "city",
+        "class" : "form-control-plaintext"
+      },
+      "is_interactive" : true,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/app-root[1]/div[2]/app-details[1]/div[1]/div[2]/div[1]/form[2]/div[3]/div[1]/input[1]",
+      "id_xpath" : "//*[@id='city']",
+      "ancestor_chain" : [ {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "col-sm-9" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "form-group", "row" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "form",
+        "id" : null,
+        "classes" : [ ],
+        "role" : "form",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "col" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "row" ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 0,
+      "sibling_count" : 1,
+      "bbox_norm" : {
+        "x" : 0.253125,
+        "y" : 0.5222945601851852,
+        "w" : 0.240625,
+        "h" : 0.03518518518518519
+      },
+      "area_norm" : 0.008466435185185184,
+      "aspect" : 12.157894736842104,
+      "neighbor_texts" : [ "City", "Postal code", "State", "Expiration Date", "Street", "Country" ],
+      "child" : null,
+      "_gt" : null
+    },
+    "postalCodeDisplay" : {
+      "index" : 125,
+      "tag" : "input",
+      "id" : "postal_code",
+      "name" : null,
+      "type" : "text",
+      "class_list" : [ "form-control-plaintext" ],
+      "role" : "textbox",
+      "accessible_name" : "Postal code",
+      "aria_label" : null,
+      "placeholder" : null,
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : "postal_code",
+      "text" : "",
+      "attrs" : {
+        "_ngcontent-ng-c1529358056" : "",
+        "type" : "text",
+        "readonly" : "",
+        "data-test" : "postal_code",
+        "id" : "postal_code",
+        "class" : "form-control-plaintext"
+      },
+      "is_interactive" : true,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/app-root[1]/div[2]/app-details[1]/div[1]/div[2]/div[1]/form[2]/div[2]/div[1]/input[1]",
+      "id_xpath" : "//*[@id='postal_code']",
+      "ancestor_chain" : [ {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "col-sm-9" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "form-group", "row" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "form",
+        "id" : null,
+        "classes" : [ ],
+        "role" : "form",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "col" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "row" ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 0,
+      "sibling_count" : 1,
+      "bbox_norm" : {
+        "x" : 0.253125,
+        "y" : 0.487109375,
+        "w" : 0.240625,
+        "h" : 0.03518518518518519
+      },
+      "area_norm" : 0.008466435185185184,
+      "aspect" : 12.157894736842104,
+      "neighbor_texts" : [ "Postal code", "Street", "City", "Expiration Date", "Cvv", "State" ],
+      "child" : null,
+      "_gt" : null
+    },
+    "paymentMethodDisplay" : {
+      "index" : 144,
+      "tag" : "input",
+      "id" : "payment_method",
+      "name" : null,
+      "type" : "text",
+      "class_list" : [ "form-control-plaintext" ],
+      "role" : "textbox",
+      "accessible_name" : "Payment Method",
+      "aria_label" : null,
+      "placeholder" : null,
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : "payment-method",
+      "text" : "",
+      "attrs" : {
+        "_ngcontent-ng-c1529358056" : "",
+        "type" : "text",
+        "readonly" : "",
+        "data-test" : "payment-method",
+        "id" : "payment_method",
+        "class" : "form-control-plaintext"
+      },
+      "is_interactive" : true,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/app-root[1]/div[2]/app-details[1]/div[1]/div[2]/div[2]/form[1]/div[1]/div[1]/input[1]",
+      "id_xpath" : "//*[@id='payment_method']",
+      "ancestor_chain" : [ {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "col-sm-9" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "form-group", "row" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "form",
+        "id" : null,
+        "classes" : [ ],
+        "role" : "form",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "col" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "row" ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 0,
+      "sibling_count" : 1,
+      "bbox_norm" : {
+        "x" : 0.590625,
+        "y" : 0.29304108796296297,
+        "w" : 0.240625,
+        "h" : 0.03518518518518519
+      },
+      "area_norm" : 0.008466435185185184,
+      "aspect" : 12.157894736842104,
+      "neighbor_texts" : [ "Payment Method", "Payment Information", "Card Holder Name", "Credit Card Number", "Cvv", "Expiration Date" ],
+      "child" : null,
+      "_gt" : null
+    },
+    "cardHolderNameDisplay" : {
+      "index" : 148,
+      "tag" : "input",
+      "id" : "card_holder_name",
+      "name" : null,
+      "type" : "text",
+      "class_list" : [ "form-control-plaintext" ],
+      "role" : "textbox",
+      "accessible_name" : "Card Holder Name",
+      "aria_label" : null,
+      "placeholder" : null,
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : null,
+      "text" : "",
+      "attrs" : {
+        "_ngcontent-ng-c1529358056" : "",
+        "type" : "text",
+        "readonly" : "",
+        "class" : "form-control-plaintext",
+        "id" : "card_holder_name"
+      },
+      "is_interactive" : true,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/app-root[1]/div[2]/app-details[1]/div[1]/div[2]/div[2]/form[1]/div[2]/div[1]/input[1]",
+      "id_xpath" : "//*[@id='card_holder_name']",
+      "ancestor_chain" : [ {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "col-sm-9" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "form-group", "row", "ng-star-inserted" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "form",
+        "id" : null,
+        "classes" : [ ],
+        "role" : "form",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "col" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "row" ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 0,
+      "sibling_count" : 1,
+      "bbox_norm" : {
+        "x" : 0.590625,
+        "y" : 0.3282262731481482,
+        "w" : 0.240625,
+        "h" : 0.03518518518518519
+      },
+      "area_norm" : 0.008466435185185184,
+      "aspect" : 12.157894736842104,
+      "neighbor_texts" : [ "Card Holder Name", "Payment Method", "Credit Card Number", "Payment Information", "Cvv", "Expiration Date" ],
+      "child" : null,
+      "_gt" : null
+    },
+    "productsTable" : {
+      "index" : 164,
+      "tag" : "table",
+      "id" : null,
+      "name" : null,
+      "type" : null,
+      "class_list" : [ "table", "table-hover" ],
+      "role" : "table",
+      "accessible_name" : "",
+      "aria_label" : null,
+      "placeholder" : null,
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : null,
+      "text" : "QuantityProductPriceTotal2Combination Pliers $14.15$28.30",
+      "attrs" : {
+        "_ngcontent-ng-c1529358056" : "",
+        "class" : "table table-hover"
+      },
+      "is_interactive" : false,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/app-root[1]/div[2]/app-details[1]/div[1]/div[3]/div[1]/table[1]",
+      "id_xpath" : "/html[1]/body[1]/app-root[1]/div[2]/app-details[1]/div[1]/div[3]/div[1]/table[1]",
+      "ancestor_chain" : [ {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "col" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "row", "mt-3" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "container", "mt-5", "ng-star-inserted" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "app-details",
+        "id" : null,
+        "classes" : [ "ng-star-inserted" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "container" ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 1,
+      "sibling_count" : 2,
+      "bbox_norm" : {
+        "x" : 0.16875,
+        "y" : 0.681177662037037,
+        "w" : 0.6625,
+        "h" : 0.07592592592592592
+      },
+      "area_norm" : 0.05030092592592592,
+      "aspect" : 15.512195121951219,
+      "neighbor_texts" : [ "Quantity", "Product", "Price", "Total", "2", "$14.15" ],
+      "child" : null,
+      "_gt" : null
+    },
+    "userMenu" : {
+      "index" : 55,
+      "tag" : "button",
+      "id" : "menu",
+      "name" : null,
+      "type" : "button",
+      "class_list" : [ "nav-link", "dropdown-toggle", "btn-link-style" ],
+      "role" : "button",
+      "accessible_name" : "Jack Howe",
+      "aria_label" : null,
+      "placeholder" : null,
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : "nav-menu",
+      "text" : "Jack Howe",
+      "attrs" : {
+        "_ngcontent-ng-c2913155081" : "",
+        "type" : "button",
+        "data-test" : "nav-menu",
+        "id" : "menu",
+        "data-bs-toggle" : "dropdown",
+        "aria-expanded" : "false",
+        "class" : "nav-link dropdown-toggle btn-link-style"
+      },
+      "is_interactive" : true,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/app-root[1]/app-header[1]/nav[1]/div[1]/div[1]/ul[1]/li[4]/button[1]",
+      "id_xpath" : "//*[@id='menu']",
+      "ancestor_chain" : [ {
+        "tag" : "li",
+        "id" : null,
+        "classes" : [ "nav-item", "dropdown", "ng-star-inserted" ],
+        "role" : "menuitem",
+        "testid" : null
+      }, {
+        "tag" : "ul",
+        "id" : null,
+        "classes" : [ "navbar-nav", "ms-auto", "mb-2", "mb-lg-0" ],
+        "role" : "menubar",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : "navbarSupportedContent",
+        "classes" : [ "collapse", "navbar-collapse" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "container" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "nav",
+        "id" : null,
+        "classes" : [ "navbar", "navbar-expand-lg", "navbar-light", "bg-light" ],
+        "role" : "navigation",
+        "testid" : null
+      } ],
+      "sibling_index" : 0,
+      "sibling_count" : 2,
+      "bbox_norm" : {
+        "x" : 0.7497395833333333,
+        "y" : 0.10387731481481481,
+        "w" : 0.05795084635416667,
+        "h" : 0.037037037037037035
+      },
+      "area_norm" : 0.0021463276427469134,
+      "aspect" : 2.781640625,
+      "neighbor_texts" : [ "Contact", "Categories", "Payment Information", "Home", "🐛 Bug Hunting" ],
+      "child" : null,
+      "_gt" : null
+    },
+    "signOutLink" : {
+      "index" : 70,
+      "tag" : "a",
+      "id" : null,
+      "name" : null,
+      "type" : null,
+      "class_list" : [ "dropdown-item" ],
+      "role" : "generic",
+      "accessible_name" : "Sign out",
+      "aria_label" : null,
+      "placeholder" : null,
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : "nav-sign-out",
+      "text" : "Sign out",
+      "attrs" : {
+        "_ngcontent-ng-c2913155081" : "",
+        "data-test" : "nav-sign-out",
+        "class" : "dropdown-item"
+      },
+      "is_interactive" : true,
+      "is_visible" : false,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/app-root[1]/app-header[1]/nav[1]/div[1]/div[1]/ul[1]/li[4]/ul[1]/li[7]/a[1]",
+      "id_xpath" : "//*[@id='navbarSupportedContent']/ul[1]/li[4]/ul[1]/li[7]/a[1]",
+      "ancestor_chain" : [ {
+        "tag" : "li",
+        "id" : null,
+        "classes" : [ ],
+        "role" : "listitem",
+        "testid" : null
+      }, {
+        "tag" : "ul",
+        "id" : null,
+        "classes" : [ "dropdown-menu" ],
+        "role" : "list",
+        "testid" : null
+      }, {
+        "tag" : "li",
+        "id" : null,
+        "classes" : [ "nav-item", "dropdown", "ng-star-inserted" ],
+        "role" : "menuitem",
+        "testid" : null
+      }, {
+        "tag" : "ul",
+        "id" : null,
+        "classes" : [ "navbar-nav", "ms-auto", "mb-2", "mb-lg-0" ],
+        "role" : "menubar",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : "navbarSupportedContent",
+        "classes" : [ "collapse", "navbar-collapse" ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 0,
+      "sibling_count" : 1,
+      "bbox_norm" : {
+        "x" : 0,
+        "y" : 0,
+        "w" : 0,
+        "h" : 0
+      },
+      "area_norm" : 0,
+      "aspect" : 0,
+      "neighbor_texts" : [ "Hand Tools", "Power Tools", "Other", "Special Tools", "Rentals", "My account" ],
+      "child" : null,
+      "_gt" : null
+    }
+  },
+  "selectors" : {
+    "invoiceNumberDisplay" : "Locator@[data-test='invoice-number']",
+    "totalDisplay" : "Locator@[data-test='total']",
+    "streetDisplay" : "Locator@[data-test='street']",
+    "cityDisplay" : "Locator@[data-test='city']",
+    "postalCodeDisplay" : "Locator@[data-test='postal_code']",
+    "paymentMethodDisplay" : "Locator@[data-test='payment-method']",
+    "cardHolderNameDisplay" : "Locator@#card_holder_name",
+    "productsTable" : "Locator@div.row.mt-3 table.table.table-hover",
+    "userMenu" : "Locator@[data-test='nav-menu']",
+    "signOutLink" : "Locator@[data-test='nav-sign-out']"
+  },
+  "landmarks" : [ "menubar:Main menu", "menu:EN", "heading:General Information", "heading:Billing Address", "heading:Payment Information", "heading:Products" ],
+  "lastSeen" : {
+    "invoiceNumberDisplay" : "2026-10-11T18:58:53",
+    "totalDisplay" : "2026-10-11T18:58:53",
+    "streetDisplay" : "2026-10-11T18:58:53",
+    "cityDisplay" : "2026-10-11T18:58:53",
+    "postalCodeDisplay" : "2026-10-11T18:58:53",
+    "paymentMethodDisplay" : "2026-10-11T18:58:53",
+    "cardHolderNameDisplay" : "2026-10-11T18:58:53",
+    "productsTable" : "2026-10-11T18:58:53",
+    "userMenu" : "2026-10-11T18:58:53",
+    "signOutLink" : "2026-10-11T18:58:53"
+  }
+}
