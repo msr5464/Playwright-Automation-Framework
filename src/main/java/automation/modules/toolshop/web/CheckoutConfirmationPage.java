@@ -14,7 +14,7 @@ public class CheckoutConfirmationPage extends BasePage {
     public CheckoutConfirmationPage(Config config) {
         super(config);
         confirmationMessage = page.locator("#order-confirmation");
-        userMenu = page.locator("[data-test='nav-mukesh']");
+        userMenu = page.locator("[data-test='nav-menu']");
         myInvoicesLink = page.locator("[data-test='nav-my-invoices']");
         assertPageLoaded(confirmationMessage);
     }
