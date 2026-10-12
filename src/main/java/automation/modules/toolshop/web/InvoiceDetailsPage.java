@@ -3,6 +3,7 @@ package automation.modules.toolshop.web;
 import com.microsoft.playwright.Locator;
 
 import automation.core.BasePage;
+import automation.core.BrowserHelper;
 import automation.core.Config;
 import automation.core.WaitHelper;
 
@@ -82,6 +83,7 @@ public class InvoiceDetailsPage extends BasePage
         click(userMenu, "User menu");
         WaitHelper.waitForElementToBeVisible(config, signOutLink, "Sign out link");
         click(signOutLink, "Sign out link");
+        BrowserHelper.navigateTo(config, config.getRunTimeProperty("toolshop.url"));
         return new HomePage(config);
     }
 }
