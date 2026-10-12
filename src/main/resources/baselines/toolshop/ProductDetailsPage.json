@@ -2,8 +2,8 @@
   "pageObject" : "ProductDetailsPage",
   "module" : "toolshop",
   "fullClassName" : "automation.modules.toolshop.web.ProductDetailsPage",
-  "recordedAt" : "2026-10-12T06:55:27",
-  "urlShape" : "https://practicesoftwaretesting.com/product/{id}M4PSZWGMKSAZ3JHNB56E0V54",
+  "recordedAt" : "2026-10-12T10:34:16",
+  "urlShape" : "https://practicesoftwaretesting.com/product/{id}M4Q7QNHWTJRNQASMEY64XQVY",
   "title" : "Combination Pliers - Practice Software Testing - Toolshop - v5.0",
   "bodyClass" : "",
   "coverage" : {
@@ -533,12 +533,12 @@
   },
   "landmarks" : [ "menubar:Main menu", "menu:EN", "heading:Combination Pliers", "heading:Specifications", "heading:Related products", "heading:Pliers", "heading:Bolt Cutters", "heading:Long Nose Pliers", "heading:Slip Joint Pliers" ],
   "lastSeen" : {
-    "productNameDisplay" : "2026-10-12T06:55:27",
-    "priceDisplay" : "2026-10-12T06:55:27",
-    "quantityInput" : "2026-10-12T06:55:27",
-    "increaseQuantityButton" : "2026-10-12T06:55:27",
-    "addToCartButton" : "2026-10-12T06:55:27",
-    "toastMessage" : "2026-10-12T06:55:27",
-    "cartIcon" : "2026-10-12T06:55:27"
+    "productNameDisplay" : "2026-10-12T10:34:16",
+    "priceDisplay" : "2026-10-12T10:34:16",
+    "quantityInput" : "2026-10-12T10:34:16",
+    "increaseQuantityButton" : "2026-10-12T10:34:16",
+    "addToCartButton" : "2026-10-12T10:34:16",
+    "toastMessage" : "2026-10-12T10:34:16",
+    "cartIcon" : "2026-10-12T10:34:16"
   }
 }
