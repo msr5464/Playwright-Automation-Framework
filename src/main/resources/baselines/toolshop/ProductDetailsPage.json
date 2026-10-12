@@ -1,0 +1,544 @@
+{
+  "pageObject" : "ProductDetailsPage",
+  "module" : "toolshop",
+  "fullClassName" : "automation.modules.toolshop.web.ProductDetailsPage",
+  "recordedAt" : "2026-10-12T06:55:27",
+  "urlShape" : "https://practicesoftwaretesting.com/product/{id}M4PSZWGMKSAZ3JHNB56E0V54",
+  "title" : "Combination Pliers - Practice Software Testing - Toolshop - v5.0",
+  "bodyClass" : "",
+  "coverage" : {
+    "productNameDisplay" : 1,
+    "priceDisplay" : 1,
+    "quantityInput" : 1,
+    "increaseQuantityButton" : 1,
+    "addToCartButton" : 1,
+    "toastMessage" : 0,
+    "cartIcon" : 0
+  },
+  "fingerprints" : {
+    "productNameDisplay" : {
+      "index" : 89,
+      "tag" : "h1",
+      "id" : null,
+      "name" : null,
+      "type" : null,
+      "class_list" : [ ],
+      "role" : "heading",
+      "accessible_name" : "Combination Pliers",
+      "aria_label" : null,
+      "placeholder" : null,
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : "product-name",
+      "text" : "Combination Pliers",
+      "attrs" : {
+        "_ngcontent-ng-c2605822289" : "",
+        "data-test" : "product-name"
+      },
+      "is_interactive" : false,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/app-root[1]/div[2]/app-detail[1]/div[1]/div[2]/h1[1]",
+      "id_xpath" : "/html[1]/body[1]/app-root[1]/div[2]/app-detail[1]/div[1]/div[2]/h1[1]",
+      "ancestor_chain" : [ {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "col-md-6" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "row", "my-3" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "app-detail",
+        "id" : null,
+        "classes" : [ ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "container" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "app-root",
+        "id" : null,
+        "classes" : [ ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 0,
+      "sibling_count" : 7,
+      "bbox_norm" : {
+        "x" : 0.50234375,
+        "y" : 0.17489872685185184,
+        "w" : 0.33125,
+        "h" : 0.044444444444444446
+      },
+      "area_norm" : 0.014722222222222222,
+      "aspect" : 13.25,
+      "neighbor_texts" : [ "Pliers", "ForgeFlex Tools", "Home", "Categories", "Contact", "Sign in" ],
+      "child" : null,
+      "_gt" : null
+    },
+    "priceDisplay" : {
+      "index" : 95,
+      "tag" : "span",
+      "id" : null,
+      "name" : null,
+      "type" : null,
+      "class_list" : [ ],
+      "role" : "generic",
+      "accessible_name" : "unit-price",
+      "aria_label" : "unit-price",
+      "placeholder" : null,
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : "unit-price",
+      "text" : "14.15",
+      "attrs" : {
+        "_ngcontent-ng-c2605822289" : "",
+        "aria-label" : "unit-price",
+        "data-test" : "unit-price"
+      },
+      "is_interactive" : false,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/app-root[1]/div[2]/app-detail[1]/div[1]/div[2]/div[1]/span[1]/span[1]",
+      "id_xpath" : "/html[1]/body[1]/app-root[1]/div[2]/app-detail[1]/div[1]/div[2]/div[1]/span[1]/span[1]",
+      "ancestor_chain" : [ {
+        "tag" : "span",
+        "id" : null,
+        "classes" : [ ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "price-section" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "col-md-6" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "row", "my-3" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "app-detail",
+        "id" : null,
+        "classes" : [ ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 0,
+      "sibling_count" : 1,
+      "bbox_norm" : {
+        "x" : 0.5074300130208333,
+        "y" : 0.26673900462962963,
+        "w" : 0.019376627604166665,
+        "h" : 0.016666666666666666
+      },
+      "area_norm" : 3.229437934027778E-4,
+      "aspect" : 2.0668402777777777,
+      "neighbor_texts" : [ "Pliers", "ForgeFlex Tools", "A", "B", "Combination Pliers", "C" ],
+      "child" : null,
+      "_gt" : null
+    },
+    "quantityInput" : {
+      "index" : 109,
+      "tag" : "input",
+      "id" : "quantity-input",
+      "name" : null,
+      "type" : "number",
+      "class_list" : [ "form-control", "ng-untouched", "ng-pristine", "ng-valid" ],
+      "role" : "spinbutton",
+      "accessible_name" : "Quantity",
+      "aria_label" : null,
+      "placeholder" : null,
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : "quantity",
+      "text" : "",
+      "attrs" : {
+        "_ngcontent-ng-c2605822289" : "",
+        "type" : "number",
+        "min" : "1",
+        "data-test" : "quantity",
+        "id" : "quantity-input",
+        "class" : "form-control ng-untouched ng-pristine ng-valid",
+        "aria-labelledby" : "Quantity",
+        "max" : "99"
+      },
+      "is_interactive" : true,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/app-root[1]/div[2]/app-detail[1]/div[1]/div[2]/div[3]/input[1]",
+      "id_xpath" : "//*[@id='quantity-input']",
+      "ancestor_chain" : [ {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "input-group", "quantity" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "col-md-6" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "row", "my-3" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "app-detail",
+        "id" : null,
+        "classes" : [ ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "container" ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 2,
+      "sibling_count" : 4,
+      "bbox_norm" : {
+        "x" : 0.52265625,
+        "y" : 0.5639612268518519,
+        "w" : 0.024479166666666666,
+        "h" : 0.03518518518518519
+      },
+      "area_norm" : 8.61304012345679E-4,
+      "aspect" : 1.236842105263158,
+      "neighbor_texts" : [ "Quantity", "Specifications", "D", "A", "B", "C" ],
+      "child" : null,
+      "_gt" : null
+    },
+    "increaseQuantityButton" : {
+      "index" : 110,
+      "tag" : "button",
+      "id" : "btn-increase-quantity",
+      "name" : null,
+      "type" : null,
+      "class_list" : [ "btn", "btn-secondary" ],
+      "role" : "button",
+      "accessible_name" : "Increase quantity",
+      "aria_label" : "Increase quantity",
+      "placeholder" : null,
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : "increase-quantity",
+      "text" : "",
+      "attrs" : {
+        "_ngcontent-ng-c2605822289" : "",
+        "data-test" : "increase-quantity",
+        "id" : "btn-increase-quantity",
+        "class" : "btn btn-secondary",
+        "aria-label" : "Increase quantity"
+      },
+      "is_interactive" : true,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/app-root[1]/div[2]/app-detail[1]/div[1]/div[2]/div[3]/button[2]",
+      "id_xpath" : "//*[@id='btn-increase-quantity']",
+      "ancestor_chain" : [ {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "input-group", "quantity" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "col-md-6" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "row", "my-3" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "app-detail",
+        "id" : null,
+        "classes" : [ ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "container" ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 3,
+      "sibling_count" : 4,
+      "bbox_norm" : {
+        "x" : 0.5466145833333333,
+        "y" : 0.5639612268518519,
+        "w" : 0.020833333333333332,
+        "h" : 0.03518518518518519
+      },
+      "area_norm" : 7.330246913580247E-4,
+      "aspect" : 1.0526315789473684,
+      "neighbor_texts" : [ "Specifications", "Quantity", "D", "B", "C", "A" ],
+      "child" : null,
+      "_gt" : null
+    },
+    "addToCartButton" : {
+      "index" : 115,
+      "tag" : "button",
+      "id" : "btn-add-to-cart",
+      "name" : null,
+      "type" : null,
+      "class_list" : [ "btn-success", "btn" ],
+      "role" : "button",
+      "accessible_name" : "Add to cart",
+      "aria_label" : null,
+      "placeholder" : null,
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : "add-to-cart",
+      "text" : "Add to cart",
+      "attrs" : {
+        "_ngcontent-ng-c2605822289" : "",
+        "data-test" : "add-to-cart",
+        "id" : "btn-add-to-cart",
+        "class" : "btn-success btn"
+      },
+      "is_interactive" : true,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/app-root[1]/div[2]/app-detail[1]/div[1]/div[2]/div[4]/button[1]",
+      "id_xpath" : "//*[@id='btn-add-to-cart']",
+      "ancestor_chain" : [ {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "btn-group", "mt-2" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "col-md-6" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "row", "my-3" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "app-detail",
+        "id" : null,
+        "classes" : [ ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "container" ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 0,
+      "sibling_count" : 3,
+      "bbox_norm" : {
+        "x" : 0.50234375,
+        "y" : 0.6065538194444444,
+        "w" : 0.06902669270833334,
+        "h" : 0.03518518518518519
+      },
+      "area_norm" : 0.0024287169656635804,
+      "aspect" : 3.4876644736842106,
+      "neighbor_texts" : [ "Specifications", "Quantity" ],
+      "child" : null,
+      "_gt" : null
+    },
+    "toastMessage" : {
+      "index" : 239,
+      "tag" : "div",
+      "id" : null,
+      "name" : null,
+      "type" : null,
+      "class_list" : [ "ng-tns-c969959638-0", "toast-message", "ng-star-inserted" ],
+      "role" : "alert",
+      "accessible_name" : "Product added to shopping cart.",
+      "aria_label" : "Product added to shopping cart.",
+      "placeholder" : null,
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : null,
+      "text" : "Product added to shopping cart.",
+      "attrs" : {
+        "role" : "alert",
+        "class" : "ng-tns-c969959638-0 toast-message ng-star-inserted",
+        "aria-label" : "Product added to shopping cart."
+      },
+      "is_interactive" : false,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/div[1]/div[1]/div[1]/div[1]",
+      "id_xpath" : "//*[@id='toast-container']/div[1]/div[1]",
+      "ancestor_chain" : [ {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "ng-tns-c969959638-0", "ng-star-inserted", "ng-trigger", "ng-trigger-flyInOut", "ngx-toastr", "toast-success" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : "toast-container",
+        "classes" : [ "toast-top-right", "toast-container" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "overlay-container" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "body",
+        "id" : null,
+        "classes" : [ ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "html",
+        "id" : null,
+        "classes" : [ ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 0,
+      "sibling_count" : 2,
+      "bbox_norm" : {
+        "x" : 0.8557291666666667,
+        "y" : 0.025,
+        "w" : 0.12239583333333333,
+        "h" : 0.022222222222222223
+      },
+      "area_norm" : 0.0027199074074074074,
+      "aspect" : 9.791666666666666,
+      "neighbor_texts" : [ "2", "Combination Pliers", "Sign in", "Contact" ],
+      "child" : null,
+      "_gt" : null
+    },
+    "cartIcon" : {
+      "index" : 61,
+      "tag" : "span",
+      "id" : "lblCartCount",
+      "name" : null,
+      "type" : null,
+      "class_list" : [ "badge", "rounded-pill", "bg-danger" ],
+      "role" : "generic",
+      "accessible_name" : "",
+      "aria_label" : null,
+      "placeholder" : null,
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : "cart-quantity",
+      "text" : "2",
+      "attrs" : {
+        "_ngcontent-ng-c2913155081" : "",
+        "data-test" : "cart-quantity",
+        "id" : "lblCartCount",
+        "class" : "badge rounded-pill bg-danger"
+      },
+      "is_interactive" : false,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/app-root[1]/app-header[1]/nav[1]/div[1]/div[1]/ul[1]/li[5]/a[1]/span[1]",
+      "id_xpath" : "//*[@id='lblCartCount']",
+      "ancestor_chain" : [ {
+        "tag" : "a",
+        "id" : null,
+        "classes" : [ "nav-link" ],
+        "role" : "link",
+        "testid" : "nav-cart"
+      }, {
+        "tag" : "li",
+        "id" : null,
+        "classes" : [ "nav-item" ],
+        "role" : "menuitem",
+        "testid" : null
+      }, {
+        "tag" : "ul",
+        "id" : null,
+        "classes" : [ "navbar-nav", "ms-auto", "mb-2", "mb-lg-0" ],
+        "role" : "menubar",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : "navbarSupportedContent",
+        "classes" : [ "collapse", "navbar-collapse" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "container" ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 1,
+      "sibling_count" : 2,
+      "bbox_norm" : {
+        "x" : 0.7868245442708334,
+        "y" : 0.10665509259259259,
+        "w" : 0.01279296875,
+        "h" : 0.01574074074074074
+      },
+      "area_norm" : 2.0137080439814814E-4,
+      "aspect" : 1.4448529411764706,
+      "neighbor_texts" : [ "Sign in", "Combination Pliers", "Contact", "Product added to shopping cart.", "Categories" ],
+      "child" : null,
+      "_gt" : null
+    }
+  },
+  "selectors" : {
+    "productNameDisplay" : "Locator@h1",
+    "priceDisplay" : "Locator@[data-test='unit-price']",
+    "quantityInput" : "Locator@[data-test='quantity']",
+    "increaseQuantityButton" : "Locator@[data-test='increase-quantity']",
+    "addToCartButton" : "Locator@[data-test='add-to-cart']",
+    "toastMessage" : "Locator@.toast-message",
+    "cartIcon" : "Locator@[data-test='cart-quantity']"
+  },
+  "landmarks" : [ "menubar:Main menu", "menu:EN", "heading:Combination Pliers", "heading:Specifications", "heading:Related products", "heading:Pliers", "heading:Bolt Cutters", "heading:Long Nose Pliers", "heading:Slip Joint Pliers" ],
+  "lastSeen" : {
+    "productNameDisplay" : "2026-10-12T06:55:27",
+    "priceDisplay" : "2026-10-12T06:55:27",
+    "quantityInput" : "2026-10-12T06:55:27",
+    "increaseQuantityButton" : "2026-10-12T06:55:27",
+    "addToCartButton" : "2026-10-12T06:55:27",
+    "toastMessage" : "2026-10-12T06:55:27",
+    "cartIcon" : "2026-10-12T06:55:27"
+  }
+}

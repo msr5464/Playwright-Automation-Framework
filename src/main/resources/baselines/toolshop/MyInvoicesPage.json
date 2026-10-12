@@ -1,0 +1,231 @@
+{
+  "pageObject" : "MyInvoicesPage",
+  "module" : "toolshop",
+  "fullClassName" : "automation.modules.toolshop.web.MyInvoicesPage",
+  "recordedAt" : "2026-10-12T06:55:46",
+  "urlShape" : "https://practicesoftwaretesting.com/account/invoices",
+  "title" : "Invoices - Practice Software Testing - Toolshop - v5.0",
+  "bodyClass" : "",
+  "coverage" : {
+    "firstRowInvoiceNumber" : 1,
+    "firstRowTotal" : 1,
+    "firstRowDetailsButton" : 1
+  },
+  "fingerprints" : {
+    "firstRowInvoiceNumber" : {
+      "index" : 106,
+      "tag" : "td",
+      "id" : null,
+      "name" : null,
+      "type" : null,
+      "class_list" : [ ],
+      "role" : "generic",
+      "accessible_name" : "INV-2026000006",
+      "aria_label" : null,
+      "placeholder" : null,
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : null,
+      "text" : "INV-2026000006",
+      "attrs" : { },
+      "is_interactive" : false,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/app-root[1]/div[2]/app-invoices[1]/table[1]/tbody[1]/tr[1]/td[1]",
+      "id_xpath" : "/html[1]/body[1]/app-root[1]/div[2]/app-invoices[1]/table[1]/tbody[1]/tr[1]/td[1]",
+      "ancestor_chain" : [ {
+        "tag" : "tr",
+        "id" : null,
+        "classes" : [ "ng-star-inserted" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "tbody",
+        "id" : null,
+        "classes" : [ ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "table",
+        "id" : null,
+        "classes" : [ "table", "table-hover", "ng-star-inserted" ],
+        "role" : "table",
+        "testid" : null
+      }, {
+        "tag" : "app-invoices",
+        "id" : null,
+        "classes" : [ "ng-star-inserted" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "container" ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 0,
+      "sibling_count" : 5,
+      "bbox_norm" : {
+        "x" : 0.15859375,
+        "y" : 0.24943576388888888,
+        "w" : 0.16666666666666666,
+        "h" : 0.044444444444444446
+      },
+      "area_norm" : 0.007407407407407408,
+      "aspect" : 6.666666666666667,
+      "neighbor_texts" : [ "Invoice Number", "Billing Address", "Luzie-Jung-Platz", "INV-2026000005", "INV-2026000004", "Invoices" ],
+      "child" : null,
+      "_gt" : null
+    },
+    "firstRowTotal" : {
+      "index" : 109,
+      "tag" : "td",
+      "id" : null,
+      "name" : null,
+      "type" : null,
+      "class_list" : [ ],
+      "role" : "generic",
+      "accessible_name" : "$28.30",
+      "aria_label" : null,
+      "placeholder" : null,
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : null,
+      "text" : "$28.30",
+      "attrs" : { },
+      "is_interactive" : false,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/app-root[1]/div[2]/app-invoices[1]/table[1]/tbody[1]/tr[1]/td[4]",
+      "id_xpath" : "/html[1]/body[1]/app-root[1]/div[2]/app-invoices[1]/table[1]/tbody[1]/tr[1]/td[4]",
+      "ancestor_chain" : [ {
+        "tag" : "tr",
+        "id" : null,
+        "classes" : [ "ng-star-inserted" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "tbody",
+        "id" : null,
+        "classes" : [ ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "table",
+        "id" : null,
+        "classes" : [ "table", "table-hover", "ng-star-inserted" ],
+        "role" : "table",
+        "testid" : null
+      }, {
+        "tag" : "app-invoices",
+        "id" : null,
+        "classes" : [ "ng-star-inserted" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "container" ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 3,
+      "sibling_count" : 5,
+      "bbox_norm" : {
+        "x" : 0.6658365885416667,
+        "y" : 0.24943576388888888,
+        "w" : 0.08377278645833333,
+        "h" : 0.044444444444444446
+      },
+      "area_norm" : 0.003723234953703704,
+      "aspect" : 3.3509114583333335,
+      "neighbor_texts" : [ "Invoice Date", "Total", "2026-10-12 01:25:43", "2026-10-12 01:22:30", "Details", "2026-10-12 01:20:38" ],
+      "child" : null,
+      "_gt" : null
+    },
+    "firstRowDetailsButton" : {
+      "index" : 111,
+      "tag" : "a",
+      "id" : null,
+      "name" : null,
+      "type" : null,
+      "class_list" : [ "btn", "btn-sm", "btn-primary", "mr-1" ],
+      "role" : "link",
+      "accessible_name" : "Details",
+      "aria_label" : null,
+      "placeholder" : null,
+      "alt" : null,
+      "href" : "/account/invoices/01m4pved4xkbjhyg6cccp449qs",
+      "title" : null,
+      "testid" : null,
+      "text" : "Details",
+      "attrs" : {
+        "class" : "btn btn-sm btn-primary mr-1",
+        "href" : "/account/invoices/01m4pved4xkbjhyg6cccp449qs"
+      },
+      "is_interactive" : true,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/app-root[1]/div[2]/app-invoices[1]/table[1]/tbody[1]/tr[1]/td[5]/a[1]",
+      "id_xpath" : "/html[1]/body[1]/app-root[1]/div[2]/app-invoices[1]/table[1]/tbody[1]/tr[1]/td[5]/a[1]",
+      "ancestor_chain" : [ {
+        "tag" : "td",
+        "id" : null,
+        "classes" : [ ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "tr",
+        "id" : null,
+        "classes" : [ "ng-star-inserted" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "tbody",
+        "id" : null,
+        "classes" : [ ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "table",
+        "id" : null,
+        "classes" : [ "table", "table-hover", "ng-star-inserted" ],
+        "role" : "table",
+        "testid" : null
+      }, {
+        "tag" : "app-invoices",
+        "id" : null,
+        "classes" : [ "ng-star-inserted" ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 0,
+      "sibling_count" : 1,
+      "bbox_norm" : {
+        "x" : 0.7537760416666667,
+        "y" : 0.25730613425925924,
+        "w" : 0.032430013020833336,
+        "h" : 0.028703703703703703
+      },
+      "area_norm" : 9.30861484857253E-4,
+      "aspect" : 2.008568548387097,
+      "neighbor_texts" : [ "$28.30", "Total", "Invoices", "Jack Howe", "Contact", "$855.58" ],
+      "child" : null,
+      "_gt" : null
+    }
+  },
+  "selectors" : {
+    "firstRowInvoiceNumber" : "Locator@table tbody tr:first-child td:nth-child(1)",
+    "firstRowTotal" : "Locator@table tbody tr:first-child td:nth-child(4)",
+    "firstRowDetailsButton" : "Locator@table tbody tr:first-child a:has-text('Details')"
+  },
+  "landmarks" : [ "menubar:Main menu", "menu:EN", "heading:Invoices" ],
+  "lastSeen" : {
+    "firstRowInvoiceNumber" : "2026-10-12T06:55:46",
+    "firstRowTotal" : "2026-10-12T06:55:46",
+    "firstRowDetailsButton" : "2026-10-12T06:55:46"
+  }
+}

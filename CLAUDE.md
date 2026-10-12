@@ -685,7 +685,7 @@ CSV files: `src/test/resources/{feature}/csvFiles/{name}.csv`
 
 - **Module-scoped, one file per business entity**: keep a module's data in its own `csvFiles/` folder and name each file for the entity it holds — `users.csv`, `products.csv`, `orders.csv` — not for the test layer. API and web tests that use the same entity read the same sheet.
 - Add rows for a new scenario; never rewrite or drop rows that other tests read.
-- Login secrets never go into a new CSV: a password, token or API key, or an OTP the login asks for. A CSV is committed and this repository is public. They belong in the properties file (see *Configuration System*), read with `config.getRunTimeProperty()`. Other values a flow types are test data and go in the CSV, including a payment card number, its CVV and a bank page's OTP. The existing credential sheets predate this rule.
+- A login is test data: the username and password a flow signs in with are a row of the module's `users.csv`, looked up by a key column through a Helper method (`SauceDemoHelper.getUser`), never a Java literal. Keep a login in the properties file (see *Configuration System*), read with `config.getRunTimeProperty()`, only when the test case asks for the properties file, or the module's existing tests already read it from there.
 
 Supported placeholders in CSV cells:
 - `{randomString:8}` — 8-char random alphanumeric
@@ -764,7 +764,7 @@ Users are automatically released by `@AfterMethod`. Do not release manually.
 - **Test data is one setup line**: a Helper method reads the module's CSV and builds the Data object (`PaymentData payment = shop.buildPayment("card")`) — never a Builder chain, a CSV read or a literal in the test.
 - One user per test — never share accounts between test methods
 - `config.logStep()` in test classes only; `Log.comment(config, ...)` everywhere else
-- No hardcoded credentials, URLs, or IDs — use properties files and Builders
+- No hardcoded credentials, URLs, or IDs — use CSV sheets, properties files and Builders
 - Do not assign return values you don't use
 
 ### Code quality
@@ -790,7 +790,7 @@ Users are automatically released by `@AfterMethod`. Do not release manually.
 | `Log.comment(config, ...)` / `Log.step(...)` in a test class | `config.logStep("...")` |
 | `config.logPass()` at end of test method | remove it — framework logs automatically |
 | Hardcoded URL in test/page | put in properties file |
-| Hardcoded credential in test | use `config.getRunTimeProperty()` (an existing credential sheet's CSV row where the module already reads one) |
+| Hardcoded credential in test | a row of the module's `users.csv`, read through the Helper (`config.getRunTimeProperty()` where the module already reads its login from properties) |
 
 ---
 
