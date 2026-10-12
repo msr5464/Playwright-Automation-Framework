@@ -1,0 +1,166 @@
+{
+  "pageObject" : "DashboardPage",
+  "module" : "orangehrm",
+  "fullClassName" : "automation.modules.orangehrm.web.DashboardPage",
+  "recordedAt" : "2026-10-12T17:02:09",
+  "urlShape" : "https://opensource-demo.orangehrmlive.com/web/index.php/dashboard/index",
+  "title" : "OrangeHRM",
+  "bodyClass" : "",
+  "coverage" : {
+    "dashboardHeader" : 1,
+    "pimMenuItem" : 1
+  },
+  "fingerprints" : {
+    "dashboardHeader" : {
+      "index" : 131,
+      "tag" : "h6",
+      "id" : null,
+      "name" : null,
+      "type" : null,
+      "class_list" : [ "oxd-text", "oxd-text--h6", "oxd-topbar-header-breadcrumb-module" ],
+      "role" : "heading",
+      "accessible_name" : "Dashboard",
+      "aria_label" : null,
+      "placeholder" : null,
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : null,
+      "text" : "Dashboard",
+      "attrs" : {
+        "data-v-7b563373" : "",
+        "data-v-c286b6e5" : "",
+        "class" : "oxd-text oxd-text--h6 oxd-topbar-header-breadcrumb-module"
+      },
+      "is_interactive" : false,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/div[1]/div[1]/div[1]/header[1]/div[1]/div[1]/span[1]/h6[1]",
+      "id_xpath" : "//*[@id='app']/div[1]/div[1]/header[1]/div[1]/div[1]/span[1]/h6[1]",
+      "ancestor_chain" : [ {
+        "tag" : "span",
+        "id" : null,
+        "classes" : [ "oxd-topbar-header-breadcrumb" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-topbar-header-title" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-topbar-header" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "header",
+        "id" : null,
+        "classes" : [ "oxd-topbar" ],
+        "role" : "banner",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-layout-navigation" ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 0,
+      "sibling_count" : 1,
+      "bbox_norm" : {
+        "x" : 0.15833333333333333,
+        "y" : 0.02175925925925926,
+        "w" : 0.0364990234375,
+        "h" : 0.017592592592592594
+      },
+      "area_norm" : 6.421124493634259E-4,
+      "aspect" : 3.6883223684210527,
+      "neighbor_texts" : [ "Admin", "Time at Work" ],
+      "child" : null,
+      "_gt" : null
+    },
+    "pimMenuItem" : {
+      "index" : 31,
+      "tag" : "a",
+      "id" : null,
+      "name" : null,
+      "type" : null,
+      "class_list" : [ "oxd-main-menu-item" ],
+      "role" : "link",
+      "accessible_name" : "PIM",
+      "aria_label" : null,
+      "placeholder" : null,
+      "alt" : null,
+      "href" : "/web/index.php/pim/viewPimModule",
+      "title" : null,
+      "testid" : null,
+      "text" : "PIM",
+      "attrs" : {
+        "data-v-6475d26d" : "",
+        "class" : "oxd-main-menu-item",
+        "href" : "/web/index.php/pim/viewPimModule"
+      },
+      "is_interactive" : true,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/div[1]/div[1]/div[1]/aside[1]/nav[1]/div[2]/ul[1]/li[2]/a[1]",
+      "id_xpath" : "//*[@id='app']/div[1]/div[1]/aside[1]/nav[1]/div[2]/ul[1]/li[2]/a[1]",
+      "ancestor_chain" : [ {
+        "tag" : "li",
+        "id" : null,
+        "classes" : [ "oxd-main-menu-item-wrapper" ],
+        "role" : "listitem",
+        "testid" : null
+      }, {
+        "tag" : "ul",
+        "id" : null,
+        "classes" : [ "oxd-main-menu" ],
+        "role" : "list",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-sidepanel-body" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "nav",
+        "id" : null,
+        "classes" : [ "oxd-navbar-nav" ],
+        "role" : "navigation",
+        "testid" : null
+      }, {
+        "tag" : "aside",
+        "id" : null,
+        "classes" : [ "oxd-sidepanel" ],
+        "role" : "complementary",
+        "testid" : null
+      } ],
+      "sibling_index" : 0,
+      "sibling_count" : 1,
+      "bbox_norm" : {
+        "x" : 0,
+        "y" : 0.1818431712962963,
+        "w" : 0.128125,
+        "h" : 0.03518518518518519
+      },
+      "area_norm" : 0.004508101851851852,
+      "aspect" : 6.473684210526316,
+      "neighbor_texts" : [ "Admin", "Leave", "Time", "Recruitment", "My Info", "Performance" ],
+      "child" : null,
+      "_gt" : null
+    }
+  },
+  "selectors" : {
+    "dashboardHeader" : "Locator@h6:has-text('Dashboard')",
+    "pimMenuItem" : "Locator@a[href='/web/index.php/pim/viewPimModule']"
+  },
+  "landmarks" : [ "navigation:Sidepanel", "heading:Dashboard", "navigation:Topbar Menu" ],
+  "lastSeen" : {
+    "dashboardHeader" : "2026-10-12T17:02:09",
+    "pimMenuItem" : "2026-10-12T17:02:09"
+  }
+}

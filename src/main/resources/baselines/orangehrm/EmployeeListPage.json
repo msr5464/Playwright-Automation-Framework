@@ -1,0 +1,909 @@
+{
+  "pageObject" : "EmployeeListPage",
+  "module" : "orangehrm",
+  "fullClassName" : "automation.modules.orangehrm.web.EmployeeListPage",
+  "recordedAt" : "2026-10-12T17:02:10",
+  "urlShape" : "https://opensource-demo.orangehrmlive.com/web/index.php/pim/viewEmployeeList",
+  "title" : "OrangeHRM",
+  "bodyClass" : "",
+  "coverage" : {
+    "addEmployeeTab" : 1,
+    "employeeIdFilterField" : 1,
+    "searchButton" : 1,
+    "recordFoundText" : 0,
+    "employeeIdCell" : 0,
+    "employeeNameCell" : 0,
+    "employeeLastNameCell" : 0,
+    "editIcon" : 0,
+    "deleteIcon" : 0,
+    "toastMessage" : 0,
+    "userDropdownMenu" : 1,
+    "logoutLink" : 0
+  },
+  "fingerprints" : {
+    "addEmployeeTab" : {
+      "index" : 156,
+      "tag" : "a",
+      "id" : null,
+      "name" : null,
+      "type" : null,
+      "class_list" : [ "oxd-topbar-body-nav-tab-item" ],
+      "role" : "link",
+      "accessible_name" : "Add Employee",
+      "aria_label" : null,
+      "placeholder" : null,
+      "alt" : null,
+      "href" : "#",
+      "title" : null,
+      "testid" : null,
+      "text" : "Add Employee",
+      "attrs" : {
+        "class" : "oxd-topbar-body-nav-tab-item",
+        "href" : "#"
+      },
+      "is_interactive" : true,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/div[1]/div[1]/div[1]/header[1]/div[2]/nav[1]/ul[1]/li[3]/a[1]",
+      "id_xpath" : "//*[@id='app']/div[1]/div[1]/header[1]/div[2]/nav[1]/ul[1]/li[3]/a[1]",
+      "ancestor_chain" : [ {
+        "tag" : "li",
+        "id" : null,
+        "classes" : [ "oxd-topbar-body-nav-tab" ],
+        "role" : "listitem",
+        "testid" : null
+      }, {
+        "tag" : "ul",
+        "id" : null,
+        "classes" : [ ],
+        "role" : "list",
+        "testid" : null
+      }, {
+        "tag" : "nav",
+        "id" : null,
+        "classes" : [ "oxd-topbar-body-nav" ],
+        "role" : "navigation",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-topbar-body" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "header",
+        "id" : null,
+        "classes" : [ "oxd-topbar" ],
+        "role" : "banner",
+        "testid" : null
+      } ],
+      "sibling_index" : 0,
+      "sibling_count" : 1,
+      "bbox_norm" : {
+        "x" : 0.29110514322916664,
+        "y" : 0.07731481481481481,
+        "w" : 0.041178385416666664,
+        "h" : 0.014814814814814815
+      },
+      "area_norm" : 6.100501543209876E-4,
+      "aspect" : 4.94140625,
+      "neighbor_texts" : [ "Employee List", "Reports", "Employee Information", "Employee Id", "Employee Name", "Job Title" ],
+      "child" : null,
+      "_gt" : null
+    },
+    "employeeIdFilterField" : {
+      "index" : 196,
+      "tag" : "input",
+      "id" : null,
+      "name" : null,
+      "type" : null,
+      "class_list" : [ "oxd-input", "oxd-input--active" ],
+      "role" : "textbox",
+      "accessible_name" : "",
+      "aria_label" : null,
+      "placeholder" : null,
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : null,
+      "text" : "",
+      "attrs" : {
+        "data-v-1f99f73c" : "",
+        "class" : "oxd-input oxd-input--active"
+      },
+      "is_interactive" : true,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/div[1]/div[1]/div[2]/div[2]/div[1]/div[1]/div[2]/form[1]/div[1]/div[1]/div[2]/div[1]/div[2]/input[1]",
+      "id_xpath" : "//*[@id='app']/div[1]/div[2]/div[2]/div[1]/div[1]/div[2]/form[1]/div[1]/div[1]/div[2]/div[1]/div[2]/input[1]",
+      "ancestor_chain" : [ {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-input-group", "oxd-input-field-bottom-space" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-grid-item", "oxd-grid-item--gutters" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-grid-4", "orangehrm-full-width-grid" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-form-row" ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 0,
+      "sibling_count" : 1,
+      "bbox_norm" : {
+        "x" : 0.3712239583333333,
+        "y" : 0.22628761574074074,
+        "w" : 0.186328125,
+        "h" : 0.041666666666666664
+      },
+      "area_norm" : 0.007763671875,
+      "aspect" : 7.95,
+      "neighbor_texts" : [ "Employee Id", "Job Title", "Employment Status", "-- Select --", "Sub Unit", "Reports" ],
+      "child" : null,
+      "_gt" : null
+    },
+    "searchButton" : {
+      "index" : 250,
+      "tag" : "button",
+      "id" : null,
+      "name" : null,
+      "type" : "submit",
+      "class_list" : [ "oxd-button", "oxd-button--medium", "oxd-button--secondary", "orangehrm-left-space" ],
+      "role" : "button",
+      "accessible_name" : "Search",
+      "aria_label" : null,
+      "placeholder" : null,
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : null,
+      "text" : "Search",
+      "attrs" : {
+        "data-v-10d463b7" : "",
+        "data-v-7044e35a" : "",
+        "type" : "submit",
+        "class" : "oxd-button oxd-button--medium oxd-button--secondary orangehrm-left-space"
+      },
+      "is_interactive" : true,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/div[1]/div[1]/div[2]/div[2]/div[1]/div[1]/div[2]/form[1]/div[2]/button[2]",
+      "id_xpath" : "//*[@id='app']/div[1]/div[2]/div[2]/div[1]/div[1]/div[2]/form[1]/div[2]/button[2]",
+      "ancestor_chain" : [ {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-form-actions" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "form",
+        "id" : null,
+        "classes" : [ "oxd-form" ],
+        "role" : "form",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-table-filter-area" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-table-filter" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "orangehrm-background-container" ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 1,
+      "sibling_count" : 2,
+      "bbox_norm" : {
+        "x" : 0.9002685546875,
+        "y" : 0.37572337962962965,
+        "w" : 0.0559814453125,
+        "h" : 0.02962962962962963
+      },
+      "area_norm" : 0.0016587094907407408,
+      "aspect" : 3.35888671875,
+      "neighbor_texts" : [ "Reset", "Current Employees Only" ],
+      "child" : null,
+      "_gt" : null
+    },
+    "userDropdownMenu" : {
+      "index" : 143,
+      "tag" : "span",
+      "id" : null,
+      "name" : null,
+      "type" : null,
+      "class_list" : [ "oxd-userdropdown-tab" ],
+      "role" : "generic",
+      "accessible_name" : "",
+      "aria_label" : null,
+      "placeholder" : null,
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : null,
+      "text" : "Riley Morgan",
+      "attrs" : {
+        "data-v-bdd6d943" : "",
+        "class" : "oxd-userdropdown-tab"
+      },
+      "is_interactive" : false,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/div[1]/div[1]/div[1]/header[1]/div[1]/div[3]/ul[1]/li[1]/span[1]",
+      "id_xpath" : "//*[@id='app']/div[1]/div[1]/header[1]/div[1]/div[3]/ul[1]/li[1]/span[1]",
+      "ancestor_chain" : [ {
+        "tag" : "li",
+        "id" : null,
+        "classes" : [ "oxd-userdropdown" ],
+        "role" : "listitem",
+        "testid" : null
+      }, {
+        "tag" : "ul",
+        "id" : null,
+        "classes" : [ ],
+        "role" : "list",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-topbar-header-userarea" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-topbar-header" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "header",
+        "id" : null,
+        "classes" : [ "oxd-topbar" ],
+        "role" : "banner",
+        "testid" : null
+      } ],
+      "sibling_index" : 0,
+      "sibling_count" : 1,
+      "bbox_norm" : {
+        "x" : 0.8846110026041667,
+        "y" : 0.005381944444444444,
+        "w" : 0.08465983072916666,
+        "h" : 0.050361689814814814
+      },
+      "area_norm" : 0.0042636121349570195,
+      "aspect" : 2.988509049123815,
+      "neighbor_texts" : [ "Current Employees Only", "Include" ],
+      "child" : {
+        "tag" : "img",
+        "alt" : "profile picture",
+        "aria_label" : null,
+        "title" : null,
+        "testid" : null
+      },
+      "_gt" : null
+    },
+    "recordFoundText" : {
+      "index" : 259,
+      "tag" : "span",
+      "id" : null,
+      "name" : null,
+      "type" : null,
+      "class_list" : [ "oxd-text", "oxd-text--span" ],
+      "role" : "generic",
+      "accessible_name" : "",
+      "aria_label" : null,
+      "placeholder" : null,
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : null,
+      "text" : "(1) Record Found",
+      "attrs" : {
+        "data-v-7b563373" : "",
+        "data-v-5a621acd" : "",
+        "class" : "oxd-text oxd-text--span"
+      },
+      "is_interactive" : false,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/div[1]/div[1]/div[2]/div[2]/div[1]/div[2]/div[2]/div[1]/span[1]",
+      "id_xpath" : "//*[@id='app']/div[1]/div[2]/div[2]/div[1]/div[2]/div[2]/div[1]/span[1]",
+      "ancestor_chain" : [ {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "orangehrm-horizontal-padding", "orangehrm-vertical-padding" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "orangehrm-paper-container" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "orangehrm-background-container" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-layout-context" ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 0,
+      "sibling_count" : 1,
+      "bbox_norm" : {
+        "x" : 0.17135416666666667,
+        "y" : 0.5444733796296296,
+        "w" : 0.06441243489583333,
+        "h" : 0.020370370370370372
+      },
+      "area_norm" : 0.001312105155285494,
+      "aspect" : 5.621448863636363,
+      "neighbor_texts" : [ "0703541", "Arjun Kumar", "Maintenance", "Directory", "Claim", "Buzz" ],
+      "child" : null,
+      "_gt" : null
+    },
+    "employeeIdCell" : {
+      "index" : 358,
+      "tag" : "div",
+      "id" : null,
+      "name" : null,
+      "type" : null,
+      "class_list" : [ "oxd-table-cell", "oxd-padding-cell" ],
+      "role" : "cell",
+      "accessible_name" : "",
+      "aria_label" : null,
+      "placeholder" : null,
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : null,
+      "text" : "0703541",
+      "attrs" : {
+        "class" : "oxd-table-cell oxd-padding-cell",
+        "role" : "cell"
+      },
+      "is_interactive" : false,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/div[1]/div[1]/div[2]/div[2]/div[1]/div[2]/div[3]/div[1]/div[2]/div[1]/div[1]/div[2]",
+      "id_xpath" : "//*[@id='app']/div[1]/div[2]/div[2]/div[1]/div[2]/div[3]/div[1]/div[2]/div[1]/div[1]/div[2]",
+      "ancestor_chain" : [ {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-table-row", "oxd-table-row--with-border", "oxd-table-row--clickable" ],
+        "role" : "row",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-table-card" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-table-body" ],
+        "role" : "rowgroup",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-table", "orangehrm-employee-list" ],
+        "role" : "table",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "orangehrm-container" ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 1,
+      "sibling_count" : 9,
+      "bbox_norm" : {
+        "x" : 0.1890625,
+        "y" : 0.6305844907407407,
+        "w" : 0.0966796875,
+        "h" : 0.024074074074074074
+      },
+      "area_norm" : 0.0023274739583333333,
+      "aspect" : 7.139423076923077,
+      "neighbor_texts" : [ "Arjun Kumar", "(1) Record Found", "Verma" ],
+      "child" : null,
+      "_gt" : null
+    },
+    "employeeNameCell" : {
+      "index" : 360,
+      "tag" : "div",
+      "id" : null,
+      "name" : null,
+      "type" : null,
+      "class_list" : [ "oxd-table-cell", "oxd-padding-cell" ],
+      "role" : "cell",
+      "accessible_name" : "",
+      "aria_label" : null,
+      "placeholder" : null,
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : null,
+      "text" : "Arjun Kumar",
+      "attrs" : {
+        "class" : "oxd-table-cell oxd-padding-cell",
+        "role" : "cell"
+      },
+      "is_interactive" : false,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/div[1]/div[1]/div[2]/div[2]/div[1]/div[2]/div[3]/div[1]/div[2]/div[1]/div[1]/div[3]",
+      "id_xpath" : "//*[@id='app']/div[1]/div[2]/div[2]/div[1]/div[2]/div[3]/div[1]/div[2]/div[1]/div[1]/div[3]",
+      "ancestor_chain" : [ {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-table-row", "oxd-table-row--with-border", "oxd-table-row--clickable" ],
+        "role" : "row",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-table-card" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-table-body" ],
+        "role" : "rowgroup",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-table", "orangehrm-employee-list" ],
+        "role" : "table",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "orangehrm-container" ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 2,
+      "sibling_count" : 9,
+      "bbox_norm" : {
+        "x" : 0.2857421875,
+        "y" : 0.6305844907407407,
+        "w" : 0.0966796875,
+        "h" : 0.024074074074074074
+      },
+      "area_norm" : 0.0023274739583333333,
+      "aspect" : 7.139423076923077,
+      "neighbor_texts" : [ "0703541", "Verma", "(1) Record Found" ],
+      "child" : null,
+      "_gt" : null
+    },
+    "employeeLastNameCell" : {
+      "index" : 362,
+      "tag" : "div",
+      "id" : null,
+      "name" : null,
+      "type" : null,
+      "class_list" : [ "oxd-table-cell", "oxd-padding-cell" ],
+      "role" : "cell",
+      "accessible_name" : "",
+      "aria_label" : null,
+      "placeholder" : null,
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : null,
+      "text" : "Verma",
+      "attrs" : {
+        "class" : "oxd-table-cell oxd-padding-cell",
+        "role" : "cell"
+      },
+      "is_interactive" : false,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/div[1]/div[1]/div[2]/div[2]/div[1]/div[2]/div[3]/div[1]/div[2]/div[1]/div[1]/div[4]",
+      "id_xpath" : "//*[@id='app']/div[1]/div[2]/div[2]/div[1]/div[2]/div[3]/div[1]/div[2]/div[1]/div[1]/div[4]",
+      "ancestor_chain" : [ {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-table-row", "oxd-table-row--with-border", "oxd-table-row--clickable" ],
+        "role" : "row",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-table-card" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-table-body" ],
+        "role" : "rowgroup",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-table", "orangehrm-employee-list" ],
+        "role" : "table",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "orangehrm-container" ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 3,
+      "sibling_count" : 9,
+      "bbox_norm" : {
+        "x" : 0.382421875,
+        "y" : 0.6305844907407407,
+        "w" : 0.0966796875,
+        "h" : 0.024074074074074074
+      },
+      "area_norm" : 0.0023274739583333333,
+      "aspect" : 7.139423076923077,
+      "neighbor_texts" : [ "Arjun Kumar", "0703541" ],
+      "child" : null,
+      "_gt" : null
+    },
+    "editIcon" : {
+      "index" : 374,
+      "tag" : "button",
+      "id" : null,
+      "name" : null,
+      "type" : "button",
+      "class_list" : [ "oxd-icon-button", "oxd-table-cell-action-space" ],
+      "role" : "button",
+      "accessible_name" : "",
+      "aria_label" : null,
+      "placeholder" : null,
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : null,
+      "text" : "",
+      "attrs" : {
+        "data-v-f5c763eb" : "",
+        "data-v-c423d1fa" : "",
+        "class" : "oxd-icon-button oxd-table-cell-action-space",
+        "type" : "button"
+      },
+      "is_interactive" : true,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/div[1]/div[1]/div[2]/div[2]/div[1]/div[2]/div[3]/div[1]/div[2]/div[1]/div[1]/div[9]/div[1]/button[1]",
+      "id_xpath" : "//*[@id='app']/div[1]/div[2]/div[2]/div[1]/div[2]/div[3]/div[1]/div[2]/div[1]/div[1]/div[9]/div[1]/button[1]",
+      "ancestor_chain" : [ {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-table-cell-actions" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-table-cell", "oxd-padding-cell" ],
+        "role" : "cell",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-table-row", "oxd-table-row--with-border", "oxd-table-row--clickable" ],
+        "role" : "row",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-table-card" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-table-body" ],
+        "role" : "rowgroup",
+        "testid" : null
+      } ],
+      "sibling_index" : 0,
+      "sibling_count" : 2,
+      "bbox_norm" : {
+        "x" : 0.8684244791666667,
+        "y" : 0.6259548611111111,
+        "w" : 0.01875,
+        "h" : 0.03333333333333333
+      },
+      "area_norm" : 6.25E-4,
+      "aspect" : 1,
+      "neighbor_texts" : [ "Actions", "Reset", "Search" ],
+      "child" : null,
+      "_gt" : null
+    },
+    "deleteIcon" : {
+      "index" : 376,
+      "tag" : "button",
+      "id" : null,
+      "name" : null,
+      "type" : "button",
+      "class_list" : [ "oxd-icon-button", "oxd-table-cell-action-space" ],
+      "role" : "button",
+      "accessible_name" : "",
+      "aria_label" : null,
+      "placeholder" : null,
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : null,
+      "text" : "",
+      "attrs" : {
+        "data-v-f5c763eb" : "",
+        "data-v-c423d1fa" : "",
+        "class" : "oxd-icon-button oxd-table-cell-action-space",
+        "type" : "button"
+      },
+      "is_interactive" : true,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/div[1]/div[1]/div[2]/div[2]/div[1]/div[2]/div[3]/div[1]/div[2]/div[1]/div[1]/div[9]/div[1]/button[2]",
+      "id_xpath" : "//*[@id='app']/div[1]/div[2]/div[2]/div[1]/div[2]/div[3]/div[1]/div[2]/div[1]/div[1]/div[9]/div[1]/button[2]",
+      "ancestor_chain" : [ {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-table-cell-actions" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-table-cell", "oxd-padding-cell" ],
+        "role" : "cell",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-table-row", "oxd-table-row--with-border", "oxd-table-row--clickable" ],
+        "role" : "row",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-table-card" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-table-body" ],
+        "role" : "rowgroup",
+        "testid" : null
+      } ],
+      "sibling_index" : 1,
+      "sibling_count" : 2,
+      "bbox_norm" : {
+        "x" : 0.8897786458333333,
+        "y" : 0.6259548611111111,
+        "w" : 0.01875,
+        "h" : 0.03333333333333333
+      },
+      "area_norm" : 6.25E-4,
+      "aspect" : 1,
+      "neighbor_texts" : [ "Actions", "Reset", "Search" ],
+      "child" : null,
+      "_gt" : null
+    },
+    "toastMessage" : {
+      "index" : 275,
+      "tag" : "p",
+      "id" : null,
+      "name" : null,
+      "type" : null,
+      "class_list" : [ "oxd-text", "oxd-text--p", "oxd-text--toast-message", "oxd-toast-content-text" ],
+      "role" : "generic",
+      "accessible_name" : "",
+      "aria_label" : null,
+      "placeholder" : null,
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : null,
+      "text" : "Successfully Deleted",
+      "attrs" : {
+        "data-v-7b563373" : "",
+        "data-v-35c8fe09" : "",
+        "class" : "oxd-text oxd-text--p oxd-text--toast-message oxd-toast-content-text"
+      },
+      "is_interactive" : false,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/div[1]/div[2]/div[1]/div[1]/div[2]/p[2]",
+      "id_xpath" : "//*[@id='oxd-toaster_1']/div[1]/div[1]/div[2]/p[2]",
+      "ancestor_chain" : [ {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-toast-content", "oxd-toast-content--success" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-toast-start" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-toast", "oxd-toast--success", "oxd-toast-container--toast", "oxd-toast-list-enter-active", "oxd-toast-list-enter-to" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : "oxd-toaster_1",
+        "classes" : [ "oxd-toast-container", "oxd-toast-container--bottom" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : "app",
+        "classes" : [ ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 1,
+      "sibling_count" : 2,
+      "bbox_norm" : {
+        "x" : 0.0441650390625,
+        "y" : 0.9405815972222222,
+        "w" : 0.059187825520833334,
+        "h" : 0.014814814814814815
+      },
+      "area_norm" : 8.768566743827161E-4,
+      "aspect" : 7.1025390625,
+      "neighbor_texts" : [ "Success", "OrangeHRM OS 5.9", "×" ],
+      "child" : null,
+      "_gt" : null
+    },
+    "logoutLink" : {
+      "index" : 155,
+      "tag" : "a",
+      "id" : null,
+      "name" : null,
+      "type" : null,
+      "class_list" : [ "oxd-userdropdown-link" ],
+      "role" : "menuitem",
+      "accessible_name" : "Logout",
+      "aria_label" : null,
+      "placeholder" : null,
+      "alt" : null,
+      "href" : "/web/index.php/auth/logout",
+      "title" : null,
+      "testid" : null,
+      "text" : "Logout",
+      "attrs" : {
+        "href" : "/web/index.php/auth/logout",
+        "role" : "menuitem",
+        "class" : "oxd-userdropdown-link"
+      },
+      "is_interactive" : true,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/div[1]/div[1]/div[1]/header[1]/div[1]/div[3]/ul[1]/li[1]/ul[1]/li[4]/a[1]",
+      "id_xpath" : "//*[@id='app']/div[1]/div[1]/header[1]/div[1]/div[3]/ul[1]/li[1]/ul[1]/li[4]/a[1]",
+      "ancestor_chain" : [ {
+        "tag" : "li",
+        "id" : null,
+        "classes" : [ ],
+        "role" : "listitem",
+        "testid" : null
+      }, {
+        "tag" : "ul",
+        "id" : null,
+        "classes" : [ "oxd-dropdown-menu", "transition-fade-down-enter-from", "transition-fade-down-enter-active" ],
+        "role" : "menu",
+        "testid" : null
+      }, {
+        "tag" : "li",
+        "id" : null,
+        "classes" : [ "--active", "oxd-userdropdown" ],
+        "role" : "listitem",
+        "testid" : null
+      }, {
+        "tag" : "ul",
+        "id" : null,
+        "classes" : [ ],
+        "role" : "list",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-topbar-header-userarea" ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 0,
+      "sibling_count" : 1,
+      "bbox_norm" : {
+        "x" : 0.8854166666666666,
+        "y" : 0.12667824074074074,
+        "w" : 0.08333333333333333,
+        "h" : 0.025925925925925925
+      },
+      "area_norm" : 0.0021604938271604936,
+      "aspect" : 5.714285714285714,
+      "neighbor_texts" : [ "Change Password", "Support", "About", "Current Employees Only", "Riley Morgan", "Include" ],
+      "child" : null,
+      "_gt" : null
+    }
+  },
+  "selectors" : {
+    "addEmployeeTab" : "Locator@a:has-text('Add Employee')",
+    "employeeIdFilterField" : "Locator@div.oxd-input-group:has(label:text-is('Employee Id')) input",
+    "searchButton" : "Locator@button[type='submit']",
+    "recordFoundText" : "Locator@span:has-text('Record')",
+    "employeeIdCell" : "Locator@div.oxd-table-row:nth-child(1) div.oxd-table-cell:nth-child(2)",
+    "employeeNameCell" : "Locator@div.oxd-table-row:nth-child(1) div.oxd-table-cell:nth-child(3)",
+    "employeeLastNameCell" : "Locator@div.oxd-table-row:nth-child(1) div.oxd-table-cell:nth-child(4)",
+    "editIcon" : "Locator@div.oxd-table-row:nth-child(1) button:has(i.bi-pencil-fill)",
+    "deleteIcon" : "Locator@div.oxd-table-row:nth-child(1) button:has(i.bi-trash)",
+    "toastMessage" : "Locator@p.oxd-text.oxd-text--p.oxd-text--toast-message.oxd-toast-content-text",
+    "userDropdownMenu" : "Locator@span.oxd-userdropdown-tab",
+    "logoutLink" : "Locator@a[href='/web/index.php/auth/logout']"
+  },
+  "landmarks" : [ "navigation:Sidepanel", "heading:PIM", "navigation:Topbar Menu", "heading:Employee Information" ],
+  "lastSeen" : {
+    "addEmployeeTab" : "2026-10-12T17:02:10",
+    "employeeIdFilterField" : "2026-10-12T17:02:10",
+    "searchButton" : "2026-10-12T17:02:10",
+    "userDropdownMenu" : "2026-10-12T17:02:10",
+    "recordFoundText" : "2026-10-12T17:02:10",
+    "employeeIdCell" : "2026-10-12T17:02:10",
+    "employeeNameCell" : "2026-10-12T17:02:10",
+    "employeeLastNameCell" : "2026-10-12T17:02:10",
+    "editIcon" : "2026-10-12T17:02:10",
+    "deleteIcon" : "2026-10-12T17:02:10",
+    "toastMessage" : "2026-10-12T17:02:10",
+    "logoutLink" : "2026-10-12T17:02:10"
+  }
+}

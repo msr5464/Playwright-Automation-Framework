@@ -1,0 +1,167 @@
+{
+  "pageObject" : "DeleteConfirmationDialog",
+  "module" : "orangehrm",
+  "fullClassName" : "automation.modules.orangehrm.web.DeleteConfirmationDialog",
+  "recordedAt" : "2026-10-12T17:02:27",
+  "urlShape" : "https://opensource-demo.orangehrmlive.com/web/index.php/pim/viewEmployeeList",
+  "title" : "OrangeHRM",
+  "bodyClass" : "",
+  "coverage" : {
+    "confirmationMessage" : 1,
+    "yesDeleteButton" : 1
+  },
+  "fingerprints" : {
+    "confirmationMessage" : {
+      "index" : 391,
+      "tag" : "p",
+      "id" : null,
+      "name" : null,
+      "type" : null,
+      "class_list" : [ "oxd-text", "oxd-text--p", "oxd-text--card-title" ],
+      "role" : "generic",
+      "accessible_name" : "",
+      "aria_label" : null,
+      "placeholder" : null,
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : null,
+      "text" : "Are you Sure?",
+      "attrs" : {
+        "data-v-7b563373" : "",
+        "data-v-8f9701a2" : "",
+        "class" : "oxd-text oxd-text--p oxd-text--card-title"
+      },
+      "is_interactive" : false,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/div[1]/div[3]/div[1]/div[1]/div[1]/div[1]/p[1]",
+      "id_xpath" : "//*[@id='app']/div[3]/div[1]/div[1]/div[1]/div[1]/p[1]",
+      "ancestor_chain" : [ {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "orangehrm-modal-header" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-sheet", "oxd-sheet--rounded", "oxd-sheet--white", "oxd-dialog-sheet", "oxd-dialog-sheet--shadow", "oxd-dialog-sheet--gutters", "orangehrm-dialog-popup" ],
+        "role" : "document",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-dialog-container-default--inner" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-dialog-container-default" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-overlay", "oxd-overlay--flex", "oxd-overlay--flex-centered", "fade-enter-from", "fade-enter-active" ],
+        "role" : "dialog",
+        "testid" : null
+      } ],
+      "sibling_index" : 0,
+      "sibling_count" : 1,
+      "bbox_norm" : {
+        "x" : 0.46983235677083335,
+        "y" : 0.10960648148148149,
+        "w" : 0.054606119791666664,
+        "h" : 0.020370370370370372
+      },
+      "area_norm" : 0.0011123468846450618,
+      "aspect" : 4.765625,
+      "neighbor_texts" : [ "No, Cancel", "Employment Status", "-- Select --", "Employee Id", "×", "Reports" ],
+      "child" : null,
+      "_gt" : null
+    },
+    "yesDeleteButton" : {
+      "index" : 396,
+      "tag" : "button",
+      "id" : null,
+      "name" : null,
+      "type" : "button",
+      "class_list" : [ "oxd-button", "oxd-button--medium", "oxd-button--label-danger", "orangehrm-button-margin" ],
+      "role" : "button",
+      "accessible_name" : "Yes, Delete",
+      "aria_label" : null,
+      "placeholder" : null,
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : null,
+      "text" : "Yes, Delete",
+      "attrs" : {
+        "data-v-10d463b7" : "",
+        "data-v-8f9701a2" : "",
+        "type" : "button",
+        "class" : "oxd-button oxd-button--medium oxd-button--label-danger orangehrm-button-margin"
+      },
+      "is_interactive" : true,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/div[1]/div[3]/div[1]/div[1]/div[1]/div[3]/button[2]",
+      "id_xpath" : "//*[@id='app']/div[3]/div[1]/div[1]/div[1]/div[3]/button[2]",
+      "ancestor_chain" : [ {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "orangehrm-modal-footer" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-sheet", "oxd-sheet--rounded", "oxd-sheet--white", "oxd-dialog-sheet", "oxd-dialog-sheet--shadow", "oxd-dialog-sheet--gutters", "orangehrm-dialog-popup" ],
+        "role" : "document",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-dialog-container-default--inner" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-dialog-container-default" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-overlay", "oxd-overlay--flex", "oxd-overlay--flex-centered", "fade-enter-from", "fade-enter-active" ],
+        "role" : "dialog",
+        "testid" : null
+      } ],
+      "sibling_index" : 1,
+      "sibling_count" : 2,
+      "bbox_norm" : {
+        "x" : 0.4946207682291667,
+        "y" : 0.20439814814814813,
+        "w" : 0.078759765625,
+        "h" : 0.02962962962962963
+      },
+      "area_norm" : 0.002333622685185185,
+      "aspect" : 4.7255859375,
+      "neighbor_texts" : [ "Employment Status", "-- Select --", "No, Cancel", "Sub Unit", "Are you Sure?", "×" ],
+      "child" : null,
+      "_gt" : null
+    }
+  },
+  "selectors" : {
+    "confirmationMessage" : "Locator@p.oxd-text.oxd-text--p.oxd-text--card-title",
+    "yesDeleteButton" : "Locator@button.oxd-button.oxd-button--medium.oxd-button--label-danger.orangehrm-button-margin"
+  },
+  "landmarks" : [ "navigation:Sidepanel", "heading:PIM", "navigation:Topbar Menu", "heading:Employee Information" ],
+  "lastSeen" : {
+    "confirmationMessage" : "2026-10-12T17:02:27",
+    "yesDeleteButton" : "2026-10-12T17:02:27"
+  }
+}

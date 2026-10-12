@@ -1,0 +1,391 @@
+{
+  "pageObject" : "AddEmployeePage",
+  "module" : "orangehrm",
+  "fullClassName" : "automation.modules.orangehrm.web.AddEmployeePage",
+  "recordedAt" : "2026-10-12T17:02:12",
+  "urlShape" : "https://opensource-demo.orangehrmlive.com/web/index.php/pim/addEmployee",
+  "title" : "OrangeHRM",
+  "bodyClass" : "",
+  "coverage" : {
+    "firstNameField" : 1,
+    "middleNameField" : 1,
+    "lastNameField" : 1,
+    "employeeIdField" : 1,
+    "saveButton" : 1
+  },
+  "fingerprints" : {
+    "firstNameField" : {
+      "index" : 196,
+      "tag" : "input",
+      "id" : null,
+      "name" : "firstName",
+      "type" : null,
+      "class_list" : [ "oxd-input", "oxd-input--active", "orangehrm-firstname" ],
+      "role" : "textbox",
+      "accessible_name" : "First Name",
+      "aria_label" : null,
+      "placeholder" : "First Name",
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : null,
+      "text" : "",
+      "attrs" : {
+        "data-v-1f99f73c" : "",
+        "class" : "oxd-input oxd-input--active orangehrm-firstname",
+        "name" : "firstName",
+        "placeholder" : "First Name"
+      },
+      "is_interactive" : true,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/div[1]/div[1]/div[2]/div[2]/div[1]/div[1]/form[1]/div[2]/div[2]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[2]/input[1]",
+      "id_xpath" : "//*[@id='app']/div[1]/div[2]/div[2]/div[1]/div[1]/form[1]/div[2]/div[2]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[2]/input[1]",
+      "ancestor_chain" : [ {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-input-group", "oxd-input-field-bottom-space" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "--name-grouped-field" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-input-group" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-grid-item", "oxd-grid-item--gutters" ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 0,
+      "sibling_count" : 1,
+      "bbox_norm" : {
+        "x" : 0.38111979166666665,
+        "y" : 0.23035300925925925,
+        "w" : 0.19136555989583334,
+        "h" : 0.041666666666666664
+      },
+      "area_norm" : 0.007973564995659722,
+      "aspect" : 8.164930555555555,
+      "neighbor_texts" : [ "Employee Full Name", "Employee Id", "Add Employee", "Accepts jpg, .png, .gif up to 1MB. Recommended dimensions: 200px X 200px", "Create Login Details", "Reports" ],
+      "child" : null,
+      "_gt" : null
+    },
+    "middleNameField" : {
+      "index" : 200,
+      "tag" : "input",
+      "id" : null,
+      "name" : "middleName",
+      "type" : null,
+      "class_list" : [ "oxd-input", "oxd-input--active", "orangehrm-middlename" ],
+      "role" : "textbox",
+      "accessible_name" : "Middle Name",
+      "aria_label" : null,
+      "placeholder" : "Middle Name",
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : null,
+      "text" : "",
+      "attrs" : {
+        "data-v-1f99f73c" : "",
+        "class" : "oxd-input oxd-input--active orangehrm-middlename",
+        "name" : "middleName",
+        "placeholder" : "Middle Name"
+      },
+      "is_interactive" : true,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/div[1]/div[1]/div[2]/div[2]/div[1]/div[1]/form[1]/div[2]/div[2]/div[1]/div[1]/div[1]/div[1]/div[2]/div[2]/div[2]/input[1]",
+      "id_xpath" : "//*[@id='app']/div[1]/div[2]/div[2]/div[1]/div[1]/form[1]/div[2]/div[2]/div[1]/div[1]/div[1]/div[1]/div[2]/div[2]/div[2]/input[1]",
+      "ancestor_chain" : [ {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-input-group", "oxd-input-field-bottom-space" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "--name-grouped-field" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-input-group" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-grid-item", "oxd-grid-item--gutters" ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 0,
+      "sibling_count" : 1,
+      "bbox_norm" : {
+        "x" : 0.5724853515625,
+        "y" : 0.23035300925925925,
+        "w" : 0.19136555989583334,
+        "h" : 0.041666666666666664
+      },
+      "area_norm" : 0.007973564995659722,
+      "aspect" : 8.164930555555555,
+      "neighbor_texts" : [ "Add Employee", "Cancel", "Employee Full Name" ],
+      "child" : null,
+      "_gt" : null
+    },
+    "lastNameField" : {
+      "index" : 204,
+      "tag" : "input",
+      "id" : null,
+      "name" : "lastName",
+      "type" : null,
+      "class_list" : [ "oxd-input", "oxd-input--active", "orangehrm-lastname" ],
+      "role" : "textbox",
+      "accessible_name" : "Last Name",
+      "aria_label" : null,
+      "placeholder" : "Last Name",
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : null,
+      "text" : "",
+      "attrs" : {
+        "data-v-1f99f73c" : "",
+        "class" : "oxd-input oxd-input--active orangehrm-lastname",
+        "name" : "lastName",
+        "placeholder" : "Last Name"
+      },
+      "is_interactive" : true,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/div[1]/div[1]/div[2]/div[2]/div[1]/div[1]/form[1]/div[2]/div[2]/div[1]/div[1]/div[1]/div[1]/div[2]/div[3]/div[2]/input[1]",
+      "id_xpath" : "//*[@id='app']/div[1]/div[2]/div[2]/div[1]/div[1]/form[1]/div[2]/div[2]/div[1]/div[1]/div[1]/div[1]/div[2]/div[3]/div[2]/input[1]",
+      "ancestor_chain" : [ {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-input-group", "oxd-input-field-bottom-space" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "--name-grouped-field" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-input-group" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-grid-item", "oxd-grid-item--gutters" ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 0,
+      "sibling_count" : 1,
+      "bbox_norm" : {
+        "x" : 0.7638509114583333,
+        "y" : 0.23035300925925925,
+        "w" : 0.19136555989583334,
+        "h" : 0.041666666666666664
+      },
+      "area_norm" : 0.007973564995659722,
+      "aspect" : 8.164930555555555,
+      "neighbor_texts" : [ "Add Employee", "Cancel", "Save", "Riley Morgan" ],
+      "child" : null,
+      "_gt" : null
+    },
+    "employeeIdField" : {
+      "index" : 211,
+      "tag" : "input",
+      "id" : null,
+      "name" : null,
+      "type" : null,
+      "class_list" : [ "oxd-input", "oxd-input--active" ],
+      "role" : "textbox",
+      "accessible_name" : "",
+      "aria_label" : null,
+      "placeholder" : null,
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : null,
+      "text" : "",
+      "attrs" : {
+        "data-v-1f99f73c" : "",
+        "class" : "oxd-input oxd-input--active"
+      },
+      "is_interactive" : true,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/div[1]/div[1]/div[2]/div[2]/div[1]/div[1]/form[1]/div[2]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/input[1]",
+      "id_xpath" : "//*[@id='app']/div[1]/div[2]/div[2]/div[1]/div[1]/form[1]/div[2]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/input[1]",
+      "ancestor_chain" : [ {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-input-group", "oxd-input-field-bottom-space" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-grid-item", "oxd-grid-item--gutters" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-grid-2", "orangehrm-full-width-grid" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-form-row" ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 0,
+      "sibling_count" : 1,
+      "bbox_norm" : {
+        "x" : 0.38111979166666665,
+        "y" : 0.30756655092592594,
+        "w" : 0.28079427083333336,
+        "h" : 0.041666666666666664
+      },
+      "area_norm" : 0.011699761284722223,
+      "aspect" : 11.980555555555556,
+      "neighbor_texts" : [ "Employee Id", "Accepts jpg, .png, .gif up to 1MB. Recommended dimensions: 200px X 200px", "Create Login Details", "Employee Full Name", "Add Employee", "Reports" ],
+      "child" : null,
+      "_gt" : null
+    },
+    "saveButton" : {
+      "index" : 223,
+      "tag" : "button",
+      "id" : null,
+      "name" : null,
+      "type" : "submit",
+      "class_list" : [ "oxd-button", "oxd-button--medium", "oxd-button--secondary", "orangehrm-left-space" ],
+      "role" : "button",
+      "accessible_name" : "Save",
+      "aria_label" : null,
+      "placeholder" : null,
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : null,
+      "text" : "Save",
+      "attrs" : {
+        "data-v-10d463b7" : "",
+        "data-v-304890b0" : "",
+        "type" : "submit",
+        "class" : "oxd-button oxd-button--medium oxd-button--secondary orangehrm-left-space"
+      },
+      "is_interactive" : true,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/div[1]/div[1]/div[2]/div[2]/div[1]/div[1]/form[1]/div[3]/button[2]",
+      "id_xpath" : "//*[@id='app']/div[1]/div[2]/div[2]/div[1]/div[1]/form[1]/div[3]/button[2]",
+      "ancestor_chain" : [ {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-form-actions" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "form",
+        "id" : null,
+        "classes" : [ "oxd-form" ],
+        "role" : "form",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "orangehrm-card-container" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "orangehrm-background-container" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-layout-context" ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 2,
+      "sibling_count" : 3,
+      "bbox_norm" : {
+        "x" : 0.9041666666666667,
+        "y" : 0.4418258101851852,
+        "w" : 0.052083333333333336,
+        "h" : 0.02962962962962963
+      },
+      "area_norm" : 0.0015432098765432098,
+      "aspect" : 3.125,
+      "neighbor_texts" : [ "Cancel" ],
+      "child" : null,
+      "_gt" : null
+    }
+  },
+  "selectors" : {
+    "firstNameField" : "Locator@input[name='firstName']",
+    "middleNameField" : "Locator@input[name='middleName']",
+    "lastNameField" : "Locator@input[name='lastName']",
+    "employeeIdField" : "Locator@div.oxd-input-group:has(label:text-is('Employee Id')) input",
+    "saveButton" : "Locator@button[type='submit']"
+  },
+  "landmarks" : [ "navigation:Sidepanel", "heading:PIM", "navigation:Topbar Menu", "heading:Add Employee" ],
+  "lastSeen" : {
+    "firstNameField" : "2026-10-12T17:02:12",
+    "middleNameField" : "2026-10-12T17:02:12",
+    "lastNameField" : "2026-10-12T17:02:12",
+    "employeeIdField" : "2026-10-12T17:02:12",
+    "saveButton" : "2026-10-12T17:02:12"
+  }
+}
