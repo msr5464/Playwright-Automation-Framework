@@ -26,7 +26,7 @@ public class EmployeeListPage extends BasePage
     {
         super(config);
         addEmployeeTab        = page.locator("a:has-text('Add Employee')");
-        employeeIdFilterField = page.locator("div.oxd-grid-4.orangehrm-full-width-grid input.oxd-input.oxd-input--active");
+        employeeIdFilterField = page.locator("div.oxd-input-group:has(label:text-is('Employee Id')) input");
         searchButton          = page.locator("button[type='submit']");
         recordFoundText       = page.locator("span:has-text('Record Found')");
         employeeIdCell         = page.locator("div.oxd-table-row:nth-child(1) div.oxd-table-cell:nth-child(2)");
