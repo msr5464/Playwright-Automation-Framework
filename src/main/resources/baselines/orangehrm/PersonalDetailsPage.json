@@ -1,0 +1,610 @@
+{
+  "pageObject" : "PersonalDetailsPage",
+  "module" : "orangehrm",
+  "fullClassName" : "automation.modules.orangehrm.web.PersonalDetailsPage",
+  "recordedAt" : "2026-10-12T17:02:17",
+  "urlShape" : "https://opensource-demo.orangehrmlive.com/web/index.php/pim/viewPersonalDetails/empNumber/{id}",
+  "title" : "OrangeHRM",
+  "bodyClass" : "",
+  "coverage" : {
+    "employeeNameHeader" : 1,
+    "employeeIdField" : 1,
+    "nationalityDropdown" : 1,
+    "maritalStatusDropdown" : 1,
+    "dateOfBirthField" : 1,
+    "savePersonalDetailsButton" : 1,
+    "toastMessage" : 0,
+    "employeeListTabLink" : 1
+  },
+  "fingerprints" : {
+    "employeeNameHeader" : {
+      "index" : 171,
+      "tag" : "h6",
+      "id" : null,
+      "name" : null,
+      "type" : null,
+      "class_list" : [ "oxd-text", "oxd-text--h6", "--strong" ],
+      "role" : "heading",
+      "accessible_name" : "Arjun Verma",
+      "aria_label" : null,
+      "placeholder" : null,
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : null,
+      "text" : "Arjun Verma",
+      "attrs" : {
+        "data-v-7b563373" : "",
+        "data-v-af86f9aa" : "",
+        "class" : "oxd-text oxd-text--h6 --strong"
+      },
+      "is_interactive" : false,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/div[1]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/h6[1]",
+      "id_xpath" : "//*[@id='app']/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/h6[1]",
+      "ancestor_chain" : [ {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "orangehrm-edit-employee-name" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "orangehrm-edit-employee-imagesection" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "orangehrm-edit-employee-navigation" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "orangehrm-edit-employee" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "orangehrm-card-container" ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 0,
+      "sibling_count" : 1,
+      "bbox_norm" : {
+        "x" : 0.1862060546875,
+        "y" : 0.15925925925925927,
+        "w" : 0.05882975260416667,
+        "h" : 0.024074074074074074
+      },
+      "area_norm" : 0.0014162718219521604,
+      "aspect" : 4.344350961538462,
+      "neighbor_texts" : [ "Employee List", "Personal Details", "Employee Full Name", "Add Employee", "PIM", "Employee Id" ],
+      "child" : null,
+      "_gt" : null
+    },
+    "employeeIdField" : {
+      "index" : 231,
+      "tag" : "input",
+      "id" : null,
+      "name" : null,
+      "type" : null,
+      "class_list" : [ "oxd-input", "oxd-input--active" ],
+      "role" : "textbox",
+      "accessible_name" : "",
+      "aria_label" : null,
+      "placeholder" : null,
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : null,
+      "text" : "",
+      "attrs" : {
+        "data-v-1f99f73c" : "",
+        "class" : "oxd-input oxd-input--active"
+      },
+      "is_interactive" : true,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/div[1]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/div[2]/div[1]/form[1]/div[3]/div[1]/div[1]/div[1]/div[2]/input[1]",
+      "id_xpath" : "//*[@id='app']/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/div[2]/div[1]/form[1]/div[3]/div[1]/div[1]/div[1]/div[2]/input[1]",
+      "ancestor_chain" : [ {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-input-group", "oxd-input-field-bottom-space" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-grid-item", "oxd-grid-item--gutters" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-grid-3", "orangehrm-full-width-grid" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-form-row" ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 0,
+      "sibling_count" : 1,
+      "bbox_norm" : {
+        "x" : 0.2875,
+        "y" : 0.32330729166666666,
+        "w" : 0.2142333984375,
+        "h" : 0.041666666666666664
+      },
+      "area_norm" : 0.0089263916015625,
+      "aspect" : 9.140625,
+      "neighbor_texts" : [ "Employee Id", "Driver's License Number", "Other Id", "License Expiry Date", "Personal Details", "Contact Details" ],
+      "child" : null,
+      "_gt" : null
+    },
+    "nationalityDropdown" : {
+      "index" : 264,
+      "tag" : "div",
+      "id" : null,
+      "name" : null,
+      "type" : null,
+      "class_list" : [ "oxd-select-text", "oxd-select-text--active" ],
+      "role" : "generic",
+      "accessible_name" : "",
+      "aria_label" : null,
+      "placeholder" : null,
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : null,
+      "text" : "-- Select --",
+      "attrs" : {
+        "data-v-67d2aedf" : "",
+        "data-v-13cf171c" : "",
+        "class" : "oxd-select-text oxd-select-text--active"
+      },
+      "is_interactive" : false,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/div[1]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/div[2]/div[1]/form[1]/div[4]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]",
+      "id_xpath" : "//*[@id='app']/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/div[2]/div[1]/form[1]/div[4]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]",
+      "ancestor_chain" : [ {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-select-wrapper" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-input-group", "oxd-input-field-bottom-space" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-grid-item", "oxd-grid-item--gutters" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-grid-3", "orangehrm-full-width-grid" ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 0,
+      "sibling_count" : 1,
+      "bbox_norm" : {
+        "x" : 0.2875,
+        "y" : 0.49347511574074077,
+        "w" : 0.2142333984375,
+        "h" : 0.041666666666666664
+      },
+      "area_norm" : 0.0089263916015625,
+      "aspect" : 9.140625,
+      "neighbor_texts" : [ "Nationality", "Date of Birth", "Marital Status", "Gender", "Immigration", "Job" ],
+      "child" : null,
+      "_gt" : null
+    },
+    "maritalStatusDropdown" : {
+      "index" : 274,
+      "tag" : "div",
+      "id" : null,
+      "name" : null,
+      "type" : null,
+      "class_list" : [ "oxd-select-text", "oxd-select-text--active" ],
+      "role" : "generic",
+      "accessible_name" : "",
+      "aria_label" : null,
+      "placeholder" : null,
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : null,
+      "text" : "-- Select --",
+      "attrs" : {
+        "data-v-67d2aedf" : "",
+        "data-v-13cf171c" : "",
+        "class" : "oxd-select-text oxd-select-text--active"
+      },
+      "is_interactive" : false,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/div[1]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/div[2]/div[1]/form[1]/div[4]/div[1]/div[2]/div[1]/div[2]/div[1]/div[1]",
+      "id_xpath" : "//*[@id='app']/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/div[2]/div[1]/form[1]/div[4]/div[1]/div[2]/div[1]/div[2]/div[1]/div[1]",
+      "ancestor_chain" : [ {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-select-wrapper" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-input-group", "oxd-input-field-bottom-space" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-grid-item", "oxd-grid-item--gutters" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-grid-3", "orangehrm-full-width-grid" ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 0,
+      "sibling_count" : 1,
+      "bbox_norm" : {
+        "x" : 0.5142333984375,
+        "y" : 0.49347511574074077,
+        "w" : 0.2142333984375,
+        "h" : 0.041666666666666664
+      },
+      "area_norm" : 0.0089263916015625,
+      "aspect" : 9.140625,
+      "neighbor_texts" : [ "Marital Status", "Gender", "License Expiry Date", "Other Id", "Custom Fields", "Test_Field" ],
+      "child" : null,
+      "_gt" : null
+    },
+    "dateOfBirthField" : {
+      "index" : 286,
+      "tag" : "input",
+      "id" : null,
+      "name" : null,
+      "type" : null,
+      "class_list" : [ "oxd-input", "oxd-input--active" ],
+      "role" : "textbox",
+      "accessible_name" : "yyyy-dd-mm",
+      "aria_label" : null,
+      "placeholder" : "yyyy-dd-mm",
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : null,
+      "text" : "",
+      "attrs" : {
+        "data-v-1f99f73c" : "",
+        "data-v-4a95a2e0" : "",
+        "class" : "oxd-input oxd-input--active",
+        "placeholder" : "yyyy-dd-mm"
+      },
+      "is_interactive" : true,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/div[1]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/div[2]/div[1]/form[1]/div[4]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/input[1]",
+      "id_xpath" : "//*[@id='app']/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/div[2]/div[1]/form[1]/div[4]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/input[1]",
+      "ancestor_chain" : [ {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-date-input" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-date-wrapper" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-input-group", "oxd-input-field-bottom-space" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-grid-item", "oxd-grid-item--gutters" ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 0,
+      "sibling_count" : 2,
+      "bbox_norm" : {
+        "x" : 0.2875,
+        "y" : 0.5706886574074074,
+        "w" : 0.2142333984375,
+        "h" : 0.041666666666666664
+      },
+      "area_norm" : 0.0089263916015625,
+      "aspect" : 9.140625,
+      "neighbor_texts" : [ "Date of Birth", "Gender", "* Required", "Salary", "Report-to", "Qualifications" ],
+      "child" : null,
+      "_gt" : null
+    },
+    "savePersonalDetailsButton" : {
+      "index" : 310,
+      "tag" : "button",
+      "id" : null,
+      "name" : null,
+      "type" : "submit",
+      "class_list" : [ "oxd-button", "oxd-button--medium", "oxd-button--secondary", "orangehrm-left-space" ],
+      "role" : "button",
+      "accessible_name" : "Save",
+      "aria_label" : null,
+      "placeholder" : null,
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : null,
+      "text" : "Save",
+      "attrs" : {
+        "data-v-10d463b7" : "",
+        "data-v-6653c066" : "",
+        "type" : "submit",
+        "class" : "oxd-button oxd-button--medium oxd-button--secondary orangehrm-left-space"
+      },
+      "is_interactive" : true,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/div[1]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/div[2]/div[1]/form[1]/div[5]/button[1]",
+      "id_xpath" : "//*[@id='app']/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/div[2]/div[1]/form[1]/div[5]/button[1]",
+      "ancestor_chain" : [ {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-form-actions" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "form",
+        "id" : null,
+        "classes" : [ "oxd-form" ],
+        "role" : "form",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "orangehrm-horizontal-padding", "orangehrm-vertical-padding" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "orangehrm-edit-employee-content" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "orangehrm-edit-employee" ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 1,
+      "sibling_count" : 2,
+      "bbox_norm" : {
+        "x" : 0.9041666666666667,
+        "y" : 0.6429108796296297,
+        "w" : 0.052083333333333336,
+        "h" : 0.027777777777777776
+      },
+      "area_norm" : 0.0014467592592592592,
+      "aspect" : 3.3333333333333335,
+      "neighbor_texts" : [ "Custom Fields" ],
+      "child" : null,
+      "_gt" : null
+    },
+    "employeeListTabLink" : {
+      "index" : 154,
+      "tag" : "a",
+      "id" : null,
+      "name" : null,
+      "type" : null,
+      "class_list" : [ "oxd-topbar-body-nav-tab-item" ],
+      "role" : "link",
+      "accessible_name" : "Employee List",
+      "aria_label" : null,
+      "placeholder" : null,
+      "alt" : null,
+      "href" : "#",
+      "title" : null,
+      "testid" : null,
+      "text" : "Employee List",
+      "attrs" : {
+        "class" : "oxd-topbar-body-nav-tab-item",
+        "href" : "#"
+      },
+      "is_interactive" : true,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/div[1]/div[1]/div[1]/header[1]/div[2]/nav[1]/ul[1]/li[2]/a[1]",
+      "id_xpath" : "//*[@id='app']/div[1]/div[1]/header[1]/div[2]/nav[1]/ul[1]/li[2]/a[1]",
+      "ancestor_chain" : [ {
+        "tag" : "li",
+        "id" : null,
+        "classes" : [ "oxd-topbar-body-nav-tab", "--visited" ],
+        "role" : "listitem",
+        "testid" : null
+      }, {
+        "tag" : "ul",
+        "id" : null,
+        "classes" : [ ],
+        "role" : "list",
+        "testid" : null
+      }, {
+        "tag" : "nav",
+        "id" : null,
+        "classes" : [ "oxd-topbar-body-nav" ],
+        "role" : "navigation",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-topbar-body" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "header",
+        "id" : null,
+        "classes" : [ "oxd-topbar" ],
+        "role" : "banner",
+        "testid" : null
+      } ],
+      "sibling_index" : 0,
+      "sibling_count" : 1,
+      "bbox_norm" : {
+        "x" : 0.2314697265625,
+        "y" : 0.07731481481481481,
+        "w" : 0.039322916666666666,
+        "h" : 0.014814814814814815
+      },
+      "area_norm" : 5.825617283950617E-4,
+      "aspect" : 4.71875,
+      "neighbor_texts" : [ "Add Employee", "Arjun Verma", "Personal Details", "PIM", "Employee Full Name", "Reports" ],
+      "child" : null,
+      "_gt" : null
+    },
+    "toastMessage" : {
+      "index" : 380,
+      "tag" : "p",
+      "id" : null,
+      "name" : null,
+      "type" : null,
+      "class_list" : [ "oxd-text", "oxd-text--p", "oxd-text--toast-message", "oxd-toast-content-text" ],
+      "role" : "generic",
+      "accessible_name" : "",
+      "aria_label" : null,
+      "placeholder" : null,
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : null,
+      "text" : "Successfully Updated",
+      "attrs" : {
+        "data-v-7b563373" : "",
+        "data-v-35c8fe09" : "",
+        "class" : "oxd-text oxd-text--p oxd-text--toast-message oxd-toast-content-text"
+      },
+      "is_interactive" : false,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/div[1]/div[2]/div[1]/div[1]/div[2]/p[2]",
+      "id_xpath" : "//*[@id='oxd-toaster_1']/div[1]/div[1]/div[2]/p[2]",
+      "ancestor_chain" : [ {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-toast-content", "oxd-toast-content--success" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-toast-start" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-toast", "oxd-toast--success", "oxd-toast-container--toast", "oxd-toast-list-enter-active", "oxd-toast-list-enter-to" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : "oxd-toaster_1",
+        "classes" : [ "oxd-toast-container", "oxd-toast-container--bottom" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : "app",
+        "classes" : [ ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 1,
+      "sibling_count" : 2,
+      "bbox_norm" : {
+        "x" : 0.04303264617919922,
+        "y" : 0.9405815972222222,
+        "w" : 0.061661783854166666,
+        "h" : 0.014814814814814815
+      },
+      "area_norm" : 9.135079089506173E-4,
+      "aspect" : 7.3994140625,
+      "neighbor_texts" : [ "Success", "×", "OrangeHRM OS 5.9" ],
+      "child" : null,
+      "_gt" : null
+    }
+  },
+  "selectors" : {
+    "employeeNameHeader" : "Locator@div.orangehrm-edit-employee-name h6",
+    "employeeIdField" : "Locator@div.oxd-input-group:has(label:text-is('Employee Id')) input",
+    "nationalityDropdown" : "Locator@div.oxd-input-group:has(label:has-text('Nationality')) div.oxd-select-text",
+    "maritalStatusDropdown" : "Locator@div.oxd-input-group:has(label:has-text('Marital Status')) .oxd-select-text",
+    "dateOfBirthField" : "Locator@div.oxd-input-group:has(label:has-text('Date of Birth')) input",
+    "savePersonalDetailsButton" : "Locator@form:has(div.oxd-input-group:has(label:has-text('Nationality'))) button[type='submit']",
+    "toastMessage" : "Locator@p.oxd-text.oxd-text--p.oxd-text--toast-message.oxd-toast-content-text",
+    "employeeListTabLink" : "Locator@a:has-text('Employee List')"
+  },
+  "landmarks" : [ "navigation:Sidepanel", "heading:PIM", "navigation:Topbar Menu", "heading:Arjun Verma", "heading:Personal Details", "heading:Custom Fields", "heading:Attachments" ],
+  "lastSeen" : {
+    "employeeNameHeader" : "2026-10-12T17:02:17",
+    "employeeIdField" : "2026-10-12T17:02:17",
+    "nationalityDropdown" : "2026-10-12T17:02:17",
+    "maritalStatusDropdown" : "2026-10-12T17:02:17",
+    "dateOfBirthField" : "2026-10-12T17:02:17",
+    "savePersonalDetailsButton" : "2026-10-12T17:02:17",
+    "employeeListTabLink" : "2026-10-12T17:02:17",
+    "toastMessage" : "2026-10-12T17:02:17"
+  }
+}

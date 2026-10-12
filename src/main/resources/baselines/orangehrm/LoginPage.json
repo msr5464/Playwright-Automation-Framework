@@ -1,0 +1,245 @@
+{
+  "pageObject" : "LoginPage",
+  "module" : "orangehrm",
+  "fullClassName" : "automation.modules.orangehrm.web.LoginPage",
+  "recordedAt" : "2026-10-12T17:02:07",
+  "urlShape" : "https://opensource-demo.orangehrmlive.com/web/index.php/auth/login",
+  "title" : "OrangeHRM",
+  "bodyClass" : "",
+  "coverage" : {
+    "usernameField" : 1,
+    "passwordField" : 1,
+    "loginButton" : 1
+  },
+  "fingerprints" : {
+    "usernameField" : {
+      "index" : 25,
+      "tag" : "input",
+      "id" : null,
+      "name" : "username",
+      "type" : null,
+      "class_list" : [ "oxd-input", "oxd-input--focus" ],
+      "role" : "textbox",
+      "accessible_name" : "Username",
+      "aria_label" : null,
+      "placeholder" : "Username",
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : null,
+      "text" : "",
+      "attrs" : {
+        "data-v-1f99f73c" : "",
+        "class" : "oxd-input oxd-input--focus",
+        "name" : "username",
+        "placeholder" : "Username",
+        "autofocus" : ""
+      },
+      "is_interactive" : true,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[2]/form[1]/div[1]/div[1]/div[2]/input[1]",
+      "id_xpath" : "//*[@id='app']/div[1]/div[1]/div[1]/div[1]/div[2]/div[2]/form[1]/div[1]/div[1]/div[2]/input[1]",
+      "ancestor_chain" : [ {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-input-group", "oxd-input-field-bottom-space" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-form-row" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "form",
+        "id" : null,
+        "classes" : [ "oxd-form" ],
+        "role" : "form",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "orangehrm-login-form" ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 0,
+      "sibling_count" : 1,
+      "bbox_norm" : {
+        "x" : 0.27369791666666665,
+        "y" : 0.5122829861111111,
+        "w" : 0.2526041666666667,
+        "h" : 0.041666666666666664
+      },
+      "area_norm" : 0.010525173611111112,
+      "aspect" : 10.777777777777779,
+      "neighbor_texts" : [ "Username", "Password", "Password : admin123", "Username : Admin", "Login", "Forgot your password?" ],
+      "child" : null,
+      "_gt" : null
+    },
+    "passwordField" : {
+      "index" : 32,
+      "tag" : "input",
+      "id" : null,
+      "name" : "password",
+      "type" : "password",
+      "class_list" : [ "oxd-input", "oxd-input--active" ],
+      "role" : "textbox",
+      "accessible_name" : "Password",
+      "aria_label" : null,
+      "placeholder" : "Password",
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : null,
+      "text" : "",
+      "attrs" : {
+        "data-v-1f99f73c" : "",
+        "class" : "oxd-input oxd-input--active",
+        "type" : "password",
+        "name" : "password",
+        "placeholder" : "Password"
+      },
+      "is_interactive" : true,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[2]/form[1]/div[2]/div[1]/div[2]/input[1]",
+      "id_xpath" : "//*[@id='app']/div[1]/div[1]/div[1]/div[1]/div[2]/div[2]/form[1]/div[2]/div[1]/div[2]/input[1]",
+      "ancestor_chain" : [ {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-input-group", "oxd-input-field-bottom-space" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-form-row" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "form",
+        "id" : null,
+        "classes" : [ "oxd-form" ],
+        "role" : "form",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "orangehrm-login-form" ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 0,
+      "sibling_count" : 1,
+      "bbox_norm" : {
+        "x" : 0.27369791666666665,
+        "y" : 0.5913483796296296,
+        "w" : 0.2526041666666667,
+        "h" : 0.041666666666666664
+      },
+      "area_norm" : 0.010525173611111112,
+      "aspect" : 10.777777777777779,
+      "neighbor_texts" : [ "Password", "Login", "Username", "Forgot your password?", "OrangeHRM OS 5.9", "OrangeHRM, Inc" ],
+      "child" : null,
+      "_gt" : null
+    },
+    "loginButton" : {
+      "index" : 34,
+      "tag" : "button",
+      "id" : null,
+      "name" : null,
+      "type" : "submit",
+      "class_list" : [ "oxd-button", "oxd-button--medium", "oxd-button--main", "orangehrm-login-button" ],
+      "role" : "button",
+      "accessible_name" : "Login",
+      "aria_label" : null,
+      "placeholder" : null,
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : null,
+      "text" : "Login",
+      "attrs" : {
+        "data-v-10d463b7" : "",
+        "data-v-0af708be" : "",
+        "type" : "submit",
+        "class" : "oxd-button oxd-button--medium oxd-button--main orangehrm-login-button"
+      },
+      "is_interactive" : true,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[2]/form[1]/div[3]/button[1]",
+      "id_xpath" : "//*[@id='app']/div[1]/div[1]/div[1]/div[1]/div[2]/div[2]/form[1]/div[3]/button[1]",
+      "ancestor_chain" : [ {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-form-actions", "orangehrm-login-action" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "form",
+        "id" : null,
+        "classes" : [ "oxd-form" ],
+        "role" : "form",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "orangehrm-login-form" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "orangehrm-login-slot" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "orangehrm-login-slot-wrapper" ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 0,
+      "sibling_count" : 1,
+      "bbox_norm" : {
+        "x" : 0.27369791666666665,
+        "y" : 0.6626446759259259,
+        "w" : 0.2526041666666667,
+        "h" : 0.04259259259259259
+      },
+      "area_norm" : 0.010759066358024691,
+      "aspect" : 10.543478260869565,
+      "neighbor_texts" : [ "Forgot your password?", "OrangeHRM OS 5.9", "OrangeHRM, Inc", "Password", "Username", "Password : admin123" ],
+      "child" : null,
+      "_gt" : null
+    }
+  },
+  "selectors" : {
+    "usernameField" : "Locator@input[name='username']",
+    "passwordField" : "Locator@input[name='password']",
+    "loginButton" : "Locator@button[type='submit']"
+  },
+  "landmarks" : [ "heading:Login" ],
+  "lastSeen" : {
+    "usernameField" : "2026-10-12T17:02:07",
+    "passwordField" : "2026-10-12T17:02:07",
+    "loginButton" : "2026-10-12T17:02:07"
+  }
+}
