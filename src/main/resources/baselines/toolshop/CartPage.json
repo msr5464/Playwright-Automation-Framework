@@ -1,0 +1,393 @@
+{
+  "pageObject" : "CartPage",
+  "module" : "toolshop",
+  "fullClassName" : "automation.modules.toolshop.web.CartPage",
+  "recordedAt" : "2026-10-12T06:55:32",
+  "urlShape" : "https://practicesoftwaretesting.com/checkout",
+  "title" : "Checkout - Practice Software Testing - Toolshop - v5.0",
+  "bodyClass" : "",
+  "coverage" : {
+    "productNameDisplay" : 1,
+    "quantityDisplay" : 1,
+    "priceDisplay" : 1,
+    "totalDisplay" : 1,
+    "proceedToCheckoutButton" : 1
+  },
+  "fingerprints" : {
+    "productNameDisplay" : {
+      "index" : 120,
+      "tag" : "span",
+      "id" : null,
+      "name" : null,
+      "type" : null,
+      "class_list" : [ "product-title" ],
+      "role" : "generic",
+      "accessible_name" : "",
+      "aria_label" : null,
+      "placeholder" : null,
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : "product-title",
+      "text" : "Combination Pliers",
+      "attrs" : {
+        "_ngcontent-ng-c2879330868" : "",
+        "data-test" : "product-title",
+        "class" : "product-title"
+      },
+      "is_interactive" : false,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/app-root[1]/div[2]/app-checkout[1]/aw-wizard[1]/div[1]/aw-wizard-step[1]/app-cart[1]/div[1]/table[1]/tbody[1]/tr[1]/td[1]/span[1]",
+      "id_xpath" : "/html[1]/body[1]/app-root[1]/div[2]/app-checkout[1]/aw-wizard[1]/div[1]/aw-wizard-step[1]/app-cart[1]/div[1]/table[1]/tbody[1]/tr[1]/td[1]/span[1]",
+      "ancestor_chain" : [ {
+        "tag" : "td",
+        "id" : null,
+        "classes" : [ "col-md-4" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "tr",
+        "id" : null,
+        "classes" : [ "ng-star-inserted" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "tbody",
+        "id" : null,
+        "classes" : [ ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "table",
+        "id" : null,
+        "classes" : [ "table", "table-hover" ],
+        "role" : "table",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "ng-star-inserted" ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 0,
+      "sibling_count" : 2,
+      "bbox_norm" : {
+        "x" : 0.16666666666666666,
+        "y" : 0.29897280092592593,
+        "w" : 0.0729248046875,
+        "h" : 0.016666666666666666
+      },
+      "area_norm" : 0.0012154134114583334,
+      "aspect" : 7.778645833333333,
+      "neighbor_texts" : [ "Item", "Cart", "Continue Shopping", "1", "Learn & Explore", "Learn Test Automation" ],
+      "child" : null,
+      "_gt" : null
+    },
+    "quantityDisplay" : {
+      "index" : 124,
+      "tag" : "input",
+      "id" : "quantity-01m4pvdzpzd20v7jasf0d1msng",
+      "name" : null,
+      "type" : "number",
+      "class_list" : [ "form-control", "quantity", "ng-untouched", "ng-pristine", "ng-valid" ],
+      "role" : "spinbutton",
+      "accessible_name" : "Quantity for Combination Pliers",
+      "aria_label" : null,
+      "placeholder" : null,
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : "product-quantity",
+      "text" : "",
+      "attrs" : {
+        "_ngcontent-ng-c2879330868" : "",
+        "type" : "number",
+        "data-test" : "product-quantity",
+        "min" : "1",
+        "class" : "form-control quantity ng-untouched ng-pristine ng-valid",
+        "id" : "quantity-01m4pvdzpzd20v7jasf0d1msng",
+        "max" : "99"
+      },
+      "is_interactive" : true,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/app-root[1]/div[2]/app-checkout[1]/aw-wizard[1]/div[1]/aw-wizard-step[1]/app-cart[1]/div[1]/table[1]/tbody[1]/tr[1]/td[2]/input[1]",
+      "id_xpath" : "//*[@id='quantity-01m4pvdzpzd20v7jasf0d1msng']",
+      "ancestor_chain" : [ {
+        "tag" : "td",
+        "id" : null,
+        "classes" : [ "col-md-2", "align-middle" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "tr",
+        "id" : null,
+        "classes" : [ "ng-star-inserted" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "tbody",
+        "id" : null,
+        "classes" : [ ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "table",
+        "id" : null,
+        "classes" : [ "table", "table-hover" ],
+        "role" : "table",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "ng-star-inserted" ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 1,
+      "sibling_count" : 2,
+      "bbox_norm" : {
+        "x" : 0.4479166666666667,
+        "y" : 0.29619502314814816,
+        "w" : 0.10416666666666667,
+        "h" : 0.03518518518518519
+      },
+      "area_norm" : 0.0036651234567901233,
+      "aspect" : 5.2631578947368425,
+      "neighbor_texts" : [ "Quantity for Combination Pliers", "Quantity", "Item", "Price", "Billing Address", "Sign in" ],
+      "child" : null,
+      "_gt" : null
+    },
+    "priceDisplay" : {
+      "index" : 126,
+      "tag" : "span",
+      "id" : null,
+      "name" : null,
+      "type" : null,
+      "class_list" : [ ],
+      "role" : "generic",
+      "accessible_name" : "",
+      "aria_label" : null,
+      "placeholder" : null,
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : "product-price",
+      "text" : "$14.15",
+      "attrs" : {
+        "_ngcontent-ng-c2879330868" : "",
+        "data-test" : "product-price"
+      },
+      "is_interactive" : false,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/app-root[1]/div[2]/app-checkout[1]/aw-wizard[1]/div[1]/aw-wizard-step[1]/app-cart[1]/div[1]/table[1]/tbody[1]/tr[1]/td[3]/span[1]",
+      "id_xpath" : "/html[1]/body[1]/app-root[1]/div[2]/app-checkout[1]/aw-wizard[1]/div[1]/aw-wizard-step[1]/app-cart[1]/div[1]/table[1]/tbody[1]/tr[1]/td[3]/span[1]",
+      "ancestor_chain" : [ {
+        "tag" : "td",
+        "id" : null,
+        "classes" : [ "col-md-2", "text-end" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "tr",
+        "id" : null,
+        "classes" : [ "ng-star-inserted" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "tbody",
+        "id" : null,
+        "classes" : [ ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "table",
+        "id" : null,
+        "classes" : [ "table", "table-hover" ],
+        "role" : "table",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "ng-star-inserted" ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 0,
+      "sibling_count" : 1,
+      "bbox_norm" : {
+        "x" : 0.6401204427083333,
+        "y" : 0.29897280092592593,
+        "w" : 0.024462890625,
+        "h" : 0.016666666666666666
+      },
+      "area_norm" : 4.0771484375E-4,
+      "aspect" : 2.609375,
+      "neighbor_texts" : [ "Price", "Total", "$28.30", "Billing Address", "3", "Payment" ],
+      "child" : null,
+      "_gt" : null
+    },
+    "totalDisplay" : {
+      "index" : 140,
+      "tag" : "td",
+      "id" : null,
+      "name" : null,
+      "type" : null,
+      "class_list" : [ "col-md-2", "text-end" ],
+      "role" : "generic",
+      "accessible_name" : "$28.30",
+      "aria_label" : null,
+      "placeholder" : null,
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : "cart-total",
+      "text" : "$28.30",
+      "attrs" : {
+        "_ngcontent-ng-c2879330868" : "",
+        "data-test" : "cart-total",
+        "class" : "col-md-2 text-end"
+      },
+      "is_interactive" : false,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/app-root[1]/div[2]/app-checkout[1]/aw-wizard[1]/div[1]/aw-wizard-step[1]/app-cart[1]/div[1]/table[1]/tfoot[1]/tr[1]/td[4]",
+      "id_xpath" : "/html[1]/body[1]/app-root[1]/div[2]/app-checkout[1]/aw-wizard[1]/div[1]/aw-wizard-step[1]/app-cart[1]/div[1]/table[1]/tfoot[1]/tr[1]/td[4]",
+      "ancestor_chain" : [ {
+        "tag" : "tr",
+        "id" : null,
+        "classes" : [ ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "tfoot",
+        "id" : null,
+        "classes" : [ ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "table",
+        "id" : null,
+        "classes" : [ "table", "table-hover" ],
+        "role" : "table",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "ng-star-inserted" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "app-cart",
+        "id" : null,
+        "classes" : [ ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 3,
+      "sibling_count" : 5,
+      "bbox_norm" : {
+        "x" : 0.66875,
+        "y" : 0.33925057870370373,
+        "w" : 0.1125,
+        "h" : 0.03796296296296296
+      },
+      "area_norm" : 0.004270833333333333,
+      "aspect" : 5.2682926829268295,
+      "neighbor_texts" : [ "Total", "Proceed to checkout", "$14.15", "Price", "Learn & Explore", "Payment" ],
+      "child" : null,
+      "_gt" : null
+    },
+    "proceedToCheckoutButton" : {
+      "index" : 144,
+      "tag" : "button",
+      "id" : null,
+      "name" : null,
+      "type" : "button",
+      "class_list" : [ "btn", "btn-success" ],
+      "role" : "button",
+      "accessible_name" : "Proceed to checkout",
+      "aria_label" : null,
+      "placeholder" : null,
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : "proceed-1",
+      "text" : "Proceed to checkout",
+      "attrs" : {
+        "_ngcontent-ng-c2879330868" : "",
+        "data-test" : "proceed-1",
+        "type" : "button",
+        "awnextstep" : "",
+        "class" : "btn btn-success"
+      },
+      "is_interactive" : true,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/app-root[1]/div[2]/app-checkout[1]/aw-wizard[1]/div[1]/aw-wizard-step[1]/app-cart[1]/div[1]/div[1]/button[2]",
+      "id_xpath" : "/html[1]/body[1]/app-root[1]/div[2]/app-checkout[1]/aw-wizard[1]/div[1]/aw-wizard-step[1]/app-cart[1]/div[1]/div[1]/button[2]",
+      "ancestor_chain" : [ {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "d-flex", "justify-content-between", "ng-star-inserted" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "ng-star-inserted" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "app-cart",
+        "id" : null,
+        "classes" : [ ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "aw-wizard-step",
+        "id" : null,
+        "classes" : [ ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "wizard-steps", "horizontal" ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 1,
+      "sibling_count" : 2,
+      "bbox_norm" : {
+        "x" : 0.7457763671875,
+        "y" : 0.39249131944444443,
+        "w" : 0.0917236328125,
+        "h" : 0.03518518518518519
+      },
+      "area_norm" : 0.0032273130063657407,
+      "aspect" : 4.634457236842105,
+      "neighbor_texts" : [ "$28.30", "Learn & Explore", "GitHub", "Source code, issues and contributions", "Total", "Unsplash" ],
+      "child" : null,
+      "_gt" : null
+    }
+  },
+  "selectors" : {
+    "productNameDisplay" : "Locator@[data-test='product-title']",
+    "quantityDisplay" : "Locator@[data-test='product-quantity']",
+    "priceDisplay" : "Locator@[data-test='product-price']",
+    "totalDisplay" : "Locator@[data-test='cart-total']",
+    "proceedToCheckoutButton" : "Locator@[data-test='proceed-1']"
+  },
+  "landmarks" : [ "menubar:Main menu", "menu:EN", "tab:Sign in", "tab:Continue as Guest", "heading:Login", "heading:Continue as Guest", "heading:Billing Address", "heading:Payment", "alert:Product added to shopping cart." ],
+  "lastSeen" : {
+    "productNameDisplay" : "2026-10-12T06:55:32",
+    "quantityDisplay" : "2026-10-12T06:55:32",
+    "priceDisplay" : "2026-10-12T06:55:32",
+    "totalDisplay" : "2026-10-12T06:55:32",
+    "proceedToCheckoutButton" : "2026-10-12T06:55:32"
+  }
+}
