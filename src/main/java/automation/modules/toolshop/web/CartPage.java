@@ -32,7 +32,7 @@ public class CartPage extends BasePage
 
     public String getQuantity()
     {
-        return getText(quantityDisplay, "Product quantity");
+        return getInputValue(quantityDisplay, "Product quantity");
     }
 
     public String getPrice()
