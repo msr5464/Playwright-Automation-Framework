@@ -22,14 +22,14 @@ public class InvoiceDetailsPage extends BasePage {
     public InvoiceDetailsPage(Config config) {
         super(config);
         invoiceNumberDisplay = page.locator("[data-test='invoice-number']");
-        totalDisplay = page.locator("[data-test='mukesh']");
+        totalDisplay = page.locator("[data-test='total']");
         streetDisplay = page.locator("[data-test='street']");
         cityDisplay = page.locator("[data-test='city']");
         postalCodeDisplay = page.locator("[data-test='postal_code']");
         paymentMethodDisplay = page.locator("[data-test='payment-method']");
         cardHolderNameDisplay = page.locator("#card_holder_name");
         productsTable = page.locator("div.row.mt-3 table.table.table-hover");
-        userMenu = page.locator("[data-test='nav-mukesh']");
+        userMenu = page.locator("[data-test='nav-menu']");
         signOutLink = page.locator("[data-test='nav-sign-out']");
         assertPageLoaded(invoiceNumberDisplay);
     }
