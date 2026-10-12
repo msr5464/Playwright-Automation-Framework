@@ -2,7 +2,7 @@
   "pageObject" : "CartPage",
   "module" : "toolshop",
   "fullClassName" : "automation.modules.toolshop.web.CartPage",
-  "recordedAt" : "2026-10-12T06:55:32",
+  "recordedAt" : "2026-10-12T10:34:21",
   "urlShape" : "https://practicesoftwaretesting.com/checkout",
   "title" : "Checkout - Practice Software Testing - Toolshop - v5.0",
   "bodyClass" : "",
@@ -88,7 +88,7 @@
     "quantityDisplay" : {
       "index" : 124,
       "tag" : "input",
-      "id" : "quantity-01m4pvdzpzd20v7jasf0d1msng",
+      "id" : "quantity-01m4q7ymqfwes9bwbs40bbqgfh",
       "name" : null,
       "type" : "number",
       "class_list" : [ "form-control", "quantity", "ng-untouched", "ng-pristine", "ng-valid" ],
@@ -107,14 +107,14 @@
         "data-test" : "product-quantity",
         "min" : "1",
         "class" : "form-control quantity ng-untouched ng-pristine ng-valid",
-        "id" : "quantity-01m4pvdzpzd20v7jasf0d1msng",
+        "id" : "quantity-01m4q7ymqfwes9bwbs40bbqgfh",
         "max" : "99"
       },
       "is_interactive" : true,
       "is_visible" : true,
       "is_enabled" : true,
       "abs_xpath" : "/html[1]/body[1]/app-root[1]/div[2]/app-checkout[1]/aw-wizard[1]/div[1]/aw-wizard-step[1]/app-cart[1]/div[1]/table[1]/tbody[1]/tr[1]/td[2]/input[1]",
-      "id_xpath" : "//*[@id='quantity-01m4pvdzpzd20v7jasf0d1msng']",
+      "id_xpath" : "//*[@id='quantity-01m4q7ymqfwes9bwbs40bbqgfh']",
       "ancestor_chain" : [ {
         "tag" : "td",
         "id" : null,
@@ -384,10 +384,10 @@
   },
   "landmarks" : [ "menubar:Main menu", "menu:EN", "tab:Sign in", "tab:Continue as Guest", "heading:Login", "heading:Continue as Guest", "heading:Billing Address", "heading:Payment", "alert:Product added to shopping cart." ],
   "lastSeen" : {
-    "productNameDisplay" : "2026-10-12T06:55:32",
-    "quantityDisplay" : "2026-10-12T06:55:32",
-    "priceDisplay" : "2026-10-12T06:55:32",
-    "totalDisplay" : "2026-10-12T06:55:32",
-    "proceedToCheckoutButton" : "2026-10-12T06:55:32"
+    "productNameDisplay" : "2026-10-12T10:34:21",
+    "quantityDisplay" : "2026-10-12T10:34:21",
+    "priceDisplay" : "2026-10-12T10:34:21",
+    "totalDisplay" : "2026-10-12T10:34:21",
+    "proceedToCheckoutButton" : "2026-10-12T10:34:21"
   }
 }

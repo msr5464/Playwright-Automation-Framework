@@ -14,7 +14,7 @@ public class MyInvoicesPage extends BasePage {
         super(config);
         firstRowInvoiceNumber = page.locator("table tbody tr:first-child td:nth-child(1)");
         firstRowTotal = page.locator("table tbody tr:first-child td:nth-child(4)");
-        firstRowDetailsButton = page.locator("table tbody tr:first-child a:has-text('mukesh')");
+        firstRowDetailsButton = page.locator("table tbody tr:first-child a:has-text('Details')");
         assertPageLoaded(firstRowInvoiceNumber);
     }
 

@@ -2,7 +2,7 @@
   "pageObject" : "CheckoutPaymentPage",
   "module" : "toolshop",
   "fullClassName" : "automation.modules.toolshop.web.CheckoutPaymentPage",
-  "recordedAt" : "2026-10-12T06:55:39",
+  "recordedAt" : "2026-10-12T10:34:27",
   "urlShape" : "https://practicesoftwaretesting.com/checkout",
   "title" : "Checkout - Practice Software Testing - Toolshop - v5.0",
   "bodyClass" : "",
@@ -536,12 +536,12 @@
   },
   "landmarks" : [ "menubar:Main menu", "menu:EN", "heading:Billing Address", "heading:Payment" ],
   "lastSeen" : {
-    "paymentMethodOption" : "2026-10-12T06:55:39",
-    "paymentActionButton" : "2026-10-12T06:55:39",
-    "cardNumberField" : "2026-10-12T06:55:39",
-    "expirationDateField" : "2026-10-12T06:55:39",
-    "cvvField" : "2026-10-12T06:55:39",
-    "cardHolderNameField" : "2026-10-12T06:55:39",
-    "paymentMessage" : "2026-10-12T06:55:39"
+    "paymentMethodOption" : "2026-10-12T10:34:27",
+    "paymentActionButton" : "2026-10-12T10:34:27",
+    "cardNumberField" : "2026-10-12T10:34:27",
+    "expirationDateField" : "2026-10-12T10:34:27",
+    "cvvField" : "2026-10-12T10:34:27",
+    "cardHolderNameField" : "2026-10-12T10:34:27",
+    "paymentMessage" : "2026-10-12T10:34:27"
   }
 }
