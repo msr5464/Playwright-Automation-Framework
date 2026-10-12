@@ -2,7 +2,7 @@
   "pageObject" : "ProductListPage",
   "module" : "toolshop",
   "fullClassName" : "automation.modules.toolshop.web.ProductListPage",
-  "recordedAt" : "2026-10-12T06:55:27",
+  "recordedAt" : "2026-10-12T11:40:05",
   "urlShape" : "https://practicesoftwaretesting.com/",
   "title" : "Practice Software Testing - Toolshop - v5.0",
   "bodyClass" : "",
@@ -23,15 +23,15 @@
       "aria_label" : null,
       "placeholder" : null,
       "alt" : null,
-      "href" : "/product/01M4PSZWGMKSAZ3JHNB56E0V54",
+      "href" : "/product/01M4QB5NN66B6V52NVNWE32C1E",
       "title" : null,
-      "testid" : "product-01M4PSZWGMKSAZ3JHNB56E0V54",
+      "testid" : "product-01M4QB5NN66B6V52NVNWE32C1E",
       "text" : "Combination Pliers ABCDE$14.15",
       "attrs" : {
         "_ngcontent-ng-c2621549667" : "",
         "class" : "card",
-        "data-test" : "product-01M4PSZWGMKSAZ3JHNB56E0V54",
-        "href" : "/product/01M4PSZWGMKSAZ3JHNB56E0V54"
+        "data-test" : "product-01M4QB5NN66B6V52NVNWE32C1E",
+        "href" : "/product/01M4QB5NN66B6V52NVNWE32C1E"
       },
       "is_interactive" : true,
       "is_visible" : true,
@@ -120,7 +120,7 @@
         "id" : null,
         "classes" : [ "card" ],
         "role" : "link",
-        "testid" : "product-01M4PSZWGMKSAZ3JHNB56E0V54"
+        "testid" : "product-01M4QB5NN66B6V52NVNWE32C1E"
       }, {
         "tag" : "div",
         "id" : null,
@@ -161,7 +161,7 @@
   },
   "landmarks" : [ "menubar:Main menu", "menu:EN", "heading:Practice Software Testing - Toolshop", "heading:Sort", "heading:Price Range", "slider:ngx-slider", "slider:ngx-slider-max", "heading:Search", "heading:Filters", "heading:Searched for: Combination Pliers", "heading:Combination Pliers" ],
   "lastSeen" : {
-    "productCards" : "2026-10-12T06:55:27",
-    "productNameText" : "2026-10-12T06:55:27"
+    "productCards" : "2026-10-12T11:40:05",
+    "productNameText" : "2026-10-12T11:40:05"
   }
 }

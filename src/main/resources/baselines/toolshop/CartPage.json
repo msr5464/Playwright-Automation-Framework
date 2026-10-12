@@ -2,7 +2,7 @@
   "pageObject" : "CartPage",
   "module" : "toolshop",
   "fullClassName" : "automation.modules.toolshop.web.CartPage",
-  "recordedAt" : "2026-10-12T06:55:32",
+  "recordedAt" : "2026-10-12T11:40:09",
   "urlShape" : "https://practicesoftwaretesting.com/checkout",
   "title" : "Checkout - Practice Software Testing - Toolshop - v5.0",
   "bodyClass" : "",
@@ -88,7 +88,7 @@
     "quantityDisplay" : {
       "index" : 124,
       "tag" : "input",
-      "id" : "quantity-01m4pvdzpzd20v7jasf0d1msng",
+      "id" : "quantity-01m4qbq50c31qz60w4hxxejm05",
       "name" : null,
       "type" : "number",
       "class_list" : [ "form-control", "quantity", "ng-untouched", "ng-pristine", "ng-valid" ],
@@ -107,14 +107,14 @@
         "data-test" : "product-quantity",
         "min" : "1",
         "class" : "form-control quantity ng-untouched ng-pristine ng-valid",
-        "id" : "quantity-01m4pvdzpzd20v7jasf0d1msng",
+        "id" : "quantity-01m4qbq50c31qz60w4hxxejm05",
         "max" : "99"
       },
       "is_interactive" : true,
       "is_visible" : true,
       "is_enabled" : true,
       "abs_xpath" : "/html[1]/body[1]/app-root[1]/div[2]/app-checkout[1]/aw-wizard[1]/div[1]/aw-wizard-step[1]/app-cart[1]/div[1]/table[1]/tbody[1]/tr[1]/td[2]/input[1]",
-      "id_xpath" : "//*[@id='quantity-01m4pvdzpzd20v7jasf0d1msng']",
+      "id_xpath" : "//*[@id='quantity-01m4qbq50c31qz60w4hxxejm05']",
       "ancestor_chain" : [ {
         "tag" : "td",
         "id" : null,
@@ -226,7 +226,7 @@
       },
       "area_norm" : 4.0771484375E-4,
       "aspect" : 2.609375,
-      "neighbor_texts" : [ "Price", "Total", "$28.30", "Billing Address", "3", "Payment" ],
+      "neighbor_texts" : [ "Price", "Total", "Billing Address", "3", "Payment", "Quantity" ],
       "child" : null,
       "_gt" : null
     },
@@ -238,14 +238,14 @@
       "type" : null,
       "class_list" : [ "col-md-2", "text-end" ],
       "role" : "generic",
-      "accessible_name" : "$28.30",
+      "accessible_name" : "$14.15",
       "aria_label" : null,
       "placeholder" : null,
       "alt" : null,
       "href" : null,
       "title" : null,
       "testid" : "cart-total",
-      "text" : "$28.30",
+      "text" : "$14.15",
       "attrs" : {
         "_ngcontent-ng-c2879330868" : "",
         "data-test" : "cart-total",
@@ -297,7 +297,7 @@
       },
       "area_norm" : 0.004270833333333333,
       "aspect" : 5.2682926829268295,
-      "neighbor_texts" : [ "Total", "Proceed to checkout", "$14.15", "Price", "Learn & Explore", "Payment" ],
+      "neighbor_texts" : [ "Total", "Proceed to checkout", "Price", "Learn & Explore", "Payment", "GitHub" ],
       "child" : null,
       "_gt" : null
     },
@@ -370,7 +370,7 @@
       },
       "area_norm" : 0.0032273130063657407,
       "aspect" : 4.634457236842105,
-      "neighbor_texts" : [ "$28.30", "Learn & Explore", "GitHub", "Source code, issues and contributions", "Total", "Unsplash" ],
+      "neighbor_texts" : [ "$14.15", "Learn & Explore", "GitHub", "Source code, issues and contributions", "Total", "Unsplash" ],
       "child" : null,
       "_gt" : null
     }
@@ -384,10 +384,10 @@
   },
   "landmarks" : [ "menubar:Main menu", "menu:EN", "tab:Sign in", "tab:Continue as Guest", "heading:Login", "heading:Continue as Guest", "heading:Billing Address", "heading:Payment", "alert:Product added to shopping cart." ],
   "lastSeen" : {
-    "productNameDisplay" : "2026-10-12T06:55:32",
-    "quantityDisplay" : "2026-10-12T06:55:32",
-    "priceDisplay" : "2026-10-12T06:55:32",
-    "totalDisplay" : "2026-10-12T06:55:32",
-    "proceedToCheckoutButton" : "2026-10-12T06:55:32"
+    "productNameDisplay" : "2026-10-12T11:40:09",
+    "quantityDisplay" : "2026-10-12T11:40:09",
+    "priceDisplay" : "2026-10-12T11:40:09",
+    "totalDisplay" : "2026-10-12T11:40:09",
+    "proceedToCheckoutButton" : "2026-10-12T11:40:09"
   }
 }

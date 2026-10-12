@@ -2,7 +2,7 @@
   "pageObject" : "CheckoutSignInPage",
   "module" : "toolshop",
   "fullClassName" : "automation.modules.toolshop.web.CheckoutSignInPage",
-  "recordedAt" : "2026-10-12T06:55:32",
+  "recordedAt" : "2026-10-12T11:40:10",
   "urlShape" : "https://practicesoftwaretesting.com/checkout",
   "title" : "Checkout - Practice Software Testing - Toolshop - v5.0",
   "bodyClass" : "",
@@ -389,10 +389,10 @@
   },
   "landmarks" : [ "menubar:Main menu", "menu:EN", "tab:Sign in", "tab:Continue as Guest", "heading:Login", "heading:Continue as Guest", "heading:Billing Address", "heading:Payment", "alert:Product added to shopping cart." ],
   "lastSeen" : {
-    "emailField" : "2026-10-12T06:55:32",
-    "passwordField" : "2026-10-12T06:55:32",
-    "signInButton" : "2026-10-12T06:55:32",
-    "loggedInMessage" : "2026-10-12T06:55:32",
-    "proceedToCheckoutButton" : "2026-10-12T06:55:32"
+    "emailField" : "2026-10-12T11:40:10",
+    "passwordField" : "2026-10-12T11:40:10",
+    "signInButton" : "2026-10-12T11:40:10",
+    "loggedInMessage" : "2026-10-12T11:40:10",
+    "proceedToCheckoutButton" : "2026-10-12T11:40:10"
   }
 }

@@ -2,7 +2,7 @@
   "pageObject" : "CheckoutBillingAddressPage",
   "module" : "toolshop",
   "fullClassName" : "automation.modules.toolshop.web.CheckoutBillingAddressPage",
-  "recordedAt" : "2026-10-12T06:55:36",
+  "recordedAt" : "2026-10-12T11:40:14",
   "urlShape" : "https://practicesoftwaretesting.com/checkout",
   "title" : "Checkout - Practice Software Testing - Toolshop - v5.0",
   "bodyClass" : "",
@@ -543,12 +543,12 @@
   },
   "landmarks" : [ "menubar:Main menu", "menu:EN", "heading:Billing Address", "heading:Payment" ],
   "lastSeen" : {
-    "countryField" : "2026-10-12T06:55:36",
-    "postalCodeField" : "2026-10-12T06:55:36",
-    "houseNumberField" : "2026-10-12T06:55:36",
-    "streetField" : "2026-10-12T06:55:36",
-    "cityField" : "2026-10-12T06:55:36",
-    "stateField" : "2026-10-12T06:55:36",
-    "proceedToCheckoutButton" : "2026-10-12T06:55:36"
+    "countryField" : "2026-10-12T11:40:14",
+    "postalCodeField" : "2026-10-12T11:40:14",
+    "houseNumberField" : "2026-10-12T11:40:14",
+    "streetField" : "2026-10-12T11:40:14",
+    "cityField" : "2026-10-12T11:40:14",
+    "stateField" : "2026-10-12T11:40:14",
+    "proceedToCheckoutButton" : "2026-10-12T11:40:14"
   }
 }

@@ -2,9 +2,9 @@
   "pageObject" : "InvoiceDetailsPage",
   "module" : "toolshop",
   "fullClassName" : "automation.modules.toolshop.web.InvoiceDetailsPage",
-  "recordedAt" : "2026-10-12T06:55:46",
-  "urlShape" : "https://practicesoftwaretesting.com/account/invoices/{id}m4pved4xkbjhyg6cccp449qs",
-  "title" : "Invoice: INV-2026000006 - Practice Software Testing - Toolshop - v5.0",
+  "recordedAt" : "2026-10-12T11:40:23",
+  "urlShape" : "https://practicesoftwaretesting.com/account/invoices/{id}m4qbqja0f70dzvbmbacpka8p",
+  "title" : "Invoice: INV-2026000003 - Practice Software Testing - Toolshop - v5.0",
   "bodyClass" : "",
   "coverage" : {
     "invoiceNumberDisplay" : 1,
@@ -551,7 +551,7 @@
       "href" : null,
       "title" : null,
       "testid" : null,
-      "text" : "QuantityProductPriceTotal2Combination Pliers $14.15$28.30",
+      "text" : "QuantityProductPriceTotal1Combination Pliers $14.15$14.15",
       "attrs" : {
         "_ngcontent-ng-c1529358056" : "",
         "class" : "table table-hover"
@@ -602,7 +602,7 @@
       },
       "area_norm" : 0.05030092592592592,
       "aspect" : 15.512195121951219,
-      "neighbor_texts" : [ "Quantity", "Product", "Price", "Total", "2", "$14.15" ],
+      "neighbor_texts" : [ "Quantity", "Product", "Price", "Total", "1", "$14.15" ],
       "child" : null,
       "_gt" : null
     },
@@ -767,15 +767,15 @@
   },
   "landmarks" : [ "menubar:Main menu", "menu:EN", "heading:General Information", "heading:Billing Address", "heading:Payment Information", "heading:Products" ],
   "lastSeen" : {
-    "invoiceNumberDisplay" : "2026-10-12T06:55:46",
-    "totalDisplay" : "2026-10-12T06:55:46",
-    "streetDisplay" : "2026-10-12T06:55:46",
-    "cityDisplay" : "2026-10-12T06:55:46",
-    "postalCodeDisplay" : "2026-10-12T06:55:46",
-    "paymentMethodDisplay" : "2026-10-12T06:55:46",
-    "cardHolderNameDisplay" : "2026-10-12T06:55:46",
-    "productsTable" : "2026-10-12T06:55:46",
-    "userMenu" : "2026-10-12T06:55:46",
-    "signOutLink" : "2026-10-12T06:55:46"
+    "invoiceNumberDisplay" : "2026-10-12T11:40:23",
+    "totalDisplay" : "2026-10-12T11:40:23",
+    "streetDisplay" : "2026-10-12T11:40:23",
+    "cityDisplay" : "2026-10-12T11:40:23",
+    "postalCodeDisplay" : "2026-10-12T11:40:23",
+    "paymentMethodDisplay" : "2026-10-12T11:40:23",
+    "cardHolderNameDisplay" : "2026-10-12T11:40:23",
+    "productsTable" : "2026-10-12T11:40:23",
+    "userMenu" : "2026-10-12T11:40:23",
+    "signOutLink" : "2026-10-12T11:40:23"
   }
 }

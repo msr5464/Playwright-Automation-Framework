@@ -2,8 +2,8 @@
   "pageObject" : "ProductDetailsPage",
   "module" : "toolshop",
   "fullClassName" : "automation.modules.toolshop.web.ProductDetailsPage",
-  "recordedAt" : "2026-10-12T06:55:27",
-  "urlShape" : "https://practicesoftwaretesting.com/product/{id}M4PSZWGMKSAZ3JHNB56E0V54",
+  "recordedAt" : "2026-10-12T11:40:06",
+  "urlShape" : "https://practicesoftwaretesting.com/product/{id}M4QB5NN66B6V52NVNWE32C1E",
   "title" : "Combination Pliers - Practice Software Testing - Toolshop - v5.0",
   "bodyClass" : "",
   "coverage" : {
@@ -445,7 +445,7 @@
       },
       "area_norm" : 0.0027199074074074074,
       "aspect" : 9.791666666666666,
-      "neighbor_texts" : [ "2", "Combination Pliers", "Sign in", "Contact" ],
+      "neighbor_texts" : [ "1", "Combination Pliers", "Sign in", "Contact" ],
       "child" : null,
       "_gt" : null
     },
@@ -464,7 +464,7 @@
       "href" : null,
       "title" : null,
       "testid" : "cart-quantity",
-      "text" : "2",
+      "text" : "1",
       "attrs" : {
         "_ngcontent-ng-c2913155081" : "",
         "data-test" : "cart-quantity",
@@ -510,13 +510,13 @@
       "sibling_index" : 1,
       "sibling_count" : 2,
       "bbox_norm" : {
-        "x" : 0.7868245442708334,
+        "x" : 0.7875162760416666,
         "y" : 0.10665509259259259,
-        "w" : 0.01279296875,
+        "w" : 0.012101236979166667,
         "h" : 0.01574074074074074
       },
-      "area_norm" : 2.0137080439814814E-4,
-      "aspect" : 1.4448529411764706,
+      "area_norm" : 1.9048243393132716E-4,
+      "aspect" : 1.3667279411764706,
       "neighbor_texts" : [ "Sign in", "Combination Pliers", "Contact", "Product added to shopping cart.", "Categories" ],
       "child" : null,
       "_gt" : null
@@ -533,12 +533,12 @@
   },
   "landmarks" : [ "menubar:Main menu", "menu:EN", "heading:Combination Pliers", "heading:Specifications", "heading:Related products", "heading:Pliers", "heading:Bolt Cutters", "heading:Long Nose Pliers", "heading:Slip Joint Pliers" ],
   "lastSeen" : {
-    "productNameDisplay" : "2026-10-12T06:55:27",
-    "priceDisplay" : "2026-10-12T06:55:27",
-    "quantityInput" : "2026-10-12T06:55:27",
-    "increaseQuantityButton" : "2026-10-12T06:55:27",
-    "addToCartButton" : "2026-10-12T06:55:27",
-    "toastMessage" : "2026-10-12T06:55:27",
-    "cartIcon" : "2026-10-12T06:55:27"
+    "productNameDisplay" : "2026-10-12T11:40:06",
+    "priceDisplay" : "2026-10-12T11:40:06",
+    "quantityInput" : "2026-10-12T11:40:06",
+    "increaseQuantityButton" : "2026-10-12T11:40:06",
+    "addToCartButton" : "2026-10-12T11:40:06",
+    "toastMessage" : "2026-10-12T11:40:06",
+    "cartIcon" : "2026-10-12T11:40:06"
   }
 }
