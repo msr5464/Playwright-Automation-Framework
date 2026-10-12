@@ -12,7 +12,7 @@ public class HomePage extends BasePage {
 
     public HomePage(Config config) {
         super(config);
-        searchInput = page.locator("[data-test='search-mukesh']");
+        searchInput = page.locator("[data-test='search-query']");
         searchButton = page.locator("[data-test='search-submit']");
         signInLink = page.locator("[data-test='nav-sign-in']");
         assertPageLoaded(searchInput);
