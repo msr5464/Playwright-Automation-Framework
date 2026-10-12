@@ -20,7 +20,7 @@ public class ToolshopWebTest extends TestBase
     public void searchAddToCartCheckoutAndVerifyInvoice(Config config)
     {
         ToolshopHelper toolshop = new ToolshopHelper(config);
-        ToolshopData order = new ToolshopBuilder().build();
+        ToolshopData order = new ToolshopBuilder().withQuantity("1").build();
         String email = config.getRunTimeProperty("toolshop.username");
         String password = config.getRunTimeProperty("toolshop.password");
 
@@ -34,16 +34,16 @@ public class ToolshopWebTest extends TestBase
         order.setPrice(toolshop.productDetailsPage.getPrice());
         AssertHelper.assertEquals(config, toolshop.productDetailsPage.getProductName(), "Combination Pliers", "Details page should show the same product name");
 
-        config.logStep("Increase the quantity to 2 and add the product to the cart; verify the toast appears and the cart icon shows 2");
+        config.logStep("Add the product to the cart with quantity 1; verify the toast appears and the cart icon shows 1");
         toolshop.productDetailsPage = toolshop.addProductToCart(order);
         AssertHelper.assertEquals(config, toolshop.productDetailsPage.getToastMessage(), "Product added to shopping cart.", "Toast message should confirm the product was added");
-        AssertHelper.assertEquals(config, toolshop.productDetailsPage.getCartCount(), "2", "Cart icon should show 2 items");
+        AssertHelper.assertEquals(config, toolshop.productDetailsPage.getCartCount(), "1", "Cart icon should show 1 item");
 
         config.logStep("Open the cart and verify the product name, quantity and price match the search and the noted price; note the cart Total");
         toolshop.cartPage = toolshop.productDetailsPage.openCart();
         order.setCartTotal(toolshop.cartPage.getTotal());
         AssertHelper.assertEquals(config, toolshop.cartPage.getProductName(), "Combination Pliers\u00A0", "Cart should show the same product name");
-        AssertHelper.assertEquals(config, toolshop.cartPage.getQuantity(), "2", "Cart should show quantity 2");
+        AssertHelper.assertEquals(config, toolshop.cartPage.getQuantity(), "1", "Cart should show quantity 1");
         AssertHelper.assertEquals(config, toolshop.cartPage.getPrice(), order.getPrice(), "Cart price should match the price noted on the details page");
 
         config.logStep("Proceed to checkout and sign in with the customer's credentials; verify the already-logged-in message is shown");
@@ -80,7 +80,7 @@ public class ToolshopWebTest extends TestBase
         AssertHelper.assertEquals(config, toolshop.invoiceDetailsPage.getPostalCode(), "60311", "Postal code should match the one entered");
         AssertHelper.assertEquals(config, toolshop.invoiceDetailsPage.getPaymentMethod(), "Credit Card", "Payment method should be Credit Card");
         AssertHelper.assertEquals(config, toolshop.invoiceDetailsPage.getCardHolderName(), "Jack Howe", "Card holder name should match the one entered");
-        AssertHelper.assertEquals(config, toolshop.invoiceDetailsPage.getProductRowQuantity("Combination Pliers"), "2", "Products table should list the product with quantity 2");
+        AssertHelper.assertEquals(config, toolshop.invoiceDetailsPage.getProductRowQuantity("Combination Pliers"), "1", "Products table should list the product with quantity 1");
 
         config.logStep("Sign out from the user menu and verify the 'Sign in' link is back in the header");
         toolshop.homePage = toolshop.invoiceDetailsPage.signOut();
