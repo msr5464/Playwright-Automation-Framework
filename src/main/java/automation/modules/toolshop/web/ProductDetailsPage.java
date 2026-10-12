@@ -23,7 +23,7 @@ public class ProductDetailsPage extends BasePage {
         quantityInput = page.locator("[data-test='quantity']");
         increaseQuantityButton = page.locator("[data-test='increase-quantity']");
         addToCartButton = page.locator("[data-test='add-to-cart']");
-        toastMessage = page.locator(".toast-mukesh");
+        toastMessage = page.locator(".toast-message");
         cartIcon = page.locator("[data-test='cart-quantity']");
         assertPageLoaded(productNameDisplay);
     }
