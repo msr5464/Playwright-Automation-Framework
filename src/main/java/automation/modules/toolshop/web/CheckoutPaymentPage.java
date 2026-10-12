@@ -20,11 +20,11 @@ public class CheckoutPaymentPage extends BasePage {
     public CheckoutPaymentPage(Config config) {
         super(config);
         paymentMethodOption = page.locator("[data-test='payment-method']");
-        cardNumberField = page.locator("[data-test='mukesh']");
+        cardNumberField = page.locator("[data-test='credit_card_number']");
         expirationDateField = page.locator("[data-test='expiration_date']");
         cvvField = page.locator("[data-test='cvv']");
         cardHolderNameField = page.locator("[data-test='card_holder_name']");
-        paymentActionButton = page.locator("[data-test='mukesh']");
+        paymentActionButton = page.locator("[data-test='finish']");
         paymentMessage = page.locator("[data-test='payment-success-message']");
         assertPageLoaded(paymentMethodOption);
     }
