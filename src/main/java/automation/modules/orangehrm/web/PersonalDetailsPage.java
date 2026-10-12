@@ -12,6 +12,7 @@ import automation.modules.orangehrm.OrangeHRMEnums.Gender;
 public class PersonalDetailsPage extends BasePage
 {
     private final Locator employeeNameHeader;
+    private final Locator employeeIdField;
     private final Locator nationalityDropdown;
     private final Locator maritalStatusDropdown;
     private final Locator dateOfBirthField;
@@ -23,6 +24,7 @@ public class PersonalDetailsPage extends BasePage
     {
         super(config);
         employeeNameHeader        = page.locator("div.orangehrm-edit-employee-name h6");
+        employeeIdField           = page.locator("div.oxd-input-group:has(label:text-is('Employee Id')) input");
         nationalityDropdown       = page.locator("div.oxd-input-group:has(label:has-text('Nationality')) div.oxd-select-text");
         maritalStatusDropdown     = page.locator("div.oxd-input-group:has(label:has-text('Marital Status')) .oxd-select-text");
         dateOfBirthField          = page.locator("div.oxd-input-group:has(label:has-text('Date of Birth')) input");
@@ -35,6 +37,16 @@ public class PersonalDetailsPage extends BasePage
     public String getEmployeeNameHeader()
     {
         return getText(employeeNameHeader, "Employee name header");
+    }
+
+    /**
+     * Returns the Employee Id as persisted and shown on the Personal Details page itself,
+     * read right after Save lands here - this is the Id actually committed, unlike the
+     * value the Add Employee page shows beforehand, which is only a pre-save suggestion.
+     */
+    public String getEmployeeId()
+    {
+        return getInputValue(employeeIdField, "Employee Id field");
     }
 
     /**

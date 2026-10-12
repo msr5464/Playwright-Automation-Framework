@@ -29,9 +29,9 @@ public class OrangeHRMWebTest extends TestBase
         orangehrm.employeeListPage = orangehrm.dashboardPage.navigateToPim();
         orangehrm.addEmployeePage = orangehrm.employeeListPage.goToAddEmployeeTab();
         orangehrm.addEmployeePage.fillEmployeeName(employee);
-        String employeeId = orangehrm.addEmployeePage.getEmployeeId();
         orangehrm.personalDetailsPage = orangehrm.addEmployeePage.save();
         AssertHelper.assertEquals(config, orangehrm.personalDetailsPage.getEmployeeNameHeader(), "Arjun Verma", "Personal Details header should show the employee name");
+        String employeeId = orangehrm.personalDetailsPage.getEmployeeId();
 
         config.logStep("On Personal Details fill Nationality 'Indian', Marital Status 'Single', Date of Birth '1990-15-08' and Gender 'Male', click the Personal Details section's Save button and validate the 'Successfully Updated' toast appears");
         orangehrm.personalDetailsPage.fillPersonalDetails(employee);
