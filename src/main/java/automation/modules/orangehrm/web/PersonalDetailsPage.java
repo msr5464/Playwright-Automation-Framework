@@ -111,8 +111,8 @@ public class PersonalDetailsPage extends BasePage
      */
     public String getGender()
     {
-        Locator maleLabel = page.locator("label:text-is('" + Gender.Male.getKey() + "')");
-        Locator maleRadio = maleLabel.locator("xpath=preceding::input[@type='radio'][1]");
+        Locator genderRow = page.locator("div.oxd-input-group:has(label:has-text('Gender'))");
+        Locator maleRadio = genderRow.locator("input[type='radio']").first();
         return isElementChecked(maleRadio) ? Gender.Male.getLabel() : "";
     }
 
