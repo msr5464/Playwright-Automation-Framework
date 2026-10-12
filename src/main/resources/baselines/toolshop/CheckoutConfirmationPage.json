@@ -2,7 +2,7 @@
   "pageObject" : "CheckoutConfirmationPage",
   "module" : "toolshop",
   "fullClassName" : "automation.modules.toolshop.web.CheckoutConfirmationPage",
-  "recordedAt" : "2026-10-12T06:55:44",
+  "recordedAt" : "2026-10-12T11:40:21",
   "urlShape" : "https://practicesoftwaretesting.com/checkout",
   "title" : "Checkout - Practice Software Testing - Toolshop - v5.0",
   "bodyClass" : "",
@@ -13,7 +13,7 @@
   },
   "fingerprints" : {
     "confirmationMessage" : {
-      "index" : 445,
+      "index" : 451,
       "tag" : "div",
       "id" : "order-confirmation",
       "name" : null,
@@ -27,7 +27,7 @@
       "href" : null,
       "title" : null,
       "testid" : null,
-      "text" : "Thanks for your order! Your invoice number is INV-2026000006.",
+      "text" : "Thanks for your order! Your invoice number is INV-2026000003.",
       "attrs" : {
         "id" : "order-confirmation",
         "class" : "col-md-6 offset-md-3 login-form-1 ng-star-inserted"
@@ -78,7 +78,7 @@
       },
       "area_norm" : 0.0075,
       "aspect" : 27,
-      "neighbor_texts" : [ "INV-2026000006", "Sign in", "Billing Address", "Enjoyed testing this app? Level up with hands-on software testing courses.", "2", "3" ],
+      "neighbor_texts" : [ "INV-2026000003", "Sign in", "Billing Address", "Enjoyed testing this app? Level up with hands-on software testing courses.", "2", "3" ],
       "child" : null,
       "_gt" : null
     },
@@ -146,14 +146,14 @@
       "sibling_index" : 0,
       "sibling_count" : 2,
       "bbox_norm" : {
-        "x" : 0.7497395833333333,
+        "x" : 0.7209716796875,
         "y" : 0.10387731481481481,
         "w" : 0.05795084635416667,
         "h" : 0.037037037037037035
       },
       "area_norm" : 0.0021463276427469134,
       "aspect" : 2.781640625,
-      "neighbor_texts" : [ "Contact", "4", "Categories", "Payment", "Home", "🐛 Bug Hunting" ],
+      "neighbor_texts" : [ "Contact", "1", "4", "Categories", "Payment", "🐛 Bug Hunting" ],
       "child" : null,
       "_gt" : null
     },
@@ -238,8 +238,8 @@
   },
   "landmarks" : [ "menubar:Main menu", "menu:EN", "heading:Billing Address" ],
   "lastSeen" : {
-    "confirmationMessage" : "2026-10-12T06:55:44",
-    "userMenu" : "2026-10-12T06:55:44",
-    "myInvoicesLink" : "2026-10-12T06:55:44"
+    "confirmationMessage" : "2026-10-12T11:40:21",
+    "userMenu" : "2026-10-12T11:40:21",
+    "myInvoicesLink" : "2026-10-12T11:40:21"
   }
 }
