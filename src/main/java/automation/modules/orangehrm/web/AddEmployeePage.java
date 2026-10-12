@@ -4,6 +4,7 @@ import com.microsoft.playwright.Locator;
 
 import automation.core.BasePage;
 import automation.core.Config;
+import automation.core.DataGenerator;
 import automation.core.Log;
 import automation.modules.orangehrm.OrangeHRMData;
 
@@ -43,6 +44,12 @@ public class AddEmployeePage extends BasePage
     public PersonalDetailsPage save()
     {
         Log.comment(config, "Saving new employee");
+        // The demo site auto-suggests the next sequential Employee Id, which can already be
+        // taken on this shared instance by another concurrent run - appending a random
+        // suffix keeps the Id unique so Save actually navigates to Personal Details instead
+        // of staying on this page behind an "Employee Id already exists" validation error.
+        String uniqueEmployeeId = getInputValue(employeeIdField, "Employee Id field") + DataGenerator.randomNumber(100, 999);
+        fillText(employeeIdField, uniqueEmployeeId, "Employee Id field");
         click(saveButton, "Save button");
         return new PersonalDetailsPage(config);
     }
