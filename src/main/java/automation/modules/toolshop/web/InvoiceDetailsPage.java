@@ -73,7 +73,7 @@ public class InvoiceDetailsPage extends BasePage
     public String getProductRowQuantity(String productName)
     {
         Locator row = productsTable.locator("tbody tr").filter(new Locator.FilterOptions().setHasText(productName));
-        Locator quantityCell = row.locator("td").nth(2);
+        Locator quantityCell = row.locator("td").nth(0);
         return getText(quantityCell, "Quantity for " + productName);
     }
 
