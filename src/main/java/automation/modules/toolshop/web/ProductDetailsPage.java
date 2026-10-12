@@ -19,7 +19,7 @@ public class ProductDetailsPage extends BasePage {
     public ProductDetailsPage(Config config) {
         super(config);
         productNameDisplay = page.locator("h1");
-        priceDisplay = page.locator("[data-test='unit-mukesh']");
+        priceDisplay = page.locator("[data-test='unit-price']");
         quantityInput = page.locator("[data-test='quantity']");
         increaseQuantityButton = page.locator("[data-test='increase-quantity']");
         addToCartButton = page.locator("[data-test='add-to-cart']");
