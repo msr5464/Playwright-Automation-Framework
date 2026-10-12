@@ -22,7 +22,7 @@ public class AddEmployeePage extends BasePage
         firstNameField  = page.locator("input[name='firstName']");
         middleNameField = page.locator("input[name='middleName']");
         lastNameField    = page.locator("input[name='lastName']");
-        employeeIdField  = page.locator("div.oxd-grid-2.orangehrm-full-width-grid input.oxd-input.oxd-input--active");
+        employeeIdField  = page.locator("div.oxd-input-group:has(label:text-is('Employee Id')) input");
         saveButton       = page.locator("button[type='submit']");
         assertPageLoaded(firstNameField);
     }
