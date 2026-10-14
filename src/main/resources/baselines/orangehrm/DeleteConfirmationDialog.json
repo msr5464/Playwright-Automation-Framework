@@ -2,7 +2,7 @@
   "pageObject" : "DeleteConfirmationDialog",
   "module" : "orangehrm",
   "fullClassName" : "automation.modules.orangehrm.web.DeleteConfirmationDialog",
-  "recordedAt" : "2026-10-12T17:02:27",
+  "recordedAt" : "2026-10-14T11:22:58",
   "urlShape" : "https://opensource-demo.orangehrmlive.com/web/index.php/pim/viewEmployeeList",
   "title" : "OrangeHRM",
   "bodyClass" : "",
@@ -12,7 +12,7 @@
   },
   "fingerprints" : {
     "confirmationMessage" : {
-      "index" : 391,
+      "index" : 394,
       "tag" : "p",
       "id" : null,
       "name" : null,
@@ -64,7 +64,7 @@
       }, {
         "tag" : "div",
         "id" : null,
-        "classes" : [ "oxd-overlay", "oxd-overlay--flex", "oxd-overlay--flex-centered", "fade-enter-from", "fade-enter-active" ],
+        "classes" : [ "oxd-overlay", "oxd-overlay--flex", "oxd-overlay--flex-centered", "fade-enter-active", "fade-enter-to" ],
         "role" : "dialog",
         "testid" : null
       } ],
@@ -83,7 +83,7 @@
       "_gt" : null
     },
     "yesDeleteButton" : {
-      "index" : 396,
+      "index" : 399,
       "tag" : "button",
       "id" : null,
       "name" : null,
@@ -136,7 +136,7 @@
       }, {
         "tag" : "div",
         "id" : null,
-        "classes" : [ "oxd-overlay", "oxd-overlay--flex", "oxd-overlay--flex-centered", "fade-enter-from", "fade-enter-active" ],
+        "classes" : [ "oxd-overlay", "oxd-overlay--flex", "oxd-overlay--flex-centered", "fade-enter-active", "fade-enter-to" ],
         "role" : "dialog",
         "testid" : null
       } ],
@@ -161,7 +161,7 @@
   },
   "landmarks" : [ "navigation:Sidepanel", "heading:PIM", "navigation:Topbar Menu", "heading:Employee Information" ],
   "lastSeen" : {
-    "confirmationMessage" : "2026-10-12T17:02:27",
-    "yesDeleteButton" : "2026-10-12T17:02:27"
+    "confirmationMessage" : "2026-10-14T11:22:58",
+    "yesDeleteButton" : "2026-10-14T11:22:58"
   }
 }
