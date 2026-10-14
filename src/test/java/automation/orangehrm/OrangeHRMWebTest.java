@@ -19,7 +19,9 @@ public class OrangeHRMWebTest extends TestBase
     public void addSearchEditDeleteEmployeeAndLogout(Config config)
     {
         OrangeHRMHelper orangehrm = new OrangeHRMHelper(config);
-        OrangeHRMData employee = new OrangeHRMBuilder().build();
+        OrangeHRMData employee = new OrangeHRMBuilder().withMaritalStatus("Married").build();
+        String driversLicenseNumber = "DL-4471120";
+        String licenseExpiryDate = "2031-20-11";
 
         config.logStep("Login to OrangeHRM as Admin and validate the Dashboard page is shown");
         orangehrm.dashboardPage = orangehrm.login();
@@ -33,8 +35,8 @@ public class OrangeHRMWebTest extends TestBase
         AssertHelper.assertEquals(config, orangehrm.personalDetailsPage.getEmployeeNameHeader(), "Arjun Verma", "Personal Details header should show the employee name");
         String employeeId = orangehrm.personalDetailsPage.getEmployeeId();
 
-        config.logStep("On Personal Details fill Nationality 'Indian', Marital Status 'Single', Date of Birth '1990-15-08' and Gender 'Male', click the Personal Details section's Save button and validate the 'Successfully Updated' toast appears");
-        orangehrm.personalDetailsPage.fillPersonalDetails(employee);
+        config.logStep("On Personal Details fill Nationality 'Indian', Marital Status 'Married', Date of Birth '1990-15-08', Gender 'Male', Driver's License Number 'DL-4471120' and License Expiry Date '2031-20-11', click the Personal Details section's Save button and validate the 'Successfully Updated' toast appears");
+        orangehrm.personalDetailsPage.fillPersonalDetails(employee, driversLicenseNumber, licenseExpiryDate);
         orangehrm.personalDetailsPage = orangehrm.personalDetailsPage.savePersonalDetails();
         String updateToastMessage = orangehrm.personalDetailsPage.getToastMessage();
         AssertHelper.assertEquals(config, updateToastMessage, "Successfully Updated", "Toast should confirm the update");
@@ -47,17 +49,23 @@ public class OrangeHRMWebTest extends TestBase
         AssertHelper.assertEquals(config, orangehrm.employeeListPage.getFirstAndMiddleNameInRow(), "Arjun Kumar", "Row should show First & Middle Name");
         AssertHelper.assertEquals(config, orangehrm.employeeListPage.getLastNameInRow(), "Verma", "Row should show Last Name");
 
-        config.logStep("Click the pencil icon on that row and validate Personal Details still shows Nationality 'Indian', Marital Status 'Single', Date of Birth '1990-15-08' and Gender 'Male'");
+        config.logStep("Click the pencil icon on that row and validate Personal Details still shows Nationality 'Indian', Marital Status 'Married', Date of Birth '1990-15-08', Gender 'Male', Driver's License Number 'DL-4471120' and License Expiry Date '2031-20-11'");
         orangehrm.personalDetailsPage = orangehrm.employeeListPage.clickEditOnRow();
         AssertHelper.assertEquals(config, orangehrm.personalDetailsPage.getNationality(), "Indian", "Nationality should persist");
-        AssertHelper.assertEquals(config, orangehrm.personalDetailsPage.getMaritalStatus(), "Single", "Marital Status should persist");
+        AssertHelper.assertEquals(config, orangehrm.personalDetailsPage.getMaritalStatus(), "Married", "Marital Status should persist");
         AssertHelper.assertEquals(config, orangehrm.personalDetailsPage.getDateOfBirth(), employee.getDateOfBirth(), "Date of Birth should persist");
         AssertHelper.assertEquals(config, orangehrm.personalDetailsPage.getGender(), "Male", "Gender should persist");
+        AssertHelper.assertEquals(config, orangehrm.personalDetailsPage.getDriversLicenseNumber(), driversLicenseNumber, "Driver's License Number should persist");
+        AssertHelper.assertEquals(config, orangehrm.personalDetailsPage.getLicenseExpiryDate(), licenseExpiryDate, "License Expiry Date should persist");
 
-        config.logStep("Go back to the Employee List tab, search again by the recorded Employee Id, click the trash icon on that row and validate the 'Are you Sure?' dialog appears");
+        config.logStep("Go back to the Employee List tab, search again by the recorded Employee Id, tick the checkbox on that row and validate '(1) Record Selected' is shown");
         orangehrm.employeeListPage = orangehrm.personalDetailsPage.goToEmployeeListTab();
         orangehrm.employeeListPage = orangehrm.employeeListPage.searchByEmployeeId(employeeId);
-        orangehrm.deleteConfirmationDialog = orangehrm.employeeListPage.clickDeleteOnRow();
+        orangehrm.employeeListPage = orangehrm.employeeListPage.checkRowCheckbox();
+        AssertHelper.assertEquals(config, orangehrm.employeeListPage.getRecordFoundText(), "(1) Record Selected", "Checkbox selection should show one record selected");
+
+        config.logStep("Click the 'Delete Selected' button and validate the 'Are you Sure?' dialog appears");
+        orangehrm.deleteConfirmationDialog = orangehrm.employeeListPage.clickDeleteSelected();
         String confirmationMessage = orangehrm.deleteConfirmationDialog.getConfirmationMessage();
         AssertHelper.assertEquals(config, confirmationMessage, "Are you Sure?", "Delete dialog should ask for confirmation");
 
