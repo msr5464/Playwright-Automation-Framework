@@ -2,7 +2,7 @@
   "pageObject" : "PersonalDetailsPage",
   "module" : "orangehrm",
   "fullClassName" : "automation.modules.orangehrm.web.PersonalDetailsPage",
-  "recordedAt" : "2026-10-12T17:02:17",
+  "recordedAt" : "2026-10-14T11:22:45",
   "urlShape" : "https://opensource-demo.orangehrmlive.com/web/index.php/pim/viewPersonalDetails/empNumber/{id}",
   "title" : "OrangeHRM",
   "bodyClass" : "",
@@ -12,6 +12,8 @@
     "nationalityDropdown" : 1,
     "maritalStatusDropdown" : 1,
     "dateOfBirthField" : 1,
+    "driversLicenseNumberField" : 1,
+    "licenseExpiryDateField" : 1,
     "savePersonalDetailsButton" : 1,
     "toastMessage" : 0,
     "employeeListTabLink" : 1
@@ -372,6 +374,148 @@
       "child" : null,
       "_gt" : null
     },
+    "driversLicenseNumberField" : {
+      "index" : 244,
+      "tag" : "input",
+      "id" : null,
+      "name" : null,
+      "type" : null,
+      "class_list" : [ "oxd-input", "oxd-input--active" ],
+      "role" : "textbox",
+      "accessible_name" : "",
+      "aria_label" : null,
+      "placeholder" : null,
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : null,
+      "text" : "",
+      "attrs" : {
+        "data-v-1f99f73c" : "",
+        "class" : "oxd-input oxd-input--active"
+      },
+      "is_interactive" : true,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/div[1]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/div[2]/div[1]/form[1]/div[3]/div[2]/div[1]/div[1]/div[2]/input[1]",
+      "id_xpath" : "//*[@id='app']/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/div[2]/div[1]/form[1]/div[3]/div[2]/div[1]/div[1]/div[2]/input[1]",
+      "ancestor_chain" : [ {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-input-group", "oxd-input-field-bottom-space" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-grid-item", "oxd-grid-item--gutters" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-grid-3", "orangehrm-full-width-grid" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-form-row" ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 0,
+      "sibling_count" : 1,
+      "bbox_norm" : {
+        "x" : 0.2875,
+        "y" : 0.4005208333333333,
+        "w" : 0.2142333984375,
+        "h" : 0.041666666666666664
+      },
+      "area_norm" : 0.0089263916015625,
+      "aspect" : 9.140625,
+      "neighbor_texts" : [ "Driver's License Number", "License Expiry Date", "Nationality", "Marital Status", "Emergency Contacts", "Dependents" ],
+      "child" : null,
+      "_gt" : null
+    },
+    "licenseExpiryDateField" : {
+      "index" : 252,
+      "tag" : "input",
+      "id" : null,
+      "name" : null,
+      "type" : null,
+      "class_list" : [ "oxd-input", "oxd-input--active" ],
+      "role" : "textbox",
+      "accessible_name" : "yyyy-dd-mm",
+      "aria_label" : null,
+      "placeholder" : "yyyy-dd-mm",
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : null,
+      "text" : "",
+      "attrs" : {
+        "data-v-1f99f73c" : "",
+        "data-v-4a95a2e0" : "",
+        "class" : "oxd-input oxd-input--active",
+        "placeholder" : "yyyy-dd-mm"
+      },
+      "is_interactive" : true,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/div[1]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/div[2]/div[1]/form[1]/div[3]/div[2]/div[2]/div[1]/div[2]/div[1]/div[1]/input[1]",
+      "id_xpath" : "//*[@id='app']/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/div[2]/div[1]/form[1]/div[3]/div[2]/div[2]/div[1]/div[2]/div[1]/div[1]/input[1]",
+      "ancestor_chain" : [ {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-date-input" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-date-wrapper" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-input-group", "oxd-input-field-bottom-space" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "oxd-grid-item", "oxd-grid-item--gutters" ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 0,
+      "sibling_count" : 2,
+      "bbox_norm" : {
+        "x" : 0.5142333984375,
+        "y" : 0.4005208333333333,
+        "w" : 0.2142333984375,
+        "h" : 0.041666666666666664
+      },
+      "area_norm" : 0.0089263916015625,
+      "aspect" : 9.140625,
+      "neighbor_texts" : [ "License Expiry Date", "Marital Status", "-- Select --", "Other Id", "Gender", "Personal Details" ],
+      "child" : null,
+      "_gt" : null
+    },
     "savePersonalDetailsButton" : {
       "index" : 310,
       "tag" : "button",
@@ -574,7 +718,7 @@
       "sibling_index" : 1,
       "sibling_count" : 2,
       "bbox_norm" : {
-        "x" : 0.04303264617919922,
+        "x" : 0.02477104067802429,
         "y" : 0.9405815972222222,
         "w" : 0.061661783854166666,
         "h" : 0.014814814814814815
@@ -592,19 +736,23 @@
     "nationalityDropdown" : "Locator@div.oxd-input-group:has(label:has-text('Nationality')) div.oxd-select-text",
     "maritalStatusDropdown" : "Locator@div.oxd-input-group:has(label:has-text('Marital Status')) .oxd-select-text",
     "dateOfBirthField" : "Locator@div.oxd-input-group:has(label:has-text('Date of Birth')) input",
+    "driversLicenseNumberField" : "Locator@div.oxd-input-group:has(label:has-text('Driver')) input",
+    "licenseExpiryDateField" : "Locator@div.oxd-input-group:has(label:has-text('License Expiry Date')) input",
     "savePersonalDetailsButton" : "Locator@form:has(div.oxd-input-group:has(label:has-text('Nationality'))) button[type='submit']",
     "toastMessage" : "Locator@p.oxd-text.oxd-text--p.oxd-text--toast-message.oxd-toast-content-text",
     "employeeListTabLink" : "Locator@a:has-text('Employee List')"
   },
   "landmarks" : [ "navigation:Sidepanel", "heading:PIM", "navigation:Topbar Menu", "heading:Arjun Verma", "heading:Personal Details", "heading:Custom Fields", "heading:Attachments" ],
   "lastSeen" : {
-    "employeeNameHeader" : "2026-10-12T17:02:17",
-    "employeeIdField" : "2026-10-12T17:02:17",
-    "nationalityDropdown" : "2026-10-12T17:02:17",
-    "maritalStatusDropdown" : "2026-10-12T17:02:17",
-    "dateOfBirthField" : "2026-10-12T17:02:17",
-    "savePersonalDetailsButton" : "2026-10-12T17:02:17",
-    "employeeListTabLink" : "2026-10-12T17:02:17",
-    "toastMessage" : "2026-10-12T17:02:17"
+    "employeeNameHeader" : "2026-10-14T11:22:45",
+    "employeeIdField" : "2026-10-14T11:22:45",
+    "nationalityDropdown" : "2026-10-14T11:22:45",
+    "maritalStatusDropdown" : "2026-10-14T11:22:45",
+    "dateOfBirthField" : "2026-10-14T11:22:45",
+    "savePersonalDetailsButton" : "2026-10-14T11:22:45",
+    "employeeListTabLink" : "2026-10-14T11:22:45",
+    "toastMessage" : "2026-10-14T11:22:45",
+    "driversLicenseNumberField" : "2026-10-14T11:22:45",
+    "licenseExpiryDateField" : "2026-10-14T11:22:45"
   }
 }

@@ -2,7 +2,7 @@
   "pageObject" : "AddEmployeePage",
   "module" : "orangehrm",
   "fullClassName" : "automation.modules.orangehrm.web.AddEmployeePage",
-  "recordedAt" : "2026-10-12T17:02:12",
+  "recordedAt" : "2026-10-14T11:22:38",
   "urlShape" : "https://opensource-demo.orangehrmlive.com/web/index.php/pim/addEmployee",
   "title" : "OrangeHRM",
   "bodyClass" : "",
@@ -154,7 +154,7 @@
       },
       "area_norm" : 0.007973564995659722,
       "aspect" : 8.164930555555555,
-      "neighbor_texts" : [ "Add Employee", "Cancel", "Employee Full Name" ],
+      "neighbor_texts" : [ "Add Employee", "Sur_-ya9283@#!@#$%^&qwe king!@#$%^&*_qwerr", "Cancel", "Employee Full Name" ],
       "child" : null,
       "_gt" : null
     },
@@ -226,7 +226,7 @@
       },
       "area_norm" : 0.007973564995659722,
       "aspect" : 8.164930555555555,
-      "neighbor_texts" : [ "Add Employee", "Cancel", "Save", "Riley Morgan" ],
+      "neighbor_texts" : [ "Add Employee", "Cancel", "Save", "Sur_-ya9283@#!@#$%^&qwe king!@#$%^&*_qwerr" ],
       "child" : null,
       "_gt" : null
     },
@@ -382,10 +382,10 @@
   },
   "landmarks" : [ "navigation:Sidepanel", "heading:PIM", "navigation:Topbar Menu", "heading:Add Employee" ],
   "lastSeen" : {
-    "firstNameField" : "2026-10-12T17:02:12",
-    "middleNameField" : "2026-10-12T17:02:12",
-    "lastNameField" : "2026-10-12T17:02:12",
-    "employeeIdField" : "2026-10-12T17:02:12",
-    "saveButton" : "2026-10-12T17:02:12"
+    "firstNameField" : "2026-10-14T11:22:38",
+    "middleNameField" : "2026-10-14T11:22:38",
+    "lastNameField" : "2026-10-14T11:22:38",
+    "employeeIdField" : "2026-10-14T11:22:38",
+    "saveButton" : "2026-10-14T11:22:38"
   }
 }

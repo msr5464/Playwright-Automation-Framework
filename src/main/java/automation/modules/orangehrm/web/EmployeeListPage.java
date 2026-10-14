@@ -18,6 +18,8 @@ public class EmployeeListPage extends BasePage
     private final Locator employeeLastNameCell;
     private final Locator editIcon;
     private final Locator deleteIcon;
+    private final Locator rowCheckboxLabel;
+    private final Locator deleteSelectedButton;
     private final Locator toastMessage;
     private final Locator userDropdownMenu;
     private final Locator logoutLink;
@@ -34,6 +36,8 @@ public class EmployeeListPage extends BasePage
         employeeLastNameCell   = page.locator("div.oxd-table-row:nth-child(1) div.oxd-table-cell:nth-child(4)");
         editIcon               = page.locator("div.oxd-table-row:nth-child(1) button:has(i.bi-pencil-fill)");
         deleteIcon             = page.locator("div.oxd-table-row:nth-child(1) button:has(i.bi-trash)");
+        rowCheckboxLabel       = page.locator("div.oxd-table-card-cell-checkbox label");
+        deleteSelectedButton   = page.locator("button:has-text('Delete Selected')");
         toastMessage           = page.locator("p.oxd-text.oxd-text--p.oxd-text--toast-message.oxd-toast-content-text");
         userDropdownMenu       = page.locator("span.oxd-userdropdown-tab");
         logoutLink             = page.locator("a[href='/web/index.php/auth/logout']");
@@ -87,6 +91,20 @@ public class EmployeeListPage extends BasePage
     {
         Log.comment(config, "Clicking delete icon on employee row");
         click(deleteIcon, "Delete icon");
+        return new DeleteConfirmationDialog(config);
+    }
+
+    public EmployeeListPage checkRowCheckbox()
+    {
+        Log.comment(config, "Ticking checkbox on employee row");
+        click(rowCheckboxLabel, "Row checkbox");
+        return this;
+    }
+
+    public DeleteConfirmationDialog clickDeleteSelected()
+    {
+        Log.comment(config, "Clicking Delete Selected button");
+        click(deleteSelectedButton, "Delete Selected button");
         return new DeleteConfirmationDialog(config);
     }
 

@@ -2,7 +2,7 @@
   "pageObject" : "DashboardPage",
   "module" : "orangehrm",
   "fullClassName" : "automation.modules.orangehrm.web.DashboardPage",
-  "recordedAt" : "2026-10-12T17:02:09",
+  "recordedAt" : "2026-10-14T11:22:35",
   "urlShape" : "https://opensource-demo.orangehrmlive.com/web/index.php/dashboard/index",
   "title" : "OrangeHRM",
   "bodyClass" : "",
@@ -160,7 +160,7 @@
   },
   "landmarks" : [ "navigation:Sidepanel", "heading:Dashboard", "navigation:Topbar Menu" ],
   "lastSeen" : {
-    "dashboardHeader" : "2026-10-12T17:02:09",
-    "pimMenuItem" : "2026-10-12T17:02:09"
+    "dashboardHeader" : "2026-10-14T11:22:35",
+    "pimMenuItem" : "2026-10-14T11:22:35"
   }
 }

@@ -2,7 +2,7 @@
   "pageObject" : "LoginPage",
   "module" : "orangehrm",
   "fullClassName" : "automation.modules.orangehrm.web.LoginPage",
-  "recordedAt" : "2026-10-12T17:02:07",
+  "recordedAt" : "2026-10-14T11:22:33",
   "urlShape" : "https://opensource-demo.orangehrmlive.com/web/index.php/auth/login",
   "title" : "OrangeHRM",
   "bodyClass" : "",
@@ -75,7 +75,7 @@
       "sibling_count" : 1,
       "bbox_norm" : {
         "x" : 0.27369791666666665,
-        "y" : 0.5122829861111111,
+        "y" : 0.5104311342592592,
         "w" : 0.2526041666666667,
         "h" : 0.041666666666666664
       },
@@ -148,7 +148,7 @@
       "sibling_count" : 1,
       "bbox_norm" : {
         "x" : 0.27369791666666665,
-        "y" : 0.5913483796296296,
+        "y" : 0.5894965277777777,
         "w" : 0.2526041666666667,
         "h" : 0.041666666666666664
       },
@@ -220,7 +220,7 @@
       "sibling_count" : 1,
       "bbox_norm" : {
         "x" : 0.27369791666666665,
-        "y" : 0.6626446759259259,
+        "y" : 0.660792824074074,
         "w" : 0.2526041666666667,
         "h" : 0.04259259259259259
       },
@@ -238,8 +238,8 @@
   },
   "landmarks" : [ "heading:Login" ],
   "lastSeen" : {
-    "usernameField" : "2026-10-12T17:02:07",
-    "passwordField" : "2026-10-12T17:02:07",
-    "loginButton" : "2026-10-12T17:02:07"
+    "usernameField" : "2026-10-14T11:22:33",
+    "passwordField" : "2026-10-14T11:22:33",
+    "loginButton" : "2026-10-14T11:22:33"
   }
 }
