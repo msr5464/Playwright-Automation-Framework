@@ -1,0 +1,160 @@
+{
+  "pageObject" : "NaukriProfilePage",
+  "recordedAt" : "2026-09-11T10:17:14",
+  "urlShape" : "https://www.naukri.com/mnjuser/profile",
+  "title" : "Naukri TopTier",
+  "bodyClass" : "no-scrollbar",
+  "coverage" : {
+    "profileSummaryText" : 1,
+    "editProfileSummaryButton" : 1,
+    "summaryTextArea" : 0,
+    "saveButton" : 0
+  },
+  "fingerprints" : {
+    "profileSummaryText" : {
+      "index" : 783,
+      "tag" : "div",
+      "id" : null,
+      "name" : null,
+      "type" : null,
+      "class_list" : [ "overflow-hidden", "transition-[max-height]", "max-w-pg", "duration-500", "text-title16R", "text-n200", "whitespace-pre-line" ],
+      "role" : "generic",
+      "accessible_name" : "",
+      "aria_label" : null,
+      "placeholder" : null,
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : null,
+      "text" : "Seasoned QA Leader with 14+ years of experience in the Fintech domain, managing cross-functional QA teams across Southeast Asia. Proven track record in building QA functions from scratch, scaling team",
+      "attrs" : {
+        "class" : "overflow-hidden transition-[max-height] max-w-pg duration-500 text-title16R text-n200 whitespace-pre-line"
+      },
+      "is_interactive" : false,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/div[1]/div[1]/div[4]/div[2]/div[2]/div[1]/div[7]/div[1]/div[3]/div[1]/div[1]/div[1]/div[1]",
+      "id_xpath" : "//*[@id='profile-section-profile-summary']/div[1]/div[3]/div[1]/div[1]/div[1]/div[1]",
+      "ancestor_chain" : [ {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "rounded-2.5xl", "bg-n800", "p-5" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "w-full" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "flex" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "h-0", "overflow-hidden", "transition-[height,", "opacity]", "duration-500", "ease-[cubic-bezier(0.4,0,0.2,1)]", "opacity-0" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "mb-10" ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 0,
+      "sibling_count" : 1,
+      "bbox_norm" : {
+        "x" : 0.34765625,
+        "y" : 2.488773148148148,
+        "w" : 0.3385416666666667,
+        "h" : 0.12222222222222222
+      },
+      "area_norm" : 0.04137731481481482,
+      "aspect" : 4.924242424242424,
+      "neighbor_texts" : [ "Profile summary", "Resume", "Projects", "Research publications", "Patents", "Custom section" ],
+      "child" : null,
+      "_gt" : null
+    },
+    "editProfileSummaryButton" : {
+      "index" : 768,
+      "tag" : "span",
+      "id" : null,
+      "name" : null,
+      "type" : null,
+      "class_list" : [ "flex", "shrink-0", "items-center", "justify-center", "w-6", "h-6", "cursor-pointer", "text-n300" ],
+      "role" : "generic",
+      "accessible_name" : "",
+      "aria_label" : null,
+      "placeholder" : null,
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : null,
+      "text" : "",
+      "attrs" : {
+        "class" : "flex shrink-0 items-center justify-center w-6 h-6 cursor-pointer text-n300"
+      },
+      "is_interactive" : false,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/div[1]/div[1]/div[4]/div[2]/div[2]/div[1]/div[7]/div[1]/div[1]/span[1]",
+      "id_xpath" : "//*[@id='profile-section-profile-summary']/div[1]/div[1]/span[1]",
+      "ancestor_chain" : [ {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "mx-1.5", "mb-4", "flex", "h-9", "items-center", "justify-between" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "mb-10" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : "profile-section-profile-summary",
+        "classes" : [ "scroll-mt-24" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "min-w-0", "flex-1" ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 1,
+      "sibling_count" : 2,
+      "bbox_norm" : {
+        "x" : 0.79296875,
+        "y" : 2.427662037037037,
+        "w" : 0.0125,
+        "h" : 0.022222222222222223
+      },
+      "area_norm" : 2.777777777777778E-4,
+      "aspect" : 1,
+      "neighbor_texts" : [ "Update" ],
+      "child" : {
+        "tag" : "img",
+        "alt" : "PencilSimple",
+        "aria_label" : null,
+        "title" : null,
+        "testid" : null
+      },
+      "_gt" : null
+    }
+  },
+  "landmarks" : [ "navigation:Profile sections", "heading:Expertise", "heading:Key skills", "heading:Tech skills", "heading:Recognitions", "heading:Resume" ]
+}

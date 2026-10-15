@@ -8,6 +8,7 @@ import automation.core.WaitHelper;
 
 public class ProductsPage extends BasePage
 {
+    private final Locator inventory;
     private final Locator pageTitle;
     private final Locator cartLink;
     private final Locator menuButton;
@@ -16,11 +17,14 @@ public class ProductsPage extends BasePage
     public ProductsPage(Config config)
     {
         super(config);
+        inventory   = page.locator("[data-test='inventory-container']");
         pageTitle   = page.locator(".title");
         cartLink    = page.locator(".shopping_cart_link");
         menuButton  = page.locator("#react-burger-menu-btn");
         logoutLink  = page.locator("#logout_sidebar_link");
-        assertPageLoaded(pageTitle);
+        // Not pageTitle: the cart page has a .title too, so a ProductsPage built after
+        // "Continue shopping" would pass this check before the cart page is gone.
+        assertPageLoaded(inventory);
     }
 
     public String getPageTitle()
@@ -60,10 +64,11 @@ public class ProductsPage extends BasePage
         return new CartPage(config);
     }
 
-    public void logout()
+    public LoginPage logout()
     {
         click(menuButton, "Burger menu");
         WaitHelper.waitForElementToBeVisible(config, logoutLink, "Logout link");
         click(logoutLink, "Logout link");
+        return new LoginPage(config);
     }
 }

@@ -245,10 +245,10 @@ Jarvis/
 │       │   └── web/  HomePage  LoginPage  OtpPage  DashboardPage
 │       │
 │       └── saucedemo/
-│           ├── PostData.java          # POJO for JSONPlaceholder post
-│           ├── PostBuilder.java       # Fluent builder
+│           ├── SauceDemoData.java     # POJO for JSONPlaceholder post
+│           ├── SauceDemoBuilder.java  # Fluent builder
 │           ├── SauceDemoHelper.java   # Orchestration helper (extends ApiHelper)
-│           ├── api/  PostApi.java     # JSONPlaceholder endpoint definitions
+│           ├── api/  SauceDemoApi.java # JSONPlaceholder endpoint definitions
 │           └── web/  LoginPage  ProductsPage  CartPage
 │
 ├── src/test/java/automation/
@@ -263,8 +263,9 @@ Jarvis/
     ├── github/csvFiles/
     │   └── github-users.csv           # GitHub test accounts per role + environment
     ├── saucedemo/csvFiles/
-    │   ├── saucedemo-testdata.csv     # SauceDemo credentials per scenario + environment
-    │   └── saucedemo-posts.csv        # Post data with dynamic placeholders
+    │   ├── users.csv                  # SauceDemo logins per user_key + environment
+    │   ├── products.csv               # Product slugs + titles per product_key
+    │   └── posts.csv                  # JSONPlaceholder post data per post_key
     └── loginStorage/                  # Stored browser sessions — git-ignored
 ```
 
@@ -291,10 +292,10 @@ public class SauceDemoWebTest extends TestBase {
     @TestVariables(automatedBy = QA.Mukesh, country = Country.SG)
     public void loginAndVerifyProductsPage(Config config) {
         SauceDemoHelper sauceDemo = new SauceDemoHelper(config);
-        Map<String, String> credentials = sauceDemo.getCredentials("login");
+        Map<String, String> user = sauceDemo.getUser("standard");
 
         config.logStep("Login to SauceDemo and verify the products page loads");
-        ProductsPage products = sauceDemo.doLogin(credentials);
+        ProductsPage products = sauceDemo.doLogin(user);
 
         AssertHelper.assertEquals(config, products.getPageTitle(), "Products", "Page title should be Products");
         AssertHelper.assertTrue(config, products.getProductCount() > 0, "At least one product should be visible");
@@ -428,13 +429,13 @@ Session files are saved to `src/test/resources/loginStorage/` (git-ignored).
 ### Endpoint enum pattern
 
 ```java
-public enum PostApi implements ApiDetails {
-    GetPosts  ("GET",    "/posts",        200),
+public enum SauceDemoApi implements ApiDetails {
+    ListPosts ("GET",    "/posts",        200),
     CreatePost("POST",   "/posts",        201),
     GetPost   ("GET",    "/posts/{id}",   200),
     DeletePost("DELETE", "/posts/{id}",   200);
 
-    // standard boilerplate — see PostApi.java for full implementation
+    // standard boilerplate — see SauceDemoApi.java for full implementation
 }
 ```
 
@@ -444,14 +445,14 @@ public enum PostApi implements ApiDetails {
 SauceDemoHelper api = new SauceDemoHelper(config);
 
 // Deserialised response
-PostData created = api.execute(PostApi.CreatePost, new PostBuilder().withTitle("Hello").build(), PostData.class);
+SauceDemoData created = api.execute(SauceDemoApi.CreatePost, new SauceDemoBuilder().withTitle("Hello").build(), SauceDemoData.class);
 
 // Raw response — for negative / edge-case tests
-Response response = api.executeRaw(PostApi.CreatePost, invalidPayload);
+Response response = api.executeRaw(SauceDemoApi.CreatePost, invalidPayload);
 AssertHelper.assertEquals(config, response.getStatusCode(), 400, "Should reject invalid payload");
 
 // Parameterised path
-PostData post = api.execute(PostApi.GetPost.withPath("id", "1"), PostData.class);
+SauceDemoData post = api.execute(SauceDemoApi.GetPost.withPath("id", "1"), SauceDemoData.class);
 ```
 
 Set `browser=api` to skip browser initialisation entirely for API-only runs.
@@ -488,7 +489,7 @@ Device list is read from `parameters/mobileConfiguration.json` — a random devi
 
 | Data type | Where it lives | Example |
 |---|---|---|
-| Fully dynamic values | Builder in test code | `new PostBuilder().withTitle(DataGenerator.randomString(8))` |
+| Fully dynamic values | Builder in test code | `new SauceDemoBuilder().withTitle(DataGenerator.randomString(8))` |
 | Reusable scenario data | CSV file | login credentials, cart scenarios |
 | Environment-specific credentials | CSV with `environment` column | staging vs qa-1 accounts |
 | Sensitive secrets | `system.properties` only — never CSV | real passwords, API keys |
@@ -497,11 +498,11 @@ Device list is read from `parameters/mobileConfiguration.json` — a random devi
 
 ```java
 // Environment-aware — automatically picks the row matching Config.environment
-Map<String, String> credentials = sauceDemo.getCredentials("login");
+Map<String, String> user = sauceDemo.getUser("standard");
 
 // Without environment filter (for data that's the same across all envs)
 Map<String, String> row = TestDataReader.loadCsvRowByColumnValue(
-    "saucedemo", "saucedemo-testdata", "scenario", "login");
+    "saucedemo", "products", "product_key", "backpack");
 ```
 
 ### CSV file structure
@@ -509,10 +510,10 @@ Map<String, String> row = TestDataReader.loadCsvRowByColumnValue(
 Add an `environment` column whenever credentials or URLs differ per environment:
 
 ```
-# saucedemo-testdata.csv
-scenario,    environment, username,              password
-login,       staging,     standard_user,         secret_sauce
-login,       qa-1,        standard_user_qa,      secret_sauce
+# users.csv
+user_key,    environment, username,              password
+standard,    staging,     standard_user,         secret_sauce
+standard,    qa-1,        standard_user_qa,      secret_sauce
 ```
 
 Omit the `environment` column for data that is identical across all environments (e.g. product names, expected page titles).
@@ -534,8 +535,8 @@ Placeholders are resolved automatically at read time — no code change needed:
 | `{dateOffset:-1}` | yesterday |
 
 ```
-# saucedemo-posts.csv
-scenario,      title,             body
+# posts.csv
+post_key,      title,             body
 create_post,   {randomString:8},  {randomString:20}
 ```
 

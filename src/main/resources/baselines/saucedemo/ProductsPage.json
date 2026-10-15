@@ -1,0 +1,376 @@
+{
+  "pageObject" : "ProductsPage",
+  "module" : "saucedemo",
+  "fullClassName" : "automation.modules.saucedemo.web.ProductsPage",
+  "recordedAt" : "2026-09-15T20:08:02",
+  "urlShape" : "https://www.saucedemo.com/inventory.html",
+  "title" : "Swag Labs",
+  "bodyClass" : "",
+  "coverage" : {
+    "inventory" : 1,
+    "pageTitle" : 1,
+    "cartLink" : 1,
+    "menuButton" : 1,
+    "logoutLink" : 1
+  },
+  "fingerprints" : {
+    "inventory" : {
+      "index" : 41,
+      "tag" : "div",
+      "id" : "inventory_container",
+      "name" : null,
+      "type" : null,
+      "class_list" : [ "inventory_container" ],
+      "role" : "generic",
+      "accessible_name" : "",
+      "aria_label" : null,
+      "placeholder" : null,
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : "inventory-container",
+      "text" : "Sauce Labs Backpackcarry.allTheThings() with the sleek, streamlined Sly Pack that melds uncompromising style with unequaled laptop and tablet protection.$29.99Add to cartSauce Labs Bike LightA red lig",
+      "attrs" : {
+        "id" : "inventory_container",
+        "class" : "inventory_container",
+        "data-test" : "inventory-container"
+      },
+      "is_interactive" : false,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]",
+      "id_xpath" : "//*[@id='inventory_container']",
+      "ancestor_chain" : [ {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : "inventory_container",
+        "classes" : [ ],
+        "role" : "main",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : "contents_wrapper",
+        "classes" : [ ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : "page_wrapper",
+        "classes" : [ "page_wrapper" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : "root",
+        "classes" : [ ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 0,
+      "sibling_count" : 1,
+      "bbox_norm" : {
+        "x" : 0,
+        "y" : 0.10555555555555556,
+        "w" : 0.9921875,
+        "h" : 0.7648148148148148
+      },
+      "area_norm" : 0.7588396990740741,
+      "aspect" : 2.3062953995157387,
+      "neighbor_texts" : [ "Sauce Labs Backpack", "$29.99", "Add to cart", "Sauce Labs Bike Light", "$9.99", "Sauce Labs Bolt T-Shirt" ],
+      "child" : null,
+      "_gt" : null
+    },
+    "pageTitle" : {
+      "index" : 30,
+      "tag" : "span",
+      "id" : null,
+      "name" : null,
+      "type" : null,
+      "class_list" : [ "title" ],
+      "role" : "generic",
+      "accessible_name" : "",
+      "aria_label" : null,
+      "placeholder" : null,
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : "title",
+      "text" : "Products",
+      "attrs" : {
+        "class" : "title",
+        "data-test" : "title"
+      },
+      "is_interactive" : false,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/div[1]/div[1]/div[1]/header[1]/div[2]/span[1]",
+      "id_xpath" : "//*[@id='header_container']/div[2]/span[1]",
+      "ancestor_chain" : [ {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "header_secondary_container" ],
+        "role" : "generic",
+        "testid" : "secondary-header"
+      }, {
+        "tag" : "header",
+        "id" : "header_container",
+        "classes" : [ "header_container" ],
+        "role" : "banner",
+        "testid" : "header-container"
+      }, {
+        "tag" : "div",
+        "id" : "contents_wrapper",
+        "classes" : [ ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : "page_wrapper",
+        "classes" : [ "page_wrapper" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : "root",
+        "classes" : [ ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 0,
+      "sibling_count" : 2,
+      "bbox_norm" : {
+        "x" : 0.010416666666666666,
+        "y" : 0.05648148148148148,
+        "w" : 0.039998372395833336,
+        "h" : 0.044444444444444446
+      },
+      "area_norm" : 0.0017777054398148149,
+      "aspect" : 1.5999348958333333,
+      "neighbor_texts" : [ "Swag Labs", "Open Menu", "Close Menu", "All Items", "About", "Name (A to Z)" ],
+      "child" : null,
+      "_gt" : null
+    },
+    "cartLink" : {
+      "index" : 28,
+      "tag" : "a",
+      "id" : null,
+      "name" : null,
+      "type" : null,
+      "class_list" : [ "shopping_cart_link" ],
+      "role" : "button",
+      "accessible_name" : "Cart, empty",
+      "aria_label" : "Cart, empty",
+      "placeholder" : null,
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : "shopping-cart-link",
+      "text" : "",
+      "attrs" : {
+        "class" : "shopping_cart_link",
+        "data-test" : "shopping-cart-link",
+        "role" : "button",
+        "aria-label" : "Cart, empty"
+      },
+      "is_interactive" : true,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/div[1]/div[1]/div[1]/header[1]/div[1]/div[3]/a[1]",
+      "id_xpath" : "//*[@id='shopping_cart_container']/a[1]",
+      "ancestor_chain" : [ {
+        "tag" : "div",
+        "id" : "shopping_cart_container",
+        "classes" : [ "shopping_cart_container" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "primary_header" ],
+        "role" : "generic",
+        "testid" : "primary-header"
+      }, {
+        "tag" : "header",
+        "id" : "header_container",
+        "classes" : [ "header_container" ],
+        "role" : "banner",
+        "testid" : "header-container"
+      }, {
+        "tag" : "div",
+        "id" : "contents_wrapper",
+        "classes" : [ ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : "page_wrapper",
+        "classes" : [ "page_wrapper" ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 0,
+      "sibling_count" : 1,
+      "bbox_norm" : {
+        "x" : 0.9609375,
+        "y" : 0.009259259259259259,
+        "w" : 0.020833333333333332,
+        "h" : 0.037037037037037035
+      },
+      "area_norm" : 7.716049382716049E-4,
+      "aspect" : 1,
+      "neighbor_texts" : [ "Swag Labs", "Name (A to Z)" ],
+      "child" : null,
+      "_gt" : null
+    },
+    "menuButton" : {
+      "index" : 10,
+      "tag" : "button",
+      "id" : "react-burger-menu-btn",
+      "name" : null,
+      "type" : "button",
+      "class_list" : [ ],
+      "role" : "button",
+      "accessible_name" : "Open Menu",
+      "aria_label" : null,
+      "placeholder" : null,
+      "alt" : null,
+      "href" : null,
+      "title" : null,
+      "testid" : null,
+      "text" : "Open Menu",
+      "attrs" : {
+        "type" : "button",
+        "id" : "react-burger-menu-btn"
+      },
+      "is_interactive" : true,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/div[1]/div[1]/div[1]/header[1]/div[1]/div[1]/div[1]/div[1]/div[1]/button[1]",
+      "id_xpath" : "//*[@id='react-burger-menu-btn']",
+      "ancestor_chain" : [ {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "bm-burger-button" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : "menu_button_container",
+        "classes" : [ ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "primary_header" ],
+        "role" : "generic",
+        "testid" : "primary-header"
+      } ],
+      "sibling_index" : 0,
+      "sibling_count" : 2,
+      "bbox_norm" : {
+        "x" : 0.010416666666666666,
+        "y" : 0.018518518518518517,
+        "w" : 0.010416666666666666,
+        "h" : 0.018518518518518517
+      },
+      "area_norm" : 1.9290123456790122E-4,
+      "aspect" : 1,
+      "neighbor_texts" : [ "Swag Labs", "Products", "Name (A to Z)", "Name (Z to A)", "Price (low to high)", "Price (high to low)" ],
+      "child" : null,
+      "_gt" : null
+    },
+    "logoutLink" : {
+      "index" : 19,
+      "tag" : "a",
+      "id" : "logout_sidebar_link",
+      "name" : null,
+      "type" : null,
+      "class_list" : [ "bm-item", "menu-item" ],
+      "role" : "button",
+      "accessible_name" : "Logout",
+      "aria_label" : null,
+      "placeholder" : null,
+      "alt" : null,
+      "href" : "#",
+      "title" : null,
+      "testid" : "logout-sidebar-link",
+      "text" : "Logout",
+      "attrs" : {
+        "id" : "logout_sidebar_link",
+        "class" : "bm-item menu-item",
+        "href" : "#",
+        "data-test" : "logout-sidebar-link",
+        "role" : "button",
+        "tabindex" : "-1"
+      },
+      "is_interactive" : true,
+      "is_visible" : true,
+      "is_enabled" : true,
+      "abs_xpath" : "/html[1]/body[1]/div[1]/div[1]/div[1]/header[1]/div[1]/div[1]/div[1]/div[2]/div[1]/nav[1]/a[4]",
+      "id_xpath" : "//*[@id='logout_sidebar_link']",
+      "ancestor_chain" : [ {
+        "tag" : "nav",
+        "id" : null,
+        "classes" : [ "bm-item-list" ],
+        "role" : "navigation",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "bm-menu" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ "bm-menu-wrap" ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : null,
+        "classes" : [ ],
+        "role" : "generic",
+        "testid" : null
+      }, {
+        "tag" : "div",
+        "id" : "menu_button_container",
+        "classes" : [ ],
+        "role" : "generic",
+        "testid" : null
+      } ],
+      "sibling_index" : 3,
+      "sibling_count" : 5,
+      "bbox_norm" : {
+        "x" : -0.14375,
+        "y" : 0.17037037037037037,
+        "w" : 0.13125,
+        "h" : 0.03796296296296296
+      },
+      "area_norm" : 0.004982638888888889,
+      "aspect" : 6.146341463414634,
+      "neighbor_texts" : [ "About", "Reset App State", "Products", "All Items", "Close Menu", "Open Menu" ],
+      "child" : null,
+      "_gt" : null
+    }
+  },
+  "landmarks" : [ "button:All Items", "button:Dynamic Catalog", "button:Logout", "button:Reset App State", "button:Cart, empty", "button:View details for Sauce Labs Backpack", "button:View details for Sauce Labs Bike Light", "button:View details for Sauce Labs Bolt T-Shirt", "button:View details for Sauce Labs Fleece Jacket", "button:View details for Sauce Labs Onesie", "button:View details for Test.allTheThings() T-Shirt (Red)" ]
+}

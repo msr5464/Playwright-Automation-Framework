@@ -1,0 +1,7 @@
+product_key,environment,slug,title
+backpack,staging,sauce-labs-backpack,Sauce Labs Backpack
+backpack,qa-1,sauce-labs-backpack,Sauce Labs Backpack
+bike_light,staging,sauce-labs-bike-light,Sauce Labs Bike Light
+bike_light,qa-1,sauce-labs-bike-light,Sauce Labs Bike Light
+fleece_jacket,staging,sauce-labs-fleece-jacket,Sauce Labs Fleece Jacket
+fleece_jacket,qa-1,sauce-labs-fleece-jacket,Sauce Labs Fleece Jacket

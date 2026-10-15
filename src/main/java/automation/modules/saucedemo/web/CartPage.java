@@ -7,17 +7,16 @@ import automation.core.Config;
 
 public class CartPage extends BasePage
 {
-    private final Locator pageTitle;
     private final Locator cartItems;
     private final Locator continueShoppingButton;
 
     public CartPage(Config config)
     {
         super(config);
-        pageTitle              = page.locator(".title");
         cartItems              = page.locator(".cart_item");
         continueShoppingButton = page.locator("[data-test='continue-shopping']");
-        assertPageLoaded(pageTitle);
+        // Not .title: the products page has one too, so it would pass before the cart opens.
+        assertPageLoaded(continueShoppingButton);
     }
 
     public int getCartItemCount()

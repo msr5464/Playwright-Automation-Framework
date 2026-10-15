@@ -218,7 +218,7 @@ public class TestDataReader
      *
      * <pre>
      * Map&lt;String, String&gt; row = TestDataReader.loadCsvRowByColumnValue(
-     *     "saucedemo", "saucedemo-testdata", "scenario", "checkout");
+     *     "saucedemo", "users", "user_key", "standard");
      * </pre>
      */
     public static Map<String, String> loadCsvRowByColumnValue(
@@ -228,16 +228,16 @@ public class TestDataReader
     }
 
     /**
-     * Environment-aware overload — matches both the scenario column and an {@code environment}
+     * Environment-aware overload — matches both the key column and an {@code environment}
      * column in the same row. Use this whenever credentials or URLs differ per environment.
      *
      * <pre>
-     * // CSV:  scenario, environment, username,        password
-     * //       checkout, staging,     buyer_staging,   secret1
-     * //       checkout, qa-1,        buyer_qa1,        secret2
+     * // CSV:  user_key,  environment, username,        password
+     * //       standard,  staging,     standard_user,   secret_sauce
+     * //       standard,  qa-1,        standard_user,   secret_sauce
      *
      * Map&lt;String, String&gt; row = TestDataReader.loadCsvRowByColumnValue(
-     *     "saucedemo", "saucedemo-testdata", "scenario", "checkout", Config.environment);
+     *     "saucedemo", "users", "user_key", "standard", Config.environment);
      * </pre>
      *
      * @param environment value of the {@code environment} column to match (e.g. {@code Config.environment})

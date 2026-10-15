@@ -1,0 +1,7 @@
+user_key,environment,username,password,role
+standard,staging,standard_user,secret_sauce,standard
+standard,qa-1,standard_user,secret_sauce,standard
+problem,staging,problem_user,secret_sauce,problem
+problem,qa-1,problem_user,secret_sauce,problem
+performance,staging,performance_glitch_user,secret_sauce,performance
+performance,qa-1,performance_glitch_user,secret_sauce,performance

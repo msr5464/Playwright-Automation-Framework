@@ -5,49 +5,49 @@ import automation.core.Config;
 import automation.core.TestBase;
 import automation.core.TestVariables;
 import automation.core.Enums.*;
-import automation.modules.naukari.NaukriProfileSummaryHelper;
+import automation.modules.naukari.NaukriHelper;
 import automation.modules.naukari.web.NaukriProfilePage;
 import org.testng.annotations.Test;
 
 public class NaukriProfileSummaryWebTest extends TestBase
 {
-
     /**
-     * Login to Naukri, read the current profile summary, toggle the trailing dot
-     * (add if absent, remove if present), save the change, refresh the page,
-     * and verify the persisted text matches the expected modified summary.
+     * Toggle trailing dot in profile summary and verify the change persisted after reload.
      */
-    @Test(description = "verify profile summary trailing dot toggle persists after save and page refresh",
+    @Test(description = "Toggle trailing dot in profile summary and verify the change persisted after reload",
           dataProvider = "getConfig", groups = {GROUP_REGRESSION, GROUP_WEB})
     @TestVariables(automatedBy = QA.Mukesh)
-    public void toggleDotInProfileSummaryAndVerify(Config config)
+    public void toggleProfileSummaryDot(Config config)
     {
         String username = config.getRunTimeProperty("naukari.username");
         String password = config.getRunTimeProperty("naukari.password");
+        NaukriHelper naukri = new NaukriHelper(config);
 
-        NaukriProfileSummaryHelper naukri = new NaukriProfileSummaryHelper(config);
+        config.logStep("Login to Naukri and open the profile page");
+        NaukriProfilePage profile = naukri.doLogin(username, password);
 
-        config.logStep("Login to Naukri and navigate to the profile page");
-        NaukriProfilePage profilePage = naukri.doLogin(username, password);
+        config.logStep("Read the current profile summary text");
+        String currentSummary = profile.getCurrentSummaryText();
 
-        config.logStep("Read the current profile summary and compute the modified text");
-        String currentSummary = profilePage.getProfileSummaryText();
-        String modifiedSummary = currentSummary.endsWith(".")
+        config.logStep("Determine the expected summary by toggling the trailing dot");
+        String expectedSummary = currentSummary.endsWith(".")
             ? currentSummary.substring(0, currentSummary.length() - 1)
             : currentSummary + ".";
 
-        config.logStep("Open the profile summary editor and replace the text with the modified summary");
-        profilePage.clickEditProfileSummary();
-        profilePage.clearAndTypeProfileSummary(modifiedSummary);
+        config.logStep("Click the edit button for the Profile Summary section");
+        profile.clickEditSummary();
 
-        config.logStep("Save the profile summary and verify the success toast appears");
-        profilePage.saveProfileSummary();
-        AssertHelper.assertTrue(config, profilePage.isSuccessToastVisible(),
-            "Success toast should appear after saving the profile summary");
+        config.logStep("Enter the updated summary text in the text area");
+        profile.setSummaryText(expectedSummary);
 
-        config.logStep("Refresh the page and verify the modified profile summary persisted");
-        String refreshedSummary = profilePage.refreshAndGetProfileSummaryText();
-        AssertHelper.assertEquals(config, refreshedSummary, modifiedSummary,
-            "Profile summary after page refresh should match the saved modified summary");
+        config.logStep("Save the updated profile summary");
+        profile.clickSave();
+
+        config.logStep("Navigate back to the profile page to verify the change persisted");
+        profile = naukri.openProfilePage();
+
+        config.logStep("Verify the displayed profile summary matches the saved value");
+        AssertHelper.assertEquals(config, profile.getDisplayedSummaryText(), expectedSummary,
+            "Profile Summary after reload should match the saved modified summary");
     }
 }

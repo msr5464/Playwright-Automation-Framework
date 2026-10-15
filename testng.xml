@@ -53,6 +53,20 @@
         </classes>
     </test>
 
+    <test name="SauceDemo API Tests">
+        <parameter name="projectName" value="SauceDemo"/>
+        <parameter name="browserName" value="api"/>
+        <groups>
+            <run>
+                <include name="regression"/>
+                <include name="apiCases"/>
+            </run>
+        </groups>
+        <classes>
+            <class name="automation.saucedemo.SauceDemoApiTest"/>
+        </classes>
+    </test>
+
     <test name="AI Evaluation Tests">
         <parameter name="browserName" value="api"/>
         <classes>
